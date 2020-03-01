@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  Set Memo
+
+  Created by popcorn on 2020/02/28.
+  Copyright © 2020 popcorn. All rights reserved.
+*/
+
+"Memo" = "Ghi nhớ";
+"Remind" = "Nhắc nhở";
+"Setting" = "Cài đặt";
+"Ok" = "Đồng ý";
+"Cancel" = "Huỷ bỏ";
+"New" = "Ghi nhớ mới";
+"TotalMemo" = "Ghi nhớ(%d)";
+"EditorPlaceholder" = "Aa";
+"Done" = "Xong";
+"Save" = "Lưu";

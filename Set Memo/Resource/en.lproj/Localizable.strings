@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  Set Memo
+
+  Created by popcorn on 2020/02/28.
+  Copyright © 2020 popcorn. All rights reserved.
+*/
+
+"Memo" = "Memo";
+"Remind" = "Reminder";
+"Setting" = "Setting";
+"Ok" = "OK";
+"Cancel" = "Cancel";
+"New" = "New Memo";
+"TotalMemo" = "Memo(%d)";
+"EditorPlaceholder" = "Aa";
+"Done" = "Done";
+"Save" = "Save";
