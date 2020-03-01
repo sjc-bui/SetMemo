@@ -18,7 +18,11 @@ class NewMemoViewController: UIViewController, UITextViewDelegate {
 
         // remove text from back button
         self.navigationItem.title = NSLocalizedString("New", comment: "")
-        view.backgroundColor = UIColor.white
+        
+        let backgroundImage = UIImageView(frame: .zero)
+        self.view.insertSubview(backgroundImage, at: 0)
+        backgroundImage.pinImageView(to: view)
+        
         setupEditor()
         setNavbarButton()
     }
@@ -46,6 +50,7 @@ class NewMemoViewController: UIViewController, UITextViewDelegate {
         let screenHeight = screenSize.height
         textView = UITextView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
         textView.font = UIFont.systemFont(ofSize: 16)
+        textView.textColor = UIColor.white
         textView.autocorrectionType = UITextAutocorrectionType.no
         textView.autocapitalizationType = UITextAutocapitalizationType.none
         textView.keyboardType = UIKeyboardType.default
@@ -54,6 +59,7 @@ class NewMemoViewController: UIViewController, UITextViewDelegate {
         let range = NSMakeRange(textView.text.count - 1, 0)
         textView.scrollRangeToVisible(range)
         textView.isScrollEnabled = true
+        textView.backgroundColor = .clear
         textView.setPadding()
         textView.delegate = self
         

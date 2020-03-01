@@ -16,3 +16,5 @@
 "EditorPlaceholder" = "Aa";
 "Done" = "Xong";
 "Save" = "Lưu";
+"Delete" = "Xoá";
+"DeleteAll" = "Bạn có muốn xoá tất cả ghi chú?";

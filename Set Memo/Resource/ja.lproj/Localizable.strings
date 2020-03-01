@@ -16,3 +16,5 @@
 "EditorPlaceholder" = "Aa";
 "Done" = "完了";
 "Save" = "保存";
+"Delete" = "削除";
+"DeleteAll" = "全て削除しますか？";

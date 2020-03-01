@@ -18,7 +18,10 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupNavigation()
         configureTableView()
         tableView.pin(to: view)
-        self.view.backgroundColor = UIColor.white
+        
+        let backgroundImage = UIImageView(frame: .zero)
+        self.view.insertSubview(backgroundImage, at: 0)
+        backgroundImage.pinImageView(to: view)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,28 +35,51 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.reloadData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
     // table view configure
     private func configureTableView() {
         view.addSubview(tableView)
+        self.tableView.tableFooterView = UIView()
+        self.tableView.backgroundColor = .clear
+        self.tableView.separatorColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        //tableView.separatorStyle = .none
     }
     
     private func setupNavigation() {
         // Memo(int)
         self.navigationItem.title = String(format: NSLocalizedString("TotalMemo", comment: ""), 3)
-        //self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.barTintColor = UIColor.white
-        self.navigationController?.navigationBar.tintColor = UIColor(hexString: "#0078FF")
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.orange
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
+        let deleteButton = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(DeleteAll))
+        self.navigationItem.leftBarButtonItem = deleteButton
         self.navigationItem.rightBarButtonItem = createButton
+    }
+    
+    @objc func DeleteAll() {
+        let deleteAllAlert = UIAlertController(title: "", message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
+        let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
+            let realm = try! Realm()
+            do {
+                try realm.write {
+                    realm.delete(self.dt!)
+                }
+            } catch {
+                print(error)
+            }
+            
+            self.tableView.reloadData()
+        })
+        
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        deleteAllAlert.addAction(cancel)
+        deleteAllAlert.addAction(delete)
+        
+        if dt?.count != 0 {
+            self.present(deleteAllAlert, animated: true)
+        }
     }
     
     @objc func CreateNewMemo(sender: UIButton) {
@@ -66,14 +92,16 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MyCell
+        myCell.backgroundColor = .clear
         myCell.title.text = dt![indexPath.row].content
         return myCell
     }
     
     // Selected row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = dt![indexPath.row].id
+        let memoId = dt![indexPath.row].id
         let updateView = UpdateMemoViewController()
+        updateView.memoId = memoId
         self.navigationController?.pushViewController(updateView, animated: true)
     }
     
@@ -130,8 +158,8 @@ class MyCell: UITableViewCell {
     // create label inside view cell
     let title: UILabel = {
         let label = UILabel()
-        label.text = "TEST"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
