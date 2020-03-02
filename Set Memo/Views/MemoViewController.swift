@@ -18,6 +18,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupNavigation()
         configureTableView()
         tableView.pin(to: view)
+        tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
         
         let backgroundImage = UIImageView(frame: .zero)
         self.view.insertSubview(backgroundImage, at: 0)
@@ -26,9 +27,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // Set table view constraint.
-        tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
         
         let realm = try! Realm()
         dt = realm.objects(MemoItem.self).sorted(byKeyPath: "created", ascending: false)
@@ -49,7 +47,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Memo(int)
         self.navigationItem.title = String(format: NSLocalizedString("TotalMemo", comment: ""), 3)
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.tintColor = UIColor.orange
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
@@ -93,7 +91,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let myCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MyCell
         myCell.backgroundColor = .clear
-        myCell.title.text = dt![indexPath.row].content
+        myCell.content.text = dt![indexPath.row].content
+        myCell.create.text = "expect"
         return myCell
     }
     
@@ -110,12 +109,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         if editingStyle == .delete {
             let item = dt![indexPath.row]
             RealmServices.shared.delete(item)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        tableView.deleteRows(at: [indexPath], with: .automatic)
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
     }
 }
 
@@ -130,7 +125,8 @@ class MyCell: UITableViewCell {
     // set up view cell constraint
     func setupView() {
         addSubview(cellView)
-        cellView.addSubview(title)
+        cellView.addSubview(content)
+        cellView.addSubview(create)
         self.selectionStyle = .none
         
         // Set constrain for cellView
@@ -141,11 +137,17 @@ class MyCell: UITableViewCell {
             cellView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
-        // title constraint
-        title.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        title.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        title.centerYAnchor.constraint(equalTo: cellView.centerYAnchor).isActive = true
-        title.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
+        // content constraint
+        content.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
+        content.topAnchor.constraint(equalTo: cellView.topAnchor).isActive = true
+        content.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -40).isActive = true
+        content.bottomAnchor.constraint(equalTo: create.topAnchor).isActive = true
+        
+        // create constraint
+        create.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
+        create.topAnchor.constraint(equalTo: content.bottomAnchor).isActive = true
+        create.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -40).isActive = true
+        create.bottomAnchor.constraint(equalTo: cellView.bottomAnchor).isActive = true
     }
     
     // create view cell
@@ -156,15 +158,24 @@ class MyCell: UITableViewCell {
     }()
     
     // create label inside view cell
-    let title: UILabel = {
-        let label = UILabel()
+    let content: UILabel = {
+        let label = paddingLabel()
         label.textColor = UIColor.white
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
+    let create: UILabel = {
+        let label = paddingLabel()
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

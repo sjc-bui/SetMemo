@@ -17,6 +17,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
+        setupNavigation()
         setupEditor()
         
         let realm = try! Realm()
@@ -28,6 +29,12 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         let backgroundImage = UIImageView(frame: .zero)
         self.view.insertSubview(backgroundImage, at: 0)
         backgroundImage.pinImageView(to: view)
+    }
+    
+    func setupNavigation() {
+        self.navigationItem.title = NSLocalizedString("Edit", comment: "")
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
     
     // Configure editor view.
@@ -59,7 +66,6 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         
         view.addSubview(textView)
         textView.pin(to: view)
-        textView.becomeFirstResponder() // auto focus to textview when open.
     }
     
     // Click done button and keyboard disapper
