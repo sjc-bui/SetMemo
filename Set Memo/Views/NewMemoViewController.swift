@@ -11,20 +11,20 @@ import RealmSwift
 
 class NewMemoViewController: UIViewController, UITextViewDelegate {
     var inputContent: String? = nil
-    var textView = UITextView()
+    var textView: UITextView = UITextView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // remove text from back button
-        self.navigationItem.title = NSLocalizedString("New", comment: "")
-        
         let backgroundImage = UIImageView(frame: .zero)
         self.view.insertSubview(backgroundImage, at: 0)
         backgroundImage.pinImageView(to: view)
         
         setupEditor()
         setNavbarButton()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        self.navigationItem.title = String(format: "%d", textView.text.count)
     }
     
     func setNavbarButton() {
@@ -45,22 +45,7 @@ class NewMemoViewController: UIViewController, UITextViewDelegate {
     
     // Configure editor view.
     func setupEditor() {
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        textView = UITextView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-        textView.font = UIFont.systemFont(ofSize: 16)
-        textView.textColor = UIColor.white
-        textView.autocorrectionType = UITextAutocorrectionType.no
-        textView.autocapitalizationType = UITextAutocapitalizationType.none
-        textView.keyboardType = UIKeyboardType.default
-        textView.returnKeyType = UIReturnKeyType.default
-        textView.dataDetectorTypes = UIDataDetectorTypes.all
-        let range = NSMakeRange(textView.text.count - 1, 0)
-        textView.scrollRangeToVisible(range)
-        textView.isScrollEnabled = true
-        textView.backgroundColor = .clear
-        textView.setPadding()
+        textView = CustomTextView().textViewDraw()
         textView.delegate = self
         
         // Toolbar above keyboard

@@ -19,3 +19,4 @@
 "Delete" = "削除";
 "DeleteAll" = "全て削除しますか？";
 "Edit" = "編集";
+"DatetimeFormat" = "yyyy年MM月dd日 HH時mm分";

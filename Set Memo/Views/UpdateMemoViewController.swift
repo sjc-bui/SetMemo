@@ -12,7 +12,8 @@ import RealmSwift
 class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     var memoId: String = ""
     var inputContent: String? = nil
-    var textView = UITextView()
+    var textView: UITextView = UITextView()
+    var textViewIsChanging: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,30 +32,38 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         backgroundImage.pinImageView(to: view)
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        textViewIsChanging = true
+    }
+    
     func setupNavigation() {
         self.navigationItem.title = NSLocalizedString("Edit", comment: "")
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        
+        let updateButton = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .plain, target: self, action: #selector(updateMemoItem))
+        self.navigationItem.rightBarButtonItem = updateButton
+    }
+    
+    @objc func updateMemoItem() {
+        if textViewIsChanging {
+            let realm = try! Realm()
+            let item = realm.objects(MemoItem.self).filter("id = %@", memoId).first
+            do {
+                try realm.write {
+                    item?.content = textView.text
+                    item?.created = Date()
+                }
+                self.navigationController?.popViewController(animated: true)
+            } catch {
+                print(error)
+            }
+        }
     }
     
     // Configure editor view.
     func setupEditor() {
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        textView = UITextView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-        textView.font = UIFont.systemFont(ofSize: 17)
-        textView.textColor = UIColor.white
-        textView.autocorrectionType = UITextAutocorrectionType.no
-        textView.autocapitalizationType = UITextAutocapitalizationType.none
-        textView.keyboardType = UIKeyboardType.default
-        textView.returnKeyType = UIReturnKeyType.default
-        textView.dataDetectorTypes = UIDataDetectorTypes.all
-        let range = NSMakeRange(textView.text.count - 1, 0)
-        textView.scrollRangeToVisible(range)
-        textView.isScrollEnabled = true
-        textView.setPadding()
-        textView.backgroundColor = .clear
+        textView = CustomTextView().textViewDraw()
         textView.delegate = self
         
         // Toolbar above keyboard

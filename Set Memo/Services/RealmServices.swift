@@ -34,7 +34,7 @@ class RealmServices {
             print(error)
         }
     }
-    
+
     func delete<T: Object>(_ object: T) {
         do {
             try realm.write {

@@ -10,12 +10,12 @@ import UIKit
 import RealmSwift
 
 class MemoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var tableView = UITableView()
+    var tableView: UITableView = UITableView()
     var dt: Results<MemoItem>?
+    let notification = UINotificationFeedbackGenerator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigation()
         configureTableView()
         tableView.pin(to: view)
         tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
@@ -31,6 +31,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let realm = try! Realm()
         dt = realm.objects(MemoItem.self).sorted(byKeyPath: "created", ascending: false)
         self.tableView.reloadData()
+        setupNavigation()
     }
     
     // table view configure
@@ -44,8 +45,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func setupNavigation() {
-        // Memo(int)
-        self.navigationItem.title = String(format: NSLocalizedString("TotalMemo", comment: ""), 3)
+        self.updateMemoItemCount()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
@@ -56,9 +56,30 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationItem.rightBarButtonItem = createButton
     }
     
+    private func updateMemoItemCount() {
+        self.navigationItem.title = String(format: NSLocalizedString("TotalMemo", comment: ""), dt!.count)
+    }
+    
+    private let feedbackGenerator: Any? = {
+        if #available(iOS 10.0, *) {
+            let generator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+            generator.prepare()
+            return generator
+        } else {
+            return nil
+        }
+    }()
+    
+    // MARK: - NavigationBar Button Action
     @objc func DeleteAll() {
+        
+        if #available(iOS 10.0, *), let generator = feedbackGenerator as? UIImpactFeedbackGenerator {
+            generator.impactOccurred()
+        }
+        
         let deleteAllAlert = UIAlertController(title: "", message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
         let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
+            
             let realm = try! Realm()
             do {
                 try realm.write {
@@ -69,6 +90,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             self.tableView.reloadData()
+            self.updateMemoItemCount()
         })
         
         let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
@@ -84,6 +106,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.pushViewController(NewMemoViewController(), animated: true)
     }
     
+    // MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dt!.count
     }
@@ -92,7 +115,9 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let myCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MyCell
         myCell.backgroundColor = .clear
         myCell.content.text = dt![indexPath.row].content
-        myCell.create.text = "expect"
+        myCell.create.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
+        myCell.tintColor = .orange
+        myCell.accessoryType = dt![indexPath.row].isImportant ? .checkmark : .none
         return myCell
     }
     
@@ -110,10 +135,12 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             let item = dt![indexPath.row]
             RealmServices.shared.delete(item)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.updateMemoItemCount()
         }
     }
 }
 
+// MARK: -Custom TableViewCell
 class MyCell: UITableViewCell {
     var myTableViewController: MemoViewController?
     

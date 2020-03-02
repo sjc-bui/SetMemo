@@ -12,4 +12,5 @@ class MemoItem : Object {
     @objc dynamic var id = NSUUID().uuidString
     @objc dynamic var content = ""
     @objc dynamic var created = Date()
+    @objc dynamic var isImportant = false
 }
