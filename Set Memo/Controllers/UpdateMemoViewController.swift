@@ -18,12 +18,12 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
-        setupNavigation()
         setupEditor()
         
         let realm = try! Realm()
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
         textView.text = memoItem?.content
+        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.created))
     }
     
     func setupBackground() {
@@ -34,8 +34,8 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         textViewIsChanging = true
     }
     
-    func setupNavigation() {
-        self.navigationItem.title = NSLocalizedString("Edit", comment: "")
+    func setupNavigation(time: String) {
+        self.navigationItem.title = time
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white
         

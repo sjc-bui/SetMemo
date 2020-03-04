@@ -57,23 +57,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationItem.title = CustomTextView().navigationTitle(total: totalMemo)
     }
     
-    private let feedbackGenerator: Any? = {
-        if #available(iOS 10.0, *) {
-            let generator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-            generator.prepare()
-            return generator
-        } else {
-            return nil
-        }
-    }()
-    
     // MARK: - NavigationBar Button Action
     @objc func DeleteAll() {
-        
-        if #available(iOS 10.0, *), let generator = feedbackGenerator as? UIImpactFeedbackGenerator {
-            generator.impactOccurred()
-        }
-        
         let deleteAllAlert = UIAlertController(title: "", message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
         let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
             
@@ -95,11 +80,13 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         deleteAllAlert.addAction(delete)
         
         if dt?.count != 0 {
+            feedbackOnPress()
             self.present(deleteAllAlert, animated: true)
         }
     }
     
     @objc func CreateNewMemo(sender: UIButton) {
+        feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }
     
@@ -137,6 +124,14 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             RealmServices.shared.delete(item)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             self.updateMemoItemCount()
+        }
+    }
+    
+    func feedbackOnPress() {
+        if UIDevice.current.hasHapticFeedback == true {
+            // iPhone 7 and newer
+            let generator = UIImpactFeedbackGenerator(style: .medium)
+            generator.impactOccurred()
         }
     }
 }

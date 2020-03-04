@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7210B587240B85AC00CD0CCE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7210B586240B85AC00CD0CCE /* Launch Screen.storyboard */; };
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
+		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
 		7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */; };
 		7223F6AE240CFB6700D62D6C /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AD240CFB6700D62D6C /* CustomTextView.swift */; };
 		72275686240CA1C400654898 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72275685240CA1C400654898 /* UILabelExt.swift */; };
@@ -37,6 +38,7 @@
 		171D6606EF39714791448C0A /* Pods-Set Memo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set Memo.debug.xcconfig"; path = "Target Support Files/Pods-Set Memo/Pods-Set Memo.debug.xcconfig"; sourceTree = "<group>"; };
 		7210B586240B85AC00CD0CCE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
+		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
 		7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatetimeUtil.swift; sourceTree = "<group>"; };
 		7223F6AD240CFB6700D62D6C /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		72275685240CA1C400654898 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				723881EA240ADD2F004BD25B /* StringExt.swift */,
 				7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */,
 				72275685240CA1C400654898 /* UILabelExt.swift */,
+				72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,
 				724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */,
+				72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */,
 				724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */,
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,

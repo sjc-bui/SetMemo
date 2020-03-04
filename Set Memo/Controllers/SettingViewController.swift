@@ -11,7 +11,7 @@ import UIKit
 class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Setting(1)"
+        self.navigationItem.title = NSLocalizedString("Setting", comment: "")
         self.view.backgroundColor = .white
     }
     
