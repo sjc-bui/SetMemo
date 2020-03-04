@@ -81,4 +81,8 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     @objc func hideKeyboard() {
         self.view.endEditing(true)
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }

@@ -20,11 +20,6 @@ class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
         memoView.tabBarItem.image = UIImage(named: "memo")
         let navMemoView = UINavigationController(rootViewController: memoView)
         
-        let todoView = RemindViewController()
-        todoView.title = NSLocalizedString("Remind", comment: "")
-        todoView.tabBarItem.image = UIImage(named: "remind")
-        let navTodoView = UINavigationController(rootViewController: todoView)
-        
         let settingView = SettingViewController()
         settingView.title = NSLocalizedString("Setting", comment: "")
         settingView.tabBarItem.image = UIImage(named: "setting")
@@ -33,6 +28,6 @@ class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
         UITabBar.appearance().barTintColor = UIColor(hexString: "#4d5650")
         UITabBar.appearance().tintColor = UIColor.white
         // Create tab bar.
-        self.viewControllers = [navMemoView, navTodoView, navSetting]
+        self.viewControllers = [navMemoView, navSetting]
     }
 }

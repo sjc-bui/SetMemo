@@ -6,5 +6,6 @@ target 'Set Memo' do
   use_frameworks!
 
   # Pods for Set Memo
-    pod ‘RealmSwift’
+    pod 'RealmSwift'
+    pod 'MultilineTextField'
 end

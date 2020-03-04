@@ -100,7 +100,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func CreateNewMemo(sender: UIButton) {
-        self.navigationController?.pushViewController(NewMemoViewController(), animated: true)
+        self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }
     
     // MARK: - TableView
