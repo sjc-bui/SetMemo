@@ -19,10 +19,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         configureTableView()
         tableView.pin(to: view)
         tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
-        
-        let backgroundImage = UIImageView(frame: .zero)
-        self.view.insertSubview(backgroundImage, at: 0)
-        backgroundImage.pinImageView(to: view)
+        self.view.backgroundColor = .white
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,16 +35,15 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func configureTableView() {
         view.addSubview(tableView)
         self.tableView.tableFooterView = UIView()
-        self.tableView.backgroundColor = .clear
-        self.tableView.separatorColor = .lightGray
+        self.tableView.separatorColor = .none
         tableView.delegate = self
         tableView.dataSource = self
     }
     
     private func setupNavigation() {
         self.updateMemoItemCount()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.007843137255, green: 0.3137254902, blue: 0.7725490196, alpha: 1)
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
@@ -57,7 +53,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func updateMemoItemCount() {
-        self.navigationItem.title = String(format: NSLocalizedString("TotalMemo", comment: ""), dt!.count)
+        let totalMemo: Int = dt!.count
+        self.navigationItem.title = CustomTextView().navigationTitle(total: totalMemo)
     }
     
     private let feedbackGenerator: Any? = {
@@ -109,6 +106,10 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dt!.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -166,15 +167,15 @@ class MyCell: UITableViewCell {
         
         // content constraint
         content.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
-        content.topAnchor.constraint(equalTo: cellView.topAnchor).isActive = true
-        content.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -40).isActive = true
-        content.bottomAnchor.constraint(equalTo: create.topAnchor).isActive = true
+        content.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 0).isActive = true
+        content.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -20).isActive = true
+        content.heightAnchor.constraint(equalTo: cellView.heightAnchor, constant: -35).isActive = true
         
         // create constraint
         create.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
         create.topAnchor.constraint(equalTo: content.bottomAnchor).isActive = true
-        create.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -40).isActive = true
-        create.bottomAnchor.constraint(equalTo: cellView.bottomAnchor).isActive = true
+        create.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        create.widthAnchor.constraint(equalTo: content.widthAnchor).isActive = true
     }
     
     // create view cell
@@ -187,16 +188,20 @@ class MyCell: UITableViewCell {
     // create label inside view cell
     let content: UILabel = {
         let label = paddingLabel()
-        label.textColor = UIColor.white
-        label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.numberOfLines = 1
+        label.text = "Loading..."
+        label.textColor = UIColor.black
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        label.backgroundColor = UIColor.clear
+        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let create: UILabel = {
         let label = paddingLabel()
-        label.textColor = UIColor.white
+        label.textColor = UIColor.darkGray
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false

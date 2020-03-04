@@ -12,8 +12,10 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Setting(1)"
-        let backgroundImage = UIImageView(frame: .zero)
-        self.view.insertSubview(backgroundImage, at: 0)
-        backgroundImage.pinImageView(to: view)
+        self.view.backgroundColor = .white
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 }

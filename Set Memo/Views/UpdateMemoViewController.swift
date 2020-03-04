@@ -27,9 +27,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     }
     
     func setupBackground() {
-        let backgroundImage = UIImageView(frame: .zero)
-        self.view.insertSubview(backgroundImage, at: 0)
-        backgroundImage.pinImageView(to: view)
+        self.view.backgroundColor = UIColor(red: 0.07843137255, green: 0.7960784314, blue: 0.6274509804, alpha: 1)
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -41,8 +39,10 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
-        let updateButton = UIBarButtonItem(title: NSLocalizedString("Save", comment: ""), style: .plain, target: self, action: #selector(updateMemoItem))
-        self.navigationItem.rightBarButtonItem = updateButton
+        let closeButton = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(updateMemoItem))
+        let emptyBtn = UIBarButtonItem(title: "", style: .done, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = closeButton
+        self.navigationItem.leftBarButtonItem = emptyBtn
     }
     
     @objc func updateMemoItem() {
@@ -54,11 +54,11 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
                     item?.content = textView.text
                     item?.created = Date()
                 }
-                self.navigationController?.popViewController(animated: true)
             } catch {
                 print(error)
             }
         }
+        self.navigationController?.popViewController(animated: true)
     }
     
     // Configure editor view.

@@ -15,7 +15,7 @@ class CustomTextView {
         let screenWidth = screenSize.width
         let screenHeight = screenSize.height
         textView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
-        textView.font = UIFont.systemFont(ofSize: 17)
+        textView.font = UIFont.systemFont(ofSize: 23, weight: .medium)
         textView.textColor = UIColor.white
         textView.autocorrectionType = UITextAutocorrectionType.no
         textView.autocapitalizationType = UITextAutocapitalizationType.none
@@ -25,9 +25,17 @@ class CustomTextView {
         let range = NSMakeRange(textView.text.count - 1, 0)
         textView.scrollRangeToVisible(range)
         textView.isScrollEnabled = true
+        textView.tintColor = UIColor.white
         textView.setPadding()
         textView.backgroundColor = .clear
         
         return textView
+    }
+    
+    func navigationTitle(total: Int) -> String {
+        if total != 0 {
+            return String(format: NSLocalizedString("TotalMemo", comment: ""), total)
+        }
+        return NSLocalizedString("Memo", comment: "")
     }
 }
