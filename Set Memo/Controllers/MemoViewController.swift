@@ -13,6 +13,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     var tableView: UITableView = UITableView()
     var dt: Results<MemoItem>?
     let notification = UINotificationFeedbackGenerator()
+    let emptyView = EmptyMemoView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,11 +45,11 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.updateMemoItemCount()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.007843137255, green: 0.3137254902, blue: 0.7725490196, alpha: 1)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
-        let deleteButton = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(DeleteAll))
-        self.navigationItem.leftBarButtonItem = deleteButton
         self.navigationItem.rightBarButtonItem = createButton
     }
     
@@ -80,23 +81,30 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         deleteAllAlert.addAction(delete)
         
         if dt?.count != 0 {
-            feedbackOnPress()
+            DeviceControl().feedbackOnPress()
             self.present(deleteAllAlert, animated: true)
         }
     }
     
     @objc func CreateNewMemo(sender: UIButton) {
-        feedbackOnPress()
+        DeviceControl().feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }
     
     // MARK: - TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // If table has no data. preview empty view.
+        if dt?.count == 0 {
+            tableView.backgroundView = emptyView
+        } else {
+            tableView.backgroundView = nil
+        }
+        
         return dt!.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -124,14 +132,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             RealmServices.shared.delete(item)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             self.updateMemoItemCount()
-        }
-    }
-    
-    func feedbackOnPress() {
-        if UIDevice.current.hasHapticFeedback == true {
-            // iPhone 7 and newer
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
         }
     }
 }
@@ -164,12 +164,12 @@ class MyCell: UITableViewCell {
         content.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
         content.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 0).isActive = true
         content.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -20).isActive = true
-        content.heightAnchor.constraint(equalTo: cellView.heightAnchor, constant: -35).isActive = true
+        content.heightAnchor.constraint(equalTo: cellView.heightAnchor, constant: -24).isActive = true
         
         // create constraint
         create.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
         create.topAnchor.constraint(equalTo: content.bottomAnchor).isActive = true
-        create.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        create.heightAnchor.constraint(equalToConstant: 15).isActive = true
         create.widthAnchor.constraint(equalTo: content.widthAnchor).isActive = true
     }
     

@@ -15,7 +15,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.view.backgroundColor = UIColor(red: 0.1450980392, green: 0.4274509804, blue: 0.9019607843, alpha: 1)
         setupView()
         setupNotifications()
     }
@@ -40,6 +39,21 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     func setupNavigationBar() {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        
+        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backToListView))
+        let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(createRemind))
+        self.navigationItem.leftBarButtonItem = remindButton
+        self.navigationItem.rightBarButtonItem = backButton
+    }
+    
+    @objc func createRemind() {
+        DeviceControl().feedbackOnPress()
+        print("picker")
+    }
+    
+    @objc func backToListView() {
+        DeviceControl().feedbackOnPress()
+        self.navigationController?.popViewController(animated: true)
     }
     
     func setupPlaceholder() {
@@ -67,11 +81,10 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     func setupView() {
         view = writeMemoView
         
-        // add tap gesture to view.
-        let tap = UIGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         view.addGestureRecognizer(tap)
         
-        writeMemoView.frame = CGRect(x: 0, y: 80, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight / 4)
+        writeMemoView.frame = CGRect(x: 0, y: 100, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight / 4)
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.tintColor = UIColor.white
         writeMemoView.inputTextView.delegate = self
@@ -92,7 +105,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             writeMemoView.inputTextView.contentInset = .zero
-            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 80, width: view.bounds.width, height: writeMemoView.screenHeight / 4)
+            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: writeMemoView.screenHeight / 4)
         } else {
             writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 42, right: 0)
             writeMemoView.inputTextView.frame = CGRect(x: 0, y: 40, width: view.bounds.width, height: writeMemoView.screenHeight)
@@ -104,9 +117,16 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
     }
     
-    @objc func handleTap(_ sender: UIGestureRecognizer? = nil) {
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         // tap to focus cursor in text view.
+        print("view tapping")
         writeMemoView.inputTextView.becomeFirstResponder()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        let frame = CGRect(x: 0, y: 100, width: size.width, height: writeMemoView.screenHeight / 4)
+        writeMemoView.inputTextView.frame = frame
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

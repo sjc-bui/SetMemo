@@ -6,12 +6,12 @@
   Copyright © 2020 popcorn. All rights reserved.
 */
 
-"Memo" = "Ghi nhớ";
+"Memo" = "Ghi chú";
 "Setting" = "Cài đặt";
 "Ok" = "Đồng ý";
 "Cancel" = "Huỷ bỏ";
-"New" = "Ghi nhớ mới";
-"TotalMemo" = "Ghi nhớ(%d)";
+"New" = "Ghi chú mới";
+"TotalMemo" = "Ghi chú(%d)";
 "EditorPlaceholder" = "Aa";
 "Done" = "Xong";
 "Save" = "Lưu";
@@ -19,3 +19,7 @@
 "DeleteAll" = "Bạn có muốn xoá tất cả ghi chú?";
 "Edit" = "Sửa";
 "DatetimeFormat" = "HH:mm dd/MM/yyyy";
+"EmptyLabel" = "Bạn chưa tạo ghi chú !";
+"EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
+"General" = "Chung";
+"Advanced" = "Nâng cao";

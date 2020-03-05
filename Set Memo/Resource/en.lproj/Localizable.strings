@@ -19,3 +19,7 @@
 "DeleteAll" = "Do you want to delete all memo?";
 "Edit" = "Edit";
 "DatetimeFormat" = "yyyy/MM/dd HH:mm";
+"EmptyLabel" = "You haven't saved any memo !";
+"EmptyDescription" = "Tap + to add new one.";
+"General" = "General";
+"Advanced" = "Advanced";

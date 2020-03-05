@@ -19,3 +19,7 @@
 "DeleteAll" = "全て削除しますか？";
 "Edit" = "編集";
 "DatetimeFormat" = "yyyy年MM月dd日 HH時mm分";
+"EmptyLabel" = "メモがありません";
+"EmptyDescription" = "プラスボタンをタップして、新規メモを作成しましょう";
+"General" = "一般";
+"Advanced" = "アドバンスド";

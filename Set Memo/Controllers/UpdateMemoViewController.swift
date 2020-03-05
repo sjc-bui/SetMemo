@@ -40,12 +40,18 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(updateMemoItem))
-        let emptyBtn = UIBarButtonItem(title: "", style: .done, target: self, action: nil)
+        let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(updateRemind))
         self.navigationItem.rightBarButtonItem = closeButton
-        self.navigationItem.leftBarButtonItem = emptyBtn
+        self.navigationItem.leftBarButtonItem = remindButton
+    }
+    
+    @objc func updateRemind() {
+        DeviceControl().feedbackOnPress()
+        print("update remind")
     }
     
     @objc func updateMemoItem() {
+        DeviceControl().feedbackOnPress()
         if textViewIsChanging {
             let realm = try! Realm()
             let item = realm.objects(MemoItem.self).filter("id = %@", memoId).first
