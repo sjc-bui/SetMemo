@@ -100,7 +100,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 2:
                 self.navigationController?.pushViewController(AlertsController(), animated: true)
             case 3:
-                let alert = UIAlertController(title: "Placeholder", message: "Input custom message for the placeholder", preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
                 
                 alert.addTextField { textField in
                     let placeholder = UserDefaults.standard.string(forKey: "writeNotePlaceholder")
@@ -131,7 +131,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                let deleteAllAlert = UIAlertController(title: "", message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
+                let deleteAllAlert = UIAlertController(title: NSLocalizedString("Sure", comment: ""), message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
                 let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
                 })
                 

@@ -15,7 +15,7 @@
 "Done" = "Done";
 "Save" = "Save";
 "Delete" = "Delete";
-"DeleteAll" = "Do you want to delete all memo?";
+"DeleteAll" = "All saved memo will be delete.";
 "Edit" = "Edit";
 "DatetimeFormat" = "yyyy/MM/dd HH:mm";
 "EmptyLabel" = "You haven't saved any memo !";
@@ -25,5 +25,8 @@
 "About" = "About";
 "Appearance" = "Appearance";
 "Alert" = "Alerts";
-"DeleteLabel" = "Delete all data";
+"DeleteLabel" = "Delete all memo";
 "PlaceHolderLabel" = "Custom placeholder";
+"Placeholder" = "Placeholder";
+"CustomPlaceholder" = "Customize the message on screen\n where you create memo";
+"Sure" = "Are you sure?";

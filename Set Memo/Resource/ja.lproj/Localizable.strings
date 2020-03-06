@@ -15,7 +15,7 @@
 "Done" = "完了";
 "Save" = "保存";
 "Delete" = "削除";
-"DeleteAll" = "全て削除しますか？";
+"DeleteAll" = "全てのメモが削除されます、\nよろしいですか？";
 "Edit" = "編集";
 "DatetimeFormat" = "yyyy年MM月dd日 HH時mm分";
 "EmptyLabel" = "メモがありません";
@@ -27,3 +27,6 @@
 "Alert" = "アラート";
 "DeleteLabel" = "全て削除";
 "PlaceHolderLabel" = "カスタムプレースホルダー";
+"Placeholder" = "プレースホルダー";
+"CustomPlaceholder" = "メモを作成する画面上のメッセージをカスタマイズする";
+"Sure" = "本当に？";

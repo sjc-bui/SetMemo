@@ -15,7 +15,7 @@
 "Done" = "Xong";
 "Save" = "Lưu";
 "Delete" = "Xoá";
-"DeleteAll" = "Bạn có muốn xoá tất cả ghi chú?";
+"DeleteAll" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
 "DatetimeFormat" = "HH:mm dd/MM/yyyy";
 "EmptyLabel" = "Bạn chưa tạo ghi chú !";
@@ -25,5 +25,8 @@
 "About" = "Thông tin";
 "Appearance" = "Hiển thị";
 "Alert" = "Cảnh báo";
-"DeleteLabel" = "Xoá hết dữ liệu";
-"PlaceHolderLabel" = "Thay đổi chữ nhập liệu";
+"DeleteLabel" = "Xoá hết ghi chú";
+"PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
+"Placeholder" = "Văn bản đánh dấu";
+"CustomPlaceholder" = "Thay đổi văn bản đánh dấu\n tại màn hình tạo ghi chú mới";
+"Sure" = "Bạn có chắc chắn không?";
