@@ -12,7 +12,6 @@
 "Cancel" = "キャンセル";
 "New" = "新規メモ";
 "TotalMemo" = "メモ(%d)";
-"EditorPlaceholder" = "Aa";
 "Done" = "完了";
 "Save" = "保存";
 "Delete" = "削除";
@@ -23,3 +22,8 @@
 "EmptyDescription" = "プラスボタンをタップして、新規メモを作成しましょう";
 "General" = "一般";
 "Advanced" = "アドバンスド";
+"About" = "アプリについて";
+"Appearance" = "外観";
+"Alert" = "アラート";
+"DeleteLabel" = "全て削除";
+"PlaceHolderLabel" = "カスタムプレースホルダー";

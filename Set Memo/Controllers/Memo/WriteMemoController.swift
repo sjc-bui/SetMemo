@@ -42,8 +42,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backToListView))
         let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(createRemind))
-        self.navigationItem.leftBarButtonItem = remindButton
-        self.navigationItem.rightBarButtonItem = backButton
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = remindButton
     }
     
     @objc func createRemind() {
@@ -84,7 +84,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         view.addGestureRecognizer(tap)
         
-        writeMemoView.frame = CGRect(x: 0, y: 100, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight / 4)
+        writeMemoView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.tintColor = UIColor.white
         writeMemoView.inputTextView.delegate = self
@@ -105,10 +105,10 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             writeMemoView.inputTextView.contentInset = .zero
-            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: writeMemoView.screenHeight / 4)
+            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight / 4)
         } else {
             writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 42, right: 0)
-            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 40, width: view.bounds.width, height: writeMemoView.screenHeight)
+            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight)
         }
         
         writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
@@ -125,7 +125,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        let frame = CGRect(x: 0, y: 100, width: size.width, height: writeMemoView.screenHeight / 4)
+        let frame = CGRect(x: 0, y: 0, width: size.width, height: writeMemoView.screenHeight)
         writeMemoView.inputTextView.frame = frame
     }
     

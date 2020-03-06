@@ -45,8 +45,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.updateMemoItemCount()
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.007843137255, green: 0.3137254902, blue: 0.7725490196, alpha: 1)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
@@ -56,34 +54,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func updateMemoItemCount() {
         let totalMemo: Int = dt!.count
         self.navigationItem.title = CustomTextView().navigationTitle(total: totalMemo)
-    }
-    
-    // MARK: - NavigationBar Button Action
-    @objc func DeleteAll() {
-        let deleteAllAlert = UIAlertController(title: "", message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
-        let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
-            
-            let realm = try! Realm()
-            do {
-                try realm.write {
-                    realm.delete(self.dt!)
-                }
-            } catch {
-                print(error)
-            }
-            
-            self.tableView.reloadData()
-            self.updateMemoItemCount()
-        })
-        
-        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
-        deleteAllAlert.addAction(cancel)
-        deleteAllAlert.addAction(delete)
-        
-        if dt?.count != 0 {
-            DeviceControl().feedbackOnPress()
-            self.present(deleteAllAlert, animated: true)
-        }
     }
     
     @objc func CreateNewMemo(sender: UIButton) {

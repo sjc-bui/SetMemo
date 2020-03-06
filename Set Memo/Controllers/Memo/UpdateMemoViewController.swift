@@ -19,7 +19,10 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         setupBackground()
         setupEditor()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         let realm = try! Realm()
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
         textView.text = memoItem?.content

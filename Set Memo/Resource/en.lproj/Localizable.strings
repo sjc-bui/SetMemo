@@ -12,7 +12,6 @@
 "Cancel" = "Cancel";
 "New" = "New Memo";
 "TotalMemo" = "Memo(%d)";
-"EditorPlaceholder" = "Aa";
 "Done" = "Done";
 "Save" = "Save";
 "Delete" = "Delete";
@@ -23,3 +22,8 @@
 "EmptyDescription" = "Tap + to add new one.";
 "General" = "General";
 "Advanced" = "Advanced";
+"About" = "About";
+"Appearance" = "Appearance";
+"Alert" = "Alerts";
+"DeleteLabel" = "Delete all data";
+"PlaceHolderLabel" = "Custom placeholder";

@@ -12,7 +12,6 @@
 "Cancel" = "Huỷ bỏ";
 "New" = "Ghi chú mới";
 "TotalMemo" = "Ghi chú(%d)";
-"EditorPlaceholder" = "Aa";
 "Done" = "Xong";
 "Save" = "Lưu";
 "Delete" = "Xoá";
@@ -23,3 +22,8 @@
 "EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
 "General" = "Chung";
 "Advanced" = "Nâng cao";
+"About" = "Thông tin";
+"Appearance" = "Hiển thị";
+"Alert" = "Cảnh báo";
+"DeleteLabel" = "Xoá hết dữ liệu";
+"PlaceHolderLabel" = "Thay đổi chữ nhập liệu";
