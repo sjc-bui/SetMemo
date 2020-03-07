@@ -30,7 +30,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     }
     
     func setupBackground() {
-        self.view.backgroundColor = UIColor(red: 0.07843137255, green: 0.7960784314, blue: 0.6274509804, alpha: 1)
+        self.view.backgroundColor = Colors.greenColor
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -39,8 +39,8 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     
     func setupNavigation(time: String) {
         self.navigationItem.title = time
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.primaryText]
+        self.navigationController?.navigationBar.tintColor = Colors.primaryText
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(updateMemoItem))
         let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(updateRemind))

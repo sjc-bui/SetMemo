@@ -21,7 +21,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        writeMemoView.backgroundColor = UIColor.orange
+        writeMemoView.backgroundColor = Colors.greenColor
         setupPlaceholder()
         setupNavigationBar()
         characterCount()
@@ -37,13 +37,13 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setupNavigationBar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.primaryText]
+        self.navigationController?.navigationBar.tintColor = Colors.primaryText
         
         let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backToListView))
         let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(createRemind))
-        self.navigationItem.leftBarButtonItem = backButton
-        self.navigationItem.rightBarButtonItem = remindButton
+        self.navigationItem.leftBarButtonItem = remindButton
+        self.navigationItem.rightBarButtonItem = backButton
     }
     
     @objc func createRemind() {
@@ -86,7 +86,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         writeMemoView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
         writeMemoView.inputTextView.isScrollEnabled = false
-        writeMemoView.inputTextView.tintColor = UIColor.white
+        writeMemoView.inputTextView.tintColor = Colors.whiteColor
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
     }

@@ -13,6 +13,6 @@ class AppearanceController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        // Do any additional setup after loading the view.
+        self.navigationItem.title = NSLocalizedString("Appearance", comment: "")
     }
 }

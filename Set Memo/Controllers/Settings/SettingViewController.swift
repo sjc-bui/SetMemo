@@ -10,10 +10,12 @@ import UIKit
 import RealmSwift
 
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let sections: Array = [NSLocalizedString("General", comment: ""), NSLocalizedString("Advanced", comment: "")]
+    let sections: Array = [NSLocalizedString("General", comment: ""), NSLocalizedString("Advanced", comment: ""), NSLocalizedString("Other", comment: "")]
     let general: Array = [NSLocalizedString("About", comment: ""), NSLocalizedString("Appearance", comment: ""), NSLocalizedString("Alert", comment: ""),
     NSLocalizedString("PlaceHolderLabel", comment: "")]
     let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
+    let other: Array = [NSLocalizedString("Version", comment: "")]
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     
     var tableView: UITableView!
     private let reuseIdentifier = "SettingCell"
@@ -23,6 +25,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationItem.title = NSLocalizedString("Setting", comment: "")
         self.navigationController?.navigationBar.shadowImage = UIImage()
         configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigation()
+    }
+    
+    func setupNavigation() {
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#4d5650")]
     }
     
     func configureTableView() {
@@ -50,42 +61,76 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             return general.count
         } else if section == 1 {
             return advanced.count
+        } else if section == 2 {
+            return other.count
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         if indexPath.section == 0 {
-            cell.accessoryType = .disclosureIndicator
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = general[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.accessoryType = .disclosureIndicator
                 return cell
             case 1:
-                cell.textLabel?.text = general[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.accessoryType = .disclosureIndicator
                 return cell
             case 2:
-                cell.textLabel?.text = general[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.accessoryType = .disclosureIndicator
                 return cell
             case 3:
-                cell.textLabel?.text = general[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.accessoryType = .disclosureIndicator
                 return cell
             default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.accessoryType = .disclosureIndicator
                 return cell
             }
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
                 cell.textLabel?.text = advanced[indexPath.row]
-                cell.textLabel?.textColor = UIColor.red
+                cell.textLabel?.textColor = Colors.redColor
                 return cell
             default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
                 return cell
             }
+        } else if indexPath.section == 2 {
+            switch indexPath.row {
+            case 0:
+                let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: reuseIdentifier)
+                cell.textLabel?.text = other[indexPath.row]
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.detailTextLabel?.text = "\(appVersion)"
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                return cell
+            }
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+            
+            cell.backgroundColor = Colors.whiteColor
+            cell.textLabel?.textColor = Colors.darkColor
+            return cell
         }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -143,6 +188,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             default:
                 return
             }
+        } else if indexPath.section == 2 {
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.selectionStyle = .none
         }
     }
     
@@ -150,7 +198,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @objc func DeleteAll() {
         
     }
-    
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 15

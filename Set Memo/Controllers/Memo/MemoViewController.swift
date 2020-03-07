@@ -20,7 +20,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         configureTableView()
         tableView.pin(to: view)
         tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = Colors.whiteColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,8 +43,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func setupNavigation() {
         self.updateMemoItemCount()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.007843137255, green: 0.3137254902, blue: 0.7725490196, alpha: 1)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.primaryText]
+        self.navigationController?.navigationBar.tintColor = Colors.blueColor
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
@@ -82,7 +82,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         myCell.backgroundColor = .clear
         myCell.content.text = dt![indexPath.row].content
         myCell.create.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
-        myCell.tintColor = .orange
+        myCell.tintColor = Colors.orangeColor
         myCell.accessoryType = dt![indexPath.row].isImportant ? .checkmark : .none
         return myCell
     }
@@ -100,6 +100,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         if editingStyle == .delete {
             let item = dt![indexPath.row]
             RealmServices.shared.delete(item)
+            
             tableView.deleteRows(at: [indexPath], with: .automatic)
             self.updateMemoItemCount()
         }
@@ -154,7 +155,7 @@ class MyCell: UITableViewCell {
     let content: UILabel = {
         let label = paddingLabel()
         label.text = "Loading..."
-        label.textColor = UIColor.black
+        label.textColor = Colors.darkColor
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         label.backgroundColor = UIColor.clear
@@ -166,7 +167,7 @@ class MyCell: UITableViewCell {
     
     let create: UILabel = {
         let label = paddingLabel()
-        label.textColor = UIColor.darkGray
+        label.textColor = Colors.darkgrayColor
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false

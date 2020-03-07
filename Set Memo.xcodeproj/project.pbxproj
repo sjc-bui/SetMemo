@@ -39,6 +39,9 @@
 		727E50F024120B950042E81F /* darkIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EC24120B950042E81F /* darkIcon@3x.png */; };
 		727E50F224120F8B0042E81F /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 727E50F124120F8B0042E81F /* Launch.storyboard */; };
 		7299A527240A79C900AE39DE /* RealmServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299A526240A79C900AE39DE /* RealmServices.swift */; };
+		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
+		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
+		729E9971241361C8001A5D2C /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E9970241361C8001A5D2C /* Defaults.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
 		72EFECE92408D3A00035296F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72EFECE82408D3A00035296F /* Assets.xcassets */; };
 		BC918B97F24D138C0E3C485C /* Pods_Set_Memo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BF6FA6DA92213F1BAE67B1 /* Pods_Set_Memo.framework */; };
@@ -78,6 +81,9 @@
 		727E50EC24120B950042E81F /* darkIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "darkIcon@3x.png"; sourceTree = "<group>"; };
 		727E50F124120F8B0042E81F /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		7299A526240A79C900AE39DE /* RealmServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServices.swift; sourceTree = "<group>"; };
+		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
+		729E9970241361C8001A5D2C /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EFECDF2408D39F0035296F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72EFECE82408D3A00035296F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 				7244892E240F3D90008E723C /* WriteMemoView.swift */,
 				72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */,
 				72406D9F24109BA000037EB4 /* SettingCell.swift */,
+				729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,7 +180,9 @@
 		724CA700240A1F9E0088F581 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				729E996B24126E0E001A5D2C /* Colors */,
 				724CA701240A1FAD0088F581 /* MemoItem.swift */,
+				729E9970241361C8001A5D2C /* Defaults.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -195,6 +204,14 @@
 				7299A526240A79C900AE39DE /* RealmServices.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		729E996B24126E0E001A5D2C /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				729E996C24126E26001A5D2C /* Colors.swift */,
+			);
+			path = Colors;
 			sourceTree = "<group>";
 		};
 		72E4D438241232D600606AD2 /* Settings */ = {
@@ -379,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */,
+				729E9971241361C8001A5D2C /* Defaults.swift in Sources */,
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				7223F6AE240CFB6700D62D6C /* CustomTextView.swift in Sources */,
@@ -399,6 +417,8 @@
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
+				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
+				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,
 				724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,

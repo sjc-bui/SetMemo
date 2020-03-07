@@ -12,9 +12,11 @@ class DeviceControl {
     
     func feedbackOnPress() {
         if UIDevice.current.hasHapticFeedback == true {
-            // iPhone 7 and newer
-            let generator = UIImpactFeedbackGenerator(style: .heavy)
-            generator.impactOccurred()
+            if UserDefaults.standard.bool(forKey: "vibrationOnTouch") == true {
+                // iPhone 7 and newer
+                let generator = UIImpactFeedbackGenerator(style: .heavy)
+                generator.impactOccurred()                
+            }
         }
     }
 }
