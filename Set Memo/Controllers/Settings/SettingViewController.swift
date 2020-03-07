@@ -18,7 +18,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     
     var tableView: UITableView!
-    private let reuseIdentifier = "SettingCell"
+    private let reuseIdentifier = "Cell"
+    private let reuseSettingCell = "SettingCell"
+    private let reuseSwitchIdentifier = "SettingSwitchCell"
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -47,8 +49,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: "SettingSwitchCell")
+        tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchIdentifier)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -74,31 +77,31 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 2:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 3:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 4:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "SettingSwitchCell", for: indexPath) as! SettingSwitchCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.selectionStyle = .none
@@ -112,37 +115,34 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 return cell
             default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
-                cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
-                cell.accessoryType = .disclosureIndicator
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
-                cell.textLabel?.text = advanced[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.redColor
                 return cell
             default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
         } else if indexPath.section == 2 {
             switch indexPath.row {
             case 0:
-                let cell = UITableViewCell(style: UITableViewCell.CellStyle.value1, reuseIdentifier: reuseIdentifier)
-                cell.textLabel?.text = other[indexPath.row]
+                let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell) 
+                cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.detailTextLabel?.text = "\(appVersion)"
                 return cell
             default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
             cell.backgroundColor = Colors.whiteColor
             cell.textLabel?.textColor = Colors.darkColor
