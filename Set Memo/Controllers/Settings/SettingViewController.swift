@@ -11,7 +11,7 @@ import RealmSwift
 
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let sections: Array = [NSLocalizedString("General", comment: ""), NSLocalizedString("Advanced", comment: ""), NSLocalizedString("Other", comment: "")]
-    let general: Array = [NSLocalizedString("About", comment: ""), NSLocalizedString("Appearance", comment: ""), NSLocalizedString("Alert", comment: ""),
+    let general: Array = [NSLocalizedString("Privacy", comment: ""), NSLocalizedString("Appearance", comment: ""), NSLocalizedString("Alert", comment: ""),
     NSLocalizedString("PlaceHolderLabel", comment: ""), NSLocalizedString("DisplayUpdateTime", comment: "")]
     let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
     let other: Array = [NSLocalizedString("Version", comment: "")]
@@ -132,7 +132,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else if indexPath.section == 2 {
             switch indexPath.row {
             case 0:
-                let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell) 
+                let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.detailTextLabel?.text = "\(appVersion)"
@@ -170,7 +170,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                self.navigationController?.pushViewController(AboutController(), animated: true)
+                self.navigationController?.pushViewController(PrivacyController(), animated: true)
             case 1:
                 self.navigationController?.pushViewController(AppearanceController(), animated: true)
             case 2:
@@ -179,7 +179,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
                 
                 alert.addTextField { textField in
-                    let placeholder = UserDefaults.standard.string(forKey: "writeNotePlaceholder")
+                    let placeholder = self.defaults.string(forKey: Defaults.writeNotePlaceholder)
                     textField.placeholder = placeholder ?? "lalala..."
                     textField.autocorrectionType = .yes
                     textField.autocapitalizationType = .sentences
@@ -194,7 +194,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     
                     if text?.isEmpty ?? false {
                     } else {
-                        UserDefaults.standard.set(text, forKey: "writeNotePlaceholder")
+                        self.defaults.set(text, forKey: Defaults.writeNotePlaceholder)
                     }
                 }))
                 

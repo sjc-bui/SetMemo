@@ -20,7 +20,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window!.rootViewController = tabBarViewController
         window!.makeKeyAndVisible()
         
+        UserDefaults.standard.register(defaults: [
+            Defaults.vibrationOnTouch: true,
+            Defaults.randomColor: false,
+            Defaults.displayDateTime: true,
+            Defaults.showAlertOnDelete: true,
+            Defaults.writeNotePlaceholder: "Write something...",
+            Defaults.useBiometrics: false
+        ])
+        
         return true
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        let privacyController = PrivacyController()
+        privacyController.removeBlurView(window: window!)
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        if UserDefaults.standard.bool(forKey: Defaults.useBiometrics) == true {
+            let privacyController = PrivacyController()
+            privacyController.setupBiometricsView(window: window!)
+            privacyController.unlockButton.addTarget(self, action: #selector(unlockApp(sender:)), for: .touchUpInside)
+            privacyController.authenticateUserWithBioMetrics(window: window!)
+        }
+    }
+    
+    @objc func unlockApp(sender: UIButton) {
+        // Call authenticateUserWithBiometrics method when user click unlock button
+        let privacyController = PrivacyController()
+        privacyController.authenticateUserWithBioMetrics(window: window!)
     }
 }
 

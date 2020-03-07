@@ -22,7 +22,9 @@
 "EmptyDescription" = "プラスボタンをタップして、新規メモを作成しましょう";
 "General" = "一般";
 "Advanced" = "アドバンスド";
-"About" = "アプリについて";
+"Biometrics" = "生体認証";
+"UseTouchOrFaceId" = "タッチIDまたはフェイスIDを使用します";
+"Privacy" = "プライバシー";
 "Appearance" = "外観";
 "Alert" = "アラート";
 "DeleteLabel" = "全て削除";
@@ -36,3 +38,5 @@
 "DeleteAction" = "削除アクション";
 "Random" = "ランダム";
 "DisplayUpdateTime" = "更新日時を表示";
+"UnlockApp" = "アンロック";
+"Reason" = "メモにアクセスするにはロックを解除";

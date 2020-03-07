@@ -12,12 +12,12 @@
 		7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */; };
 		7223F6AE240CFB6700D62D6C /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AD240CFB6700D62D6C /* CustomTextView.swift */; };
 		72275686240CA1C400654898 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72275685240CA1C400654898 /* UILabelExt.swift */; };
+		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
 		72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9B24107A1C00037EB4 /* DeviceControl.swift */; };
 		72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */; };
 		72406DA024109BA000037EB4 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9F24109BA000037EB4 /* SettingCell.swift */; };
-		72406DA2241118DC00037EB4 /* AboutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA1241118DC00037EB4 /* AboutController.swift */; };
 		72406DA42411192900037EB4 /* AppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA32411192900037EB4 /* AppearanceController.swift */; };
 		72406DA62411194300037EB4 /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA52411194300037EB4 /* AlertsController.swift */; };
 		7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244892E240F3D90008E723C /* WriteMemoView.swift */; };
@@ -54,12 +54,12 @@
 		7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatetimeUtil.swift; sourceTree = "<group>"; };
 		7223F6AD240CFB6700D62D6C /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		72275685240CA1C400654898 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
+		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
 		72406D9B24107A1C00037EB4 /* DeviceControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceControl.swift; sourceTree = "<group>"; };
 		72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMemoView.swift; sourceTree = "<group>"; };
 		72406D9F24109BA000037EB4 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
-		72406DA1241118DC00037EB4 /* AboutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutController.swift; sourceTree = "<group>"; };
 		72406DA32411192900037EB4 /* AppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceController.swift; sourceTree = "<group>"; };
 		72406DA52411194300037EB4 /* AlertsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		7244892E240F3D90008E723C /* WriteMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoView.swift; sourceTree = "<group>"; };
@@ -219,8 +219,8 @@
 			children = (
 				72406DA52411194300037EB4 /* AlertsController.swift */,
 				72406DA32411192900037EB4 /* AppearanceController.swift */,
-				72406DA1241118DC00037EB4 /* AboutController.swift */,
 				724CA6D62408D94A0088F581 /* SettingViewController.swift */,
+				722BB3B22413C6E5001189C9 /* PrivacyController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -404,7 +404,6 @@
 				72406DA024109BA000037EB4 /* SettingCell.swift in Sources */,
 				72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */,
 				724CA6FC2408FBEF0088F581 /* PageService.swift in Sources */,
-				72406DA2241118DC00037EB4 /* AboutController.swift in Sources */,
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
@@ -420,6 +419,7 @@
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,
+				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,
 				724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,
 				7299A527240A79C900AE39DE /* RealmServices.swift in Sources */,

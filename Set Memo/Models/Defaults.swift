@@ -13,4 +13,6 @@ class Defaults {
     static let showAlertOnDelete = "showAlertOnDelete"
     static let randomColor = "randomColor"
     static let displayDateTime = "displayDateTime"
+    static let writeNotePlaceholder = "Write something"
+    static let useBiometrics = "useBiometrics"
 }

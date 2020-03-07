@@ -22,7 +22,9 @@
 "EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
 "General" = "Chung";
 "Advanced" = "Nâng cao";
-"About" = "Thông tin";
+"Privacy" = "Riêng tư";
+"UseTouchOrFaceId" = "Sử dụng Touch ID hoặc Face ID";
+"Biometrics" = "Sinh trắc học";
 "Appearance" = "Hiển thị";
 "Alert" = "Cảnh báo";
 "DeleteLabel" = "Xoá hết ghi chú";
@@ -36,3 +38,5 @@
 "DeleteAction" = "Hành động xoá";
 "Random" = "Ngẫu nhiên";
 "DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
+"UnlockApp" = "Mở khoá";
+"Reason" = "Mở khoá để xem ghi chú";

@@ -22,7 +22,9 @@
 "EmptyDescription" = "Tap + to add new one.";
 "General" = "General";
 "Advanced" = "Advanced";
-"About" = "About";
+"Privacy" = "Privacy";
+"Biometrics" = "Biometrics";
+"UseTouchOrFaceId" = "Use Touch ID or Face ID";
 "Appearance" = "Appearance";
 "Alert" = "Alerts";
 "DeleteLabel" = "Delete all memo";
@@ -36,3 +38,5 @@
 "DeleteAction" = "Delete Action";
 "Random" = "Random";
 "DisplayUpdateTime" = "Display update time";
+"UnlockApp" = "Unlock";
+"Reason" = "Unlock to access your memo";

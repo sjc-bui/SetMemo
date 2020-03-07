@@ -9,7 +9,7 @@
 import UIKit
 
 class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var tableView = UITableView()
+    var tableView: UITableView = UITableView()
     let sections: Array = [NSLocalizedString("TouchAction", comment: ""), NSLocalizedString("DeleteAction", comment: ""), NSLocalizedString("Random", comment: "")]
     let touchAction: Array = ["Vibration"]
     let onDelete: Array = ["Show alert on delete"]

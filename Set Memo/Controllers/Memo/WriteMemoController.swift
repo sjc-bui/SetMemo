@@ -57,7 +57,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setupPlaceholder() {
-        let placeholder = UserDefaults.standard.string(forKey: "writeNotePlaceholder") ?? "null..."
+        let placeholder = UserDefaults.standard.string(forKey: Defaults.writeNotePlaceholder) ?? ""
         writeMemoView.inputTextView.placeholder = placeholder
     }
     
