@@ -12,13 +12,14 @@ import RealmSwift
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let sections: Array = [NSLocalizedString("General", comment: ""), NSLocalizedString("Advanced", comment: ""), NSLocalizedString("Other", comment: "")]
     let general: Array = [NSLocalizedString("About", comment: ""), NSLocalizedString("Appearance", comment: ""), NSLocalizedString("Alert", comment: ""),
-    NSLocalizedString("PlaceHolderLabel", comment: "")]
+    NSLocalizedString("PlaceHolderLabel", comment: ""), NSLocalizedString("DisplayUpdateTime", comment: "")]
     let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
     let other: Array = [NSLocalizedString("Version", comment: "")]
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     
     var tableView: UITableView!
     private let reuseIdentifier = "SettingCell"
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,11 +42,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         let height = UIScreen.main.bounds.height
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: width, height: height), style: .grouped)
         view.addSubview(tableView)
+        tableView.pin(to: view)
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: "SettingSwitchCell")
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -94,6 +97,20 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
+            case 4:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SettingSwitchCell", for: indexPath) as! SettingSwitchCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.textLabel?.textColor = Colors.darkColor
+                cell.selectionStyle = .none
+                cell.switchButton.addTarget(self, action: #selector(displayUpdateTime(sender:)), for: .valueChanged)
+                
+                if defaults.bool(forKey: Defaults.displayDateTime) == true {
+                    cell.switchButton.isOn = true
+                } else {
+                    cell.switchButton.isOn = false
+                }
+                
+                return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
@@ -130,6 +147,20 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.backgroundColor = Colors.whiteColor
             cell.textLabel?.textColor = Colors.darkColor
             return cell
+        }
+    }
+    
+    @objc func displayUpdateTime(sender: UISwitch) {
+        if sender.isOn == true {
+            print("show update time")
+            defaults.set(true, forKey: Defaults.displayDateTime)
+            viewWillAppear(true)
+            self.tableView.reloadData()
+        } else {
+            print("hide update time")
+            defaults.set(false, forKey: Defaults.displayDateTime)
+            viewWillAppear(true)
+            self.tableView.reloadData()
         }
     }
     

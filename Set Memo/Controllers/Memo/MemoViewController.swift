@@ -14,17 +14,16 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     var dt: Results<MemoItem>?
     let notification = UINotificationFeedbackGenerator()
     let emptyView = EmptyMemoView()
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
-        tableView.pin(to: view)
-        tableView.register(MyCell.self, forCellReuseIdentifier: "cellId")
         self.view.backgroundColor = Colors.whiteColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureTableView()
         
         let realm = try! Realm()
         dt = realm.objects(MemoItem.self).sorted(byKeyPath: "created", ascending: false)
@@ -35,10 +34,12 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     // table view configure
     private func configureTableView() {
         view.addSubview(tableView)
+        tableView.pin(to: view)
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorColor = .none
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
     }
     
     private func setupNavigation() {
@@ -73,17 +74,23 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         return dt!.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let myCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MyCell
+        //let myCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
+        let myCell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         myCell.backgroundColor = .clear
-        myCell.content.text = dt![indexPath.row].content
-        myCell.create.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
+        myCell.textLabel?.text = dt![indexPath.row].content
+        myCell.textLabel?.numberOfLines = 2
+        myCell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        myCell.textLabel?.textColor = Colors.darkColor
+        
+        if defaults.bool(forKey: Defaults.displayDateTime) == true {
+            myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
+        } else {
+            myCell.detailTextLabel?.text = ""
+        }
+        
         myCell.tintColor = Colors.orangeColor
-        myCell.accessoryType = dt![indexPath.row].isImportant ? .checkmark : .none
+        myCell.accessoryType = .disclosureIndicator
         return myCell
     }
     
@@ -104,77 +111,5 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             tableView.deleteRows(at: [indexPath], with: .automatic)
             self.updateMemoItemCount()
         }
-    }
-}
-
-// MARK: -Custom TableViewCell
-class MyCell: UITableViewCell {
-    var myTableViewController: MemoViewController?
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupView()
-    }
-    
-    // set up view cell constraint
-    func setupView() {
-        addSubview(cellView)
-        cellView.addSubview(content)
-        cellView.addSubview(create)
-        self.selectionStyle = .none
-        
-        // Set constrain for cellView
-        NSLayoutConstraint.activate([
-            cellView.topAnchor.constraint(equalTo: self.topAnchor),
-            cellView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            cellView.rightAnchor.constraint(equalTo: self.rightAnchor),
-            cellView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
-        
-        // content constraint
-        content.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
-        content.topAnchor.constraint(equalTo: cellView.topAnchor, constant: 0).isActive = true
-        content.rightAnchor.constraint(equalTo: cellView.rightAnchor, constant: -20).isActive = true
-        content.heightAnchor.constraint(equalTo: cellView.heightAnchor, constant: -24).isActive = true
-        
-        // create constraint
-        create.leftAnchor.constraint(equalTo: cellView.leftAnchor, constant: 20).isActive = true
-        create.topAnchor.constraint(equalTo: content.bottomAnchor).isActive = true
-        create.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        create.widthAnchor.constraint(equalTo: content.widthAnchor).isActive = true
-    }
-    
-    // create view cell
-    let cellView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    // create label inside view cell
-    let content: UILabel = {
-        let label = paddingLabel()
-        label.text = "Loading..."
-        label.textColor = Colors.darkColor
-        label.textAlignment = .left
-        label.lineBreakMode = .byTruncatingTail
-        label.backgroundColor = UIColor.clear
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let create: UILabel = {
-        let label = paddingLabel()
-        label.textColor = Colors.darkgrayColor
-        label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        label.numberOfLines = 1
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

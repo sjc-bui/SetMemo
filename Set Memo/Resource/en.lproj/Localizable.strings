@@ -32,3 +32,7 @@
 "Sure" = "Are you sure?";
 "Other" = "Other";
 "Version" = "Version";
+"TouchAction" = "Touch Action";
+"DeleteAction" = "Delete Action";
+"Random" = "Random";
+"DisplayUpdateTime" = "Display update time";

@@ -32,3 +32,7 @@
 "Sure" = "Bạn có chắc chắn không?";
 "Other" = "Khác";
 "Version" = "Phiên bản";
+"TouchAction" = "Hành động chạm";
+"DeleteAction" = "Hành động xoá";
+"Random" = "Ngẫu nhiên";
+"DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
