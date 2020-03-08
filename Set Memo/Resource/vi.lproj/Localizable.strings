@@ -6,17 +6,37 @@
   Copyright © 2020 popcorn. All rights reserved.
 */
 
-"Memo" = "Ghi nhớ";
-"Remind" = "Nhắc nhở";
+"Memo" = "Ghi chú";
 "Setting" = "Cài đặt";
 "Ok" = "Đồng ý";
 "Cancel" = "Huỷ bỏ";
-"New" = "Ghi nhớ mới";
-"TotalMemo" = "Ghi nhớ(%d)";
-"EditorPlaceholder" = "Aa";
+"New" = "Ghi chú mới";
+"TotalMemo" = "Ghi chú(%d)";
 "Done" = "Xong";
 "Save" = "Lưu";
 "Delete" = "Xoá";
-"DeleteAll" = "Bạn có muốn xoá tất cả ghi chú?";
+"DeleteAll" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
 "DatetimeFormat" = "HH:mm dd/MM/yyyy";
+"EmptyLabel" = "Bạn chưa tạo ghi chú !";
+"EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
+"General" = "Chung";
+"Advanced" = "Nâng cao";
+"Privacy" = "Riêng tư";
+"UseTouchOrFaceId" = "Sử dụng Touch ID hoặc Face ID";
+"Biometrics" = "Sinh trắc học";
+"Appearance" = "Hiển thị";
+"Alert" = "Cảnh báo";
+"DeleteLabel" = "Xoá hết ghi chú";
+"PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
+"Placeholder" = "Văn bản đánh dấu";
+"CustomPlaceholder" = "Thay đổi văn bản đánh dấu\n tại màn hình tạo ghi chú mới";
+"Sure" = "Bạn có chắc chắn không?";
+"Other" = "Khác";
+"Version" = "Phiên bản";
+"TouchAction" = "Hành động chạm";
+"DeleteAction" = "Hành động xoá";
+"Random" = "Ngẫu nhiên";
+"DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
+"UnlockApp" = "Mở khoá";
+"Reason" = "Mở khoá để xem ghi chú";
