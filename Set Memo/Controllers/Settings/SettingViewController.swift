@@ -32,11 +32,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigation()
-    }
-    
-    func setupNavigation() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#4d5650")]
     }
     
     func configureTableView() {
@@ -79,31 +74,26 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 3:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(displayUpdateTime(sender:)), for: .valueChanged)
                 
@@ -134,7 +124,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(other[indexPath.row])"
-                cell.textLabel?.textColor = Colors.darkColor
                 cell.detailTextLabel?.text = "\(appVersion)"
                 return cell
             default:
@@ -145,7 +134,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
             cell.backgroundColor = Colors.whiteColor
-            cell.textLabel?.textColor = Colors.darkColor
             return cell
         }
     }

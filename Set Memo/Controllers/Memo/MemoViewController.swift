@@ -44,7 +44,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func setupNavigation() {
         self.updateMemoItemCount()
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.primaryText]
         self.navigationController?.navigationBar.tintColor = Colors.blueColor
         
         // custom Right bar button
@@ -75,13 +74,11 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let myCell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         let myCell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         myCell.backgroundColor = .clear
         myCell.textLabel?.text = dt![indexPath.row].content
         myCell.textLabel?.numberOfLines = 2
         myCell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        myCell.textLabel?.textColor = Colors.darkColor
         
         if defaults.bool(forKey: Defaults.displayDateTime) == true {
             myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)

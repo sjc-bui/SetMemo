@@ -33,6 +33,7 @@
 		724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA701240A1FAD0088F581 /* MemoItem.swift */; };
 		724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA703240A23DF0088F581 /* UIColorExt.swift */; };
 		724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA705240A3D960088F581 /* UITextViewExt.swift */; };
+		7259011324149679009153A5 /* SeceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7259011224149679009153A5 /* SeceneDelegate.swift */; };
 		727E50ED24120B950042E81F /* lightIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50E924120B950042E81F /* lightIcon@3x.png */; };
 		727E50EE24120B950042E81F /* darkIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EA24120B950042E81F /* darkIcon@2x.png */; };
 		727E50EF24120B950042E81F /* lightIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EB24120B950042E81F /* lightIcon@2x.png */; };
@@ -75,6 +76,7 @@
 		724CA701240A1FAD0088F581 /* MemoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItem.swift; sourceTree = "<group>"; };
 		724CA703240A23DF0088F581 /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
 		724CA705240A3D960088F581 /* UITextViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExt.swift; sourceTree = "<group>"; };
+		7259011224149679009153A5 /* SeceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeceneDelegate.swift; sourceTree = "<group>"; };
 		727E50E924120B950042E81F /* lightIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightIcon@3x.png"; sourceTree = "<group>"; };
 		727E50EA24120B950042E81F /* darkIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "darkIcon@2x.png"; sourceTree = "<group>"; };
 		727E50EB24120B950042E81F /* lightIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lightIcon@2x.png"; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				72EFECE82408D3A00035296F /* Assets.xcassets */,
 				72EFECED2408D3A00035296F /* Info.plist */,
 				727E50F124120F8B0042E81F /* Launch.storyboard */,
+				7259011224149679009153A5 /* SeceneDelegate.swift */,
 			);
 			path = "Set Memo";
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
+				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,
@@ -580,7 +584,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9ZWLNZ43F6;
 				INFOPLIST_FILE = "Set Memo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -600,7 +604,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9ZWLNZ43F6;
 				INFOPLIST_FILE = "Set Memo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

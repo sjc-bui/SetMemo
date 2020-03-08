@@ -22,7 +22,6 @@ class EmptyMemoView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
-        label.textColor = Colors.primaryText
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.numberOfLines = 1
         label.text = NSLocalizedString("EmptyLabel", comment: "")
@@ -32,7 +31,6 @@ class EmptyMemoView: UIView {
     lazy var descriptionLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
-        label.textColor = Colors.darkgrayColor
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.numberOfLines = 1
         label.text = NSLocalizedString("EmptyDescription", comment: "")
