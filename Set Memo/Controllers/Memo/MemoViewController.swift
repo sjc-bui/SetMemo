@@ -44,7 +44,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func setupNavigation() {
         self.updateMemoItemCount()
-        self.navigationController?.navigationBar.tintColor = Colors.blueColor
+        self.navigationController?.navigationBar.tintColor = Colors.blue2
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
@@ -53,12 +53,19 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func updateMemoItemCount() {
         let totalMemo: Int = dt!.count
-        self.navigationItem.title = CustomTextView().navigationTitle(total: totalMemo)
+        self.navigationItem.title = navigationTitle(total: totalMemo)
     }
     
     @objc func CreateNewMemo(sender: UIButton) {
         DeviceControl().feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
+    }
+    
+    func navigationTitle(total: Int) -> String {
+        if total != 0 {
+            return String(format: NSLocalizedString("TotalMemo", comment: ""), total)
+        }
+        return NSLocalizedString("Memo", comment: "")
     }
     
     // MARK: - TableView

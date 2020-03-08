@@ -21,7 +21,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        writeMemoView.backgroundColor = Colors.greenColor
+        writeMemoView.backgroundColor = .white
         setupPlaceholder()
         setupNavigationBar()
         characterCount()
@@ -37,9 +37,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setupNavigationBar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.primaryText]
-        self.navigationController?.navigationBar.tintColor = Colors.primaryText
-        
         let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backToListView))
         let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(createRemind))
         self.navigationItem.leftBarButtonItem = remindButton
@@ -86,7 +83,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         writeMemoView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
         writeMemoView.inputTextView.isScrollEnabled = false
-        writeMemoView.inputTextView.tintColor = Colors.whiteColor
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
     }
@@ -105,7 +101,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             writeMemoView.inputTextView.contentInset = .zero
-            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight / 4)
         } else {
             writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 42, right: 0)
             writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight)

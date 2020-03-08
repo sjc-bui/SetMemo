@@ -10,7 +10,6 @@
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
 		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
 		7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */; };
-		7223F6AE240CFB6700D62D6C /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AD240CFB6700D62D6C /* CustomTextView.swift */; };
 		72275686240CA1C400654898 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72275685240CA1C400654898 /* UILabelExt.swift */; };
 		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
@@ -28,7 +27,6 @@
 		724CA6ED2408F3320088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6EF2408F3320088F581 /* Localizable.strings */; };
 		724CA6F22408F34C0088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6F42408F34C0088F581 /* Localizable.strings */; };
 		724CA6F72408F35E0088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6F92408F35E0088F581 /* Localizable.strings */; };
-		724CA6FC2408FBEF0088F581 /* PageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6FB2408FBEF0088F581 /* PageService.swift */; };
 		724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6FE240A18390088F581 /* UIViewExt.swift */; };
 		724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA701240A1FAD0088F581 /* MemoItem.swift */; };
 		724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA703240A23DF0088F581 /* UIColorExt.swift */; };
@@ -53,7 +51,6 @@
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
 		7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatetimeUtil.swift; sourceTree = "<group>"; };
-		7223F6AD240CFB6700D62D6C /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		72275685240CA1C400654898 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
 		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
@@ -71,7 +68,6 @@
 		724CA6EE2408F3320088F581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		724CA6F32408F34C0088F581 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		724CA6F82408F35E0088F581 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
-		724CA6FB2408FBEF0088F581 /* PageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageService.swift; sourceTree = "<group>"; };
 		724CA6FE240A18390088F581 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
 		724CA701240A1FAD0088F581 /* MemoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItem.swift; sourceTree = "<group>"; };
 		724CA703240A23DF0088F581 /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
@@ -157,9 +153,7 @@
 		724CA6FA2408FBDB0088F581 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				724CA6FB2408FBEF0088F581 /* PageService.swift */,
 				7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */,
-				7223F6AD240CFB6700D62D6C /* CustomTextView.swift */,
 				72406D9B24107A1C00037EB4 /* DeviceControl.swift */,
 			);
 			path = Controls;
@@ -402,11 +396,9 @@
 				729E9971241361C8001A5D2C /* Defaults.swift in Sources */,
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
-				7223F6AE240CFB6700D62D6C /* CustomTextView.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,
 				72406DA024109BA000037EB4 /* SettingCell.swift in Sources */,
 				72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */,
-				724CA6FC2408FBEF0088F581 /* PageService.swift in Sources */,
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,

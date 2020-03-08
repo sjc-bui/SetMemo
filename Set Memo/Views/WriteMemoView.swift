@@ -21,9 +21,7 @@ class WriteMemoView: UIView {
     lazy var inputTextView: MultilineTextField = {
         let frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         let textField = MultilineTextField(frame: frame)
-        textField.backgroundColor = UIColor.clear
-        textField.textColor = Colors.whiteColor
-        textField.placeholderColor = Colors.whiteColor
+        textField.placeholderColor = Colors.darkgrayColor
         textField.font = UIFont.boldSystemFont(ofSize: 32)
         textField.isEditable = true
         textField.textContainerInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
