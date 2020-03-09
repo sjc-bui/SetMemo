@@ -55,7 +55,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         view = writeMemoView
         let textView = writeMemoView.inputTextView
         writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        textView.font = UIFont.systemFont(ofSize: 18)
+        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Defaults.fontSize)))
         textView.placeholder = ""
         textView.alwaysBounceVertical = true
         textView.isUserInteractionEnabled = true

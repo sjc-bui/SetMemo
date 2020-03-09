@@ -10,23 +10,33 @@ import UIKit
 import RealmSwift
 
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let sections: Array = [NSLocalizedString("General", comment: ""), NSLocalizedString("Advanced", comment: ""), NSLocalizedString("Other", comment: "")]
-    let general: Array = [NSLocalizedString("Privacy", comment: ""), NSLocalizedString("Appearance", comment: ""), NSLocalizedString("Alert", comment: ""),
-    NSLocalizedString("PlaceHolderLabel", comment: ""), NSLocalizedString("DisplayUpdateTime", comment: "")]
+    let sections: Array = [
+        NSLocalizedString("General", comment: ""),
+        NSLocalizedString("Advanced", comment: ""),
+        NSLocalizedString("Other", comment: "")]
+    let general: Array = [
+        NSLocalizedString("Privacy", comment: ""),
+        NSLocalizedString("FontSize", comment: ""),
+        NSLocalizedString("Appearance", comment: ""),
+        NSLocalizedString("Alert", comment: ""),
+        NSLocalizedString("PlaceHolderLabel", comment: ""),
+        NSLocalizedString("DisplayUpdateTime", comment: "")]
+    
     let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
     let other: Array = [NSLocalizedString("Version", comment: "")]
-    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     
     var tableView: UITableView!
+    let defaults = UserDefaults.standard
+    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     private let reuseIdentifier = "Cell"
     private let reuseSettingCell = "SettingCell"
     private let reuseSwitchIdentifier = "SettingSwitchCell"
-    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = NSLocalizedString("Setting", comment: "")
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = false
         configureTableView()
     }
     
@@ -92,6 +102,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.accessoryType = .disclosureIndicator
                 return cell
             case 4:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.accessoryType = .disclosureIndicator
+                return cell
+            case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
@@ -113,7 +128,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
-                cell.textLabel?.textColor = Colors.redColor
+                cell.textLabel?.textColor = Colors.red2
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -160,10 +175,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 self.navigationController?.pushViewController(PrivacyController(), animated: true)
             case 1:
-                self.navigationController?.pushViewController(AppearanceController(), animated: true)
+                self.navigationController?.pushViewController(FontSizeController(), animated: true)
             case 2:
-                self.navigationController?.pushViewController(AlertsController(), animated: true)
+                self.navigationController?.pushViewController(AppearanceController(), animated: true)
             case 3:
+                self.navigationController?.pushViewController(AlertsController(), animated: true)
+            case 4:
                 let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
                 
                 alert.addTextField { textField in

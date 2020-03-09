@@ -40,3 +40,9 @@
 "DisplayUpdateTime" = "更新日時を表示";
 "UnlockApp" = "アンロック";
 "Reason" = "メモにアクセスするにはロックを解除";
+"FontSize" = "フォントサイズ";
+"Size" = "サイズ";
+"Small" = "小";
+"Medium" = "中 (標準)";
+"Large" = "大";
+"Maximum" = "特大";

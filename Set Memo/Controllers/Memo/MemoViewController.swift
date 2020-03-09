@@ -44,7 +44,9 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     private func setupNavigation() {
         self.updateMemoItemCount()
-        self.navigationController?.navigationBar.tintColor = Colors.blue2
+        self.navigationController?.navigationBar.tintColor = Colors.red2
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = false
         
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
@@ -85,7 +87,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         myCell.backgroundColor = .clear
         myCell.textLabel?.text = dt![indexPath.row].content
         myCell.textLabel?.numberOfLines = 2
-        myCell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaults.float(forKey: Defaults.fontSize)), weight: .medium)
         
         if defaults.bool(forKey: Defaults.displayDateTime) == true {
             myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)

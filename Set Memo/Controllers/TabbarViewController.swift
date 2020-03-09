@@ -25,9 +25,8 @@ class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
         settingView.tabBarItem.image = UIImage(named: "setting")
         let navSetting = UINavigationController(rootViewController: settingView)
         
-        UITabBar.appearance().barTintColor = Colors.whiteColor
-        UITabBar.appearance().tintColor = Colors.primaryText
-        // Create tab bar.
+        UITabBar.appearance().tintColor = Colors.red2
+        
         self.viewControllers = [navMemoView, navSetting]
     }
 }

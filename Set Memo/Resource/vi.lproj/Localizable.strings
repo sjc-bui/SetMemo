@@ -40,3 +40,9 @@
 "DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
+"FontSize" = "Kích thước phông chữ";
+"Size" = "Kích thước";
+"Small" = "Nhỏ";
+"Medium" = "Trung bình (Tiêu chuẩn)";
+"Large" = "Lớn";
+"Maximum" = "Tối đa";

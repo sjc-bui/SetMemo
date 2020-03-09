@@ -15,4 +15,6 @@ class Defaults {
     static let displayDateTime = "displayDateTime"
     static let writeNotePlaceholder = "Write something"
     static let useBiometrics = "useBiometrics"
+    static let iconType = "iconType"
+    static let fontSize = "fontSize"
 }
