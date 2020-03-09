@@ -40,9 +40,9 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     
     func setupNavigation(time: String) {
         self.navigationItem.title = time
-        let closeButton = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(updateMemoItem))
+        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(updateMemoItem))
         let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(updateRemind))
-        self.navigationItem.rightBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = backButton
         self.navigationItem.leftBarButtonItem = remindButton
     }
     

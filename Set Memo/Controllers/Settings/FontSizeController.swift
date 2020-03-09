@@ -23,13 +23,14 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
     
     private let reuseIdentifier = "cellId"
     private let small: Float = 14
-    private let medium: Float = 17
-    private let large: Float = 21
-    private let maximum: Float = 25
+    private let medium: Float = 18
+    private let large: Float = 26
+    private let maximum: Float = 32
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = NSLocalizedString("FontSize", comment: "")
     }
     
     override func viewWillAppear(_ animated: Bool) {

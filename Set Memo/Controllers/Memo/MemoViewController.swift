@@ -49,8 +49,34 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.navigationBar.isTranslucent = false
         
         // custom Right bar button
-        let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(CreateNewMemo))
+        let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(createNewMemo))
+        let sortButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(sortBy))
         self.navigationItem.rightBarButtonItem = createButton
+        self.navigationItem.leftBarButtonItem = sortButton
+    }
+    
+    @objc func sortBy() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let sortByDate = UIAlertAction(title: NSLocalizedString("SortByDate", comment: ""), style: .default, handler: { (action) in
+            print("date edited")
+        })
+        let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
+            print("title")
+        })
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        
+        sortByDate.setValue(Colors.red2, forKey: "titleTextColor")
+        sortByTitle.setValue(Colors.red2, forKey: "titleTextColor")
+        cancel.setValue(Colors.red2, forKey: "titleTextColor")
+        
+        alertController.addAction(sortByDate)
+        alertController.addAction(sortByTitle)
+        alertController.addAction(cancel)
+        
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     private func updateMemoItemCount() {
@@ -58,7 +84,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationItem.title = navigationTitle(total: totalMemo)
     }
     
-    @objc func CreateNewMemo(sender: UIButton) {
+    @objc func createNewMemo(sender: UIButton) {
         DeviceControl().feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }

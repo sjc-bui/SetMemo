@@ -46,3 +46,5 @@
 "Medium" = "Medium (Standard)";
 "Large" = "Large";
 "Maximum" = "Maximum";
+"SortByDate" = "Date Edited";
+"SortByTitle" = "Title";

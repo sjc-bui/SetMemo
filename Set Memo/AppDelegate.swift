@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
             Defaults.showAlertOnDelete: true,
             Defaults.writeNotePlaceholder: "Write something...",
             Defaults.useBiometrics: false,
-            Defaults.fontSize: 17
+            Defaults.fontSize: 18,
+            Defaults.sortBy: "created"
         ])
         
         return true

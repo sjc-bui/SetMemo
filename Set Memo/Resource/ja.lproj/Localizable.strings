@@ -46,3 +46,5 @@
 "Medium" = "中 (標準)";
 "Large" = "大";
 "Maximum" = "特大";
+"SortByDate" = "日付でソート";
+"SortByTitle" = "タイトルでソート";

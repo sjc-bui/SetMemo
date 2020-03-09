@@ -17,4 +17,5 @@ class Defaults {
     static let useBiometrics = "useBiometrics"
     static let iconType = "iconType"
     static let fontSize = "fontSize"
+    static let sortBy = "sortBy"
 }
