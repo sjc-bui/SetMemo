@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
@@ -26,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
             Defaults.fontSize: 18,
             Defaults.sortBy: "date"
         ])
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         return true
     }

@@ -11,7 +11,7 @@
 "Ok" = "OK";
 "Cancel" = "Cancel";
 "New" = "New Memo";
-"TotalMemo" = "Memo(%d)";
+"TotalMemo" = "%d memo";
 "Done" = "Done";
 "Save" = "Save";
 "Delete" = "Delete";

@@ -11,7 +11,7 @@
 "Ok" = "OK";
 "Cancel" = "キャンセル";
 "New" = "新規メモ";
-"TotalMemo" = "メモ(%d)";
+"TotalMemo" = "%d件のメモ";
 "Done" = "完了";
 "Save" = "保存";
 "Delete" = "削除";

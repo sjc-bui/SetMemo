@@ -8,17 +8,30 @@
 
 import UIKit
 import RealmSwift
+import GoogleMobileAds
 
-class MemoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MemoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, GADBannerViewDelegate {
     var tableView: UITableView = UITableView()
     var dt: Results<MemoItem>?
     let notification = UINotificationFeedbackGenerator()
+    let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
     let defaults = UserDefaults.standard
+    
+    // Google Ads
+    var bannerView: GADBannerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = Colors.whiteColor
+        
+        // In this case, we instantiate the banner with desired ad size.
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID = Const.UnitID
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+        addBannerViewToView(bannerView)
+        bannerView.load(GADRequest())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,6 +39,12 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         configureTableView()
         fetchMemoFromDB()
         setupNavigation()
+        //configureSearchBar()
+    }
+    
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
     }
     
     // table view configure
@@ -50,6 +69,12 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let sortButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(sortBy))
         self.navigationItem.rightBarButtonItem = createButton
         self.navigationItem.leftBarButtonItem = sortButton
+    }
+    
+    func configureSearchBar() {
+        searchController.searchBar.placeholder = "Search !"
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
     }
     
     @objc func sortBy() {
@@ -160,5 +185,17 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             tableView.deleteRows(at: [indexPath], with: .automatic)
             self.updateMemoItemCount()
         }
+    }
+    
+    // MARK: - Custom BannerView
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Banner loaded successfully")
+        tableView.tableHeaderView?.frame = bannerView.frame
+        tableView.tableHeaderView = bannerView
+    }
+    
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        print("Fail to receive ads")
+        print(error)
     }
 }

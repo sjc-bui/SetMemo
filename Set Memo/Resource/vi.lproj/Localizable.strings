@@ -11,7 +11,7 @@
 "Ok" = "Đồng ý";
 "Cancel" = "Huỷ bỏ";
 "New" = "Ghi chú mới";
-"TotalMemo" = "Ghi chú(%d)";
+"TotalMemo" = "%d ghi chú";
 "Done" = "Xong";
 "Save" = "Lưu";
 "Delete" = "Xoá";
