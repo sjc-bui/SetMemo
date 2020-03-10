@@ -77,10 +77,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     func setupView() {
         view = writeMemoView
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        view.addGestureRecognizer(tap)
-        
         writeMemoView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
@@ -110,12 +106,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         let selectedRange = writeMemoView.inputTextView.selectedRange
         writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
-    }
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        // tap to focus cursor in text view.
-        print("view tapping")
-        writeMemoView.inputTextView.becomeFirstResponder()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

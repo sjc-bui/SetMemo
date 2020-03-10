@@ -14,6 +14,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         NSLocalizedString("General", comment: ""),
         NSLocalizedString("Advanced", comment: ""),
         NSLocalizedString("Other", comment: "")]
+    
     let general: Array = [
         NSLocalizedString("Privacy", comment: ""),
         NSLocalizedString("FontSize", comment: ""),
@@ -215,9 +216,19 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 let deleteAllAlert = UIAlertController(title: NSLocalizedString("Sure", comment: ""), message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
                 let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
+                    let realm = try! Realm()
+                    let dt = realm.objects(MemoItem.self)
+                    do {
+                        try realm.write {
+                            realm.delete(dt)
+                            print("delete all data")
+                        }
+                    } catch {
+                        print(error)
+                    }
                 })
-                
                 let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
+                
                 deleteAllAlert.addAction(cancel)
                 deleteAllAlert.addAction(delete)
                 
@@ -229,11 +240,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             let cell = tableView.cellForRow(at: indexPath)
             cell?.selectionStyle = .none
         }
-    }
-    
-    // MARK: - Delete All Data
-    @objc func DeleteAll() {
-        
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

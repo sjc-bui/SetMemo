@@ -18,7 +18,6 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
-        setupView()
         setupNotifications()
     }
     
@@ -26,6 +25,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         let realm = try! Realm()
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
+        setupView()
         writeMemoView.inputTextView.text = memoItem?.content
         setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.created))
     }

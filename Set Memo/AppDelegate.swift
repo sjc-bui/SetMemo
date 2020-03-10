@@ -21,11 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
             Defaults.vibrationOnTouch: true,
             Defaults.randomColor: false,
             Defaults.displayDateTime: true,
-            Defaults.showAlertOnDelete: true,
             Defaults.writeNotePlaceholder: "Write something...",
             Defaults.useBiometrics: false,
             Defaults.fontSize: 18,
-            Defaults.sortBy: "created"
+            Defaults.sortBy: "date"
         ])
         
         return true

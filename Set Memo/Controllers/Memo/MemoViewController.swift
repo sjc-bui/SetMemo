@@ -24,10 +24,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureTableView()
-        
-        let realm = try! Realm()
-        dt = realm.objects(MemoItem.self).sorted(byKeyPath: "created", ascending: false)
-        self.tableView.reloadData()
+        fetchMemoFromDB()
         setupNavigation()
     }
     
@@ -59,10 +56,14 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let sortByDate = UIAlertAction(title: NSLocalizedString("SortByDate", comment: ""), style: .default, handler: { (action) in
-            print("date edited")
+            print("sort by date")
+            self.defaults.set("date", forKey: Defaults.sortBy)
+            self.fetchMemoFromDB()
         })
         let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
-            print("title")
+            print("sort by title")
+            self.defaults.set("title", forKey: Defaults.sortBy)
+            self.fetchMemoFromDB()
         })
         let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         
@@ -73,10 +74,26 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         alertController.addAction(sortByDate)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
+        alertController.popoverPresentationController?.sourceView = self.view
         
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    func fetchMemoFromDB() {
+        let realm = try! Realm()
+        let sortBy = defaults.string(forKey: Defaults.sortBy)
+        var sortKeyPath: String?
+        
+        if sortBy == "date" {
+            sortKeyPath = "created"
+        } else if sortBy == "title" {
+            sortKeyPath = "content"
+        }
+        
+        dt = realm.objects(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
+        self.tableView.reloadData()
     }
     
     private func updateMemoItemCount() {
@@ -113,7 +130,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         myCell.backgroundColor = .clear
         myCell.textLabel?.text = dt![indexPath.row].content
         myCell.textLabel?.numberOfLines = 2
-        myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaults.float(forKey: Defaults.fontSize)), weight: .medium)
+        myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaults.float(forKey: Defaults.fontSize)), weight: .regular)
         
         if defaults.bool(forKey: Defaults.displayDateTime) == true {
             myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
