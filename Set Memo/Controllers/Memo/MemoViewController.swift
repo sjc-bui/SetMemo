@@ -40,6 +40,37 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         fetchMemoFromDB()
         setupNavigation()
         //configureSearchBar()
+        fireNotification()
+    }
+    
+    func fireNotification() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        // let uuid = UUID().uuidString
+        // if set only one time in a day
+        let id = "daily"
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Set Memo"
+        content.body = "Did you write memo today?"
+        content.sound = UNNotificationSound.default
+        content.threadIdentifier = "notifi"
+        content.badge = 1
+        
+        let gregorian = Calendar(identifier: .gregorian)
+        let date = Date()
+        var dateComponent = gregorian.dateComponents([.hour, .minute], from: date)
+        dateComponent.hour = 18
+        dateComponent.minute = 00
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        
+        center.add(request) { (error) in
+            if error != nil {
+                print(error!)
+            }
+        }
     }
     
     func addBannerViewToView(_ bannerView: GADBannerView) {
@@ -67,8 +98,9 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         // custom Right bar button
         let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(createNewMemo))
         let sortButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(sortBy))
-        self.navigationItem.rightBarButtonItem = createButton
-        self.navigationItem.leftBarButtonItem = sortButton
+        let settingButton = UIBarButtonItem(image: UIImage(named: "setting"), style: .plain, target: self, action: #selector(settingPage))
+        self.navigationItem.rightBarButtonItems = [createButton, sortButton]
+        self.navigationItem.leftBarButtonItem = settingButton
     }
     
     func configureSearchBar() {
@@ -78,6 +110,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func sortBy() {
+        DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let sortByDate = UIAlertAction(title: NSLocalizedString("SortByDate", comment: ""), style: .default, handler: { (action) in
@@ -106,6 +139,16 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    @objc func createNewMemo() {
+        DeviceControl().feedbackOnPress()
+        self.navigationController?.pushViewController(WriteMemoController(), animated: true)
+    }
+    
+    @objc func settingPage() {
+        DeviceControl().feedbackOnPress()
+        self.navigationController?.pushViewController(SettingViewController(), animated: true)
+    }
+    
     func fetchMemoFromDB() {
         let realm = try! Realm()
         let sortBy = defaults.string(forKey: Defaults.sortBy)
@@ -124,11 +167,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     private func updateMemoItemCount() {
         let totalMemo: Int = dt!.count
         self.navigationItem.title = navigationTitle(total: totalMemo)
-    }
-    
-    @objc func createNewMemo(sender: UIButton) {
-        DeviceControl().feedbackOnPress()
-        self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }
     
     func navigationTitle(total: Int) -> String {
@@ -151,14 +189,17 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let defaultFontSize = defaults.float(forKey: Defaults.fontSize)
         let myCell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         myCell.backgroundColor = .clear
         myCell.textLabel?.text = dt![indexPath.row].content
         myCell.textLabel?.numberOfLines = 2
-        myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaults.float(forKey: Defaults.fontSize)), weight: .regular)
+        myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
         
         if defaults.bool(forKey: Defaults.displayDateTime) == true {
+            let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
             myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
+            myCell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
         } else {
             myCell.detailTextLabel?.text = ""
         }
