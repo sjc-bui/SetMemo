@@ -24,14 +24,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = Colors.whiteColor
-        
-        // In this case, we instantiate the banner with desired ad size.
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        bannerView.adUnitID = Const.UnitID
-        bannerView.rootViewController = self
-        bannerView.delegate = self
-        addBannerViewToView(bannerView)
-        bannerView.load(GADRequest())
+        configureAds()
+        // request user review app
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +35,11 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         setupNavigation()
         //configureSearchBar()
         fireNotification()
+        resetBadgeIcon()
+    }
+    
+    func resetBadgeIcon() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func fireNotification() {
@@ -52,6 +51,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let content = UNMutableNotificationContent()
         content.title = "Set Memo"
+        content.subtitle = "Subtitle"
         content.body = "Did you write memo today?"
         content.sound = UNNotificationSound.default
         content.threadIdentifier = "notifi"
@@ -73,6 +73,15 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func configureAds() {
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID = Const.UnitID
+        bannerView.rootViewController = self
+        bannerView.delegate = self
+        addBannerViewToView(bannerView)
+        bannerView.load(GADRequest())
+    }
+    
     func addBannerViewToView(_ bannerView: GADBannerView) {
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bannerView)
@@ -90,7 +99,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func setupNavigation() {
-        self.updateMemoItemCount()
+        self.navigationItem.title = NSLocalizedString("Memo", comment: "")
         self.navigationController?.navigationBar.tintColor = Colors.red2
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -113,9 +122,9 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let sortByDate = UIAlertAction(title: NSLocalizedString("SortByDate", comment: ""), style: .default, handler: { (action) in
-            print("sort by date")
-            self.defaults.set("date", forKey: Defaults.sortBy)
+        let sortByCreatedDate = UIAlertAction(title: NSLocalizedString("SortByCreatedDate", comment: ""), style: .default, handler: { (action) in
+            print("sort by created date")
+            self.defaults.set("createdDate", forKey: Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
@@ -125,11 +134,11 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
         let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         
-        sortByDate.setValue(Colors.red2, forKey: "titleTextColor")
+        sortByCreatedDate.setValue(Colors.red2, forKey: "titleTextColor")
         sortByTitle.setValue(Colors.red2, forKey: "titleTextColor")
         cancel.setValue(Colors.red2, forKey: "titleTextColor")
         
-        alertController.addAction(sortByDate)
+        alertController.addAction(sortByCreatedDate)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
         alertController.popoverPresentationController?.sourceView = self.view
@@ -154,8 +163,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let sortBy = defaults.string(forKey: Defaults.sortBy)
         var sortKeyPath: String?
         
-        if sortBy == "date" {
-            sortKeyPath = "created"
+        if sortBy == "createdDate" {
+            sortKeyPath = "createdDate"
         } else if sortBy == "title" {
             sortKeyPath = "content"
         }
@@ -164,10 +173,10 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.reloadData()
     }
     
-    private func updateMemoItemCount() {
-        let totalMemo: Int = dt!.count
-        self.navigationItem.title = navigationTitle(total: totalMemo)
-    }
+//    private func updateMemoItemCount() {
+//        let totalMemo: Int = dt!.count
+//        self.navigationItem.title = navigationTitle(total: totalMemo)
+//    }
     
     func navigationTitle(total: Int) -> String {
         if total != 0 {
@@ -198,7 +207,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if defaults.bool(forKey: Defaults.displayDateTime) == true {
             let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
-            myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].created)
+            myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].createdDate)
             myCell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
         } else {
             myCell.detailTextLabel?.text = ""
@@ -224,7 +233,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             RealmServices.shared.delete(item)
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.updateMemoItemCount()
         }
     }
     

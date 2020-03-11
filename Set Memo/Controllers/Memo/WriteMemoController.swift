@@ -65,9 +65,11 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     @objc func autoSave() {
         if !writeMemoView.inputTextView.text.isNullOrWhiteSpace() {
+            let now = Date()
             let item: MemoItem = MemoItem()
             item.content = writeMemoView.inputTextView.text
-            item.created = Date()
+            item.createdDate = now
+            item.modifiedDate = now
             
             RealmServices.shared.create(item)
             characterCount()

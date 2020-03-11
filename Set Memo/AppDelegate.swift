@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Defaults.writeNotePlaceholder: "Write something...",
             Defaults.useBiometrics: false,
             Defaults.fontSize: 18,
-            Defaults.sortBy: "date"
+            Defaults.sortBy: "createdDate"
         ])
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)

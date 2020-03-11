@@ -22,23 +22,21 @@ class RealmServices {
             print(error)
         }
     }
-    
-    func update<T: Object>(_ object: T, with dictionary: [String: Any?]) {
-        do {
-            try realm.write {
-                for (key, value) in dictionary {
-                    object.setValue(value, forKey: key)
-                }
-            }
-        } catch {
-            print(error)
-        }
-    }
 
     func delete<T: Object>(_ object: T) {
         do {
             try realm.write {
                 realm.delete(object)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func deleteAll() {
+        do {
+            try realm.write {
+                realm.deleteAll()
             }
         } catch {
             print(error)

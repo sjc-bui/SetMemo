@@ -216,16 +216,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 let deleteAllAlert = UIAlertController(title: NSLocalizedString("Sure", comment: ""), message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
                 let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
-                    let realm = try! Realm()
-                    let dt = realm.objects(MemoItem.self)
-                    do {
-                        try realm.write {
-                            realm.delete(dt)
-                            print("delete all data")
-                        }
-                    } catch {
-                        print(error)
-                    }
+                    RealmServices.shared.deleteAll()
                 })
                 let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
                 

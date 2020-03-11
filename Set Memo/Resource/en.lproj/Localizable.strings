@@ -46,7 +46,7 @@
 "Medium" = "Medium (Standard)";
 "Large" = "Large";
 "Maximum" = "Maximum";
-"SortByDate" = "Date Edited";
+"SortByCreatedDate" = "Created Date";
 "SortByTitle" = "Title";
 "Vibration" = "Vibration on touch";
 "RandomColor" = "Random color";
