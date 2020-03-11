@@ -11,7 +11,7 @@
 "Ok" = "Đồng ý";
 "Cancel" = "Huỷ bỏ";
 "New" = "Ghi chú mới";
-"TotalMemo" = "Ghi chú(%d)";
+"TotalMemo" = "%d ghi chú";
 "Done" = "Xong";
 "Save" = "Lưu";
 "Delete" = "Xoá";
@@ -40,3 +40,14 @@
 "DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
+"FontSize" = "Kích thước phông chữ";
+"Size" = "Kích thước";
+"Small" = "Nhỏ";
+"Medium" = "Trung bình (Tiêu chuẩn)";
+"Large" = "Lớn";
+"Maximum" = "Tối đa";
+"SortByDateCreated" = "Theo ngày tạo";
+"SortByDateEdited" = "Theo ngày sửa";
+"SortByTitle" = "Theo tiêu đề";
+"Vibration" = "Rung khi chạm";
+"RandomColor" = "Màu ngẫu nhiên";

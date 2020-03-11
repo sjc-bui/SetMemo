@@ -20,6 +20,7 @@ class SettingSwitchCell: UITableViewCell {
         
         detailText.translatesAutoresizingMaskIntoConstraints = false
         switchButton.translatesAutoresizingMaskIntoConstraints = false
+        switchButton.onTintColor = Colors.red2
         
         detailText.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         detailText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10).isActive = true

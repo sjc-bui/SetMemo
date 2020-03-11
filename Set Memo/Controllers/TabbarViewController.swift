@@ -13,21 +13,20 @@ class TabbarViewController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         self.delegate = self
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let memoView = MemoViewController()
-        memoView.title = NSLocalizedString("Memo", comment: "")
-        memoView.tabBarItem.image = UIImage(named: "memo")
-        let navMemoView = UINavigationController(rootViewController: memoView)
-        
-        let settingView = SettingViewController()
-        settingView.title = NSLocalizedString("Setting", comment: "")
-        settingView.tabBarItem.image = UIImage(named: "setting")
-        let navSetting = UINavigationController(rootViewController: settingView)
-        
-        UITabBar.appearance().barTintColor = Colors.whiteColor
-        UITabBar.appearance().tintColor = Colors.primaryText
-        // Create tab bar.
-        self.viewControllers = [navMemoView, navSetting]
-    }
+//    
+//    override func viewWillAppear(_ animated: Bool) {
+//        let memoView = MemoViewController()
+//        memoView.tabBarItem.image = UIImage(named: "memo")
+//        memoView.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+//        let navMemoView = UINavigationController(rootViewController: memoView)
+//        
+//        let settingView = SettingViewController()
+//        settingView.tabBarItem.image = UIImage(named: "setting")
+//        settingView.tabBarItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+//        let navSetting = UINavigationController(rootViewController: settingView)
+//        
+//        UITabBar.appearance().tintColor = Colors.red2
+//        
+//        self.viewControllers = [navMemoView, navSetting]
+//    }
 }

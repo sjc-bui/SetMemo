@@ -11,7 +11,7 @@
 "Ok" = "OK";
 "Cancel" = "Cancel";
 "New" = "New Memo";
-"TotalMemo" = "Memo(%d)";
+"TotalMemo" = "%d memo";
 "Done" = "Done";
 "Save" = "Save";
 "Delete" = "Delete";
@@ -40,3 +40,14 @@
 "DisplayUpdateTime" = "Display update time";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
+"FontSize" = "Font size";
+"Size" = "Size";
+"Small" = "Small";
+"Medium" = "Medium (Standard)";
+"Large" = "Large";
+"Maximum" = "Maximum";
+"SortByDateCreated" = "Date Created";
+"SortByDateEdited" = "Date Edited";
+"SortByTitle" = "Title";
+"Vibration" = "Vibration on touch";
+"RandomColor" = "Random color";

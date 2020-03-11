@@ -1,5 +1,34 @@
 PODS:
+  - Google-Mobile-Ads-SDK (7.56.0):
+    - GoogleAppMeasurement (~> 6.0)
+  - GoogleAppMeasurement (6.3.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
+    - GoogleUtilities/MethodSwizzler (~> 6.0)
+    - GoogleUtilities/Network (~> 6.0)
+    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - nanopb (= 0.3.9011)
+  - GoogleUtilities/AppDelegateSwizzler (6.5.1):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (6.5.1)
+  - GoogleUtilities/Logger (6.5.1):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/MethodSwizzler (6.5.1):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/Network (6.5.1):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (6.5.1)"
+  - GoogleUtilities/Reachability (6.5.1):
+    - GoogleUtilities/Logger
   - MultilineTextField (1.0.0)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
   - Realm (4.3.2):
     - Realm/Headers (= 4.3.2)
   - Realm/Headers (4.3.2)
@@ -7,20 +36,29 @@ PODS:
     - Realm (= 4.3.2)
 
 DEPENDENCIES:
+  - Google-Mobile-Ads-SDK
   - MultilineTextField
   - RealmSwift
 
 SPEC REPOS:
   trunk:
+    - Google-Mobile-Ads-SDK
+    - GoogleAppMeasurement
+    - GoogleUtilities
     - MultilineTextField
+    - nanopb
     - Realm
     - RealmSwift
 
 SPEC CHECKSUMS:
+  Google-Mobile-Ads-SDK: 65e335fadc97c5a91a9d4546214bfd3a2fb11047
+  GoogleAppMeasurement: 39ecba10918b21c83877d392246157f65db351cf
+  GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
   MultilineTextField: bb965487257ce72f880d313074d419cac34024ff
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   Realm: 5e92902e2875dff4bb0fd02f67bb737c3d5db2bc
   RealmSwift: 9a360fc7bae04fc2e308a34fbd899d5faa2d6b22
 
-PODFILE CHECKSUM: 914dd74ae1cdc17ccfc55f2d8afe28cef4b3f84f
+PODFILE CHECKSUM: 0f08c56f679898444e7aed1e9f0cc25b02117920
 
 COCOAPODS: 1.9.0

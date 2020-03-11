@@ -18,7 +18,6 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
-        setupView()
         setupNotifications()
     }
     
@@ -26,8 +25,9 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         let realm = try! Realm()
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
+        setupView()
         writeMemoView.inputTextView.text = memoItem?.content
-        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.created))
+        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.dateCreated))
     }
     
     func setupBackground() {
@@ -40,9 +40,9 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     
     func setupNavigation(time: String) {
         self.navigationItem.title = time
-        let closeButton = UIBarButtonItem(image: UIImage(named: "close"), style: .plain, target: self, action: #selector(updateMemoItem))
+        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(updateMemoItem))
         let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(updateRemind))
-        self.navigationItem.rightBarButtonItem = closeButton
+        self.navigationItem.rightBarButtonItem = backButton
         self.navigationItem.leftBarButtonItem = remindButton
     }
     
@@ -55,7 +55,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         view = writeMemoView
         let textView = writeMemoView.inputTextView
         writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        textView.font = UIFont.systemFont(ofSize: 18)
+        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Defaults.fontSize)))
         textView.placeholder = ""
         textView.alwaysBounceVertical = true
         textView.isUserInteractionEnabled = true
@@ -97,7 +97,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
             do {
                 try realm.write {
                     item?.content = writeMemoView.inputTextView.text
-                    item?.created = Date()
+                    item?.dateEdited = Date()
                 }
             } catch {
                 print(error)

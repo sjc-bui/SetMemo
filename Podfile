@@ -8,4 +8,5 @@ target 'Set Memo' do
   # Pods for Set Memo
     pod 'RealmSwift'
     pod 'MultilineTextField'
+    pod 'Google-Mobile-Ads-SDK'
 end

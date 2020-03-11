@@ -28,15 +28,15 @@ extension UIImageView {
         return CGRect(x: x, y: y, width: size.width, height: size.height)
     }
     
-    func pinImageView(to view: UIView) {
-        image = UIImage(named: "greenChalkboard")
-        contentMode = .scaleToFill
-        translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: view.leadingAnchor,constant:0),
-            trailingAnchor.constraint(equalTo: view.trailingAnchor,constant:0),
-            topAnchor.constraint(equalTo: view.topAnchor,constant:0),
-            bottomAnchor.constraint(equalTo: view.bottomAnchor,constant:0)
-        ])
-    }
+//    func pinImageView(to view: UIView) {
+//        image = UIImage(named: "greenChalkboard")
+//        contentMode = .scaleToFill
+//        translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            leadingAnchor.constraint(equalTo: view.leadingAnchor,constant:0),
+//            trailingAnchor.constraint(equalTo: view.trailingAnchor,constant:0),
+//            topAnchor.constraint(equalTo: view.topAnchor,constant:0),
+//            bottomAnchor.constraint(equalTo: view.bottomAnchor,constant:0)
+//        ])
+//    }
 }

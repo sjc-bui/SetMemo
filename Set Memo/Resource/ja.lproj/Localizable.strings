@@ -11,7 +11,7 @@
 "Ok" = "OK";
 "Cancel" = "キャンセル";
 "New" = "新規メモ";
-"TotalMemo" = "メモ(%d)";
+"TotalMemo" = "%d件のメモ";
 "Done" = "完了";
 "Save" = "保存";
 "Delete" = "削除";
@@ -40,3 +40,14 @@
 "DisplayUpdateTime" = "更新日時を表示";
 "UnlockApp" = "アンロック";
 "Reason" = "メモにアクセスするにはロックを解除";
+"FontSize" = "フォントサイズ";
+"Size" = "サイズ";
+"Small" = "小";
+"Medium" = "中 (標準)";
+"Large" = "大";
+"Maximum" = "特大";
+"SortByDateCreated" = "作成日でソート";
+"SortByDateEdited" = "編集日でソート";
+"SortByTitle" = "タイトルでソート";
+"Vibration" = "タッチ時の振動";
+"RandomColor" = "ランダム　カラー";

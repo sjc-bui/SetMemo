@@ -20,7 +20,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             self.window = UIWindow(windowScene: windowScene)
             window?.makeKeyAndVisible()
-            window?.rootViewController = TabbarViewController()
+            window?.rootViewController = UINavigationController(rootViewController: MemoViewController())
         }
         
         guard let _ = (scene as? UIWindowScene) else { return }

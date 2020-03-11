@@ -1,27 +1,36 @@
 //
-//  AppearanceController.swift
+//  FontSizeController.swift
 //  Set Memo
 //
-//  Created by popcorn on 2020/03/05.
+//  Created by popcorn on 2020/03/09.
 //  Copyright © 2020 popcorn. All rights reserved.
 //
 
 import UIKit
 
-class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FontSizeController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    let sections = [NSLocalizedString("Size", comment: "")]
+    let fontSizeOptions = [
+        NSLocalizedString("Small", comment: ""),
+        NSLocalizedString("Medium", comment: ""),
+        NSLocalizedString("Large", comment: ""),
+        NSLocalizedString("Maximum", comment: "")
+    ]
     var tableView: UITableView = UITableView()
-    let icons: Array = ["App icon"]
-    let mode: Array = ["Light Icon", "Dark Icon"]
-    
-    private let reuseIdentifier = "SettingCell"
     
     let defaults = UserDefaults.standard
     var lastIndexPath: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
+    private let reuseIdentifier = "cellId"
+    private let small: Float = 14
+    private let medium: Float = 18
+    private let large: Float = 26
+    private let maximum: Float = 32
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        self.navigationItem.title = NSLocalizedString("Appearance", comment: "")
+        self.view.backgroundColor = UIColor.white
+        self.navigationItem.title = NSLocalizedString("FontSize", comment: "")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,36 +51,44 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return icons.count
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section]
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return mode.count
+            return fontSizeOptions.count
         default:
             return 0
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return icons[section]
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
-        cell.textLabel?.text = "\(mode[indexPath.row])"
+        cell.textLabel?.text = "\(fontSizeOptions[indexPath.row])"
         cell.tintColor = Colors.red2
         cell.selectionStyle = .none
         
         switch indexPath.row {
         case 0:
-            if isSelectIconFromDefault(key: "light", indexPath: indexPath) == true {
+            if selectedFontFromDefault(key: small, indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         case 1:
-            if isSelectIconFromDefault(key: "dark", indexPath: indexPath) == true {
+            if selectedFontFromDefault(key: medium, indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 2:
+            if selectedFontFromDefault(key: large, indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 3:
+            if selectedFontFromDefault(key: maximum, indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         default:
@@ -79,6 +96,17 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         return cell
+    }
+    
+    func selectedFontFromDefault(key: Float, indexPath: IndexPath) -> Bool {
+        // set checkmark for selected font size
+        let size = defaults.float(forKey: Defaults.fontSize)
+        if size == key {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
+            return true
+        } else {
+            return false
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -94,12 +122,20 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         
         switch indexPath.row {
         case 0:
-            print("light")
-            defaults.set("light", forKey: Defaults.iconType)
+            print("small")
+            defaults.set(small, forKey: Defaults.fontSize)
             tableView.reloadData()
         case 1:
-            print("dark")
-            defaults.set("dark", forKey: Defaults.iconType)
+            print("medium")
+            defaults.set(medium, forKey: Defaults.fontSize)
+            tableView.reloadData()
+        case 2:
+            print("large")
+            defaults.set(large, forKey: Defaults.fontSize)
+            tableView.reloadData()
+        case 3:
+            print("maximum")
+            defaults.set(maximum, forKey: Defaults.fontSize)
             tableView.reloadData()
         default:
             print("not implement")
@@ -108,17 +144,6 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
-    }
-    
-    func isSelectIconFromDefault(key: String, indexPath: IndexPath) -> Bool {
-        // set checkmark for selected icon type
-        let iconString = defaults.string(forKey: Defaults.iconType)
-        if iconString == key {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
-            return true
-        } else {
-            return false
-        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
