@@ -46,7 +46,8 @@
 "Medium" = "Trung bình (Tiêu chuẩn)";
 "Large" = "Lớn";
 "Maximum" = "Tối đa";
-"SortByCreatedDate" = "Theo ngày tạo";
+"SortByDateCreated" = "Theo ngày tạo";
+"SortByDateEdited" = "Theo ngày sửa";
 "SortByTitle" = "Theo tiêu đề";
 "Vibration" = "Rung khi chạm";
 "RandomColor" = "Màu ngẫu nhiên";

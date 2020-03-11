@@ -62,6 +62,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(mode[indexPath.row])"
+        cell.tintColor = Colors.red2
         cell.selectionStyle = .none
         
         switch indexPath.row {

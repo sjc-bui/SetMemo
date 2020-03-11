@@ -27,7 +27,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
         setupView()
         writeMemoView.inputTextView.text = memoItem?.content
-        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.createdDate))
+        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.dateCreated))
     }
     
     func setupBackground() {
@@ -97,7 +97,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
             do {
                 try realm.write {
                     item?.content = writeMemoView.inputTextView.text
-                    item?.createdDate = Date()
+                    item?.dateEdited = Date()
                 }
             } catch {
                 print(error)

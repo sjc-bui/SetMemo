@@ -60,7 +60,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let gregorian = Calendar(identifier: .gregorian)
         let date = Date()
         var dateComponent = gregorian.dateComponents([.hour, .minute], from: date)
-        dateComponent.hour = 18
+        dateComponent.hour = 23
         dateComponent.minute = 00
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
@@ -122,23 +122,34 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let sortByCreatedDate = UIAlertAction(title: NSLocalizedString("SortByCreatedDate", comment: ""), style: .default, handler: { (action) in
-            print("sort by created date")
-            self.defaults.set("createdDate", forKey: Defaults.sortBy)
+        let sortByDateCreated = UIAlertAction(title: NSLocalizedString("SortByDateCreated", comment: ""), style: .default, handler: { (action) in
+            print("sort by date created")
+            self.defaults.set("dateCreated", forKey: Defaults.sortBy)
             self.fetchMemoFromDB()
         })
+        
+        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default) { (action) in
+            print("sort by date edited")
+            self.defaults.set("dateEdited", forKey: Defaults.sortBy)
+            self.fetchMemoFromDB()
+        }
+        
         let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
             print("sort by title")
             self.defaults.set("title", forKey: Defaults.sortBy)
             self.fetchMemoFromDB()
         })
+        
         let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         
-        sortByCreatedDate.setValue(Colors.red2, forKey: "titleTextColor")
-        sortByTitle.setValue(Colors.red2, forKey: "titleTextColor")
-        cancel.setValue(Colors.red2, forKey: "titleTextColor")
+        let target = "titleTextColor"
+        sortByDateCreated.setValue(Colors.red2, forKey: target)
+        sortByDateEdited.setValue(Colors.red2, forKey: target)
+        sortByTitle.setValue(Colors.red2, forKey: target)
+        cancel.setValue(Colors.red2, forKey: target)
         
-        alertController.addAction(sortByCreatedDate)
+        alertController.addAction(sortByDateCreated)
+        alertController.addAction(sortByDateEdited)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
         alertController.popoverPresentationController?.sourceView = self.view
@@ -163,10 +174,12 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let sortBy = defaults.string(forKey: Defaults.sortBy)
         var sortKeyPath: String?
         
-        if sortBy == "createdDate" {
-            sortKeyPath = "createdDate"
+        if sortBy == "dateCreated" {
+            sortKeyPath = "dateCreated"
         } else if sortBy == "title" {
             sortKeyPath = "content"
+        } else if sortBy == "dateEdited" {
+            sortKeyPath = "dateEdited"
         }
         
         dt = realm.objects(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
@@ -207,7 +220,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if defaults.bool(forKey: Defaults.displayDateTime) == true {
             let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
-            myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].createdDate)
+            myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
             myCell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
         } else {
             myCell.detailTextLabel?.text = ""

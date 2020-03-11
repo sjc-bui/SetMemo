@@ -46,7 +46,8 @@
 "Medium" = "中 (標準)";
 "Large" = "大";
 "Maximum" = "特大";
-"SortByCreatedDate" = "作成日でソート";
+"SortByDateCreated" = "作成日でソート";
+"SortByDateEdited" = "編集日でソート";
 "SortByTitle" = "タイトルでソート";
 "Vibration" = "タッチ時の振動";
 "RandomColor" = "ランダム　カラー";

@@ -68,8 +68,9 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
             let now = Date()
             let item: MemoItem = MemoItem()
             item.content = writeMemoView.inputTextView.text
-            item.createdDate = now
-            item.modifiedDate = now
+            item.dateCreated = now
+            item.dateEdited = now
+            item.isReminder = false
             
             RealmServices.shared.create(item)
             characterCount()
