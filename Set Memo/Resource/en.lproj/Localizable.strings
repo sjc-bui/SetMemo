@@ -25,7 +25,7 @@
 "Privacy" = "Privacy";
 "Biometrics" = "Biometrics";
 "UseTouchOrFaceId" = "Use Touch ID or Face ID";
-"Appearance" = "Appearance";
+"ChangeAppIcon" = "Change app icon";
 "Alert" = "Alerts";
 "DeleteLabel" = "Delete all memo";
 "PlaceHolderLabel" = "Custom placeholder";
@@ -51,3 +51,6 @@
 "SortByTitle" = "Title";
 "Vibration" = "Vibration on touch";
 "RandomColor" = "Random color";
+"Type" = "Type";
+"Light" = "Light";
+"Dark" = "Dark";

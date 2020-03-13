@@ -18,7 +18,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     let general: Array = [
         NSLocalizedString("Privacy", comment: ""),
         NSLocalizedString("FontSize", comment: ""),
-        NSLocalizedString("Appearance", comment: ""),
+        NSLocalizedString("ChangeAppIcon", comment: ""),
         NSLocalizedString("Alert", comment: ""),
         NSLocalizedString("PlaceHolderLabel", comment: ""),
         NSLocalizedString("DisplayUpdateTime", comment: "")]

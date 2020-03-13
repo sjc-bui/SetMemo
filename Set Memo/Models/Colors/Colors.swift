@@ -22,4 +22,16 @@ class Colors {
     static let red2 = UIColor(red: 1, green: 0.3450980392, blue: 0.3450980392, alpha: 1)
     static let red3 = UIColor(red: 0.9098039216, green: 0.3647058824, blue: 0.3058823529, alpha: 1)
     static let red4 = UIColor(red: 0.968627451, green: 0.4392156863, blue: 0.3843137255, alpha: 1)
+    
+    static var vibrantColors = [UIColor.systemRed, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemPink, UIColor.systemOrange, UIColor.systemPurple, UIColor.systemTeal, UIColor.systemYellow]
+    
+    
+    func getRandomColor() -> UIColor {
+        if UserDefaults.standard.bool(forKey: Defaults.randomColor) == true {
+            let randomColor = Colors.vibrantColors.randomElement()!
+            print(randomColor)
+            return randomColor
+        }
+        return Colors.red2
+    }
 }

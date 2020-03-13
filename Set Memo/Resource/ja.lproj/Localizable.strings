@@ -25,7 +25,7 @@
 "Biometrics" = "生体認証";
 "UseTouchOrFaceId" = "タッチIDまたはフェイスIDを使用します";
 "Privacy" = "プライバシー";
-"Appearance" = "外観";
+"ChangeAppIcon" = "アプリアイコンの変更";
 "Alert" = "アラート";
 "DeleteLabel" = "全て削除";
 "PlaceHolderLabel" = "カスタムプレースホルダー";
@@ -51,3 +51,6 @@
 "SortByTitle" = "タイトルでソート";
 "Vibration" = "タッチ時の振動";
 "RandomColor" = "ランダム　カラー";
+"Type" = "タイプ";
+"Light" = "ライト";
+"Dark" = "ダーク";

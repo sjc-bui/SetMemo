@@ -12,6 +12,7 @@ import RealmSwift
 class WriteMemoController: UIViewController, UITextViewDelegate {
     let writeMemoView = WriteMemoView()
     var inputContent: String? = nil
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         setupPlaceholder()
         setupNavigationBar()
         characterCount()
+        setupDynamicKeyboardColor()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,6 +86,14 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
+    }
+    
+    func setupDynamicKeyboardColor() {
+        if defaults.string(forKey: Defaults.iconType) == "light" {
+            writeMemoView.inputTextView.keyboardAppearance = .default
+        } else {
+            writeMemoView.inputTextView.keyboardAppearance = .dark
+        }
     }
     
     func setupNotifications() {

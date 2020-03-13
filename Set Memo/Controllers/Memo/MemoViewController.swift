@@ -8,9 +8,8 @@
 
 import UIKit
 import RealmSwift
-import GoogleMobileAds
 
-class MemoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, GADBannerViewDelegate {
+class MemoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     var tableView: UITableView = UITableView()
     var dt: Results<MemoItem>?
     let notification = UINotificationFeedbackGenerator()
@@ -18,13 +17,10 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     let emptyView = EmptyMemoView()
     let defaults = UserDefaults.standard
     
-    // Google Ads
-    var bannerView: GADBannerView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = Colors.whiteColor
-        configureAds()
+        
         // request user review app
     }
     
@@ -71,20 +67,6 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
                 print(error!)
             }
         }
-    }
-    
-    func configureAds() {
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        bannerView.adUnitID = Const.UnitID
-        bannerView.rootViewController = self
-        bannerView.delegate = self
-        addBannerViewToView(bannerView)
-        bannerView.load(GADRequest())
-    }
-    
-    func addBannerViewToView(_ bannerView: GADBannerView) {
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bannerView)
     }
     
     // table view configure
@@ -247,17 +229,5 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-    }
-    
-    // MARK: - Custom BannerView
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Banner loaded successfully")
-        tableView.tableHeaderView?.frame = bannerView.frame
-        tableView.tableHeaderView = bannerView
-    }
-    
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        print("Fail to receive ads")
-        print(error)
     }
 }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GoogleMobileAds
 import UserNotifications
 
 @UIApplicationMain
@@ -29,9 +28,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Defaults.fontSize: 18,
             Defaults.sortBy: "dateCreated"
         ])
-        
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         notificationCenter.requestAuthorization(options: options) { (allow, error) in

@@ -25,7 +25,7 @@
 "Privacy" = "Riêng tư";
 "UseTouchOrFaceId" = "Sử dụng Touch ID hoặc Face ID";
 "Biometrics" = "Sinh trắc học";
-"Appearance" = "Hiển thị";
+"ChangeAppIcon" = "Thay đổi biểu tượng ứng dụng";
 "Alert" = "Cảnh báo";
 "DeleteLabel" = "Xoá hết ghi chú";
 "PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
@@ -51,3 +51,6 @@
 "SortByTitle" = "Theo tiêu đề";
 "Vibration" = "Rung khi chạm";
 "RandomColor" = "Màu ngẫu nhiên";
+"Type" = "Loại";
+"Light" = "Sáng";
+"Dark" = "Tối";

@@ -10,8 +10,8 @@ import UIKit
 
 class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var tableView: UITableView = UITableView()
-    let icons: Array = ["App icon"]
-    let mode: Array = ["Light Icon", "Dark Icon"]
+    let iconTypes: Array = [NSLocalizedString("Type", comment: "")]
+    let mode: Array = [NSLocalizedString("Light", comment: ""), NSLocalizedString("Dark", comment: "")]
     
     private let reuseIdentifier = "SettingCell"
     
@@ -21,7 +21,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        self.navigationItem.title = NSLocalizedString("Appearance", comment: "")
+        self.navigationItem.title = NSLocalizedString("ChangeAppIcon", comment: "")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +42,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return icons.count
+        return iconTypes.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,7 +55,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return icons[section]
+        return iconTypes[section]
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,12 +94,12 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         
         switch indexPath.row {
         case 0:
-            print("light")
             defaults.set("light", forKey: Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Defaults.iconType))
             tableView.reloadData()
         case 1:
-            print("dark")
             defaults.set("dark", forKey: Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Defaults.iconType))
             tableView.reloadData()
         default:
             print("not implement")
@@ -127,5 +127,18 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 15
+    }
+    
+    private func changeAppIcon(name: String?) {
+        guard UIApplication.shared.supportsAlternateIcons else {
+            return
+        }
+        
+        // Set icon
+        UIApplication.shared.setAlternateIconName(name) { (err) in
+            if err != nil {
+                print(err!)
+            }
+        }
     }
 }
