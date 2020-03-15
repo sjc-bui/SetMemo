@@ -15,6 +15,7 @@ public class Resource {
         public static var settingButton: UIImage? = UIImage(named: "setting")
         public static var backButton: UIImage? = UIImage(named: "back")
         public static var alarmButton: UIImage? = UIImage(named: "alarm")
+        public static var searchButton: UIImage? = UIImage(named: "search")
     }
     
     public class SortBy {
@@ -33,5 +34,6 @@ public class Resource {
         public static let iconType = "iconType"
         public static let fontSize = "fontSize"
         public static let sortBy = "sortBy"
+        public static let lastReview = "lastReview"
     }
 }

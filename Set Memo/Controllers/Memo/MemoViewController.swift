@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import StoreKit
 
 class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     var tableView: UITableView = UITableView()
@@ -28,6 +29,18 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         setupNavigation()
         fireNotification()
         resetBadgeIcon()
+        requestReviewApp()
+    }
+    
+    func requestReviewApp() {
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        
+        if dt!.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+                defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
+            }
+        }
     }
     
     func resetBadgeIcon() {
@@ -77,12 +90,6 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     private func setupNavigation() {
-//        let search = UISearchController(searchResultsController: nil)
-//        search.searchBar.tintColor = Colors.shared.accentColor
-//        search.searchBar.backgroundImage = UIImage()
-//        self.navigationItem.searchController = search
-        
-        self.navigationItem.title = NSLocalizedString("Memo", comment: "")
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -92,8 +99,9 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         // custom Right bar button
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let sortButton = UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
+        let searchButton = UIBarButtonItem(image: Resource.Images.searchButton, style: .plain, target: self, action: nil)
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItems = [createButton, sortButton]
+        self.navigationItem.rightBarButtonItems = [createButton, sortButton, searchButton]
         self.navigationItem.leftBarButtonItem = settingButton
     }
     
@@ -112,7 +120,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
         
         let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
-            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
+            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
@@ -223,5 +231,12 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.3, delay: 0.01 * Double(indexPath.row), animations: {
+            cell.alpha = 1
+        })
     }
 }

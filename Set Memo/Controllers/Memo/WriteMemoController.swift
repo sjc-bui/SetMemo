@@ -34,25 +34,23 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         self.autoSave()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        writeMemoView.inputTextView.resignFirstResponder()
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         characterCount()
     }
     
     func setupNavigationBar() {
-        let backButton = UIBarButtonItem(image: Resource.Images.backButton, style: .plain, target: self, action: #selector(backToListView))
         let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(createRemind))
-        self.navigationItem.leftBarButtonItem = remindButton
-        self.navigationItem.rightBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = remindButton
     }
     
     @objc func createRemind() {
         DeviceControl().feedbackOnPress()
         print("picker")
-    }
-    
-    @objc func backToListView() {
-        DeviceControl().feedbackOnPress()
-        self.navigationController?.popViewController(animated: true)
     }
     
     func setupPlaceholder() {
