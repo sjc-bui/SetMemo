@@ -36,14 +36,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = NSLocalizedString("Setting", comment: "")
-        self.navigationController?.navigationBar.tintColor = Colors.red2
+        self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
-        configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureTableView()
     }
     
     func configureTableView() {
@@ -114,7 +114,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(displayUpdateTime(sender:)), for: .valueChanged)
                 
-                if defaults.bool(forKey: Defaults.displayDateTime) == true {
+                if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
                     cell.switchButton.isOn = true
                 } else {
                     cell.switchButton.isOn = false
@@ -130,7 +130,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
-                cell.textLabel?.textColor = Colors.red2
+                cell.textLabel?.textColor = Colors.shared.accentColor
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -157,13 +157,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @objc func displayUpdateTime(sender: UISwitch) {
         if sender.isOn == true {
-            print("show update time")
-            defaults.set(true, forKey: Defaults.displayDateTime)
+            defaults.set(true, forKey: Resource.Defaults.displayDateTime)
             viewWillAppear(true)
             self.tableView.reloadData()
         } else {
-            print("hide update time")
-            defaults.set(false, forKey: Defaults.displayDateTime)
+            defaults.set(false, forKey: Resource.Defaults.displayDateTime)
             viewWillAppear(true)
             self.tableView.reloadData()
         }
@@ -186,7 +184,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
                 
                 alert.addTextField { textField in
-                    let placeholder = self.defaults.string(forKey: Defaults.writeNotePlaceholder)
+                    let placeholder = self.defaults.string(forKey: Resource.Defaults.writeNotePlaceholder)
                     textField.placeholder = placeholder ?? "lalala..."
                     textField.autocorrectionType = .yes
                     textField.autocapitalizationType = .sentences
@@ -201,7 +199,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     
                     if text?.isEmpty ?? false {
                     } else {
-                        self.defaults.set(text, forKey: Defaults.writeNotePlaceholder)
+                        self.defaults.set(text, forKey: Resource.Defaults.writeNotePlaceholder)
                     }
                 }))
                 

@@ -14,6 +14,8 @@
 		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
+		723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723F8E26241DD03C00149049 /* BaseViewController.swift */; };
+		723F8E29241DDFCF00149049 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723F8E28241DDFCF00149049 /* Resource.swift */; };
 		72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9B24107A1C00037EB4 /* DeviceControl.swift */; };
 		72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */; };
 		72406DA024109BA000037EB4 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9F24109BA000037EB4 /* SettingCell.swift */; };
@@ -57,6 +59,8 @@
 		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
+		723F8E26241DD03C00149049 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		723F8E28241DDFCF00149049 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		72406D9B24107A1C00037EB4 /* DeviceControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceControl.swift; sourceTree = "<group>"; };
 		72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMemoView.swift; sourceTree = "<group>"; };
 		72406D9F24109BA000037EB4 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
@@ -123,6 +127,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		723F8E25241DD02800149049 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				723F8E26241DD03C00149049 /* BaseViewController.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		7244892D240F3D62008E723C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +162,7 @@
 				724CA6EF2408F3320088F581 /* Localizable.strings */,
 				724CA6F42408F34C0088F581 /* Localizable.strings */,
 				724CA6F92408F35E0088F581 /* Localizable.strings */,
+				723F8E28241DDFCF00149049 /* Resource.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -265,6 +278,7 @@
 		72EFECDE2408D39F0035296F /* Set Memo */ = {
 			isa = PBXGroup;
 			children = (
+				723F8E25241DD02800149049 /* Common */,
 				72D0F8302417752C0026706A /* Const */,
 				727E50E824120B710042E81F /* App Icons */,
 				7244892D240F3D62008E723C /* Views */,
@@ -411,10 +425,12 @@
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,
+				723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */,
 				72406DA024109BA000037EB4 /* SettingCell.swift in Sources */,
 				72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */,
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
+				723F8E29241DDFCF00149049 /* Resource.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,

@@ -25,7 +25,10 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
         self.view.backgroundColor = .white
         self.navigationItem.title = NSLocalizedString("Alert", comment: "")
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         configureTableView()
     }
     
@@ -72,7 +75,7 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(setupVibrationOnTouch(sender:)), for: .valueChanged)
                 
-                if defaults.bool(forKey: Defaults.vibrationOnTouch) == true {
+                if defaults.bool(forKey: Resource.Defaults.vibrationOnTouch) == true {
                     cell.switchButton.isOn = true
                 } else {
                     cell.switchButton.isOn = false
@@ -91,7 +94,7 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(setRandomColor(sender:)), for: .valueChanged)
                 
-                if defaults.bool(forKey: Defaults.randomColor) == true {
+                if defaults.bool(forKey: Resource.Defaults.randomColor) == true {
                     cell.switchButton.isOn = true
                 } else {
                     cell.switchButton.isOn = false
@@ -109,14 +112,12 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     @objc func setupVibrationOnTouch(sender: UISwitch) {
         if sender.isOn == true {
-            print("vibration on touch")
-            defaults.set(true, forKey: Defaults.vibrationOnTouch)
+            defaults.set(true, forKey: Resource.Defaults.vibrationOnTouch)
             
             viewWillAppear(true)
             self.tableView.reloadData()
         } else {
-            print("disable vibration on touch")
-            defaults.set(false, forKey: Defaults.vibrationOnTouch)
+            defaults.set(false, forKey: Resource.Defaults.vibrationOnTouch)
             
             viewWillAppear(true)
             self.tableView.reloadData()
@@ -125,11 +126,11 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     @objc func setRandomColor(sender: UISwitch) {
         if sender.isOn == true {
-            defaults.set(true, forKey: Defaults.randomColor)
+            defaults.set(true, forKey: Resource.Defaults.randomColor)
             viewWillAppear(true)
             self.tableView.reloadData()
         } else {
-            defaults.set(false, forKey: Defaults.randomColor)
+            defaults.set(false, forKey: Resource.Defaults.randomColor)
             viewWillAppear(true)
             self.tableView.reloadData()
         }

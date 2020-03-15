@@ -62,7 +62,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(mode[indexPath.row])"
-        cell.tintColor = Colors.red2
+        cell.tintColor = Colors.shared.accentColor
         cell.selectionStyle = .none
         
         switch indexPath.row {
@@ -94,12 +94,12 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         
         switch indexPath.row {
         case 0:
-            defaults.set("light", forKey: Defaults.iconType)
-            changeAppIcon(name: defaults.string(forKey: Defaults.iconType))
+            defaults.set("light", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
             tableView.reloadData()
         case 1:
-            defaults.set("dark", forKey: Defaults.iconType)
-            changeAppIcon(name: defaults.string(forKey: Defaults.iconType))
+            defaults.set("dark", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
             tableView.reloadData()
         default:
             print("not implement")
@@ -112,7 +112,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func isSelectIconFromDefault(key: String, indexPath: IndexPath) -> Bool {
         // set checkmark for selected icon type
-        let iconString = defaults.string(forKey: Defaults.iconType)
+        let iconString = defaults.string(forKey: Resource.Defaults.iconType)
         if iconString == key {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
             return true

@@ -19,14 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         // Override point for customization after application launch.
         
         UserDefaults.standard.register(defaults: [
-            Defaults.iconType: "light",
-            Defaults.vibrationOnTouch: true,
-            Defaults.randomColor: false,
-            Defaults.displayDateTime: true,
-            Defaults.writeNotePlaceholder: "Write something...",
-            Defaults.useBiometrics: false,
-            Defaults.fontSize: 18,
-            Defaults.sortBy: "dateCreated"
+            Resource.Defaults.iconType: "light",
+            Resource.Defaults.vibrationOnTouch: true,
+            Resource.Defaults.randomColor: false,
+            Resource.Defaults.displayDateTime: true,
+            Resource.Defaults.writeNotePlaceholder: "Write something...",
+            Resource.Defaults.useBiometrics: false,
+            Resource.Defaults.fontSize: 18,
+            Resource.Defaults.sortBy: "dateCreated"
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

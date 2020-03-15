@@ -39,8 +39,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setupNavigationBar() {
-        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backToListView))
-        let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(createRemind))
+        let backButton = UIBarButtonItem(image: Resource.Images.backButton, style: .plain, target: self, action: #selector(backToListView))
+        let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(createRemind))
         self.navigationItem.leftBarButtonItem = remindButton
         self.navigationItem.rightBarButtonItem = backButton
     }
@@ -56,7 +56,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setupPlaceholder() {
-        let placeholder = UserDefaults.standard.string(forKey: Defaults.writeNotePlaceholder) ?? ""
+        let placeholder = UserDefaults.standard.string(forKey: Resource.Defaults.writeNotePlaceholder) ?? ""
         writeMemoView.inputTextView.placeholder = placeholder
     }
     
@@ -89,7 +89,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setupDynamicKeyboardColor() {
-        if defaults.string(forKey: Defaults.iconType) == "light" {
+        if defaults.string(forKey: Resource.Defaults.iconType) == "light" {
             writeMemoView.inputTextView.keyboardAppearance = .default
         } else {
             writeMemoView.inputTextView.keyboardAppearance = .dark

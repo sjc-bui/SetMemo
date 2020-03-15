@@ -71,7 +71,7 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(fontSizeOptions[indexPath.row])"
-        cell.tintColor = Colors.red2
+        cell.tintColor = Colors.shared.accentColor
         cell.selectionStyle = .none
         
         switch indexPath.row {
@@ -100,7 +100,7 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
     
     func selectedFontFromDefault(key: Float, indexPath: IndexPath) -> Bool {
         // set checkmark for selected font size
-        let size = defaults.float(forKey: Defaults.fontSize)
+        let size = defaults.float(forKey: Resource.Defaults.fontSize)
         if size == key {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
             return true
@@ -122,20 +122,16 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
         
         switch indexPath.row {
         case 0:
-            print("small")
-            defaults.set(small, forKey: Defaults.fontSize)
+            defaults.set(small, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         case 1:
-            print("medium")
-            defaults.set(medium, forKey: Defaults.fontSize)
+            defaults.set(medium, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         case 2:
-            print("large")
-            defaults.set(large, forKey: Defaults.fontSize)
+            defaults.set(large, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         case 3:
-            print("maximum")
-            defaults.set(maximum, forKey: Defaults.fontSize)
+            defaults.set(maximum, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         default:
             print("not implement")

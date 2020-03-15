@@ -40,8 +40,8 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     
     func setupNavigation(time: String) {
         self.navigationItem.title = time
-        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(updateMemoItem))
-        let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(updateRemind))
+        let backButton = UIBarButtonItem(image: Resource.Images.backButton, style: .plain, target: self, action: #selector(updateMemoItem))
+        let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(updateRemind))
         self.navigationItem.rightBarButtonItem = backButton
         self.navigationItem.leftBarButtonItem = remindButton
     }
@@ -55,7 +55,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         view = writeMemoView
         let textView = writeMemoView.inputTextView
         writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Defaults.fontSize)))
+        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)))
         textView.placeholder = ""
         textView.alwaysBounceVertical = true
         textView.isUserInteractionEnabled = true
