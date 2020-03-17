@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RemindViewConntroller: UIViewController {
+class RemindViewController: UIViewController {
     let datePicker = UIDatePicker()
     let defaults = UserDefaults.standard
     
@@ -26,7 +26,7 @@ class RemindViewConntroller: UIViewController {
     func setupNavigation() {
         self.navigationItem.title = NSLocalizedString("RemindEveryDay", comment: "")
         
-        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .plain, target: self, action: #selector(setRemind))
+        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(setRemind))
         self.navigationItem.rightBarButtonItem = doneButton
     }
     
@@ -52,7 +52,6 @@ class RemindViewConntroller: UIViewController {
         let id = "daily"
         
         let content = UNMutableNotificationContent()
-        content.title = "Set Memo"
         content.body = String(format: NSLocalizedString("WriteMemoToday", comment: ""), "Quan")
         content.sound = UNNotificationSound.default
         content.threadIdentifier = "notifi"
@@ -61,6 +60,11 @@ class RemindViewConntroller: UIViewController {
         let dateComponent = datePicker.calendar?.dateComponents([.hour, .minute], from: datePicker.date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent!, repeats: true)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let dateFromPicker = dateFormatter.string(from: datePicker.date)
+        defaults.set(dateFromPicker, forKey: Resource.Defaults.remindAt)
         
         center.add(request) { (error) in
             if error != nil {

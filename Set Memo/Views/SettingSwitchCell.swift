@@ -11,20 +11,28 @@ import UIKit
 class SettingSwitchCell: UITableViewCell {
     let detailText = UILabel()
     let switchButton = UISwitch()
+    let descriptionText = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(detailText)
         contentView.addSubview(switchButton)
+        contentView.addSubview(descriptionText)
         
         detailText.translatesAutoresizingMaskIntoConstraints = false
         switchButton.translatesAutoresizingMaskIntoConstraints = false
+        descriptionText.translatesAutoresizingMaskIntoConstraints = false
         switchButton.onTintColor = Colors.shared.accentColor
         
         detailText.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         detailText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10).isActive = true
         detailText.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -10).isActive = true
+        
+        descriptionText.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        descriptionText.leftAnchor.constraint(equalTo: contentView.rightAnchor, constant: -120).isActive = true
+        descriptionText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10).isActive = true
+        descriptionText.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -10).isActive = true
         
         switchButton.leftAnchor.constraint(equalTo: contentView.rightAnchor, constant: -70).isActive = true
         switchButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true

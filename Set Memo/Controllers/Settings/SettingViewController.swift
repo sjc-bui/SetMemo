@@ -127,7 +127,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
-                cell.switchButton.addTarget(self, action: #selector(setupRemindEvery(sender:)), for: .valueChanged)
+                cell.switchButton.addTarget(self, action: #selector(setupRemindEveryDay(sender:)), for: .valueChanged)
+                cell.descriptionText.text = defaults.string(forKey: Resource.Defaults.remindAt)
                 
                 if defaults.bool(forKey: Resource.Defaults.remindEveryDay) == true {
                     cell.switchButton.isOn = true
@@ -170,13 +171,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    @objc func setupRemindEvery(sender: UISwitch) {
+    @objc func setupRemindEveryDay(sender: UISwitch) {
         if sender.isOn == true {
-            self.navigationController?.pushViewController(RemindViewConntroller(), animated: true)
+            self.navigationController?.pushViewController(RemindViewController(), animated: true)
         } else {
             let center = UNUserNotificationCenter.current()
             center.removeAllPendingNotificationRequests()
             defaults.set(false, forKey: Resource.Defaults.remindEveryDay)
+            defaults.set("", forKey: Resource.Defaults.remindAt)
             self.tableView.reloadData()
         }
     }

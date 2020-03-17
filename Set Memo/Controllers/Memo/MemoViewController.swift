@@ -125,7 +125,6 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func fetchMemoFromDB() {
-        let realm = try! Realm()
         let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
         var sortKeyPath: String?
         
@@ -137,7 +136,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             sortKeyPath = Resource.SortBy.dateEdited
         }
         
-        dt = realm.objects(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
+        dt = RealmServices.shared.read(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
         self.tableView.reloadData()
     }
     
@@ -199,7 +198,6 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         if editingStyle == .delete {
             let item = dt![indexPath.row]
             RealmServices.shared.delete(item)
-            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }

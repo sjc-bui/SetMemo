@@ -36,5 +36,6 @@ public class Resource {
         public static let sortBy = "sortBy"
         public static let lastReview = "lastReview"
         public static let remindEveryDay = "remindEveryDay"
+        public static let remindAt = "remindAt"
     }
 }
