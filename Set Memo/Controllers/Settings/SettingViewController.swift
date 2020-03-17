@@ -21,7 +21,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         NSLocalizedString("ChangeAppIcon", comment: ""),
         NSLocalizedString("Alert", comment: ""),
         NSLocalizedString("PlaceHolderLabel", comment: ""),
-        NSLocalizedString("DisplayUpdateTime", comment: "")]
+        NSLocalizedString("DisplayUpdateTime", comment: ""),
+        NSLocalizedString("RemindEveryDay", comment: "")
+    ]
     
     let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
     let other: Array = [NSLocalizedString("Version", comment: "")]
@@ -121,6 +123,19 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 
                 return cell
+            case 6:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.selectionStyle = .none
+                cell.switchButton.addTarget(self, action: #selector(setupRemindEvery(sender:)), for: .valueChanged)
+                
+                if defaults.bool(forKey: Resource.Defaults.remindEveryDay) == true {
+                    cell.switchButton.isOn = true
+                } else {
+                    cell.switchButton.isOn = false
+                }
+                
+                return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
@@ -152,6 +167,17 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             cell.backgroundColor = Colors.whiteColor
             return cell
+        }
+    }
+    
+    @objc func setupRemindEvery(sender: UISwitch) {
+        if sender.isOn == true {
+            self.navigationController?.pushViewController(RemindViewConntroller(), animated: true)
+        } else {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
+            defaults.set(false, forKey: Resource.Defaults.remindEveryDay)
+            self.tableView.reloadData()
         }
     }
     

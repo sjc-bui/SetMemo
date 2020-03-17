@@ -54,3 +54,6 @@
 "Type" = "タイプ";
 "Light" = "ライト";
 "Dark" = "ダーク";
+"RemindEveryDay" = "リマインダーの通知";
+"Yourname" = "お名前";
+"WriteMemoToday" = "こんにちは%@さん、今日のメモを書きましょう。^.^";

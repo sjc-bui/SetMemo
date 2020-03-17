@@ -131,6 +131,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     
     private func changeAppIcon(name: String?) {
         guard UIApplication.shared.supportsAlternateIcons else {
+            print("not support")
             return
         }
         

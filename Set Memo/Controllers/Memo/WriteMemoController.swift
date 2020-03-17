@@ -50,7 +50,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     @objc func createRemind() {
         DeviceControl().feedbackOnPress()
-        print("picker")
     }
     
     func setupPlaceholder() {

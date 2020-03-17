@@ -54,3 +54,6 @@
 "Type" = "Type";
 "Light" = "Light";
 "Dark" = "Dark";
+"RemindEveryDay" = "Remind me every day";
+"Yourname" = "Your name";
+"WriteMemoToday" = "Hey %@, Did you write a memo today?";

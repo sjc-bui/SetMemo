@@ -26,7 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.writeNotePlaceholder: "Write something...",
             Resource.Defaults.useBiometrics: false,
             Resource.Defaults.fontSize: 18,
-            Resource.Defaults.sortBy: "dateCreated"
+            Resource.Defaults.sortBy: "dateCreated",
+            Resource.Defaults.remindEveryDay: false
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

@@ -43,6 +43,7 @@
 		7299A527240A79C900AE39DE /* RealmServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299A526240A79C900AE39DE /* RealmServices.swift */; };
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
+		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
 		72D0F8322417753F0026706A /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D0F8312417753F0026706A /* Const.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
 		72EFECE92408D3A00035296F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72EFECE82408D3A00035296F /* Assets.xcassets */; };
@@ -87,6 +88,7 @@
 		7299A526240A79C900AE39DE /* RealmServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServices.swift; sourceTree = "<group>"; };
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
+		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
 		72D0F8312417753F0026706A /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EFECDF2408D39F0035296F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				724CA6D62408D94A0088F581 /* SettingViewController.swift */,
 				722BB3B22413C6E5001189C9 /* PrivacyController.swift */,
 				724B3B0C24162E1000C4946B /* FontSizeController.swift */,
+				72C22DB724205EF0004EC65A /* RemindViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */,
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
+				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,

@@ -27,14 +27,13 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         configureTableView()
         fetchMemoFromDB()
         setupNavigation()
-        fireNotification()
         resetBadgeIcon()
         requestReviewApp()
     }
     
     func requestReviewApp() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-        
+        // request user review when update to new version
         if dt!.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
@@ -45,37 +44,6 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func resetBadgeIcon() {
         UIApplication.shared.applicationIconBadgeNumber = 0
-    }
-    
-    func fireNotification() {
-        let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
-        // let uuid = UUID().uuidString
-        // if set only one time in a day
-        let id = "daily"
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Set Memo"
-        content.subtitle = "Subtitle"
-        content.body = "Did you write memo today?"
-        content.sound = UNNotificationSound.default
-        content.threadIdentifier = "notifi"
-        content.badge = 1
-        
-        let gregorian = Calendar(identifier: .gregorian)
-        let date = Date()
-        var dateComponent = gregorian.dateComponents([.hour, .minute], from: date)
-        dateComponent.hour = 23
-        dateComponent.minute = 00
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
-        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-        
-        center.add(request) { (error) in
-            if error != nil {
-                print(error!)
-            }
-        }
     }
     
     // table view configure
@@ -114,10 +82,11 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             self.fetchMemoFromDB()
         })
         
-        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default) { (action) in
+        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default, handler: {
+            (action) in
             self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
-        }
+        })
         
         let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
@@ -136,11 +105,13 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         alertController.addAction(sortByDateEdited)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
-        alertController.popoverPresentationController?.sourceView = self.view
         
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
+        let screen = UIScreen.main.bounds
+        alertController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func createNewMemo() {
