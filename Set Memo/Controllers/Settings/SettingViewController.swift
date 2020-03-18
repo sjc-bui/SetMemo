@@ -128,7 +128,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(setupRemindEveryDay(sender:)), for: .valueChanged)
-                cell.descriptionText.text = defaults.string(forKey: Resource.Defaults.remindAt)
+                cell.descriptionText.text = defaults.string(forKey: Resource.Defaults.remindAt) ?? ""
                 
                 if defaults.bool(forKey: Resource.Defaults.remindEveryDay) == true {
                     cell.switchButton.isOn = true

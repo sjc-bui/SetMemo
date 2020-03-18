@@ -9,8 +9,19 @@
 import UIKit
 
 class RemindViewController: UIViewController {
-    let datePicker = UIDatePicker()
+    let datePicker: UIDatePicker = UIDatePicker()
     let defaults = UserDefaults.standard
+    
+    let confirmButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
+        button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.cornerRadius = 12
+        button.backgroundColor = Colors.shared.accentColor
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,25 +36,32 @@ class RemindViewController: UIViewController {
     
     func setupNavigation() {
         self.navigationItem.title = NSLocalizedString("RemindEveryDay", comment: "")
-        
-        let doneButton = UIBarButtonItem(title: NSLocalizedString("Done", comment: ""), style: .done, target: self, action: #selector(setRemind))
-        self.navigationItem.rightBarButtonItem = doneButton
     }
     
-    @objc func setRemind() {
+    @objc func setRemind(sender: UIButton) {
         fireNotification()
         defaults.set(true, forKey: Resource.Defaults.remindEveryDay)
         self.navigationController?.popViewController(animated: true)
     }
     
     func setupView() {
-        datePicker.datePickerMode = .time
         self.view.addSubview(datePicker)
+        self.view.addSubview(confirmButton)
+        
+        datePicker.datePickerMode = .time
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.setValue(UIColor.black, forKey: "textColor")
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        datePicker.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        datePicker.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        datePicker.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        datePicker.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        
+        confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        confirmButton.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        confirmButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 30).isActive = true
     }
     
     func fireNotification() {
