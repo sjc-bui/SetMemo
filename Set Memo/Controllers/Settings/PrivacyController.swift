@@ -39,7 +39,7 @@ class PrivacyController: UIViewController, UITableViewDelegate, UITableViewDataS
         blurEffectView.alpha = 1
         
         unlockButton.center = window.center
-        unlockButton.backgroundColor = Colors.blue2
+        unlockButton.backgroundColor = Colors.shared.secondaryColor
         blurEffectView.tag = 100
         unlockButton.alpha = 0
         
@@ -220,7 +220,7 @@ class PrivacyController: UIViewController, UITableViewDelegate, UITableViewDataS
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(useBiometric(sender:)), for: .valueChanged)
                 
-                if defaults.bool(forKey: Defaults.useBiometrics) == true {
+                if defaults.bool(forKey: Resource.Defaults.useBiometrics) == true {
                     cell.switchButton.isOn = true
                 } else {
                     cell.switchButton.isOn = false
@@ -235,18 +235,16 @@ class PrivacyController: UIViewController, UITableViewDelegate, UITableViewDataS
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
             cell.backgroundColor = Colors.whiteColor
-            cell.textLabel?.textColor = Colors.darkColor
+            cell.textLabel?.textColor = Colors.shared.darkColor
             return cell
         }
     }
     
     @objc func useBiometric(sender: UISwitch) {
         if sender.isOn == true {
-            print("biometrics enabled")
-            defaults.set(true, forKey: Defaults.useBiometrics)
+            defaults.set(true, forKey: Resource.Defaults.useBiometrics)
         } else {
-            print("biometrics disabled")
-            defaults.set(false, forKey: Defaults.useBiometrics)
+            defaults.set(false, forKey: Resource.Defaults.useBiometrics)
         }
     }
 }

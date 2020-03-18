@@ -14,6 +14,8 @@
 		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
+		723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723F8E26241DD03C00149049 /* BaseViewController.swift */; };
+		723F8E29241DDFCF00149049 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723F8E28241DDFCF00149049 /* Resource.swift */; };
 		72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9B24107A1C00037EB4 /* DeviceControl.swift */; };
 		72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */; };
 		72406DA024109BA000037EB4 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9F24109BA000037EB4 /* SettingCell.swift */; };
@@ -41,7 +43,7 @@
 		7299A527240A79C900AE39DE /* RealmServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299A526240A79C900AE39DE /* RealmServices.swift */; };
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
-		729E9971241361C8001A5D2C /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E9970241361C8001A5D2C /* Defaults.swift */; };
+		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
 		72D0F8322417753F0026706A /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D0F8312417753F0026706A /* Const.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
 		72EFECE92408D3A00035296F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72EFECE82408D3A00035296F /* Assets.xcassets */; };
@@ -57,6 +59,8 @@
 		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
+		723F8E26241DD03C00149049 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		723F8E28241DDFCF00149049 /* Resource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
 		72406D9B24107A1C00037EB4 /* DeviceControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceControl.swift; sourceTree = "<group>"; };
 		72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMemoView.swift; sourceTree = "<group>"; };
 		72406D9F24109BA000037EB4 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
@@ -84,7 +88,7 @@
 		7299A526240A79C900AE39DE /* RealmServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServices.swift; sourceTree = "<group>"; };
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
-		729E9970241361C8001A5D2C /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
 		72D0F8312417753F0026706A /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EFECDF2408D39F0035296F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +127,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		723F8E25241DD02800149049 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				723F8E26241DD03C00149049 /* BaseViewController.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		7244892D240F3D62008E723C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +162,7 @@
 				724CA6EF2408F3320088F581 /* Localizable.strings */,
 				724CA6F42408F34C0088F581 /* Localizable.strings */,
 				724CA6F92408F35E0088F581 /* Localizable.strings */,
+				723F8E28241DDFCF00149049 /* Resource.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -182,7 +195,6 @@
 			children = (
 				729E996B24126E0E001A5D2C /* Colors */,
 				724CA701240A1FAD0088F581 /* MemoItem.swift */,
-				729E9970241361C8001A5D2C /* Defaults.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -230,6 +242,7 @@
 				724CA6D62408D94A0088F581 /* SettingViewController.swift */,
 				722BB3B22413C6E5001189C9 /* PrivacyController.swift */,
 				724B3B0C24162E1000C4946B /* FontSizeController.swift */,
+				72C22DB724205EF0004EC65A /* RemindViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -265,6 +278,7 @@
 		72EFECDE2408D39F0035296F /* Set Memo */ = {
 			isa = PBXGroup;
 			children = (
+				723F8E25241DD02800149049 /* Common */,
 				72D0F8302417752C0026706A /* Const */,
 				727E50E824120B710042E81F /* App Icons */,
 				7244892D240F3D62008E723C /* Views */,
@@ -407,14 +421,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */,
-				729E9971241361C8001A5D2C /* Defaults.swift in Sources */,
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,
+				723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */,
 				72406DA024109BA000037EB4 /* SettingCell.swift in Sources */,
 				72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */,
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
+				723F8E29241DDFCF00149049 /* Resource.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
@@ -426,6 +441,7 @@
 				724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */,
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
+				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
@@ -600,7 +616,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "popcorn.Set-Memo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -620,7 +636,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "popcorn.Set-Memo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

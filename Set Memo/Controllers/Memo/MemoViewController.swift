@@ -8,9 +8,9 @@
 
 import UIKit
 import RealmSwift
-import GoogleMobileAds
+import StoreKit
 
-class MemoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, GADBannerViewDelegate {
+class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     var tableView: UITableView = UITableView()
     var dt: Results<MemoItem>?
     let notification = UINotificationFeedbackGenerator()
@@ -18,14 +18,8 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     let emptyView = EmptyMemoView()
     let defaults = UserDefaults.standard
     
-    // Google Ads
-    var bannerView: GADBannerView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = Colors.whiteColor
-        configureAds()
-        // request user review app
+    override func initialize() {
+        //super.initialize()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,58 +27,23 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         configureTableView()
         fetchMemoFromDB()
         setupNavigation()
-        //configureSearchBar()
-        fireNotification()
         resetBadgeIcon()
+        requestReviewApp()
     }
     
-    func resetBadgeIcon() {
-        UIApplication.shared.applicationIconBadgeNumber = 0
-    }
-    
-    func fireNotification() {
-        let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
-        // let uuid = UUID().uuidString
-        // if set only one time in a day
-        let id = "daily"
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Set Memo"
-        content.subtitle = "Subtitle"
-        content.body = "Did you write memo today?"
-        content.sound = UNNotificationSound.default
-        content.threadIdentifier = "notifi"
-        content.badge = 1
-        
-        let gregorian = Calendar(identifier: .gregorian)
-        let date = Date()
-        var dateComponent = gregorian.dateComponents([.hour, .minute], from: date)
-        dateComponent.hour = 23
-        dateComponent.minute = 00
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
-        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-        
-        center.add(request) { (error) in
-            if error != nil {
-                print(error!)
+    func requestReviewApp() {
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        // request user review when update to new version
+        if dt!.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+                defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
             }
         }
     }
     
-    func configureAds() {
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        bannerView.adUnitID = Const.UnitID
-        bannerView.rootViewController = self
-        bannerView.delegate = self
-        addBannerViewToView(bannerView)
-        bannerView.load(GADRequest())
-    }
-    
-    func addBannerViewToView(_ bannerView: GADBannerView) {
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bannerView)
+    func resetBadgeIcon() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     // table view configure
@@ -99,23 +58,19 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     private func setupNavigation() {
-        self.navigationItem.title = NSLocalizedString("Memo", comment: "")
-        self.navigationController?.navigationBar.tintColor = Colors.red2
+        self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
+        extendedLayoutIncludesOpaqueBars = true
         
         // custom Right bar button
-        let createButton = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(createNewMemo))
-        let sortButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(sortBy))
-        let settingButton = UIBarButtonItem(image: UIImage(named: "setting"), style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItems = [createButton, sortButton]
+        let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
+        let sortButton = UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
+        let searchButton = UIBarButtonItem(image: Resource.Images.searchButton, style: .plain, target: self, action: nil)
+        let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
+        self.navigationItem.rightBarButtonItems = [createButton, sortButton, searchButton]
         self.navigationItem.leftBarButtonItem = settingButton
-    }
-    
-    func configureSearchBar() {
-        searchController.searchBar.placeholder = "Search !"
-        searchController.searchBar.delegate = self
-        navigationItem.searchController = searchController
     }
     
     @objc func sortBy() {
@@ -123,40 +78,40 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let sortByDateCreated = UIAlertAction(title: NSLocalizedString("SortByDateCreated", comment: ""), style: .default, handler: { (action) in
-            print("sort by date created")
-            self.defaults.set("dateCreated", forKey: Defaults.sortBy)
+            self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default) { (action) in
-            print("sort by date edited")
-            self.defaults.set("dateEdited", forKey: Defaults.sortBy)
+        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default, handler: {
+            (action) in
+            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
-        }
+        })
         
         let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
-            print("sort by title")
-            self.defaults.set("title", forKey: Defaults.sortBy)
+            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
         let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         
         let target = "titleTextColor"
-        sortByDateCreated.setValue(Colors.red2, forKey: target)
-        sortByDateEdited.setValue(Colors.red2, forKey: target)
-        sortByTitle.setValue(Colors.red2, forKey: target)
-        cancel.setValue(Colors.red2, forKey: target)
+        sortByDateCreated.setValue(Colors.shared.accentColor, forKey: target)
+        sortByDateEdited.setValue(Colors.shared.accentColor, forKey: target)
+        sortByTitle.setValue(Colors.shared.accentColor, forKey: target)
+        cancel.setValue(Colors.shared.accentColor, forKey: target)
         
         alertController.addAction(sortByDateCreated)
         alertController.addAction(sortByDateEdited)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
-        alertController.popoverPresentationController?.sourceView = self.view
         
-        DispatchQueue.main.async {
-            self.present(alertController, animated: true, completion: nil)
-        }
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
+        let screen = UIScreen.main.bounds
+        alertController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func createNewMemo() {
@@ -170,19 +125,18 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func fetchMemoFromDB() {
-        let realm = try! Realm()
-        let sortBy = defaults.string(forKey: Defaults.sortBy)
+        let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
         var sortKeyPath: String?
         
-        if sortBy == "dateCreated" {
-            sortKeyPath = "dateCreated"
-        } else if sortBy == "title" {
-            sortKeyPath = "content"
-        } else if sortBy == "dateEdited" {
-            sortKeyPath = "dateEdited"
+        if sortBy == Resource.SortBy.dateCreated {
+            sortKeyPath = Resource.SortBy.dateCreated
+        } else if sortBy == Resource.SortBy.title {
+            sortKeyPath = Resource.SortBy.content
+        } else if sortBy == Resource.SortBy.dateEdited {
+            sortKeyPath = Resource.SortBy.dateEdited
         }
         
-        dt = realm.objects(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
+        dt = RealmServices.shared.read(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
         self.tableView.reloadData()
     }
     
@@ -211,14 +165,14 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let defaultFontSize = defaults.float(forKey: Defaults.fontSize)
+        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
         let myCell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         myCell.backgroundColor = .clear
         myCell.textLabel?.text = dt![indexPath.row].content
         myCell.textLabel?.numberOfLines = 2
         myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
         
-        if defaults.bool(forKey: Defaults.displayDateTime) == true {
+        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
             myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
             myCell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
@@ -226,7 +180,7 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
             myCell.detailTextLabel?.text = ""
         }
         
-        myCell.tintColor = Colors.orangeColor
+        myCell.tintColor = Colors.shared.orangeColor
         myCell.accessoryType = .disclosureIndicator
         return myCell
     }
@@ -244,20 +198,14 @@ class MemoViewController: UIViewController, UITableViewDelegate, UITableViewData
         if editingStyle == .delete {
             let item = dt![indexPath.row]
             RealmServices.shared.delete(item)
-            
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
-    // MARK: - Custom BannerView
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Banner loaded successfully")
-        tableView.tableHeaderView?.frame = bannerView.frame
-        tableView.tableHeaderView = bannerView
-    }
-    
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        print("Fail to receive ads")
-        print(error)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.3, delay: 0.01 * Double(indexPath.row), animations: {
+            cell.alpha = 1
+        })
     }
 }

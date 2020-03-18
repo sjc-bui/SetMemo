@@ -13,6 +13,10 @@ class RealmServices {
     
     let realm: Realm = try! Realm()
     
+    func read<T: Object> (_ object: T.Type) -> Results<T> {
+        return realm.objects(object.self)
+    }
+    
     func create<T: Object>(_ object: T) {
         do {
             try realm.write {

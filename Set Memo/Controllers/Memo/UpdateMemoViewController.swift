@@ -9,15 +9,13 @@
 import UIKit
 import RealmSwift
 
-class UpdateMemoViewController: UIViewController, UITextViewDelegate {
+class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var memoId: String = ""
     var inputContent: String? = nil
     var textViewIsChanging: Bool = false
     let writeMemoView = WriteMemoView()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupBackground()
+    override func initialize() {
         setupNotifications()
     }
     
@@ -27,11 +25,12 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
         setupView()
         writeMemoView.inputTextView.text = memoItem?.content
-        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.dateCreated))
+        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.dateEdited))
     }
     
-    func setupBackground() {
-        writeMemoView.backgroundColor = .white
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        updateMemoItem()
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -40,10 +39,8 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
     
     func setupNavigation(time: String) {
         self.navigationItem.title = time
-        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(updateMemoItem))
-        let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(updateRemind))
-        self.navigationItem.rightBarButtonItem = backButton
-        self.navigationItem.leftBarButtonItem = remindButton
+        let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(updateRemind))
+        self.navigationItem.rightBarButtonItem = remindButton
     }
     
     @objc func updateRemind() {
@@ -55,7 +52,7 @@ class UpdateMemoViewController: UIViewController, UITextViewDelegate {
         view = writeMemoView
         let textView = writeMemoView.inputTextView
         writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Defaults.fontSize)))
+        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)))
         textView.placeholder = ""
         textView.alwaysBounceVertical = true
         textView.isUserInteractionEnabled = true

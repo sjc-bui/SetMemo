@@ -12,6 +12,7 @@ import RealmSwift
 class WriteMemoController: UIViewController, UITextViewDelegate {
     let writeMemoView = WriteMemoView()
     var inputContent: String? = nil
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         setupPlaceholder()
         setupNavigationBar()
         characterCount()
+        setupDynamicKeyboardColor()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -32,29 +34,26 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         self.autoSave()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        writeMemoView.inputTextView.resignFirstResponder()
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         characterCount()
     }
     
     func setupNavigationBar() {
-        let backButton = UIBarButtonItem(image: UIImage(named: "back"), style: .plain, target: self, action: #selector(backToListView))
-        let remindButton = UIBarButtonItem(image: UIImage(named: "alarm"), style: .plain, target: self, action: #selector(createRemind))
-        self.navigationItem.leftBarButtonItem = remindButton
-        self.navigationItem.rightBarButtonItem = backButton
+        let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(createRemind))
+        self.navigationItem.rightBarButtonItem = remindButton
     }
     
     @objc func createRemind() {
         DeviceControl().feedbackOnPress()
-        print("picker")
-    }
-    
-    @objc func backToListView() {
-        DeviceControl().feedbackOnPress()
-        self.navigationController?.popViewController(animated: true)
     }
     
     func setupPlaceholder() {
-        let placeholder = UserDefaults.standard.string(forKey: Defaults.writeNotePlaceholder) ?? ""
+        let placeholder = UserDefaults.standard.string(forKey: Resource.Defaults.writeNotePlaceholder) ?? ""
         writeMemoView.inputTextView.placeholder = placeholder
     }
     
@@ -84,6 +83,14 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
+    }
+    
+    func setupDynamicKeyboardColor() {
+        if defaults.string(forKey: Resource.Defaults.iconType) == "light" {
+            writeMemoView.inputTextView.keyboardAppearance = .default
+        } else {
+            writeMemoView.inputTextView.keyboardAppearance = .dark
+        }
     }
     
     func setupNotifications() {

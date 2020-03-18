@@ -46,7 +46,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        if UserDefaults.standard.bool(forKey: Defaults.useBiometrics) == true {
+        if UserDefaults.standard.bool(forKey: Resource.Defaults.useBiometrics) == true {
             let privacyController = PrivacyController()
             privacyController.setupBiometricsView(window: window!)
             privacyController.unlockButton.addTarget(self, action: #selector(unlockApp(sender:)), for: .touchUpInside)
