@@ -17,6 +17,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
     let defaults = UserDefaults.standard
+    var floatingButton = UIButton()
     
     override func initialize() {
         //super.initialize()
@@ -29,6 +30,34 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         setupNavigation()
         resetBadgeIcon()
         requestReviewApp()
+        
+        createFloatButton()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        floatingButton.removeFromSuperview()
+    }
+    
+    func createFloatButton() {
+        floatingButton = UIButton(type: .custom)
+        floatingButton.translatesAutoresizingMaskIntoConstraints = false
+        floatingButton.backgroundColor = Colors.shared.accentColor
+        floatingButton.setImage(Resource.Images.createButton, for: .normal)
+        floatingButton.addTarget(self, action: #selector(createNewMemo(sender:)), for: .touchUpInside)
+        
+        view.addSubview(floatingButton)
+        floatingButton.widthAnchor.constraint(equalToConstant: 48).isActive = true
+        floatingButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -22).isActive = true
+        
+        floatingButton.layer.shadowColor = UIColor.black.cgColor
+        floatingButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        floatingButton.layer.masksToBounds = false
+        floatingButton.layer.cornerRadius = 24
+        floatingButton.layer.shadowRadius = 2.0
+        floatingButton.layer.shadowOpacity = 0.5
     }
     
     func requestReviewApp() {
@@ -64,12 +93,18 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
         
+        //searchController.searchResultsUpdater = self as UISearchResultsUpdating
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Notes"
+        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.isActive = false
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
+        
         // custom Right bar button
-        let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let sortButton = UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
-        let searchButton = UIBarButtonItem(image: Resource.Images.searchButton, style: .plain, target: self, action: nil)
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItems = [createButton, sortButton, searchButton]
+        self.navigationItem.rightBarButtonItem = sortButton
         self.navigationItem.leftBarButtonItem = settingButton
     }
     
@@ -114,7 +149,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func createNewMemo() {
+    @objc func createNewMemo(sender: UIButton) {
         DeviceControl().feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }

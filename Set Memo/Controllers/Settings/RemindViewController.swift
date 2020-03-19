@@ -25,7 +25,7 @@ class RemindViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +50,7 @@ class RemindViewController: UIViewController {
         
         datePicker.datePickerMode = .time
         datePicker.timeZone = NSTimeZone.local
-        datePicker.setValue(UIColor.black, forKey: "textColor")
+        datePicker.setValue(UIColor.label, forKey: "textColor")
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

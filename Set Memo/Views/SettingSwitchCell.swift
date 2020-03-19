@@ -19,7 +19,7 @@ class SettingSwitchCell: UITableViewCell {
         contentView.addSubview(detailText)
         contentView.addSubview(switchButton)
         contentView.addSubview(descriptionText)
-        descriptionText.textColor = .systemGray
+        descriptionText.textColor = UIColor.secondaryLabel
         
         detailText.translatesAutoresizingMaskIntoConstraints = false
         switchButton.translatesAutoresizingMaskIntoConstraints = false

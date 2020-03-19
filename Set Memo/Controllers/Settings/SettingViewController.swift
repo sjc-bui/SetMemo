@@ -28,7 +28,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
     let other: Array = [NSLocalizedString("Version", comment: "")]
     
-    var tableView: UITableView!
+    var tableView: UITableView = UITableView()
     let defaults = UserDefaults.standard
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     private let reuseIdentifier = "Cell"
@@ -166,7 +166,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
-            cell.backgroundColor = Colors.whiteColor
+            cell.backgroundColor = UIColor.systemBackground
             return cell
         }
     }
