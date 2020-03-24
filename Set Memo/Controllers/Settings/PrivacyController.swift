@@ -9,10 +9,9 @@
 import UIKit
 import LocalAuthentication
 
-class PrivacyController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PrivacyController: UITableViewController {
     let sections: Array = [NSLocalizedString("Biometrics", comment: "")]
     let biometrics: Array = [NSLocalizedString("UseTouchOrFaceId", comment: "")]
-    var tableView: UITableView = UITableView()
     let defaults = UserDefaults.standard
     
     private let reuseIdentifier = "CellId"
@@ -164,45 +163,29 @@ class PrivacyController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
         self.navigationItem.title = NSLocalizedString("Privacy", comment: "")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: width, height: height), style: .grouped)
-        view.addSubview(tableView)
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.dataSource = self
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchCell)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return biometrics.count
         }
@@ -210,7 +193,7 @@ class PrivacyController: UIViewController, UITableViewDelegate, UITableViewDataS
         return 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:

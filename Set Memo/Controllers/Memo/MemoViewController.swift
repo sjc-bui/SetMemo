@@ -28,7 +28,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         configureTableView()
         fetchMemoFromDB()
         setupNavigation()
-        resetBadgeIcon()
+        resetIconBadges()
         requestReviewApp()
         createFloatButton()
     }
@@ -46,15 +46,15 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         floatingButton.addTarget(self, action: #selector(createNewMemo(sender:)), for: .touchUpInside)
         
         view.addSubview(floatingButton)
-        floatingButton.widthAnchor.constraint(equalToConstant: 48).isActive = true
-        floatingButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        floatingButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        floatingButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5).isActive = true
         
         floatingButton.layer.shadowColor = UIColor.black.cgColor
         floatingButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         floatingButton.layer.masksToBounds = false
-        floatingButton.layer.cornerRadius = 24
+        floatingButton.layer.cornerRadius = 22
         floatingButton.layer.shadowRadius = 2.0
         floatingButton.layer.shadowOpacity = 0.5
     }
@@ -70,7 +70,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func resetBadgeIcon() {
+    func resetIconBadges() {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
@@ -96,7 +96,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         //configureSearchBar()
         
         // custom Right bar button
-        let sortButton = UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
+        let sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: ""), style: .done, target: self, action: #selector(sortBy))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItem = sortButton
         self.navigationItem.leftBarButtonItem = settingButton
@@ -159,7 +159,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     @objc func settingPage() {
         DeviceControl().feedbackOnPress()
-        self.navigationController?.pushViewController(SettingViewController(), animated: true)
+        self.navigationController?.pushViewController(SettingViewController(style: .insetGrouped), animated: true)
     }
     
     func fetchMemoFromDB() {

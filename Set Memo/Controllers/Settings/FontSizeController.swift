@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FontSizeController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FontSizeController: UITableViewController {
     let sections = [NSLocalizedString("Size", comment: "")]
     let fontSizeOptions = [
         NSLocalizedString("Small", comment: ""),
@@ -16,7 +16,6 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
         NSLocalizedString("Large", comment: ""),
         NSLocalizedString("Maximum", comment: "")
     ]
-    var tableView: UITableView = UITableView()
     
     let defaults = UserDefaults.standard
     var lastIndexPath: NSIndexPath = NSIndexPath(row: 0, section: 0)
@@ -29,36 +28,24 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.white
         self.navigationItem.title = NSLocalizedString("FontSize", comment: "")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: width, height: height), style: .grouped)
-        view.addSubview(tableView)
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.dataSource = self
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return fontSizeOptions.count
@@ -67,7 +54,7 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(fontSizeOptions[indexPath.row])"
@@ -109,7 +96,7 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newRow = indexPath.row
         let oldRow = lastIndexPath.row
         
@@ -138,15 +125,11 @@ class FontSizeController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
     }
 }
