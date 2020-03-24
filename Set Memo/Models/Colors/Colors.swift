@@ -152,14 +152,4 @@ public class Colors {
     var placeHolderMessageColor: UIColor {
         return #colorLiteral(red: 0.6430656314, green: 0.6431785226, blue: 0.6430584788, alpha: 1)
     }
-    
-    
-    func getRandomColor() -> UIColor {
-        if UserDefaults.standard.bool(forKey: Resource.Defaults.randomColor) == true {
-            let randomColor = Colors.vibrantColors.randomElement()!
-            print(randomColor)
-            return randomColor
-        }
-        return Colors.shared.accentColor
-    }
 }

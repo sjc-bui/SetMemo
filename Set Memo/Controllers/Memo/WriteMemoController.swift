@@ -24,7 +24,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         writeMemoView.backgroundColor = .white
         setupPlaceholder()
-        setupNavigationBar()
         characterCount()
         setupDynamicKeyboardColor()
     }
@@ -43,17 +42,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         characterCount()
     }
     
-    func setupNavigationBar() {
-        let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(createRemind))
-        self.navigationItem.rightBarButtonItem = remindButton
-    }
-    
-    @objc func createRemind() {
-        DeviceControl().feedbackOnPress()
-    }
-    
     func setupPlaceholder() {
-        let placeholder = UserDefaults.standard.string(forKey: Resource.Defaults.writeNotePlaceholder) ?? ""
+        let placeholder = UserDefaults.standard.string(forKey: Resource.Defaults.writeMemoPlaceholder) ?? ""
         writeMemoView.inputTextView.placeholder = placeholder
     }
     
@@ -79,10 +69,19 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     func setupView() {
         view = writeMemoView
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        view.addGestureRecognizer(tap)
+        
         writeMemoView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        print("tap in view")
+        writeMemoView.inputTextView.becomeFirstResponder()
     }
     
     func setupDynamicKeyboardColor() {

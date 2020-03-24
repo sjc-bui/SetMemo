@@ -12,10 +12,10 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
     var tableView: UITableView = UITableView()
     let sections: Array = [
         NSLocalizedString("TouchAction", comment: ""),
-        NSLocalizedString("Random", comment: "")
+        ""
     ]
     let touchAction: Array = [NSLocalizedString("Vibration", comment: "")]
-    let randomColor: Array = [NSLocalizedString("RandomColor", comment: "")]
+    let badgeIcon: Array = [NSLocalizedString("BadgeIcon", comment: "")]
     
     private let reuseSettingCell = "SettingCell"
     private let reuseSettingSwitchCell = "SettingSwitchCell"
@@ -58,7 +58,7 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         case 0:
             return touchAction.count
         case 1:
-            return randomColor.count
+            return badgeIcon.count
         default:
             return 0
         }
@@ -90,11 +90,11 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingSwitchCell, for: indexPath) as! SettingSwitchCell
-                cell.textLabel?.text = "\(randomColor[indexPath.row])"
+                cell.textLabel?.text = "\(badgeIcon[indexPath.row])"
                 cell.selectionStyle = .none
-                cell.switchButton.addTarget(self, action: #selector(setRandomColor(sender:)), for: .valueChanged)
+                cell.switchButton.addTarget(self, action: #selector(showBadgeIcon(sender:)), for: .valueChanged)
                 
-                if defaults.bool(forKey: Resource.Defaults.randomColor) == true {
+                if defaults.bool(forKey: Resource.Defaults.showBadgeIcon) == true {
                     cell.switchButton.isOn = true
                 } else {
                     cell.switchButton.isOn = false
@@ -124,13 +124,13 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
     
-    @objc func setRandomColor(sender: UISwitch) {
+    @objc func showBadgeIcon(sender: UISwitch) {
         if sender.isOn == true {
-            defaults.set(true, forKey: Resource.Defaults.randomColor)
+            defaults.set(true, forKey: Resource.Defaults.showBadgeIcon)
             viewWillAppear(true)
             self.tableView.reloadData()
         } else {
-            defaults.set(false, forKey: Resource.Defaults.randomColor)
+            defaults.set(false, forKey: Resource.Defaults.showBadgeIcon)
             viewWillAppear(true)
             self.tableView.reloadData()
         }

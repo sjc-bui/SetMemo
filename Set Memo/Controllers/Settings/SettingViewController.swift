@@ -212,7 +212,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
                 
                 alert.addTextField { textField in
-                    let placeholder = self.defaults.string(forKey: Resource.Defaults.writeNotePlaceholder)
+                    let placeholder = self.defaults.string(forKey: Resource.Defaults.writeMemoPlaceholder)
                     textField.placeholder = placeholder ?? "lalala..."
                     textField.autocorrectionType = .yes
                     textField.autocapitalizationType = .sentences
@@ -227,7 +227,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                     
                     if text?.isEmpty ?? false {
                     } else {
-                        self.defaults.set(text, forKey: Resource.Defaults.writeNotePlaceholder)
+                        self.defaults.set(text, forKey: Resource.Defaults.writeMemoPlaceholder)
                     }
                 }))
                 

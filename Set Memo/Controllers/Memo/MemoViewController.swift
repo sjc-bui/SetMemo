@@ -30,7 +30,6 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         setupNavigation()
         resetBadgeIcon()
         requestReviewApp()
-        
         createFloatButton()
     }
     
@@ -50,7 +49,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         floatingButton.widthAnchor.constraint(equalToConstant: 48).isActive = true
         floatingButton.heightAnchor.constraint(equalToConstant: 48).isActive = true
         floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -22).isActive = true
+        floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5).isActive = true
         
         floatingButton.layer.shadowColor = UIColor.black.cgColor
         floatingButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
@@ -94,18 +93,22 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         extendedLayoutIncludesOpaqueBars = true
         
         //searchController.searchResultsUpdater = self as UISearchResultsUpdating
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Notes"
-        searchController.hidesNavigationBarDuringPresentation = true
-        searchController.isActive = false
-        searchController.searchBar.delegate = self
-        navigationItem.searchController = searchController
+        //configureSearchBar()
         
         // custom Right bar button
         let sortButton = UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItem = sortButton
         self.navigationItem.leftBarButtonItem = settingButton
+    }
+    
+    func configureSearchBar() {
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Notes"
+        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.isActive = false
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
     }
     
     @objc func sortBy() {
