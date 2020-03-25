@@ -25,17 +25,9 @@ class RemindViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .secondarySystemBackground
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavigation()
-        setupView()
-    }
-    
-    func setupNavigation() {
         self.navigationItem.title = "RemindEveryDay".localized
+        view.backgroundColor = .secondarySystemBackground
+        setupView()
     }
     
     @objc func setRemind(sender: UIButton) {

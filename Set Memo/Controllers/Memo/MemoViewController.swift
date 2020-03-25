@@ -10,54 +10,24 @@ import UIKit
 import RealmSwift
 import StoreKit
 
-class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-    var tableView: UITableView = UITableView()
+class MemoViewController: UITableViewController {
     var dt: Results<MemoItem>?
     let notification = UINotificationFeedbackGenerator()
     let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
     let defaults = UserDefaults.standard
-    var floatingButton = UIButton()
     
-    override func initialize() {
-        //super.initialize()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureTableView()
         fetchMemoFromDB()
         setupNavigation()
         resetIconBadges()
         requestReviewApp()
-        createFloatButton()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        floatingButton.removeFromSuperview()
-    }
-    
-    func createFloatButton() {
-        let btnWidthSize: CGFloat = 44
-        floatingButton = UIButton(type: .custom)
-        floatingButton.translatesAutoresizingMaskIntoConstraints = false
-        floatingButton.backgroundColor = Colors.shared.accentColor
-        floatingButton.setImage(Resource.Images.createButton, for: .normal)
-        floatingButton.addTarget(self, action: #selector(createNewMemo(sender:)), for: .touchUpInside)
-        
-        view.addSubview(floatingButton)
-        floatingButton.widthAnchor.constraint(equalToConstant: btnWidthSize).isActive = true
-        floatingButton.heightAnchor.constraint(equalToConstant: btnWidthSize).isActive = true
-        floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5).isActive = true
-        
-        floatingButton.layer.shadowColor = UIColor.black.cgColor
-        floatingButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        floatingButton.layer.masksToBounds = false
-        floatingButton.layer.cornerRadius = btnWidthSize / 2
-        floatingButton.layer.shadowRadius = 2.0
-        floatingButton.layer.shadowOpacity = 0.5
     }
     
     func requestReviewApp() {
@@ -75,17 +45,6 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
-    // table view configure
-    private func configureTableView() {
-        view.addSubview(tableView)
-        tableView.pin(to: view)
-        self.tableView.tableFooterView = UIView()
-        self.tableView.separatorColor = .none
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
-    }
-    
     private func setupNavigation() {
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.prefersLargeTitles = false
@@ -98,8 +57,9 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         // custom Right bar button
         let sortButton = UIBarButtonItem(title: "Sort".localized, style: .done, target: self, action: #selector(sortBy))
+        let createButton = UIBarButtonItem(title: "New".localized, style: .done, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItem = sortButton
+        self.navigationItem.rightBarButtonItems = [createButton, sortButton]
         self.navigationItem.leftBarButtonItem = settingButton
     }
     
@@ -108,7 +68,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         searchController.searchBar.placeholder = "Search Notes"
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.isActive = false
-        searchController.searchBar.delegate = self
+        //searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
     }
     
@@ -153,7 +113,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func createNewMemo(sender: UIButton) {
+    @objc func createNewMemo() {
         DeviceControl().feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }
@@ -192,8 +152,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     // MARK: - TableView
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // If table has no data. preview empty view.
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if dt?.count == 0 {
             tableView.backgroundView = emptyView
         } else {
@@ -203,37 +162,38 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         return dt!.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
-        let myCell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
-        myCell.backgroundColor = .clear
-        myCell.textLabel?.text = dt![indexPath.row].content
-        myCell.textLabel?.numberOfLines = 2
-        myCell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        cell.backgroundColor = .clear
+        cell.textLabel?.text = dt![indexPath.row].content
+        cell.textLabel?.numberOfLines = 2
+        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
-            myCell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
-            myCell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
         } else {
-            myCell.detailTextLabel?.text = ""
+            cell.detailTextLabel?.text = ""
         }
         
-        myCell.tintColor = Colors.shared.orangeColor
-        myCell.accessoryType = .disclosureIndicator
-        return myCell
+        cell.tintColor = Colors.shared.orangeColor
+        cell.accessoryType = .disclosureIndicator
+        
+        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
+        
+        return cell
     }
     
-    // Selected row
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let memoId = dt![indexPath.row].id
         let updateView = UpdateMemoViewController()
         updateView.memoId = memoId
         self.navigationController?.pushViewController(updateView, animated: true)
     }
     
-    // Delete row
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let item = dt![indexPath.row]
             RealmServices.shared.delete(item)
@@ -241,10 +201,56 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.alpha = 0
         UIView.animate(withDuration: 0.3, delay: 0.01 * Double(indexPath.row), animations: {
             cell.alpha = 1
         })
+    }
+    
+    @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: location)!
+        print(indexPath.row)
+        
+        let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
+            let shareText = self.dt![indexPath.row].content
+            self.shareMemo(content: shareText)
+        }
+        
+        let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
+            print(self.dt![indexPath.row].content)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        
+        let target = "titleTextColor"
+        share.setValue(Colors.shared.accentColor, forKey: target)
+        delete.setValue(Colors.shared.accentColor, forKey: target)
+        cancel.setValue(Colors.shared.accentColor, forKey: target)
+        
+        alertSheet.addAction(share)
+        alertSheet.addAction(delete)
+        alertSheet.addAction(cancel)
+        
+        alertSheet.popoverPresentationController?.sourceView = self.view
+        alertSheet.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
+        let screen = UIScreen.main.bounds
+        alertSheet.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        
+        self.present(alertSheet, animated: true, completion: nil)
+    }
+    
+    func shareMemo(content: String) {
+        let textToShare = content
+        let objectToShare = [textToShare] as [Any]
+        
+        let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop,
+                                                         UIActivity.ActivityType.addToReadingList]
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

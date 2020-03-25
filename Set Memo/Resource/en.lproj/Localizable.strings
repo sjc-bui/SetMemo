@@ -10,11 +10,12 @@
 "Setting" = "Setting";
 "Ok" = "OK";
 "Cancel" = "Cancel";
-"New" = "New Memo";
+"New" = "New memo";
 "TotalMemo" = "%d memo";
 "Done" = "Done";
 "Save" = "Save";
 "Delete" = "Delete";
+"Share" = "Share";
 "DeleteAll" = "All saved memo will be delete.";
 "Edit" = "Edit";
 "DatetimeFormat" = "yyyy/MM/dd HH:mm";

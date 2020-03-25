@@ -97,13 +97,9 @@ class AlertsController: UITableViewController {
     @objc func setupVibrationOnTouch(sender: UISwitch) {
         if sender.isOn == true {
             defaults.set(true, forKey: Resource.Defaults.vibrationOnTouch)
-            
-            viewWillAppear(true)
             self.tableView.reloadData()
         } else {
             defaults.set(false, forKey: Resource.Defaults.vibrationOnTouch)
-            
-            viewWillAppear(true)
             self.tableView.reloadData()
         }
     }
@@ -111,11 +107,9 @@ class AlertsController: UITableViewController {
     @objc func showIconBadges(sender: UISwitch) {
         if sender.isOn == true {
             defaults.set(true, forKey: Resource.Defaults.showIconBadges)
-            viewWillAppear(true)
             self.tableView.reloadData()
         } else {
             defaults.set(false, forKey: Resource.Defaults.showIconBadges)
-            viewWillAppear(true)
             self.tableView.reloadData()
         }
     }

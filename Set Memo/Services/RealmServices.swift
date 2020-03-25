@@ -17,6 +17,11 @@ class RealmServices {
         return realm.objects(object.self)
     }
     
+    /*Testing...*/
+    func readById<T: Object> (_ object: T.Type, id: String) -> Results<T> {
+        return realm.objects(object.self).filter("id = %@", id)
+    }
+    
     func create<T: Object>(_ object: T) {
         do {
             try realm.write {
