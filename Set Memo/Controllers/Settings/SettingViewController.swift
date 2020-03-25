@@ -11,23 +11,23 @@ import RealmSwift
 
 class SettingViewController: UITableViewController {
     let sections: Array = [
-        NSLocalizedString("General", comment: ""),
-        NSLocalizedString("Advanced", comment: ""),
-        NSLocalizedString("Other", comment: "")]
+        "General".localized,
+        "Advanced".localized,
+        "Other".localized]
     
     let general: Array = [
-        NSLocalizedString("Privacy", comment: ""),
-        NSLocalizedString("Alert", comment: ""),
-        NSLocalizedString("FontSize", comment: ""),
-        NSLocalizedString("ChangeAppIcon", comment: ""),
-        NSLocalizedString("PlaceHolderLabel", comment: ""),
-        NSLocalizedString("DisplayUpdateTime", comment: ""),
-        NSLocalizedString("RemindEveryDay", comment: ""),
-        NSLocalizedString("UseDarkMode", comment: "")
+        "Privacy".localized,
+        "Alert".localized,
+        "FontSize".localized,
+        "ChangeAppIcon".localized,
+        "PlaceHolderLabel".localized,
+        "DisplayUpdateTime".localized,
+        "RemindEveryDay".localized,
+        "UseDarkMode".localized
     ]
     
-    let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
-    let other: Array = [NSLocalizedString("Version", comment: "")]
+    let advanced: Array = ["DeleteLabel".localized]
+    let other: Array = ["Version".localized]
     
     //var tableView: UITableView = UITableView()
     let themes = Themes()
@@ -39,7 +39,7 @@ class SettingViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = NSLocalizedString("Setting", comment: "")
+        self.navigationItem.title = "Setting".localized
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -231,7 +231,7 @@ class SettingViewController: UITableViewController {
             case 3:
                 self.navigationController?.pushViewController(AppearanceController(style: .insetGrouped), animated: true)
             case 4:
-                let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
+                let alert = UIAlertController(title: "Placeholder".localized, message: "CustomPlaceholder".localized, preferredStyle: .alert)
                 
                 alert.addTextField { textField in
                     let placeholder = self.defaults.string(forKey: Resource.Defaults.writeMemoPlaceholder)
@@ -240,11 +240,11 @@ class SettingViewController: UITableViewController {
                     textField.autocapitalizationType = .sentences
                 }
                 
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: { [weak alert] _ in
+                alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: { [weak alert] _ in
                     print(alert?.message ?? "cancel")
                 }))
                 
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Done", comment: ""), style: .default, handler: { [weak alert] _ in
+                alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
                     let textField = alert?.textFields![0]
                     let text = textField?.text
                     
@@ -263,11 +263,11 @@ class SettingViewController: UITableViewController {
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                let deleteAllAlert = UIAlertController(title: NSLocalizedString("Sure", comment: ""), message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
-                let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
+                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAll".localized, preferredStyle: .alert)
+                let delete = UIAlertAction(title: "Delete".localized, style: .destructive, handler: { action in
                     RealmServices.shared.deleteAll()
                 })
-                let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
+                let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
                 
                 deleteAllAlert.addAction(cancel)
                 deleteAllAlert.addAction(delete)

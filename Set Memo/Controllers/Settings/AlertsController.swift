@@ -10,8 +10,8 @@ import UIKit
 
 class AlertsController: UITableViewController {
     let sections: Array = ["",""]
-    let touchAction: Array = [NSLocalizedString("Vibration", comment: "")]
-    let iconBadges: Array = [NSLocalizedString("IconBadge", comment: "")]
+    let touchAction: Array = ["Vibration".localized]
+    let iconBadges: Array = ["IconBadge".localized]
     
     private let reuseSettingCell = "SettingCell"
     private let reuseSettingSwitchCell = "SettingSwitchCell"
@@ -19,7 +19,7 @@ class AlertsController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = NSLocalizedString("Alert", comment: "")
+        self.navigationItem.title = "Alert".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseSettingCell)
         tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSettingSwitchCell)

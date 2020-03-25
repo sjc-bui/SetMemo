@@ -9,12 +9,12 @@
 import UIKit
 
 class FontSizeController: UITableViewController {
-    let sections = [NSLocalizedString("Size", comment: "")]
+    let sections = ["Size".localized]
     let fontSizeOptions = [
-        NSLocalizedString("Small", comment: ""),
-        NSLocalizedString("Medium", comment: ""),
-        NSLocalizedString("Large", comment: ""),
-        NSLocalizedString("Maximum", comment: "")
+        "Small".localized,
+        "Medium".localized,
+        "Large".localized,
+        "Maximum".localized
     ]
     
     let defaults = UserDefaults.standard
@@ -28,7 +28,7 @@ class FontSizeController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = NSLocalizedString("FontSize", comment: "")
+        self.navigationItem.title = "FontSize".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
     }

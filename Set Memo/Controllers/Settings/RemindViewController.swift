@@ -14,7 +14,7 @@ class RemindViewController: UIViewController {
     
     let confirmButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
+        button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.layer.cornerRadius = 12
@@ -35,7 +35,7 @@ class RemindViewController: UIViewController {
     }
     
     func setupNavigation() {
-        self.navigationItem.title = NSLocalizedString("RemindEveryDay", comment: "")
+        self.navigationItem.title = "RemindEveryDay".localized
     }
     
     @objc func setRemind(sender: UIButton) {
@@ -70,7 +70,7 @@ class RemindViewController: UIViewController {
         let id = "daily"
         
         let content = UNMutableNotificationContent()
-        content.body = String(format: NSLocalizedString("WriteMemoToday", comment: ""), "Quan")
+        content.body = String(format: "WriteMemoToday".localized, "Quan")
         content.sound = UNNotificationSound.default
         content.threadIdentifier = "notifi"
         content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber

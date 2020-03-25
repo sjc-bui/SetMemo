@@ -39,6 +39,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func createFloatButton() {
+        let btnWidthSize: CGFloat = 44
         floatingButton = UIButton(type: .custom)
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
         floatingButton.backgroundColor = Colors.shared.accentColor
@@ -46,15 +47,15 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         floatingButton.addTarget(self, action: #selector(createNewMemo(sender:)), for: .touchUpInside)
         
         view.addSubview(floatingButton)
-        floatingButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        floatingButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        floatingButton.widthAnchor.constraint(equalToConstant: btnWidthSize).isActive = true
+        floatingButton.heightAnchor.constraint(equalToConstant: btnWidthSize).isActive = true
         floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5).isActive = true
         
         floatingButton.layer.shadowColor = UIColor.black.cgColor
         floatingButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
         floatingButton.layer.masksToBounds = false
-        floatingButton.layer.cornerRadius = 22
+        floatingButton.layer.cornerRadius = btnWidthSize / 2
         floatingButton.layer.shadowRadius = 2.0
         floatingButton.layer.shadowOpacity = 0.5
     }
@@ -96,7 +97,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         //configureSearchBar()
         
         // custom Right bar button
-        let sortButton = UIBarButtonItem(title: NSLocalizedString("Sort", comment: ""), style: .done, target: self, action: #selector(sortBy))
+        let sortButton = UIBarButtonItem(title: "Sort".localized, style: .done, target: self, action: #selector(sortBy))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItem = sortButton
         self.navigationItem.leftBarButtonItem = settingButton
@@ -115,23 +116,23 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let sortByDateCreated = UIAlertAction(title: NSLocalizedString("SortByDateCreated", comment: ""), style: .default, handler: { (action) in
+        let sortByDateCreated = UIAlertAction(title: "SortByDateCreated".localized, style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default, handler: {
+        let sortByDateEdited = UIAlertAction(title: "SortByDateEdited".localized, style: .default, handler: {
             (action) in
             self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
+        let sortByTitle = UIAlertAction(title: "SortByTitle".localized, style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
         let target = "titleTextColor"
         sortByDateCreated.setValue(Colors.shared.accentColor, forKey: target)
@@ -185,9 +186,9 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func navigationTitle(total: Int) -> String {
         if total != 0 {
-            return String(format: NSLocalizedString("TotalMemo", comment: ""), total)
+            return String(format: "TotalMemo".localized, total)
         }
-        return NSLocalizedString("Memo", comment: "")
+        return "Memo".localized
     }
     
     // MARK: - TableView

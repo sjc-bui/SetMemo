@@ -10,8 +10,8 @@ import UIKit
 import LocalAuthentication
 
 class PrivacyController: UITableViewController {
-    let sections: Array = [NSLocalizedString("Biometrics", comment: "")]
-    let biometrics: Array = [NSLocalizedString("UseTouchOrFaceId", comment: "")]
+    let sections: Array = ["Biometrics".localized]
+    let biometrics: Array = ["UseTouchOrFaceId".localized]
     let defaults = UserDefaults.standard
     
     private let reuseIdentifier = "CellId"
@@ -21,7 +21,7 @@ class PrivacyController: UITableViewController {
     let unlockButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
-        button.setTitle(NSLocalizedString("UnlockApp", comment: ""), for: .normal)
+        button.setTitle("UnlockApp".localized, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.isUserInteractionEnabled = true
         button.layer.cornerRadius = 6
@@ -52,7 +52,7 @@ class PrivacyController: UITableViewController {
         var error: NSError?
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = NSLocalizedString("Reason", comment: "")
+            let reason = "Reason".localized
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
                 DispatchQueue.main.async {
@@ -163,7 +163,7 @@ class PrivacyController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = NSLocalizedString("Privacy", comment: "")
+        self.navigationItem.title = "Privacy".localized
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchCell)

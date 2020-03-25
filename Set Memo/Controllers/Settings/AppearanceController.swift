@@ -9,8 +9,8 @@
 import UIKit
 
 class AppearanceController: UITableViewController {
-    let iconTypes: Array = [NSLocalizedString("Type", comment: "")]
-    let mode: Array = [NSLocalizedString("Light", comment: ""), NSLocalizedString("Dark", comment: "")]
+    let iconTypes: Array = ["Type".localized]
+    let mode: Array = ["Light".localized, "Dark".localized]
     let settingController = SettingViewController()
     let themes = Themes()
     
@@ -21,7 +21,7 @@ class AppearanceController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = NSLocalizedString("ChangeAppIcon", comment: "")
+        self.navigationItem.title = "ChangeAppIcon".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
