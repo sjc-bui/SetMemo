@@ -9,26 +9,28 @@
 import UIKit
 import RealmSwift
 
-class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingViewController: UITableViewController {
     let sections: Array = [
-        NSLocalizedString("General", comment: ""),
-        NSLocalizedString("Advanced", comment: ""),
-        NSLocalizedString("Other", comment: "")]
+        "General".localized,
+        "Advanced".localized,
+        "Other".localized]
     
     let general: Array = [
-        NSLocalizedString("Privacy", comment: ""),
-        NSLocalizedString("FontSize", comment: ""),
-        NSLocalizedString("ChangeAppIcon", comment: ""),
-        NSLocalizedString("Alert", comment: ""),
-        NSLocalizedString("PlaceHolderLabel", comment: ""),
-        NSLocalizedString("DisplayUpdateTime", comment: ""),
-        NSLocalizedString("RemindEveryDay", comment: "")
+        "Privacy".localized,
+        "Alert".localized,
+        "FontSize".localized,
+        "ChangeAppIcon".localized,
+        "PlaceHolderLabel".localized,
+        "DisplayUpdateTime".localized,
+        "RemindEveryDay".localized,
+        "UseDarkMode".localized
     ]
     
-    let advanced: Array = [NSLocalizedString("DeleteLabel", comment: "")]
-    let other: Array = [NSLocalizedString("Version", comment: "")]
+    let advanced: Array = ["DeleteLabel".localized]
+    let other: Array = ["Version".localized]
     
-    var tableView: UITableView!
+    //var tableView: UITableView = UITableView()
+    let themes = Themes()
     let defaults = UserDefaults.standard
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
     private let reuseIdentifier = "Cell"
@@ -37,41 +39,40 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = NSLocalizedString("Setting", comment: "")
+        self.navigationItem.title = "Setting".localized
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: width, height: height), style: .grouped)
-        view.addSubview(tableView)
-        tableView.pin(to: view)
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.dataSource = self
+        
+        tableView.contentInset = .zero
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchIdentifier)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupDynamicElement()
+        removeExtraHeaderView()
+        tableView.reloadData()
+    }
+    
+    func removeExtraHeaderView() {
+        var frame = `CGRect`.zero
+        frame.size.height = .leastNormalMagnitude
+        tableView.tableHeaderView = UIView(frame: frame)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return general.count
         } else if section == 1 {
@@ -82,7 +83,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -137,6 +138,19 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 
                 return cell
+            case 7:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.selectionStyle = .none
+                cell.switchButton.addTarget(self, action: #selector(setupDarkTheme(sender:)), for: .valueChanged)
+                
+                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                    cell.switchButton.isOn = true
+                } else {
+                    cell.switchButton.isOn = false
+                }
+                
+                return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
@@ -166,8 +180,20 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
-            cell.backgroundColor = Colors.whiteColor
+            cell.backgroundColor = UIColor.systemBackground
             return cell
+        }
+    }
+    
+    @objc func setupDarkTheme(sender: UISwitch) {
+        if sender.isOn == true {
+            defaults.set(true, forKey: Resource.Defaults.useDarkMode)
+            viewWillAppear(true)
+            themes.setupPureDarkTheme()
+        } else {
+            defaults.set(false, forKey: Resource.Defaults.useDarkMode)
+            viewWillAppear(true)
+            themes.setupDefaultTheme()
         }
     }
     
@@ -186,48 +212,45 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @objc func displayUpdateTime(sender: UISwitch) {
         if sender.isOn == true {
             defaults.set(true, forKey: Resource.Defaults.displayDateTime)
-            viewWillAppear(true)
-            self.tableView.reloadData()
         } else {
             defaults.set(false, forKey: Resource.Defaults.displayDateTime)
-            viewWillAppear(true)
-            self.tableView.reloadData()
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                self.navigationController?.pushViewController(PrivacyController(), animated: true)
+                self.navigationController?.pushViewController(PrivacyController(style: .insetGrouped), animated: true)
             case 1:
-                self.navigationController?.pushViewController(FontSizeController(), animated: true)
+                self.navigationController?.pushViewController(AlertsController(style: .insetGrouped), animated: true)
             case 2:
-                self.navigationController?.pushViewController(AppearanceController(), animated: true)
+                self.navigationController?.pushViewController(FontSizeController(style: .insetGrouped), animated: true)
             case 3:
-                self.navigationController?.pushViewController(AlertsController(), animated: true)
+                self.navigationController?.pushViewController(AppearanceController(style: .insetGrouped), animated: true)
             case 4:
-                let alert = UIAlertController(title: NSLocalizedString("Placeholder", comment: ""), message: NSLocalizedString("CustomPlaceholder", comment: ""), preferredStyle: .alert)
+                let alert = UIAlertController(title: "Placeholder".localized, message: "CustomPlaceholder".localized, preferredStyle: .alert)
                 
                 alert.addTextField { textField in
-                    let placeholder = self.defaults.string(forKey: Resource.Defaults.writeNotePlaceholder)
+                    let placeholder = self.defaults.string(forKey: Resource.Defaults.writeMemoPlaceholder)
                     textField.placeholder = placeholder ?? "lalala..."
                     textField.autocorrectionType = .yes
                     textField.autocapitalizationType = .sentences
                 }
                 
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: { [weak alert] _ in
+                alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: { [weak alert] _ in
                     print(alert?.message ?? "cancel")
                 }))
-                alert.addAction(UIAlertAction(title: NSLocalizedString("Done", comment: ""), style: .default, handler: { [weak alert] _ in
+                
+                alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
                     let textField = alert?.textFields![0]
                     let text = textField?.text
                     
                     if text?.isEmpty ?? false {
                     } else {
-                        self.defaults.set(text, forKey: Resource.Defaults.writeNotePlaceholder)
+                        self.defaults.set(text, forKey: Resource.Defaults.writeMemoPlaceholder)
                     }
                 }))
                 
@@ -240,11 +263,11 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                let deleteAllAlert = UIAlertController(title: NSLocalizedString("Sure", comment: ""), message: NSLocalizedString("DeleteAll", comment: ""), preferredStyle: .alert)
-                let delete = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { action in
+                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAll".localized, preferredStyle: .alert)
+                let delete = UIAlertAction(title: "Delete".localized, style: .destructive, handler: { action in
                     RealmServices.shared.deleteAll()
                 })
-                let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default, handler: nil)
+                let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
                 
                 deleteAllAlert.addAction(cancel)
                 deleteAllAlert.addAction(delete)
@@ -258,12 +281,32 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell?.selectionStyle = .none
         }
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+    func darkModeIsEnable() -> Bool {
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            print("dark")
+            return true
+        } else {
+            print("light")
+            return false
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        themes.triggerSystemMode(mode: traitCollection)
+        setupDynamicElement()
+        tableView.reloadData()
+    }
+    
+    func setupDynamicElement() {
+        if darkModeIsEnable() == true {
+            tableView.separatorColor = nil
+        } else {
+            tableView.separatorColor = Colors.whiteColor
+        }
     }
 }

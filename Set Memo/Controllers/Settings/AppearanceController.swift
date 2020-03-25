@@ -8,10 +8,11 @@
 
 import UIKit
 
-class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var tableView: UITableView = UITableView()
-    let iconTypes: Array = [NSLocalizedString("Type", comment: "")]
-    let mode: Array = [NSLocalizedString("Light", comment: ""), NSLocalizedString("Dark", comment: "")]
+class AppearanceController: UITableViewController {
+    let iconTypes: Array = ["Type".localized]
+    let mode: Array = ["Light".localized, "Dark".localized]
+    let settingController = SettingViewController()
+    let themes = Themes()
     
     private let reuseIdentifier = "SettingCell"
     
@@ -20,32 +21,35 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        self.navigationItem.title = NSLocalizedString("ChangeAppIcon", comment: "")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: width, height: height), style: .grouped)
-        view.addSubview(tableView)
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.dataSource = self
+        self.navigationItem.title = "ChangeAppIcon".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupDynamicElement()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        themes.triggerSystemMode(mode: traitCollection)
+        setupDynamicElement()
+        tableView.reloadData()
+    }
+    
+    func setupDynamicElement() {
+        if settingController.darkModeIsEnable() == true {
+            tableView.separatorColor = nil
+        } else {
+            tableView.separatorColor = .white
+        }
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return iconTypes.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return mode.count
@@ -54,11 +58,11 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return iconTypes[section]
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(mode[indexPath.row])"
@@ -81,7 +85,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newRow = indexPath.row
         let oldRow = lastIndexPath.row
         
@@ -106,7 +110,7 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
     
@@ -121,12 +125,8 @@ class AppearanceController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
     }
     
     private func changeAppIcon(name: String?) {

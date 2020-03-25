@@ -8,14 +8,10 @@
 
 import UIKit
 
-class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    var tableView: UITableView = UITableView()
-    let sections: Array = [
-        NSLocalizedString("TouchAction", comment: ""),
-        NSLocalizedString("Random", comment: "")
-    ]
-    let touchAction: Array = [NSLocalizedString("Vibration", comment: "")]
-    let randomColor: Array = [NSLocalizedString("RandomColor", comment: "")]
+class AlertsController: UITableViewController {
+    let sections: Array = ["",""]
+    let touchAction: Array = ["Vibration".localized]
+    let iconBadges: Array = ["IconBadge".localized]
     
     private let reuseSettingCell = "SettingCell"
     private let reuseSettingSwitchCell = "SettingSwitchCell"
@@ -23,48 +19,36 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        self.navigationItem.title = NSLocalizedString("Alert", comment: "")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        let width = UIScreen.main.bounds.width
-        let height = UIScreen.main.bounds.height
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: width, height: height), style: .grouped)
-        view.addSubview(tableView)
-        tableView.tableFooterView = UIView()
-        tableView.delegate = self
-        tableView.dataSource = self
+        self.navigationItem.title = "Alert".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseSettingCell)
         tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSettingSwitchCell)
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return touchAction.count
         case 1:
-            return randomColor.count
+            return iconBadges.count
         default:
             return 0
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingCell) as! SettingCell
         
         if indexPath.section == 0 {
@@ -90,11 +74,11 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingSwitchCell, for: indexPath) as! SettingSwitchCell
-                cell.textLabel?.text = "\(randomColor[indexPath.row])"
+                cell.textLabel?.text = "\(iconBadges[indexPath.row])"
                 cell.selectionStyle = .none
-                cell.switchButton.addTarget(self, action: #selector(setRandomColor(sender:)), for: .valueChanged)
+                cell.switchButton.addTarget(self, action: #selector(showIconBadges(sender:)), for: .valueChanged)
                 
-                if defaults.bool(forKey: Resource.Defaults.randomColor) == true {
+                if defaults.bool(forKey: Resource.Defaults.showIconBadges) == true {
                     cell.switchButton.isOn = true
                 } else {
                     cell.switchButton.isOn = false
@@ -124,23 +108,19 @@ class AlertsController: UIViewController, UITableViewDelegate, UITableViewDataSo
         }
     }
     
-    @objc func setRandomColor(sender: UISwitch) {
+    @objc func showIconBadges(sender: UISwitch) {
         if sender.isOn == true {
-            defaults.set(true, forKey: Resource.Defaults.randomColor)
+            defaults.set(true, forKey: Resource.Defaults.showIconBadges)
             viewWillAppear(true)
             self.tableView.reloadData()
         } else {
-            defaults.set(false, forKey: Resource.Defaults.randomColor)
+            defaults.set(false, forKey: Resource.Defaults.showIconBadges)
             viewWillAppear(true)
             self.tableView.reloadData()
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
     }
 }

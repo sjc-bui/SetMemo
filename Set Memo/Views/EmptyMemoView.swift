@@ -24,7 +24,7 @@ class EmptyMemoView: UIView {
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.numberOfLines = 1
-        label.text = NSLocalizedString("EmptyLabel", comment: "")
+        label.text = "EmptyLabel".localized
         return label
     }()
     
@@ -33,7 +33,7 @@ class EmptyMemoView: UIView {
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.numberOfLines = 1
-        label.text = NSLocalizedString("EmptyDescription", comment: "")
+        label.text = "EmptyDescription".localized
         return label
     }()
     

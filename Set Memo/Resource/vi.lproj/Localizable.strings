@@ -49,6 +49,7 @@
 "SortByDateCreated" = "Theo ngày tạo";
 "SortByDateEdited" = "Theo ngày sửa";
 "SortByTitle" = "Theo tiêu đề";
+"Sort" = "Sắp xếp";
 "Vibration" = "Rung khi chạm";
 "RandomColor" = "Màu ngẫu nhiên";
 "Type" = "Loại";
@@ -57,3 +58,5 @@
 "RemindEveryDay" = "Nhắc nhở tôi hàng ngày";
 "Yourname" = "Tên của bạn";
 "WriteMemoToday" = "%@ ơi, Bạn đã viết ghi chú cho ngày hôm nay chưa?";
+"IconBadge" = "Icon badges";
+"UseDarkMode" = "Ứng dụng nền tối";

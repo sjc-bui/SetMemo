@@ -14,6 +14,8 @@ public class Colors {
     private init() {}
     
     // MARK: Colors
+    static let cellLight = UIColor(hexString: "#f6f6f6")
+    static let cellDark = UIColor(hexString: "#232323")
     
     static let redColor = UIColor.red
     
@@ -32,8 +34,12 @@ public class Colors {
     }
     
     var accentColor: UIColor {
-        return #colorLiteral(red: 0.9631381631, green: 0.3095718622, blue: 0.3006241322, alpha: 1)
+        return UIColor(hexString: "#FFB900")
     }
+    
+//    var accentColor: UIColor {
+//        return #colorLiteral(red: 0.9631381631, green: 0.3095718622, blue: 0.3006241322, alpha: 1)
+//    }
     
     var darkColor: UIColor {
         return UIColor(hexString: "#2c302d")
@@ -151,15 +157,5 @@ public class Colors {
     
     var placeHolderMessageColor: UIColor {
         return #colorLiteral(red: 0.6430656314, green: 0.6431785226, blue: 0.6430584788, alpha: 1)
-    }
-    
-    
-    func getRandomColor() -> UIColor {
-        if UserDefaults.standard.bool(forKey: Resource.Defaults.randomColor) == true {
-            let randomColor = Colors.vibrantColors.randomElement()!
-            print(randomColor)
-            return randomColor
-        }
-        return Colors.shared.accentColor
     }
 }

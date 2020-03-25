@@ -49,6 +49,7 @@
 "SortByDateCreated" = "作成日でソート";
 "SortByDateEdited" = "編集日でソート";
 "SortByTitle" = "タイトルでソート";
+"Sort" = "ソート";
 "Vibration" = "タッチ時の振動";
 "RandomColor" = "ランダム　カラー";
 "Type" = "タイプ";
@@ -57,3 +58,5 @@
 "RemindEveryDay" = "リマインダーの通知";
 "Yourname" = "お名前";
 "WriteMemoToday" = "こんにちは%@さん、今日のメモを書きましょう。^.^";
+"IconBadge" = "アイコンバッジ";
+"UseDarkMode" = "ダークテーマを利用";

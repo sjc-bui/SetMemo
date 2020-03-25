@@ -17,6 +17,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
     let defaults = UserDefaults.standard
+    var floatingButton = UIButton()
     
     override func initialize() {
         //super.initialize()
@@ -27,8 +28,36 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         configureTableView()
         fetchMemoFromDB()
         setupNavigation()
-        resetBadgeIcon()
+        resetIconBadges()
         requestReviewApp()
+        createFloatButton()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        floatingButton.removeFromSuperview()
+    }
+    
+    func createFloatButton() {
+        let btnWidthSize: CGFloat = 44
+        floatingButton = UIButton(type: .custom)
+        floatingButton.translatesAutoresizingMaskIntoConstraints = false
+        floatingButton.backgroundColor = Colors.shared.accentColor
+        floatingButton.setImage(Resource.Images.createButton, for: .normal)
+        floatingButton.addTarget(self, action: #selector(createNewMemo(sender:)), for: .touchUpInside)
+        
+        view.addSubview(floatingButton)
+        floatingButton.widthAnchor.constraint(equalToConstant: btnWidthSize).isActive = true
+        floatingButton.heightAnchor.constraint(equalToConstant: btnWidthSize).isActive = true
+        floatingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        floatingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -5).isActive = true
+        
+        floatingButton.layer.shadowColor = UIColor.black.cgColor
+        floatingButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        floatingButton.layer.masksToBounds = false
+        floatingButton.layer.cornerRadius = btnWidthSize / 2
+        floatingButton.layer.shadowRadius = 2.0
+        floatingButton.layer.shadowOpacity = 0.5
     }
     
     func requestReviewApp() {
@@ -42,7 +71,7 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func resetBadgeIcon() {
+    func resetIconBadges() {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
@@ -64,36 +93,46 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
         
+        //searchController.searchResultsUpdater = self as UISearchResultsUpdating
+        //configureSearchBar()
+        
         // custom Right bar button
-        let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
-        let sortButton = UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
-        let searchButton = UIBarButtonItem(image: Resource.Images.searchButton, style: .plain, target: self, action: nil)
+        let sortButton = UIBarButtonItem(title: "Sort".localized, style: .done, target: self, action: #selector(sortBy))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItems = [createButton, sortButton, searchButton]
+        self.navigationItem.rightBarButtonItem = sortButton
         self.navigationItem.leftBarButtonItem = settingButton
+    }
+    
+    func configureSearchBar() {
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Notes"
+        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.isActive = false
+        searchController.searchBar.delegate = self
+        navigationItem.searchController = searchController
     }
     
     @objc func sortBy() {
         DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let sortByDateCreated = UIAlertAction(title: NSLocalizedString("SortByDateCreated", comment: ""), style: .default, handler: { (action) in
+        let sortByDateCreated = UIAlertAction(title: "SortByDateCreated".localized, style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let sortByDateEdited = UIAlertAction(title: NSLocalizedString("SortByDateEdited", comment: ""), style: .default, handler: {
+        let sortByDateEdited = UIAlertAction(title: "SortByDateEdited".localized, style: .default, handler: {
             (action) in
             self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let sortByTitle = UIAlertAction(title: NSLocalizedString("SortByTitle", comment: ""), style: .default, handler: { (action) in
+        let sortByTitle = UIAlertAction(title: "SortByTitle".localized, style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromDB()
         })
         
-        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
         let target = "titleTextColor"
         sortByDateCreated.setValue(Colors.shared.accentColor, forKey: target)
@@ -114,14 +153,14 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         present(alertController, animated: true, completion: nil)
     }
     
-    @objc func createNewMemo() {
+    @objc func createNewMemo(sender: UIButton) {
         DeviceControl().feedbackOnPress()
         self.navigationController?.pushViewController(WriteMemoController(), animated: true)
     }
     
     @objc func settingPage() {
         DeviceControl().feedbackOnPress()
-        self.navigationController?.pushViewController(SettingViewController(), animated: true)
+        self.navigationController?.pushViewController(SettingViewController(style: .insetGrouped), animated: true)
     }
     
     func fetchMemoFromDB() {
@@ -147,9 +186,9 @@ class MemoViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     func navigationTitle(total: Int) -> String {
         if total != 0 {
-            return String(format: NSLocalizedString("TotalMemo", comment: ""), total)
+            return String(format: "TotalMemo".localized, total)
         }
-        return NSLocalizedString("Memo", comment: "")
+        return "Memo".localized
     }
     
     // MARK: - TableView

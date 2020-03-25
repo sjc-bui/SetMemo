@@ -14,7 +14,7 @@ class RemindViewController: UIViewController {
     
     let confirmButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Done", comment: ""), for: .normal)
+        button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.layer.cornerRadius = 12
@@ -25,7 +25,7 @@ class RemindViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +35,7 @@ class RemindViewController: UIViewController {
     }
     
     func setupNavigation() {
-        self.navigationItem.title = NSLocalizedString("RemindEveryDay", comment: "")
+        self.navigationItem.title = "RemindEveryDay".localized
     }
     
     @objc func setRemind(sender: UIButton) {
@@ -50,7 +50,7 @@ class RemindViewController: UIViewController {
         
         datePicker.datePickerMode = .time
         datePicker.timeZone = NSTimeZone.local
-        datePicker.setValue(UIColor.black, forKey: "textColor")
+        datePicker.setValue(UIColor.label, forKey: "textColor")
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -70,7 +70,7 @@ class RemindViewController: UIViewController {
         let id = "daily"
         
         let content = UNMutableNotificationContent()
-        content.body = String(format: NSLocalizedString("WriteMemoToday", comment: ""), "Quan")
+        content.body = String(format: "WriteMemoToday".localized, "Quan")
         content.sound = UNNotificationSound.default
         content.threadIdentifier = "notifi"
         content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber

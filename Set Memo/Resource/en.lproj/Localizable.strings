@@ -49,6 +49,7 @@
 "SortByDateCreated" = "Date Created";
 "SortByDateEdited" = "Date Edited";
 "SortByTitle" = "Title";
+"Sort" = "Sort";
 "Vibration" = "Vibration on touch";
 "RandomColor" = "Random color";
 "Type" = "Type";
@@ -57,3 +58,5 @@
 "RemindEveryDay" = "Remind me every day";
 "Yourname" = "Your name";
 "WriteMemoToday" = "Hey %@, Did you write a memo today?";
+"IconBadge" = "Icon badges";
+"UseDarkMode" = "Dark theme";

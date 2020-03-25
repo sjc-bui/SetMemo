@@ -11,7 +11,7 @@ import UIKit
 class DatetimeUtil {
     func convertDatetime(datetime: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = NSLocalizedString("DatetimeFormat", comment: "")
+        dateFormatter.dateFormat = "DatetimeFormat".localized
         let dateString = dateFormatter.string(from: datetime)
         return dateString
     }

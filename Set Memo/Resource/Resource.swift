@@ -27,9 +27,9 @@ public class Resource {
     
     public class Defaults {
         public static let vibrationOnTouch = "vibrationOnTouch"
-        public static let randomColor = "randomColor"
+        public static let showIconBadges = "showIconBadges"
         public static let displayDateTime = "displayDateTime"
-        public static let writeNotePlaceholder = "Write something"
+        public static let writeMemoPlaceholder = "Write something"
         public static let useBiometrics = "useBiometrics"
         public static let iconType = "iconType"
         public static let fontSize = "fontSize"
@@ -37,5 +37,6 @@ public class Resource {
         public static let lastReview = "lastReview"
         public static let remindEveryDay = "remindEveryDay"
         public static let remindAt = "remindAt"
+        public static let useDarkMode = "useDarkMode"
     }
 }

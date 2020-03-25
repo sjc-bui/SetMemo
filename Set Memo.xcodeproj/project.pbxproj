@@ -22,6 +22,7 @@
 		72406DA42411192900037EB4 /* AppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA32411192900037EB4 /* AppearanceController.swift */; };
 		72406DA62411194300037EB4 /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA52411194300037EB4 /* AlertsController.swift */; };
 		7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244892E240F3D90008E723C /* WriteMemoView.swift */; };
+		7248D0752429EB4700359505 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7248D0742429EB4700359505 /* Themes.swift */; };
 		724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724B3B0C24162E1000C4946B /* FontSizeController.swift */; };
 		724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D22408D9250088F581 /* MemoViewController.swift */; };
 		724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D62408D94A0088F581 /* SettingViewController.swift */; };
@@ -67,6 +68,7 @@
 		72406DA32411192900037EB4 /* AppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceController.swift; sourceTree = "<group>"; };
 		72406DA52411194300037EB4 /* AlertsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		7244892E240F3D90008E723C /* WriteMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoView.swift; sourceTree = "<group>"; };
+		7248D0742429EB4700359505 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		724B3B0C24162E1000C4946B /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
 		724CA6D22408D9250088F581 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
 		724CA6D62408D94A0088F581 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,14 @@
 				729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7248D0732429EB2D00359505 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				7248D0742429EB4700359505 /* Themes.swift */,
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		724CA6D12408D9060088F581 /* Controllers */ = {
@@ -278,6 +288,7 @@
 		72EFECDE2408D39F0035296F /* Set Memo */ = {
 			isa = PBXGroup;
 			children = (
+				7248D0732429EB2D00359505 /* Theme */,
 				723F8E25241DD02800149049 /* Common */,
 				72D0F8302417752C0026706A /* Const */,
 				727E50E824120B710042E81F /* App Icons */,
@@ -433,6 +444,7 @@
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
+				7248D0752429EB4700359505 /* Themes.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,
 				724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,

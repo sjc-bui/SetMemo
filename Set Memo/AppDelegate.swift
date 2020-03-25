@@ -21,13 +21,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         UserDefaults.standard.register(defaults: [
             Resource.Defaults.iconType: "light",
             Resource.Defaults.vibrationOnTouch: true,
-            Resource.Defaults.randomColor: false,
+            Resource.Defaults.showIconBadges: false,
             Resource.Defaults.displayDateTime: true,
-            Resource.Defaults.writeNotePlaceholder: "Write something...",
+            Resource.Defaults.writeMemoPlaceholder: "Write something...",
             Resource.Defaults.useBiometrics: false,
             Resource.Defaults.fontSize: 18,
             Resource.Defaults.sortBy: "dateCreated",
-            Resource.Defaults.remindEveryDay: false
+            Resource.Defaults.remindEveryDay: false,
+            Resource.Defaults.useDarkMode: false
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
