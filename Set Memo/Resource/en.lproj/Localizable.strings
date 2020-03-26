@@ -57,7 +57,10 @@
 "Light" = "Light";
 "Dark" = "Dark";
 "RemindEveryDay" = "Remind me every day";
+"RemindMe" = "Remind me";
 "Yourname" = "Your name";
 "WriteMemoToday" = "Hey %@, Did you write a memo today?";
 "IconBadge" = "Icon badges";
 "UseDarkMode" = "Dark theme";
+"RecentlyDeleted" = "Recently deleted";
+"Restore" = "Restore";

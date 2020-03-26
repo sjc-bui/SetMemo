@@ -16,5 +16,6 @@ class MemoItem : Object {
     @objc dynamic var dateEdited:Date = Date()
     @objc dynamic var isReminder:Bool = false
     @objc dynamic var dateReminder:Date = Date()
+    @objc dynamic var temporarilyDelete:Bool = false
     @objc dynamic var notificationUUID: String = ""
 }

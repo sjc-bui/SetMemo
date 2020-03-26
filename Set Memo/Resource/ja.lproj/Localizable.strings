@@ -57,7 +57,10 @@
 "Light" = "ライト";
 "Dark" = "ダーク";
 "RemindEveryDay" = "リマインダーの通知";
+"RemindMe" = "思い出させて";
 "Yourname" = "お名前";
 "WriteMemoToday" = "こんにちは%@さん、今日のメモを書きましょう。^.^";
 "IconBadge" = "アイコンバッジ";
 "UseDarkMode" = "ダークテーマを利用";
+"RecentlyDeleted" = "最近削除された";
+"Restore" = "戻す";

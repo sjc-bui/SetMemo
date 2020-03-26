@@ -135,7 +135,7 @@ class MemoViewController: UITableViewController {
             sortKeyPath = Resource.SortBy.dateEdited
         }
         
-        dt = RealmServices.shared.read(MemoItem.self).sorted(byKeyPath: sortKeyPath!, ascending: false)
+        dt = RealmServices.shared.read(MemoItem.self, temporarilyDelete: false).sorted(byKeyPath: sortKeyPath!, ascending: false)
         self.tableView.reloadData()
     }
     
@@ -194,11 +194,26 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        // temploratily delete item
         if editingStyle == .delete {
-            let item = dt![indexPath.row]
-            RealmServices.shared.delete(item)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            deleteHandler(indexPath: indexPath)
         }
+    }
+    
+    func deleteHandler(indexPath: IndexPath) {
+        let item = dt![indexPath.row]
+        let realm = try! Realm()
+        let memoItem = realm.objects(MemoItem.self).filter("id = %@", item.id).first
+        do {
+            try realm.write({
+                memoItem!.temporarilyDelete = true
+                memoItem?.dateEdited = Date()
+            })
+        } catch {
+            print(error)
+        }
+        
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -211,9 +226,12 @@ class MemoViewController: UITableViewController {
     @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: tableView)
         let indexPath = tableView.indexPathForRow(at: location)!
-        print(indexPath.row)
         
         let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let remind = UIAlertAction(title: "RemindMe".localized, style: .default) { (action) in
+            print("remind me")
+        }
         
         let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
             let shareText = self.dt![indexPath.row].content
@@ -221,16 +239,18 @@ class MemoViewController: UITableViewController {
         }
         
         let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            print(self.dt![indexPath.row].content)
+            self.deleteHandler(indexPath: indexPath)
         }
         
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
         let target = "titleTextColor"
+        remind.setValue(Colors.shared.accentColor, forKey: target)
         share.setValue(Colors.shared.accentColor, forKey: target)
         delete.setValue(Colors.shared.accentColor, forKey: target)
         cancel.setValue(Colors.shared.accentColor, forKey: target)
         
+        alertSheet.addAction(remind)
         alertSheet.addAction(share)
         alertSheet.addAction(delete)
         alertSheet.addAction(cancel)

@@ -26,7 +26,10 @@ class SettingViewController: UITableViewController {
         "UseDarkMode".localized
     ]
     
-    let advanced: Array = ["DeleteLabel".localized]
+    let advanced: Array = [
+        "DeleteLabel".localized,
+        "RecentlyDeleted".localized
+    ]
     let other: Array = ["Version".localized]
     
     //var tableView: UITableView = UITableView()
@@ -162,6 +165,13 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.accentColor
                 return cell
+            case 1:
+                let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.accentColor
+                let recentlyDeleteTotal = RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true)
+                cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
+                return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
@@ -264,8 +274,10 @@ class SettingViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAll".localized, preferredStyle: .alert)
+                
                 let delete = UIAlertAction(title: "Delete".localized, style: .destructive, handler: { action in
                     RealmServices.shared.deleteAll()
+                    tableView.reloadData()
                 })
                 let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
                 
@@ -273,6 +285,8 @@ class SettingViewController: UITableViewController {
                 deleteAllAlert.addAction(delete)
                 
                 present(deleteAllAlert, animated: true, completion: nil)
+            case 1:
+                self.navigationController?.pushViewController(RecentlyDeletedController(), animated: true)
             default:
                 return
             }
@@ -281,17 +295,15 @@ class SettingViewController: UITableViewController {
             cell?.selectionStyle = .none
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
     func darkModeIsEnable() -> Bool {
         if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-            print("dark")
             return true
         } else {
-            print("light")
             return false
         }
     }

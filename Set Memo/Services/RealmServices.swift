@@ -13,8 +13,13 @@ class RealmServices {
     
     let realm: Realm = try! Realm()
     
-    func read<T: Object> (_ object: T.Type) -> Results<T> {
-        return realm.objects(object.self)
+    func read<T: Object> (_ object: T.Type, temporarilyDelete: Bool) -> Results<T> {
+        return realm.objects(object.self).filter("temporarilyDelete = %@", temporarilyDelete)
+    }
+    
+    func recentlyDeletedItemCount<T: Object> (_ object: T.Type, temporarilyDelete: Bool) -> Int {
+        let total = realm.objects(object.self).filter("temporarilyDelete = %@", temporarilyDelete)
+        return total.count
     }
     
     /*Testing...*/
