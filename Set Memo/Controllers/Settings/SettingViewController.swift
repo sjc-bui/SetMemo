@@ -171,6 +171,8 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.textColor = Colors.shared.accentColor
                 let recentlyDeleteTotal = RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true)
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
+                cell.accessoryType = .disclosureIndicator
+                
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)

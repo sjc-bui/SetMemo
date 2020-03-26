@@ -44,7 +44,6 @@ class RecentlyDeletedController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize: Double = 16
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
-        cell.backgroundColor = .clear
         cell.textLabel?.text = dt![indexPath.row].content
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
@@ -86,7 +85,9 @@ class RecentlyDeletedController: UITableViewController {
             self.tableView.deleteRows(at: [indexPath!], with: .automatic)
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            print("Delete")
+            let item = self.dt![indexPath!.row]
+            RealmServices.shared.delete(item)
+            self.tableView.deleteRows(at: [indexPath!], with: .automatic)
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
@@ -104,7 +105,7 @@ class RecentlyDeletedController: UITableViewController {
         let screen = UIScreen.main.bounds
         alertSheetController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
         
-        DispatchQueue.main.async {
+        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
             self.present(alertSheetController, animated: true, completion: nil)
         }
     }

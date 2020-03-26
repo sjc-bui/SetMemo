@@ -56,9 +56,9 @@ class MemoViewController: UITableViewController {
         //configureSearchBar()
         
         // custom Right bar button
-        let sortButton = UIBarButtonItem(title: "Sort".localized, style: .done, target: self, action: #selector(sortBy))
-        let createButton = UIBarButtonItem(title: "New".localized, style: .done, target: self, action: #selector(createNewMemo))
-        let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
+        let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"), style: .plain, target: self, action: #selector(sortBy))
+        let createButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(createNewMemo))
+        let settingButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItems = [createButton, sortButton]
         self.navigationItem.leftBarButtonItem = settingButton
     }
@@ -155,8 +155,10 @@ class MemoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if dt?.count == 0 {
             tableView.backgroundView = emptyView
+            tableView.separatorStyle = .none
         } else {
             tableView.backgroundView = nil
+            tableView.separatorStyle = .singleLine
         }
         
         return dt!.count
@@ -165,7 +167,6 @@ class MemoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
-        cell.backgroundColor = .clear
         cell.textLabel?.text = dt![indexPath.row].content
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
@@ -260,7 +261,9 @@ class MemoViewController: UITableViewController {
         let screen = UIScreen.main.bounds
         alertSheet.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
         
-        self.present(alertSheet, animated: true, completion: nil)
+        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+            self.present(alertSheet, animated: true, completion: nil)
+        }
     }
     
     func shareMemo(content: String) {
@@ -270,6 +273,11 @@ class MemoViewController: UITableViewController {
         let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
         activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop,
                                                          UIActivity.ActivityType.addToReadingList]
+        
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
+        let screen = UIScreen.main.bounds
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
         
         self.present(activityViewController, animated: true, completion: nil)
     }

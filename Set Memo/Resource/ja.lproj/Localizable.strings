@@ -24,7 +24,7 @@
 "General" = "一般";
 "Advanced" = "アドバンスド";
 "Biometrics" = "生体認証";
-"UseTouchOrFaceId" = "タッチIDまたはフェイスIDを使用します";
+"UseTouchOrFaceId" = "Touch ID(Face ID)を使用する";
 "Privacy" = "プライバシー";
 "ChangeAppIcon" = "アプリアイコンの変更";
 "Alert" = "アラート";

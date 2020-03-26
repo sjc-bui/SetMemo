@@ -34,12 +34,10 @@ public class Colors {
     }
     
     var accentColor: UIColor {
-        return UIColor(hexString: "#FFB900")
+        return #colorLiteral(red: 0, green: 0.3313085437, blue: 0.7222445011, alpha: 1)
+        //return UIColor(hexString: "#FFB900")
+        //return #colorLiteral(red: 0.9631381631, green: 0.3095718622, blue: 0.3006241322, alpha: 1)
     }
-    
-//    var accentColor: UIColor {
-//        return #colorLiteral(red: 0.9631381631, green: 0.3095718622, blue: 0.3006241322, alpha: 1)
-//    }
     
     var darkColor: UIColor {
         return UIColor(hexString: "#2c302d")

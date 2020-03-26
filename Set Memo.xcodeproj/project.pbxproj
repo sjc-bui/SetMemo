@@ -46,7 +46,6 @@
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
-		72D0F8322417753F0026706A /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D0F8312417753F0026706A /* Const.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
 		72EFECE92408D3A00035296F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72EFECE82408D3A00035296F /* Assets.xcassets */; };
 		BC918B97F24D138C0E3C485C /* Pods_Set_Memo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BF6FA6DA92213F1BAE67B1 /* Pods_Set_Memo.framework */; };
@@ -93,7 +92,6 @@
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
-		72D0F8312417753F0026706A /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EFECDF2408D39F0035296F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72EFECE82408D3A00035296F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -238,14 +236,6 @@
 			path = Colors;
 			sourceTree = "<group>";
 		};
-		72D0F8302417752C0026706A /* Const */ = {
-			isa = PBXGroup;
-			children = (
-				72D0F8312417753F0026706A /* Const.swift */,
-			);
-			path = Const;
-			sourceTree = "<group>";
-		};
 		72E4D438241232D600606AD2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,7 +283,6 @@
 			children = (
 				7248D0732429EB2D00359505 /* Theme */,
 				723F8E25241DD02800149049 /* Common */,
-				72D0F8302417752C0026706A /* Const */,
 				727E50E824120B710042E81F /* App Icons */,
 				7244892D240F3D62008E723C /* Views */,
 				7299A525240A79B400AE39DE /* Services */,
@@ -465,7 +454,6 @@
 				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,
 				724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,
-				72D0F8322417753F0026706A /* Const.swift in Sources */,
 				7299A527240A79C900AE39DE /* RealmServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

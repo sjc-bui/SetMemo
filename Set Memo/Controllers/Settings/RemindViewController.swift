@@ -23,6 +23,17 @@ class RemindViewController: UIViewController {
         return button
     }()
     
+    let cancelButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Cancel".localized, for: .normal)
+        button.addTarget(self, action: #selector(cancel(sender:)), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.layer.cornerRadius = 12
+        button.backgroundColor = .lightGray
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "RemindEveryDay".localized
@@ -36,9 +47,14 @@ class RemindViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func cancel(sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func setupView() {
         self.view.addSubview(datePicker)
         self.view.addSubview(confirmButton)
+        self.view.addSubview(cancelButton)
         
         datePicker.datePickerMode = .time
         datePicker.timeZone = NSTimeZone.local
@@ -46,14 +62,19 @@ class RemindViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 4).isActive = true
         datePicker.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         datePicker.heightAnchor.constraint(equalToConstant: 160).isActive = true
         
         confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         confirmButton.widthAnchor.constraint(equalToConstant: 250).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
-        confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 30).isActive = true
+        confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20).isActive = true
+        
+        cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cancelButton.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        cancelButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        cancelButton.topAnchor.constraint(equalTo: confirmButton.bottomAnchor, constant: 8).isActive = true
     }
     
     func fireNotification() {

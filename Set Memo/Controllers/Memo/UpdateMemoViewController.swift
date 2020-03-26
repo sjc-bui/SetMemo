@@ -76,8 +76,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if notification.name == UIResponder.keyboardWillHideNotification {
             writeMemoView.inputTextView.contentInset = .zero
         } else {
-            writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height + 42, right: 0)
-            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight)
+            writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - 42, right: 0)
+            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight - 42)
         }
         
         writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
