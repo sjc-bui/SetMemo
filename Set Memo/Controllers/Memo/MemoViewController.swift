@@ -19,7 +19,7 @@ class MemoViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        tableView.register(MemoViewCell.self, forCellReuseIdentifier: "cellId")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,23 +165,18 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
-        cell.textLabel?.text = dt![indexPath.row].content
-        cell.textLabel?.numberOfLines = 2
-        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
         
-        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
-            let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
-            cell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
-            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-        } else {
-            cell.detailTextLabel?.text = ""
-        }
+        cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
+        cell.content.text = dt![indexPath.row].content
+        cell.content.numberOfLines = 2
         
-        cell.tintColor = Colors.shared.orangeColor
+        let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
+        cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+        cell.dateEdited.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
+        
         cell.accessoryType = .disclosureIndicator
-        
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
         
         return cell
