@@ -16,7 +16,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     let writeMemoView = WriteMemoView()
     
     override func initialize() {
-        setupNotifications()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,11 +25,41 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         setupView()
         writeMemoView.inputTextView.text = memoItem?.content
         setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.dateEdited))
+        addKeyboardListener()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
         updateMemoItem()
+    }
+    
+    func addKeyboardListener() {
+        self.navigationItem.rightBarButtonEnable(isEnabled: false)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        //let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            writeMemoView.inputTextView.contentInset = .zero
+            self.navigationItem.rightBarButtonEnable(isEnabled: false)
+        } else {
+            writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
+            self.navigationItem.rightBarButtonEnable(isEnabled: true)
+        }
+        
+        writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
+        
+        let selectedRange = writeMemoView.inputTextView.selectedRange
+        writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -39,13 +68,13 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func setupNavigation(time: String) {
         self.navigationItem.title = time
-        let remindButton = UIBarButtonItem(image: Resource.Images.alarmButton, style: .plain, target: self, action: #selector(updateRemind))
-        self.navigationItem.rightBarButtonItem = remindButton
+        let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
+        self.navigationItem.rightBarButtonItem = hideKeyboardBtn
     }
     
-    @objc func updateRemind() {
+    @objc func hideKeyboard() {
         DeviceControl().feedbackOnPress()
-        print("update remind")
+        self.view.endEditing(true)
     }
     
     func setupView() {
@@ -59,31 +88,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         textView.isScrollEnabled = true
         textView.isPlaceholderScrollEnabled = true
         textView.delegate = self
-    }
-    
-    func setupNotifications() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-    }
-    
-    @objc func adjustForKeyboard(notification: Notification) {
-        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        
-        let keyboardScreenEndFrame = keyboardValue.cgRectValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-        
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            writeMemoView.inputTextView.contentInset = .zero
-        } else {
-            writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - 42, right: 0)
-            writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: writeMemoView.screenHeight - 42)
-        }
-        
-        writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
-        
-        let selectedRange = writeMemoView.inputTextView.selectedRange
-        writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
     }
     
     @objc func updateMemoItem() {

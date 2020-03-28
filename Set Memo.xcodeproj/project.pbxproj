@@ -47,6 +47,8 @@
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
+		72E7CEDB242E1CAC00541E63 /* UINavigationItemExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */; };
+		72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
 		72EFECE92408D3A00035296F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72EFECE82408D3A00035296F /* Assets.xcassets */; };
 		BC918B97F24D138C0E3C485C /* Pods_Set_Memo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BF6FA6DA92213F1BAE67B1 /* Pods_Set_Memo.framework */; };
@@ -94,6 +96,8 @@
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
+		72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemExt.swift; sourceTree = "<group>"; };
+		72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExt.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EFECDF2408D39F0035296F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72EFECE82408D3A00035296F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -199,6 +203,8 @@
 				7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */,
 				72275685240CA1C400654898 /* UILabelExt.swift */,
 				72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */,
+				72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */,
+				72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -443,11 +449,13 @@
 				7248D0752429EB4700359505 /* Themes.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,
 				724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */,
+				72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,
 				724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */,
 				72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */,
 				724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */,
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
+				72E7CEDB242E1CAC00541E63 /* UINavigationItemExt.swift in Sources */,
 				726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
 				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,

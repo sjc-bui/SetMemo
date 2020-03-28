@@ -26,13 +26,16 @@ class SettingViewController: UITableViewController {
         "UseDarkMode".localized
     ]
     
+    let advancedDelete: Array = [
+        "DeleteLabel".localized
+    ]
+    
     let advanced: Array = [
         "DeleteLabel".localized,
         "RecentlyDeleted".localized
     ]
     let other: Array = ["Version".localized]
     
-    //var tableView: UITableView = UITableView()
     let themes = Themes()
     let defaults = UserDefaults.standard
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
@@ -58,7 +61,7 @@ class SettingViewController: UITableViewController {
         super.viewWillAppear(animated)
         setupDynamicElement()
         removeExtraHeaderView()
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     func removeExtraHeaderView() {
@@ -79,7 +82,11 @@ class SettingViewController: UITableViewController {
         if section == 0 {
             return general.count
         } else if section == 1 {
-            return advanced.count
+            if RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true) == 0 {
+                return advancedDelete.count
+            } else {
+                return advanced.count
+            }
         } else if section == 2 {
             return other.count
         }
@@ -87,6 +94,8 @@ class SettingViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let recentlyDeleteTotal = RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true)
+        
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -158,7 +167,8 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 1 && recentlyDeleteTotal != 0 {
+            // When recently delete item != 0
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -169,10 +179,22 @@ class SettingViewController: UITableViewController {
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.accentColor
-                let recentlyDeleteTotal = RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true)
+                
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
                 cell.accessoryType = .disclosureIndicator
                 
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                return cell
+            }
+        } else if indexPath.section == 1 && recentlyDeleteTotal == 0 {
+            // When recently delete item = 0
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.accentColor
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)

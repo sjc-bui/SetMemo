@@ -24,7 +24,7 @@ class PrivacyController: UITableViewController {
         button.setTitle("UnlockApp".localized, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.isUserInteractionEnabled = true
-        button.layer.cornerRadius = 6
+        button.layer.cornerRadius = 12
         button.tag = 101
         
         return button
@@ -38,7 +38,7 @@ class PrivacyController: UITableViewController {
         blurEffectView.alpha = 1
         
         unlockButton.center = window.center
-        unlockButton.backgroundColor = Colors.shared.secondaryColor
+        unlockButton.backgroundColor = Colors.shared.accentColor
         blurEffectView.tag = 100
         unlockButton.alpha = 0
         

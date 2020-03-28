@@ -44,6 +44,7 @@ class RecentlyDeletedController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize: Double = 16
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        
         cell.textLabel?.text = dt![indexPath.row].content
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
@@ -60,7 +61,7 @@ class RecentlyDeletedController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        cell?.isSelected = false
+        cell?.selectedBackground()
     }
     
     @objc func longTapHandle(sender: UILongPressGestureRecognizer) {
@@ -106,6 +107,7 @@ class RecentlyDeletedController: UITableViewController {
         alertSheetController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
         
         if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+            DeviceControl().feedbackOnPress()
             self.present(alertSheetController, animated: true, completion: nil)
         }
     }

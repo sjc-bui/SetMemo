@@ -19,7 +19,7 @@ class WriteMemoView: UIView {
     }
     
     lazy var inputTextView: MultilineTextField = {
-        let frame = CGRect(x: 0, y: 100, width: screenWidth, height: screenHeight - 100)
+        let frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         let textField = MultilineTextField(frame: frame)
         textField.placeholderColor = UIColor.tertiaryLabel
         textField.font = UIFont.boldSystemFont(ofSize: 32)

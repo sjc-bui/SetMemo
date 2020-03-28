@@ -166,15 +166,21 @@ class MemoViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
+        cell.selectedBackground()
+        
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
         
         cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
         cell.content.text = dt![indexPath.row].content
         cell.content.numberOfLines = 2
         
-        let detailTextSize = (defaultFontSize / 1.5).rounded(.down)
-        cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-        cell.dateEdited.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
+        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
+            let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
+            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
+        } else {
+            cell.dateEdited.text = ""
+        }
         
         cell.accessoryType = .disclosureIndicator
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
@@ -257,6 +263,7 @@ class MemoViewController: UITableViewController {
         alertSheet.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
         
         if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+            DeviceControl().feedbackOnPress()
             self.present(alertSheet, animated: true, completion: nil)
         }
     }
