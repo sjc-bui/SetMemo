@@ -11,20 +11,22 @@ import RealmSwift
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var memoId: String = ""
+    var hashTagString: String = ""
     var inputContent: String? = nil
     var textViewIsChanging: Bool = false
     let writeMemoView = WriteMemoView()
+    var item = MemoItem()
     
     override func initialize() {
+        let realm = try! Realm()
+        item = realm.objects(MemoItem.self).filter("id = %@", memoId).first!
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let realm = try! Realm()
-        let memoItem = realm.objects(MemoItem.self).filter("id = %@", memoId).first
         setupView()
-        writeMemoView.inputTextView.text = memoItem?.content
-        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: memoItem!.dateEdited))
+        writeMemoView.inputTextView.text = item.content
+        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: item.dateEdited))
         addKeyboardListener()
     }
     
@@ -69,12 +71,41 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     func setupNavigation(time: String) {
         self.navigationItem.title = time
         let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
-        self.navigationItem.rightBarButtonItem = hideKeyboardBtn
+        let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(updateHashTag))
+        self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn]
     }
     
     @objc func hideKeyboard() {
         DeviceControl().feedbackOnPress()
         self.view.endEditing(true)
+    }
+    
+    @objc func updateHashTag() {
+        let alert = UIAlertController(title: "#\(self.item.hashTag)", message: nil, preferredStyle: .alert)
+        
+        alert.addTextField { textField in
+            textField.placeholder = "newHashTag"
+            textField.autocorrectionType = .yes
+            textField.autocapitalizationType = .none
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+            let textField = alert?.textFields![0]
+            let text = textField?.text
+            
+            if text?.isEmpty ?? false {
+            } else {
+                if text?.isEmpty ?? false {
+                } else {
+                    self.textViewIsChanging = true
+                    self.hashTagString = FormatString().formatHashTag(text: text!)
+                }
+            }
+        }))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func setupView() {
@@ -91,14 +122,13 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func updateMemoItem() {
-        DeviceControl().feedbackOnPress()
         if textViewIsChanging {
             let realm = try! Realm()
-            let item = realm.objects(MemoItem.self).filter("id = %@", memoId).first
             do {
                 try realm.write {
-                    item?.content = writeMemoView.inputTextView.text
-                    item?.dateEdited = Date()
+                    item.content = writeMemoView.inputTextView.text
+                    item.dateEdited = Date()
+                    item.hashTag = hashTagString
                 }
             } catch {
                 print(error)

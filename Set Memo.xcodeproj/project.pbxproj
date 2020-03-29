@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
 		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
+		72122C54242FB27D007E7D06 /* FormatString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72122C53242FB27D007E7D06 /* FormatString.swift */; };
 		7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */; };
 		72275686240CA1C400654898 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72275685240CA1C400654898 /* UILabelExt.swift */; };
 		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
@@ -58,6 +59,7 @@
 		171D6606EF39714791448C0A /* Pods-Set Memo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set Memo.debug.xcconfig"; path = "Target Support Files/Pods-Set Memo/Pods-Set Memo.debug.xcconfig"; sourceTree = "<group>"; };
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
+		72122C53242FB27D007E7D06 /* FormatString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatString.swift; sourceTree = "<group>"; };
 		7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatetimeUtil.swift; sourceTree = "<group>"; };
 		72275685240CA1C400654898 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
 		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			children = (
 				7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */,
 				72406D9B24107A1C00037EB4 /* DeviceControl.swift */,
+				72122C53242FB27D007E7D06 /* FormatString.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				723F8E29241DDFCF00149049 /* Resource.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
+				72122C54242FB27D007E7D06 /* FormatString.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
 				7248D0752429EB4700359505 /* Themes.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,

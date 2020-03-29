@@ -16,7 +16,7 @@
 "Save" = "Lưu";
 "Delete" = "Xoá";
 "Share" = "Chia sẻ";
-"DeleteAll" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
+"DeleteAllMessage" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
 "DatetimeFormat" = "HH:mm dd/MM/yyyy";
 "EmptyLabel" = "Bạn chưa tạo ghi chú !";
@@ -28,7 +28,7 @@
 "Biometrics" = "Sinh trắc học";
 "ChangeAppIcon" = "Thay đổi biểu tượng ứng dụng";
 "Alert" = "Cảnh báo";
-"DeleteLabel" = "Xoá hết ghi chú";
+"DeleteLabel" = "Xoá tất cả";
 "PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
 "Placeholder" = "Văn bản đánh dấu";
 "CustomPlaceholder" = "Thay đổi văn bản đánh dấu\n tại màn hình tạo ghi chú mới";
@@ -63,4 +63,7 @@
 "IconBadge" = "Icon badges";
 "UseDarkMode" = "Ứng dụng nền tối";
 "RecentlyDeleted" = "Đã xóa gần đây";
-"Restore" = "Khôi phục";
+"RecentlyDeletedMemo" = "Ghi chú đã xóa gần đây";
+"RecoverBodyContent" = "Không thể sửa ghi chú đã xóa gần đây.\n Để sửa, hãy khôi phục ghi chú này.";
+"Recover" = "Khôi phục";
+"SearchPlaceholder" = "Tìm kiếm";

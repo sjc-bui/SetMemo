@@ -17,6 +17,7 @@ public class Resource {
         public static var alarmButton: UIImage? = UIImage(named: "alarm")
         public static var searchButton: UIImage? = UIImage(named: "search")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
+        public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
     }
     
     public class SortBy {

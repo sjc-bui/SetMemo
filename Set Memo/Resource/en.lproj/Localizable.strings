@@ -16,7 +16,7 @@
 "Save" = "Save";
 "Delete" = "Delete";
 "Share" = "Share";
-"DeleteAll" = "All saved memo will be delete.";
+"DeleteAllMessage" = "All saved memo will be delete.";
 "Edit" = "Edit";
 "DatetimeFormat" = "yyyy/MM/dd HH:mm";
 "EmptyLabel" = "You haven't saved any memo !";
@@ -28,7 +28,7 @@
 "UseTouchOrFaceId" = "Use Touch ID or Face ID";
 "ChangeAppIcon" = "Change app icon";
 "Alert" = "Alerts";
-"DeleteLabel" = "Delete all memo";
+"DeleteLabel" = "Delete all";
 "PlaceHolderLabel" = "Custom placeholder";
 "Placeholder" = "Placeholder";
 "CustomPlaceholder" = "Customize the message on screen\n where you create memo";
@@ -63,4 +63,7 @@
 "IconBadge" = "Icon badges";
 "UseDarkMode" = "Dark theme";
 "RecentlyDeleted" = "Recently deleted";
-"Restore" = "Restore";
+"RecentlyDeletedMemo" = "Recently deleted memo";
+"RecoverBodyContent" = "Recently deleted memo can't be edited. \n To edit this memo, recover it first.";
+"Recover" = "Recover";
+"SearchPlaceholder" = "Search";

@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 class RecentlyDeletedController: UITableViewController {
-    var dt: Results<MemoItem>?
+    var data: [MemoItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,28 +33,26 @@ class RecentlyDeletedController: UITableViewController {
     }
     
     func fetchMemoFromDB() {
-        dt = RealmServices.shared.read(MemoItem.self, temporarilyDelete: true).sorted(byKeyPath: Resource.SortBy.dateEdited, ascending: false)
+        data = RealmServices.shared.read(MemoItem.self, temporarilyDelete: true)
         tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dt!.count
+        return data.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize: Double = 16
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         
-        cell.textLabel?.text = dt![indexPath.row].content
+        cell.textLabel?.text = data[indexPath.row].content
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
         
-        cell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
+        cell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: data[indexPath.row].dateEdited)
         
         cell.tintColor = Colors.shared.orangeColor
         cell.accessoryType = .none
-        
-        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandle(sender:))))
         
         return cell
     }
@@ -62,16 +60,14 @@ class RecentlyDeletedController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectedBackground()
+        tapHandler(indexPath: indexPath)
     }
     
-    @objc func longTapHandle(sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: tableView)
-        let indexPath = tableView.indexPathForRow(at: location)
+    func tapHandler(indexPath: IndexPath) {
+        let alertSheetController = UIAlertController(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, preferredStyle: .actionSheet)
         
-        let alertSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let restoreButton = UIAlertAction(title: "Restore".localized, style: .default) { (action) in
-            let item = self.dt![indexPath!.row]
+        let recoverButton = UIAlertAction(title: "Recover".localized, style: .default) { (action) in
+            let item = self.data[indexPath.row]
             let realm = try! Realm()
             let memoItem = realm.objects(MemoItem.self).filter("id = %@", item.id).first
             do {
@@ -83,21 +79,21 @@ class RecentlyDeletedController: UITableViewController {
                 print(error)
             }
             
-            self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            let item = self.dt![indexPath!.row]
+            let item = self.data[indexPath.row]
             RealmServices.shared.delete(item)
-            self.tableView.deleteRows(at: [indexPath!], with: .automatic)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
         let target = "titleTextColor"
-        restoreButton.setValue(Colors.shared.accentColor, forKey: target)
+        recoverButton.setValue(Colors.shared.accentColor, forKey: target)
         deleteButton.setValue(Colors.shared.accentColor, forKey: target)
         cancelButton.setValue(Colors.shared.accentColor, forKey: target)
         
-        alertSheetController.addAction(restoreButton)
+        alertSheetController.addAction(recoverButton)
         alertSheetController.addAction(deleteButton)
         alertSheetController.addAction(cancelButton)
         

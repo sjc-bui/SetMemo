@@ -297,9 +297,9 @@ class SettingViewController: UITableViewController {
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAll".localized, preferredStyle: .alert)
+                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
                 
-                let delete = UIAlertAction(title: "Delete".localized, style: .destructive, handler: { action in
+                let delete = UIAlertAction(title: "DeleteLabel".localized, style: .destructive, handler: { action in
                     RealmServices.shared.deleteAll()
                     tableView.reloadData()
                 })

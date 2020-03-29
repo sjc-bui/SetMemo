@@ -11,7 +11,8 @@ import RealmSwift
 import StoreKit
 
 class MemoViewController: UITableViewController {
-    var dt: Results<MemoItem>?
+    var data: [MemoItem] = []
+    var filterMemo: [MemoItem] = []
     let notification = UINotificationFeedbackGenerator()
     let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
@@ -33,7 +34,7 @@ class MemoViewController: UITableViewController {
     func requestReviewApp() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         // request user review when update to new version
-        if dt!.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
+        if data.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
             if #available(iOS 10.3, *) {
                 SKStoreReviewController.requestReview()
                 defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
@@ -53,7 +54,7 @@ class MemoViewController: UITableViewController {
         extendedLayoutIncludesOpaqueBars = true
         
         //searchController.searchResultsUpdater = self as UISearchResultsUpdating
-        //configureSearchBar()
+        configureSearchBar()
         
         // custom Right bar button
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"), style: .plain, target: self, action: #selector(sortBy))
@@ -64,12 +65,36 @@ class MemoViewController: UITableViewController {
     }
     
     func configureSearchBar() {
+        searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Notes"
+        searchController.searchBar.placeholder = "SearchPlaceholder".localized
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.isActive = false
+        searchController.searchBar.scopeButtonTitles = ["SortByTitle".localized, "hashTag"]
         //searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        if searchController.searchBar.selectedScopeButtonIndex == 0 {
+            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
+                memo.content.lowercased().contains(searchText.lowercased())
+            })
+            tableView.reloadData()
+        } else if searchController.searchBar.selectedScopeButtonIndex == 1 {
+            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
+                memo.hashTag.lowercased().contains(searchText.lowercased())
+            })
+            tableView.reloadData()
+        }
     }
     
     @objc func sortBy() {
@@ -135,7 +160,7 @@ class MemoViewController: UITableViewController {
             sortKeyPath = Resource.SortBy.dateEdited
         }
         
-        dt = RealmServices.shared.read(MemoItem.self, temporarilyDelete: false).sorted(byKeyPath: sortKeyPath!, ascending: false)
+        data = RealmServices.shared.read(MemoItem.self, temporarilyDelete: false)
         self.tableView.reloadData()
     }
     
@@ -153,31 +178,46 @@ class MemoViewController: UITableViewController {
     
     // MARK: - TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if dt?.count == 0 {
+        if data.count == 0 {
             tableView.backgroundView = emptyView
             tableView.separatorStyle = .none
         } else {
             tableView.backgroundView = nil
             tableView.separatorStyle = .singleLine
+            if isFiltering() {
+                return filterMemo.count
+            } else {
+                return data.count
+            }
         }
         
-        return dt!.count
+        return data.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
         cell.selectedBackground()
         
+        var memo = data[indexPath.row]
+        if isFiltering() {
+            memo = filterMemo[indexPath.row]
+        } else {
+            memo = data[indexPath.row]
+        }
+        
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
         
         cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
-        cell.content.text = dt![indexPath.row].content
+        cell.content.text = memo.content
         cell.content.numberOfLines = 2
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
             cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-            cell.dateEdited.text = DatetimeUtil().convertDatetime(datetime: dt![indexPath.row].dateEdited)
+            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.text = "\(DatetimeUtil().convertDatetime(datetime: memo.dateEdited))"
+            cell.hashTag.text = "#\(memo.hashTag)"
+            cell.hashTag.textAlignment = .right
         } else {
             cell.dateEdited.text = ""
         }
@@ -189,9 +229,16 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let memoId = dt![indexPath.row].id
+        var memoId: String?
+        
+        if isFiltering() {
+            memoId = filterMemo[indexPath.row].id
+        } else {
+            memoId = data[indexPath.row].id
+        }
+        
         let updateView = UpdateMemoViewController()
-        updateView.memoId = memoId
+        updateView.memoId = memoId!
         self.navigationController?.pushViewController(updateView, animated: true)
     }
     
@@ -203,7 +250,14 @@ class MemoViewController: UITableViewController {
     }
     
     func deleteHandler(indexPath: IndexPath) {
-        let item = dt![indexPath.row]
+        var item = data[indexPath.row]
+        
+        if isFiltering() {
+            item = filterMemo[indexPath.row]
+        } else {
+            item = data[indexPath.row]
+        }
+        
         let realm = try! Realm()
         let memoItem = realm.objects(MemoItem.self).filter("id = %@", item.id).first
         do {
@@ -218,13 +272,6 @@ class MemoViewController: UITableViewController {
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-        UIView.animate(withDuration: 0.3, delay: 0.01 * Double(indexPath.row), animations: {
-            cell.alpha = 1
-        })
-    }
-    
     @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: tableView)
         let indexPath = tableView.indexPathForRow(at: location)!
@@ -236,8 +283,9 @@ class MemoViewController: UITableViewController {
         }
         
         let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
-            let shareText = self.dt![indexPath.row].content
-            self.shareMemo(content: shareText)
+            let shareText = self.data[indexPath.row].content
+            let hashTag = self.data[indexPath.row].hashTag
+            self.shareMemo(content: shareText, hashTag: hashTag)
         }
         
         let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
@@ -268,8 +316,8 @@ class MemoViewController: UITableViewController {
         }
     }
     
-    func shareMemo(content: String) {
-        let textToShare = content
+    func shareMemo(content: String, hashTag: String) {
+        let textToShare = "#\(hashTag)\n\(content)"
         let objectToShare = [textToShare] as [Any]
         
         let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
@@ -282,5 +330,11 @@ class MemoViewController: UITableViewController {
         activityViewController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
         
         self.present(activityViewController, animated: true, completion: nil)
+    }
+}
+
+extension MemoViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
     }
 }

@@ -25,4 +25,19 @@ extension String {
     func localized(_ args: [CVarArg]) -> String {
         return localized(args)
     }
+    
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
+    
+    // viet name -> VietNam
+    var camelCasedString: String {
+        return self.components(separatedBy: " ")
+            .map { return $0.lowercased().capitalizingFirstLetter() }
+            .joined()
+    }
+    
+    var stripped: String {
+        return self.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+    }
 }
