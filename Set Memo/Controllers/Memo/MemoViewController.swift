@@ -8,8 +8,11 @@
 
 import UIKit
 import StoreKit
+import CoreData
 
 class MemoViewController: UITableViewController {
+    var memoData: [Memo] = []
+    var filterMemoData: [Memo] = []
     
     let notification = UINotificationFeedbackGenerator()
     let searchController = UISearchController(searchResultsController: nil)
@@ -18,26 +21,27 @@ class MemoViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.delegate = self
         tableView.register(MemoViewCell.self, forCellReuseIdentifier: "cellId")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchMemoFromDB()
+        fetchMemoFromCoreData()
         setupNavigation()
         resetIconBadges()
         requestReviewApp()
     }
     
     func requestReviewApp() {
-        //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         // request user review when update to new version
-//        if data.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
-//            if #available(iOS 10.3, *) {
-//                SKStoreReviewController.requestReview()
-//                defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
-//            }
-//        }
+        if memoData.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+                defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
+            }
+        }
     }
     
     func resetIconBadges() {
@@ -45,6 +49,7 @@ class MemoViewController: UITableViewController {
     }
     
     private func setupNavigation() {
+        self.navigationItem.title = "Memo".localized
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -81,14 +86,14 @@ class MemoViewController: UITableViewController {
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         if searchController.searchBar.selectedScopeButtonIndex == 0 {
-//            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
-//                memo.content.lowercased().contains(searchText.lowercased())
-//            })
+            filterMemoData = memoData.filter({ (memo: Memo) -> Bool in
+                memo.content!.lowercased().contains(searchText.lowercased())
+            })
             tableView.reloadData()
         } else if searchController.searchBar.selectedScopeButtonIndex == 1 {
-//            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
-//                memo.hashTag.lowercased().contains(searchText.lowercased())
-//            })
+            filterMemoData = memoData.filter({ (memo: Memo) -> Bool in
+                memo.hashTag!.lowercased().contains(searchText.lowercased())
+            })
             tableView.reloadData()
         }
     }
@@ -99,18 +104,18 @@ class MemoViewController: UITableViewController {
         
         let sortByDateCreated = UIAlertAction(title: "SortByDateCreated".localized, style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromDB()
+            self.fetchMemoFromCoreData()
         })
         
         let sortByDateEdited = UIAlertAction(title: "SortByDateEdited".localized, style: .default, handler: {
             (action) in
             self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromDB()
+            self.fetchMemoFromCoreData()
         })
         
         let sortByTitle = UIAlertAction(title: "SortByTitle".localized, style: .default, handler: { (action) in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromDB()
+            self.fetchMemoFromCoreData()
         })
         
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
@@ -144,16 +149,36 @@ class MemoViewController: UITableViewController {
         self.navigationController?.pushViewController(SettingViewController(style: .insetGrouped), animated: true)
     }
     
-    func fetchMemoFromDB() {
+    func fetchMemoFromCoreData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        fetchRequest.returnsObjectsAsFaults = false
+        
         let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
-        var sortKeyPath: String?
+        var sortDescriptor: NSSortDescriptor?
         
         if sortBy == Resource.SortBy.dateCreated {
-            sortKeyPath = Resource.SortBy.dateCreated
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateCreated, ascending: false)
         } else if sortBy == Resource.SortBy.title {
-            sortKeyPath = Resource.SortBy.content
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.content, ascending: false)
         } else if sortBy == Resource.SortBy.dateEdited {
-            sortKeyPath = Resource.SortBy.dateEdited
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
+        }
+        
+        fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]
+        
+        do {
+            self.memoData = try managedContext.fetch(fetchRequest) as! [Memo]
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
         
         print("get sorted data here")
@@ -174,52 +199,63 @@ class MemoViewController: UITableViewController {
     
     // MARK: - TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if data.count == 0 {
-//            tableView.backgroundView = emptyView
-//            tableView.separatorStyle = .none
-//        } else {
-//            tableView.backgroundView = nil
-//            tableView.separatorStyle = .singleLine
-//            if isFiltering() {
-//                return filterMemo.count
-//            } else {
-//                return data.count
-//            }
-//        }
-        
-        return 0
+        if memoData.isEmpty {
+            tableView.backgroundView = emptyView
+            tableView.separatorStyle = .none
+        } else {
+            tableView.backgroundView = nil
+            tableView.separatorStyle = .singleLine
+            if isFiltering() {
+                return filterMemoData.count
+            } else {
+                return memoData.count
+            }
+        }
+        return memoData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
         cell.selectedBackground()
         
-//        var memo = data[indexPath.row]
-//        if isFiltering() {
-//            memo = filterMemo[indexPath.row]
-//        } else {
-//            memo = data[indexPath.row]
-//        }
+        var memo = memoData[indexPath.row]
+        if isFiltering() {
+            memo = filterMemoData[indexPath.row]
+        } else {
+            memo = memoData[indexPath.row]
+        }
         
-//        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
-//
-//        cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
-//        cell.content.text = memo.content
-//        cell.content.numberOfLines = 2
-//
-//        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
-//            let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
-//            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-//            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-//            cell.dateEdited.text = "\(DatetimeUtil().convertDatetime(datetime: memo.dateEdited))"
-//            cell.hashTag.text = "#\(memo.hashTag)"
-//            cell.hashTag.textAlignment = .right
-//        } else {
-//            cell.dateEdited.text = ""
-//        }
-//
-//        cell.accessoryType = .disclosureIndicator
-//        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
+        let content = memo.value(forKey: "content") as? String
+        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        //let isReminder = memo.value(forKey: "isReminder") as? Bool
+        let hashTag = memo.value(forKey: "hashTag") as? String
+        
+        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
+
+        cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
+        cell.content.numberOfLines = 2
+        cell.content.text = content
+
+        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
+            let dateEdit = Date(timeIntervalSinceReferenceDate: dateEdited)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .long
+            dateFormatter.timeZone = .current
+            let dateString = dateFormatter.string(from: dateEdit)
+            
+            let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
+            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.text = dateString
+            
+            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.hashTag.textAlignment = .right
+            cell.hashTag.text = hashTag
+        } else {
+            cell.dateEdited.text = ""
+        }
+
+        cell.accessoryType = .disclosureIndicator
+        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
         
         return cell
     }
@@ -268,7 +304,8 @@ class MemoViewController: UITableViewController {
         view.tintColor = .clear
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = Colors.shared.accentColor
-        header.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        header.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        header.textLabel?.textAlignment = NSTextAlignment.right
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(sortBy))
         header.addGestureRecognizer(gesture)
