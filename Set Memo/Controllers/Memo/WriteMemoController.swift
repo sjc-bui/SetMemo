@@ -7,11 +7,9 @@
 //
 
 import UIKit
-import RealmSwift
 
 class WriteMemoController: UIViewController, UITextViewDelegate {
     let writeMemoView = WriteMemoView()
-    let item: MemoItem = MemoItem()
     var inputContent: String? = nil
     let defaults = UserDefaults.standard
     
@@ -58,7 +56,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
             
             if text?.isNullOrWhiteSpace() ?? false {
             } else {
-                self.item.hashTag = FormatString().formatHashTag(text: text!)
+                print(FormatString().formatHashTag(text: text!))
             }
         }))
         
@@ -82,12 +80,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     @objc func autoSave() {
         if !writeMemoView.inputTextView.text.isNullOrWhiteSpace() {
             let now = Date()
-            item.content = writeMemoView.inputTextView.text
-            item.dateCreated = now
-            item.dateEdited = now
-            item.isReminder = false
+            print("create new memo here")
             
-            RealmServices.shared.create(item)
             characterCount()
             writeMemoView.inputTextView.text = ""
         }

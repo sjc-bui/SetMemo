@@ -67,3 +67,4 @@
 "RecoverBodyContent" = "Recently deleted memo can't be edited. \n To edit this memo, recover it first.";
 "Recover" = "Recover";
 "SearchPlaceholder" = "Search";
+"SortBy" = "Sort by %@";

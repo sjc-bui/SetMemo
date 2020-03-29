@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class SettingViewController: UITableViewController {
     let sections: Array = [
@@ -82,11 +81,12 @@ class SettingViewController: UITableViewController {
         if section == 0 {
             return general.count
         } else if section == 1 {
-            if RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true) == 0 {
-                return advancedDelete.count
-            } else {
-                return advanced.count
-            }
+//            if RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true) == 0 {
+//                return advancedDelete.count
+//            } else {
+//                return advanced.count
+//            }
+            return advanced.count
         } else if section == 2 {
             return other.count
         }
@@ -94,7 +94,7 @@ class SettingViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let recentlyDeleteTotal = RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true)
+        let recentlyDeleteTotal = 1
         
         if indexPath.section == 0 {
             switch indexPath.row {
@@ -300,7 +300,8 @@ class SettingViewController: UITableViewController {
                 let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
                 
                 let delete = UIAlertAction(title: "DeleteLabel".localized, style: .destructive, handler: { action in
-                    RealmServices.shared.deleteAll()
+                    print("delete all action here")
+                    
                     tableView.reloadData()
                 })
                 let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)

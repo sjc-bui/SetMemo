@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var memoId: String = ""
@@ -15,18 +14,16 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var inputContent: String? = nil
     var textViewIsChanging: Bool = false
     let writeMemoView = WriteMemoView()
-    var item = MemoItem()
     
     override func initialize() {
-        let realm = try! Realm()
-        item = realm.objects(MemoItem.self).filter("id = %@", memoId).first!
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupView()
-        writeMemoView.inputTextView.text = item.content
-        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: item.dateEdited))
+        writeMemoView.inputTextView.text = "content"
+        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: Date()))
         addKeyboardListener()
     }
     
@@ -81,7 +78,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func updateHashTag() {
-        let alert = UIAlertController(title: "#\(self.item.hashTag)", message: nil, preferredStyle: .alert)
+        //let alert = UIAlertController(title: "#\(self.item.hashTag)", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "#doing", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
             textField.placeholder = "newHashTag"
@@ -101,6 +99,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 } else {
                     self.textViewIsChanging = true
                     self.hashTagString = FormatString().formatHashTag(text: text!)
+                    print(self.hashTagString)
                 }
             }
         }))
@@ -123,16 +122,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func updateMemoItem() {
         if textViewIsChanging {
-            let realm = try! Realm()
-            do {
-                try realm.write {
-                    item.content = writeMemoView.inputTextView.text
-                    item.dateEdited = Date()
-                    item.hashTag = hashTagString
-                }
-            } catch {
-                print(error)
-            }
+            print("update memo here")
         }
         self.navigationController?.popViewController(animated: true)
     }

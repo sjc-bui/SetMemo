@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import RealmSwift
 import StoreKit
 
 class MemoViewController: UITableViewController {
-    var data: [MemoItem] = []
-    var filterMemo: [MemoItem] = []
+    
     let notification = UINotificationFeedbackGenerator()
     let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
@@ -32,14 +30,14 @@ class MemoViewController: UITableViewController {
     }
     
     func requestReviewApp() {
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         // request user review when update to new version
-        if data.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
-                defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
-            }
-        }
+//        if data.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
+//            if #available(iOS 10.3, *) {
+//                SKStoreReviewController.requestReview()
+//                defaults.set(appVersion, forKey: Resource.Defaults.lastReview)
+//            }
+//        }
     }
     
     func resetIconBadges() {
@@ -56,11 +54,9 @@ class MemoViewController: UITableViewController {
         //searchController.searchResultsUpdater = self as UISearchResultsUpdating
         configureSearchBar()
         
-        // custom Right bar button
-        let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down.circle"), style: .plain, target: self, action: #selector(sortBy))
         let createButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItems = [createButton, sortButton]
+        self.navigationItem.rightBarButtonItem = createButton
         self.navigationItem.leftBarButtonItem = settingButton
     }
     
@@ -85,14 +81,14 @@ class MemoViewController: UITableViewController {
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         if searchController.searchBar.selectedScopeButtonIndex == 0 {
-            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
-                memo.content.lowercased().contains(searchText.lowercased())
-            })
+//            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
+//                memo.content.lowercased().contains(searchText.lowercased())
+//            })
             tableView.reloadData()
         } else if searchController.searchBar.selectedScopeButtonIndex == 1 {
-            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
-                memo.hashTag.lowercased().contains(searchText.lowercased())
-            })
+//            filterMemo = data.filter({ (memo: MemoItem) -> Bool in
+//                memo.hashTag.lowercased().contains(searchText.lowercased())
+//            })
             tableView.reloadData()
         }
     }
@@ -160,7 +156,7 @@ class MemoViewController: UITableViewController {
             sortKeyPath = Resource.SortBy.dateEdited
         }
         
-        data = RealmServices.shared.read(MemoItem.self, temporarilyDelete: false)
+        print("get sorted data here")
         self.tableView.reloadData()
     }
     
@@ -178,52 +174,52 @@ class MemoViewController: UITableViewController {
     
     // MARK: - TableView
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if data.count == 0 {
-            tableView.backgroundView = emptyView
-            tableView.separatorStyle = .none
-        } else {
-            tableView.backgroundView = nil
-            tableView.separatorStyle = .singleLine
-            if isFiltering() {
-                return filterMemo.count
-            } else {
-                return data.count
-            }
-        }
+//        if data.count == 0 {
+//            tableView.backgroundView = emptyView
+//            tableView.separatorStyle = .none
+//        } else {
+//            tableView.backgroundView = nil
+//            tableView.separatorStyle = .singleLine
+//            if isFiltering() {
+//                return filterMemo.count
+//            } else {
+//                return data.count
+//            }
+//        }
         
-        return data.count
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
         cell.selectedBackground()
         
-        var memo = data[indexPath.row]
-        if isFiltering() {
-            memo = filterMemo[indexPath.row]
-        } else {
-            memo = data[indexPath.row]
-        }
+//        var memo = data[indexPath.row]
+//        if isFiltering() {
+//            memo = filterMemo[indexPath.row]
+//        } else {
+//            memo = data[indexPath.row]
+//        }
         
-        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
-        
-        cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
-        cell.content.text = memo.content
-        cell.content.numberOfLines = 2
-        
-        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
-            let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
-            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-            cell.dateEdited.text = "\(DatetimeUtil().convertDatetime(datetime: memo.dateEdited))"
-            cell.hashTag.text = "#\(memo.hashTag)"
-            cell.hashTag.textAlignment = .right
-        } else {
-            cell.dateEdited.text = ""
-        }
-        
-        cell.accessoryType = .disclosureIndicator
-        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
+//        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
+//
+//        cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
+//        cell.content.text = memo.content
+//        cell.content.numberOfLines = 2
+//
+//        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
+//            let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
+//            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+//            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+//            cell.dateEdited.text = "\(DatetimeUtil().convertDatetime(datetime: memo.dateEdited))"
+//            cell.hashTag.text = "#\(memo.hashTag)"
+//            cell.hashTag.textAlignment = .right
+//        } else {
+//            cell.dateEdited.text = ""
+//        }
+//
+//        cell.accessoryType = .disclosureIndicator
+//        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
         
         return cell
     }
@@ -231,11 +227,11 @@ class MemoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var memoId: String?
         
-        if isFiltering() {
-            memoId = filterMemo[indexPath.row].id
-        } else {
-            memoId = data[indexPath.row].id
-        }
+//        if isFiltering() {
+//            memoId = filterMemo[indexPath.row].id
+//        } else {
+//            memoId = data[indexPath.row].id
+//        }
         
         let updateView = UpdateMemoViewController()
         updateView.memoId = memoId!
@@ -249,27 +245,47 @@ class MemoViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var sortText: String?
+        let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
+        
+        if sortBy == Resource.SortBy.title {
+            sortText = "SortByTitle".localized
+        } else if sortBy == Resource.SortBy.dateCreated {
+            sortText = "SortByDateCreated".localized
+        } else if sortBy == Resource.SortBy.dateEdited {
+            sortText = "SortByDateEdited".localized
+        }
+        
+        return String(format: "SortBy".localized, sortText!)
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = .clear
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = Colors.shared.accentColor
+        header.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(sortBy))
+        header.addGestureRecognizer(gesture)
+    }
+    
     func deleteHandler(indexPath: IndexPath) {
-        var item = data[indexPath.row]
+//        var item = data[indexPath.row]
+//
+//        if isFiltering() {
+//            item = filterMemo[indexPath.row]
+//        } else {
+//            item = data[indexPath.row]
+//        }
         
-        if isFiltering() {
-            item = filterMemo[indexPath.row]
-        } else {
-            item = data[indexPath.row]
-        }
+        print("delete data")
         
-        let realm = try! Realm()
-        let memoItem = realm.objects(MemoItem.self).filter("id = %@", item.id).first
-        do {
-            try realm.write({
-                memoItem!.temporarilyDelete = true
-                memoItem?.dateEdited = Date()
-            })
-        } catch {
-            print(error)
-        }
-        
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        //tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
     @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
@@ -283,9 +299,9 @@ class MemoViewController: UITableViewController {
         }
         
         let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
-            let shareText = self.data[indexPath.row].content
-            let hashTag = self.data[indexPath.row].hashTag
-            self.shareMemo(content: shareText, hashTag: hashTag)
+//            let shareText = self.data[indexPath.row].content
+//            let hashTag = self.data[indexPath.row].hashTag
+//            self.shareMemo(content: shareText, hashTag: hashTag)
         }
         
         let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in

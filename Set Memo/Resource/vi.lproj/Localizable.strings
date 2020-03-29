@@ -67,3 +67,4 @@
 "RecoverBodyContent" = "Không thể sửa ghi chú đã xóa gần đây.\n Để sửa, hãy khôi phục ghi chú này.";
 "Recover" = "Khôi phục";
 "SearchPlaceholder" = "Tìm kiếm";
+"SortBy" = "Sắp xếp theo %@";

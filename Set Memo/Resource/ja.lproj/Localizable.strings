@@ -67,3 +67,4 @@
 "RecoverBodyContent" = "最近削除したメモを編集できません。\n編集するの為に、最初に復元してください。";
 "Recover" = "復元";
 "SearchPlaceholder" = "検索";
+"SortBy" = "%@で並び替え";

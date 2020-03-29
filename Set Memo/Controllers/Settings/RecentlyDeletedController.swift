@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import RealmSwift
 
 class RecentlyDeletedController: UITableViewController {
-    var data: [MemoItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,23 +31,23 @@ class RecentlyDeletedController: UITableViewController {
     }
     
     func fetchMemoFromDB() {
-        data = RealmServices.shared.read(MemoItem.self, temporarilyDelete: true)
+        
         tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize: Double = 16
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         
-        cell.textLabel?.text = data[indexPath.row].content
+        cell.textLabel?.text = "text"
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
         
-        cell.detailTextLabel?.text = DatetimeUtil().convertDatetime(datetime: data[indexPath.row].dateEdited)
+        cell.detailTextLabel?.text = "date"
         
         cell.tintColor = Colors.shared.orangeColor
         cell.accessoryType = .none
@@ -67,24 +65,10 @@ class RecentlyDeletedController: UITableViewController {
         let alertSheetController = UIAlertController(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, preferredStyle: .actionSheet)
         
         let recoverButton = UIAlertAction(title: "Recover".localized, style: .default) { (action) in
-            let item = self.data[indexPath.row]
-            let realm = try! Realm()
-            let memoItem = realm.objects(MemoItem.self).filter("id = %@", item.id).first
-            do {
-                try realm.write({
-                    memoItem!.temporarilyDelete = false
-                    memoItem?.dateEdited = Date()
-                })
-            } catch {
-                print(error)
-            }
-            
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            print("recover memo")
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            let item = self.data[indexPath.row]
-            RealmServices.shared.delete(item)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            print("delete memo")
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
