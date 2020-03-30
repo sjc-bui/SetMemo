@@ -40,5 +40,6 @@ public class Resource {
         public static let remindEveryDay = "remindEveryDay"
         public static let remindAt = "remindAt"
         public static let useDarkMode = "useDarkMode"
+        public static let firstTimeDeleted = "firstTimeDeleted"
     }
 }

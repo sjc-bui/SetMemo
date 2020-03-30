@@ -239,7 +239,7 @@ class MemoViewController: UITableViewController {
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let dateEdit = Date(timeIntervalSinceReferenceDate: dateEdited)
             let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .long
+            dateFormatter.dateStyle = .full
             dateFormatter.timeZone = .current
             let dateString = dateFormatter.string(from: dateEdit)
             
@@ -261,7 +261,7 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var memoId: String?
+        //var memoId: String?
         
 //        if isFiltering() {
 //            memoId = filterMemo[indexPath.row].id
@@ -269,9 +269,9 @@ class MemoViewController: UITableViewController {
 //            memoId = data[indexPath.row].id
 //        }
         
-        let updateView = UpdateMemoViewController()
-        updateView.memoId = memoId!
-        self.navigationController?.pushViewController(updateView, animated: true)
+//        let updateView = UpdateMemoViewController()
+//        updateView.memoId = memoId!
+//        self.navigationController?.pushViewController(updateView, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -312,22 +312,71 @@ class MemoViewController: UITableViewController {
     }
     
     func deleteHandler(indexPath: IndexPath) {
-//        var item = data[indexPath.row]
-//
-//        if isFiltering() {
-//            item = filterMemo[indexPath.row]
-//        } else {
-//            item = data[indexPath.row]
-//        }
         
-        print("delete data")
+        if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
+            let alertController = UIAlertController(title: "Delete", message: "This memo will be move to recently deleted folder, you can recover it.", preferredStyle: .alert)
+            
+            let acceptButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+            acceptButton.setValue(Colors.shared.accentColor, forKey: "titleTextColor")
+            
+            alertController.addAction(acceptButton)
+            
+            defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
         
-        //tableView.deleteRows(at: [indexPath], with: .automatic)
+        if isFiltering() == true {
+            let filteredMemo = filterMemoData[indexPath.row]
+            
+            // remove pending notification.
+            let notificationUUID = filteredMemo.notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [notificationUUID])
+            
+            // remove notification on badge.
+            
+            filterMemoData.remove(at: indexPath.row)
+            
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let managedContext = appDelegate?.persistentContainer.viewContext
+            managedContext?.delete(filteredMemo)
+            
+        } else {
+            let memo = memoData[indexPath.row]
+            
+            let noficationUUID = memo.notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [noficationUUID])
+            
+            memoData.remove(at: indexPath.row)
+            
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let managedContext = appDelegate?.persistentContainer.viewContext
+            managedContext?.delete(memo)
+        }
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error) , \(error.userInfo)")
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
         let location = sender.location(in: tableView)
         let indexPath = tableView.indexPathForRow(at: location)!
+        
+        let memo = memoData[indexPath.row]
+        let content = memo.value(forKey: "content") as? String
+        let hashTag = memo.value(forKey: "hashTag") as? String
         
         let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -336,9 +385,7 @@ class MemoViewController: UITableViewController {
         }
         
         let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
-//            let shareText = self.data[indexPath.row].content
-//            let hashTag = self.data[indexPath.row].hashTag
-//            self.shareMemo(content: shareText, hashTag: hashTag)
+            self.shareMemo(content: content!, hashTag: hashTag!)
         }
         
         let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in

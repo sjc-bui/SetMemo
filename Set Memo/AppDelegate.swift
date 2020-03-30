@@ -29,7 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.fontSize: 18,
             Resource.Defaults.sortBy: "dateCreated",
             Resource.Defaults.remindEveryDay: false,
-            Resource.Defaults.useDarkMode: false
+            Resource.Defaults.useDarkMode: false,
+            Resource.Defaults.firstTimeDeleted: true
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class WriteMemoController: UIViewController, UITextViewDelegate {
     let writeMemoView = WriteMemoView()
     var inputContent: String? = nil
     let defaults = UserDefaults.standard
+    var hashTag: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,11 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         self.autoSave()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        writeMemoView.inputTextView.becomeFirstResponder()
     }
     
     func setupNavigation() {
@@ -56,6 +63,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
             
             if text?.isNullOrWhiteSpace() ?? false {
             } else {
+                self.hashTag = FormatString().formatHashTag(text: text!)
                 print(FormatString().formatHashTag(text: text!))
             }
         }))
@@ -79,12 +87,42 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     @objc func autoSave() {
         if !writeMemoView.inputTextView.text.isNullOrWhiteSpace() {
-            let now = Date()
-            print("create new memo here")
+            let date = Date.timeIntervalSinceReferenceDate
+            
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            do {
+                setMemoValue(context: managedContext, content: writeMemoView.inputTextView.text, hashTag: hashTag ?? "todo", date: date)
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
             
             characterCount()
             writeMemoView.inputTextView.text = ""
         }
+    }
+    
+    func setMemoValue(context: NSManagedObjectContext, content: String, hashTag: String, date: Double) {
+        let entity = NSEntityDescription.entity(forEntityName: "Memo", in: context)
+        let memo = NSManagedObject(entity: entity!, insertInto: context)
+        
+        memo.setValue(content, forKey: "content")
+        memo.setValue(date, forKey: "dateEdited")
+        memo.setValue(date, forKey: "dateCreated")
+        memo.setValue(hashTag, forKey: "hashTag")
+        memo.setValue(false, forKey: "isReminder")
+        memo.setValue(false, forKey: "temporarilyDelete")
+        memo.setValue("", forKey: "dateReminder")
+        
+        let updateDate = Date(timeIntervalSinceReferenceDate: date)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.long
+        dateFormatter.timeZone = .current
+        let dateString = dateFormatter.string(from: updateDate)
+        
+        memo.setValue(dateString, forKey: "dateString")
     }
     
     func setupView() {
