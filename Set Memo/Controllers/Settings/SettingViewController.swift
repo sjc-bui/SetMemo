@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SettingViewController: UITableViewController {
     let sections: Array = [
@@ -81,20 +82,37 @@ class SettingViewController: UITableViewController {
         if section == 0 {
             return general.count
         } else if section == 1 {
-//            if RealmServices.shared.recentlyDeletedItemCount(MemoItem.self, temporarilyDelete: true) == 0 {
-//                return advancedDelete.count
-//            } else {
-//                return advanced.count
-//            }
-            return advanced.count
+            if getRecentlyDeletedCount() == 0 {
+                return advancedDelete.count
+            } else {
+                return advanced.count
+            }
         } else if section == 2 {
             return other.count
         }
         return 0
     }
     
+    func getRecentlyDeletedCount() -> Int {
+        var deleteCount: Int = 0
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        fetchRequest.returnsObjectsAsFaults = false
+        fetchRequest.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+        
+        do {
+            deleteCount = try! managedContext!.count(for: fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return deleteCount
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let recentlyDeleteTotal = 1
+        let recentlyDeleteTotal = getRecentlyDeletedCount()
         
         if indexPath.section == 0 {
             switch indexPath.row {
@@ -300,7 +318,20 @@ class SettingViewController: UITableViewController {
                 let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
                 
                 let delete = UIAlertAction(title: "DeleteLabel".localized, style: .destructive, handler: { action in
-                    print("delete all action here")
+                    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                    let managedContext = appDelegate?.persistentContainer.viewContext
+                    
+                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+                    deleteFetch.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+                    
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    
+                    do {
+                        try managedContext?.execute(deleteRequest)
+                        try managedContext?.save()
+                    } catch let error as NSError {
+                        print("Could not fetch. \(error), \(error.userInfo)")
+                    }
                     
                     tableView.reloadData()
                 })

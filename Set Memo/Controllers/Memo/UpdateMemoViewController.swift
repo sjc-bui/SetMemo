@@ -23,7 +23,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         setupView()
         writeMemoView.inputTextView.text = "content"
-        setupNavigation(time: DatetimeUtil().convertDatetime(datetime: Date()))
+        setupNavigation()
         addKeyboardListener()
     }
     
@@ -65,8 +65,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         textViewIsChanging = true
     }
     
-    func setupNavigation(time: String) {
-        self.navigationItem.title = time
+    func setupNavigation() {
+//        self.navigationItem.title = time
         let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
         let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(updateHashTag))
         self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn]

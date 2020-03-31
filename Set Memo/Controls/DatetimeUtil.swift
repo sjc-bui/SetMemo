@@ -9,10 +9,16 @@
 import UIKit
 
 class DatetimeUtil {
-    func convertDatetime(datetime: Date) -> String {
+    
+    func convertDatetime(date: Double) -> String {
+        let dateEdit = Date(timeIntervalSinceReferenceDate: date)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DatetimeFormat".localized
-        let dateString = dateFormatter.string(from: datetime)
+        
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .medium
+        dateFormatter.timeZone = .current
+        
+        let dateString = dateFormatter.string(from: dateEdit)
         return dateString
     }
 }

@@ -171,6 +171,7 @@ class MemoViewController: UITableViewController {
         }
         
         fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]
+        fetchRequest.predicate = NSPredicate(format: "temporarilyDelete = %d", false)
         
         do {
             self.memoData = try managedContext.fetch(fetchRequest) as! [Memo]
@@ -180,9 +181,6 @@ class MemoViewController: UITableViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        
-        print("get sorted data here")
-        self.tableView.reloadData()
     }
     
 //    private func updateMemoItemCount() {
@@ -237,12 +235,7 @@ class MemoViewController: UITableViewController {
         cell.content.text = content
 
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
-            let dateEdit = Date(timeIntervalSinceReferenceDate: dateEdited)
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .full
-            dateFormatter.timeZone = .current
-            let dateString = dateFormatter.string(from: dateEdit)
-            
+            let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
             cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
             cell.dateEdited.text = dateString
@@ -336,11 +329,9 @@ class MemoViewController: UITableViewController {
             
             // remove notification on badge.
             
+            filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
-            
-            let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            let managedContext = appDelegate?.persistentContainer.viewContext
-            managedContext?.delete(filteredMemo)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
         } else {
             let memo = memoData[indexPath.row]
@@ -349,11 +340,9 @@ class MemoViewController: UITableViewController {
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [noficationUUID])
             
+            memo.setValue(true, forKey: "temporarilyDelete")
             memoData.remove(at: indexPath.row)
-            
-            let appDelegate = UIApplication.shared.delegate as? AppDelegate
-            let managedContext = appDelegate?.persistentContainer.viewContext
-            managedContext?.delete(memo)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }

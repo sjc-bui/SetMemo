@@ -42,4 +42,8 @@ public class Resource {
         public static let useDarkMode = "useDarkMode"
         public static let firstTimeDeleted = "firstTimeDeleted"
     }
+    
+    public class FilterBy {
+        public static let temporarilyDelete = "temporarilyDelete"
+    }
 }

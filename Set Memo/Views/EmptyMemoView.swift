@@ -23,6 +23,7 @@ class EmptyMemoView: UIView {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.textColor = UIColor.systemGray
         label.numberOfLines = 1
         label.text = "EmptyLabel".localized
         return label
@@ -32,6 +33,7 @@ class EmptyMemoView: UIView {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = UIColor.systemGray
         label.numberOfLines = 1
         label.text = "EmptyDescription".localized
         return label

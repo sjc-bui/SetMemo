@@ -30,6 +30,11 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         addKeyboardListener()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        writeMemoView.inputTextView.becomeFirstResponder()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -38,7 +43,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        writeMemoView.inputTextView.becomeFirstResponder()
+        writeMemoView.inputTextView.resignFirstResponder()
     }
     
     func setupNavigation() {
@@ -131,7 +136,18 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
-        writeMemoView.inputTextView.becomeFirstResponder()
+        
+        let uiToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
+        uiToolBar.backgroundColor = UIColor.secondarySystemBackground
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneBtn = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
+        
+        uiToolBar.items = [flexibleSpace, doneBtn]
+        writeMemoView.inputTextView.inputAccessoryView = uiToolBar
+    }
+    
+    @objc func hideKeyboard() {
+        writeMemoView.inputTextView.endEditing(true)
     }
     
     func setupDynamicKeyboardColor() {

@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 class RecentlyDeletedController: UITableViewController {
+    var memoData: [Memo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,25 +33,46 @@ class RecentlyDeletedController: UITableViewController {
     }
     
     func fetchMemoFromDB() {
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
         
-        tableView.reloadData()
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        let sortDescriptor: NSSortDescriptor?
+        sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
+        
+        fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]
+        fetchRequest.predicate = NSPredicate(format: "\(Resource.FilterBy.temporarilyDelete) = %d", true)
+        
+        do {
+            self.memoData = try managedContext?.fetch(fetchRequest) as! [Memo]
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return memoData.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultFontSize: Double = 16
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         
-        cell.textLabel?.text = "text"
-        cell.textLabel?.numberOfLines = 2
+        let memo = memoData[indexPath.row]
+        
+        let content = memo.value(forKey: "content") as? String
+        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
+        cell.textLabel?.numberOfLines = 2
+        cell.textLabel?.text = content
         
-        cell.detailTextLabel?.text = "date"
-        
-        cell.tintColor = Colors.shared.orangeColor
+        let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
+        cell.detailTextLabel?.text = dateString
         cell.accessoryType = .none
         
         return cell
