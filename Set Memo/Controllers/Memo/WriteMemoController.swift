@@ -17,7 +17,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigation()
         setupView()
     }
     
@@ -33,6 +32,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         writeMemoView.inputTextView.becomeFirstResponder()
+        setupNavigation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,7 +48,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     func setupNavigation() {
         let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
-        self.navigationItem.rightBarButtonItem = hashTagButton
+        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
+        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
     }
     
     @objc func setHashTag() {
@@ -137,13 +138,13 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
         
-        let uiToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
-        uiToolBar.backgroundColor = UIColor.secondarySystemBackground
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let doneBtn = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
-        
-        uiToolBar.items = [flexibleSpace, doneBtn]
-        writeMemoView.inputTextView.inputAccessoryView = uiToolBar
+//        let uiToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
+//        uiToolBar.backgroundColor = UIColor.secondarySystemBackground
+//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+//        let doneBtn = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
+//
+//        uiToolBar.items = [flexibleSpace, doneBtn]
+//        writeMemoView.inputTextView.inputAccessoryView = uiToolBar
     }
     
     @objc func hideKeyboard() {

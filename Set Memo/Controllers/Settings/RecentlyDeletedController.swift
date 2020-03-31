@@ -84,6 +84,54 @@ class RecentlyDeletedController: UITableViewController {
         tapHandler(indexPath: indexPath)
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: "Delete".localized) { (action, view, completion) in
+            self.deleteMemo(indexPath: indexPath)
+            completion(true)
+        }
+        action.image = UIImage(systemName: "trash")
+        action.backgroundColor = .red
+        return action
+    }
+    
+    func deleteMemo(indexPath: IndexPath) {
+        let item = self.memoData[indexPath.row]
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        managedContext?.delete(item)
+        
+        self.memoData.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        do {
+            try managedContext?.save()
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let recover = recoverAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [recover])
+    }
+    
+    func recoverAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: "Recover") { (action, view, completion) in
+            self.memoData.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            completion(true)
+        }
+        action.image = UIImage(systemName: "folder")
+        action.backgroundColor = Colors.shared.accentColor
+        return action
+    }
+    
     func tapHandler(indexPath: IndexPath) {
         let alertSheetController = UIAlertController(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, preferredStyle: .actionSheet)
         
@@ -91,7 +139,7 @@ class RecentlyDeletedController: UITableViewController {
             print("recover memo")
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            print("delete memo")
+            self.deleteMemo(indexPath: indexPath)
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
