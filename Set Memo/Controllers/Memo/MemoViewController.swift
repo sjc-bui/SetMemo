@@ -134,6 +134,7 @@ class MemoViewController: UITableViewController {
         alertController.addAction(sortByDateEdited)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
+        alertController.pruneNegativeWidthConstraints()
         
         if let popoverController = alertController.popoverPresentationController {
             popoverController.sourceView = self.view
@@ -400,6 +401,7 @@ class MemoViewController: UITableViewController {
         alertSheet.addAction(share)
         alertSheet.addAction(delete)
         alertSheet.addAction(cancel)
+        alertSheet.pruneNegativeWidthConstraints()
         
         if let popoverController = alertSheet.popoverPresentationController {
             popoverController.sourceView = self.view

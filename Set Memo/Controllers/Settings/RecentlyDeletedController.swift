@@ -167,6 +167,7 @@ class RecentlyDeletedController: UITableViewController {
         alertSheetController.addAction(recoverButton)
         alertSheetController.addAction(deleteButton)
         alertSheetController.addAction(cancelButton)
+        alertSheetController.pruneNegativeWidthConstraints()
         
         if let popoverController = alertSheetController.popoverPresentationController {
             popoverController.sourceView = self.view
