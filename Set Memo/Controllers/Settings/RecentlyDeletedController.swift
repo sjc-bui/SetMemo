@@ -67,12 +67,13 @@ class RecentlyDeletedController: UITableViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         
-        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .semibold)
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-        cell.detailTextLabel?.text = dateString
+        cell.detailTextLabel!.text = "\(dateString)"
+        cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
         cell.accessoryType = .none
         
         return cell
@@ -160,9 +161,7 @@ class RecentlyDeletedController: UITableViewController {
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        recoverButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
-        deleteButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
-        cancelButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        alertSheetController.view.tintColor = Colors.shared.accentColor
         
         alertSheetController.addAction(recoverButton)
         alertSheetController.addAction(deleteButton)

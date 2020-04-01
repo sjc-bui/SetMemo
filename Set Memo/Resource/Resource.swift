@@ -14,12 +14,13 @@ public class Resource {
         public static var sortButton: UIImage? = UIImage(named: "sort")
         public static var settingButton: UIImage? = UIImage(named: "setting")
         public static var backButton: UIImage? = UIImage(named: "back")
-        public static var alarmButton: UIImage? = UIImage(named: "alarm")
         public static var searchButton: UIImage? = UIImage(named: "search")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
         public static var trashButton: UIImage? = UIImage(systemName: "trash")
         public static var recoverButton: UIImage? = UIImage(systemName: "folder")
+        public static var alarmButton: UIImage? = UIImage(systemName: "alarm")
+        public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
     }
     
     public class SortBy {

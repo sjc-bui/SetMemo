@@ -124,11 +124,7 @@ class MemoViewController: UITableViewController {
         
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        let target = "titleTextColor"
-        sortByDateCreated.setValue(Colors.shared.accentColor, forKey: target)
-        sortByDateEdited.setValue(Colors.shared.accentColor, forKey: target)
-        sortByTitle.setValue(Colors.shared.accentColor, forKey: target)
-        cancel.setValue(Colors.shared.accentColor, forKey: target)
+        alertController.view.tintColor = Colors.shared.accentColor
         
         alertController.addAction(sortByDateCreated)
         alertController.addAction(sortByDateEdited)
@@ -275,11 +271,30 @@ class MemoViewController: UITableViewController {
 //        self.navigationController?.pushViewController(updateView, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        // temploratily delete item
-        if editingStyle == .delete {
-            deleteHandler(indexPath: indexPath)
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        let remind = remindAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete, remind])
+    }
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.deleteHandler(indexPath: indexPath)
+            completion(true)
         }
+        action.image = Resource.Images.trashButton
+        action.backgroundColor = .systemRed
+        return action
+    }
+    
+    func remindAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            print("remind memo")
+            completion(true)
+        }
+        action.image = Resource.Images.alarmButton
+        action.backgroundColor = .systemBlue
+        return action
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -391,11 +406,7 @@ class MemoViewController: UITableViewController {
         
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        let target = "titleTextColor"
-        remind.setValue(Colors.shared.accentColor, forKey: target)
-        share.setValue(Colors.shared.accentColor, forKey: target)
-        delete.setValue(Colors.shared.accentColor, forKey: target)
-        cancel.setValue(Colors.shared.accentColor, forKey: target)
+        alertSheet.view.tintColor = Colors.shared.accentColor
         
         alertSheet.addAction(remind)
         alertSheet.addAction(share)
