@@ -30,6 +30,9 @@ class RecentlyDeletedController: UITableViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
+        
+//        let selectBtn = UIBarButtonItem(title: "DeleteLabel".localized, style: .done, target: self, action: nil)
+//        self.navigationItem.rightBarButtonItem = selectBtn
     }
     
     func fetchMemoFromDB() {
@@ -123,8 +126,7 @@ class RecentlyDeletedController: UITableViewController {
     
     func recoverAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: "Recover") { (action, view, completion) in
-            self.memoData.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .fade)
+            self.recoverMemo(indexPath: indexPath)
             completion(true)
         }
         action.image = UIImage(systemName: "folder")
@@ -132,11 +134,28 @@ class RecentlyDeletedController: UITableViewController {
         return action
     }
     
+    func recoverMemo(indexPath: IndexPath) {
+        let item = self.memoData[indexPath.row]
+        
+        item.setValue(false, forKey: "temporarilyDelete")
+        memoData.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try managedContext?.save()
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
     func tapHandler(indexPath: IndexPath) {
         let alertSheetController = UIAlertController(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, preferredStyle: .actionSheet)
         
         let recoverButton = UIAlertAction(title: "Recover".localized, style: .default) { (action) in
-            print("recover memo")
+            self.recoverMemo(indexPath: indexPath)
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
             self.deleteMemo(indexPath: indexPath)

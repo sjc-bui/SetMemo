@@ -33,6 +33,12 @@ class MemoViewController: UITableViewController {
         requestReviewApp()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureSearchBar()
+        setupBarButton()
+    }
+    
     func requestReviewApp() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         // request user review when update to new version
@@ -55,10 +61,9 @@ class MemoViewController: UITableViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
-        
-        //searchController.searchResultsUpdater = self as UISearchResultsUpdating
-        configureSearchBar()
-        
+    }
+    
+    func setupBarButton() {
         let createButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItem = createButton
@@ -72,7 +77,6 @@ class MemoViewController: UITableViewController {
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.isActive = false
         searchController.searchBar.scopeButtonTitles = ["SortByTitle".localized, "hashTag"]
-        //searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
     }
     

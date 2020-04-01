@@ -32,7 +32,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         writeMemoView.inputTextView.becomeFirstResponder()
-        setupNavigation()
+        setupRightBarButtons()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -46,7 +46,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.resignFirstResponder()
     }
     
-    func setupNavigation() {
+    func setupRightBarButtons() {
         let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
         let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
         self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
