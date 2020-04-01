@@ -9,8 +9,10 @@
 /* Begin PBXBuildFile section */
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
 		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
+		72122C54242FB27D007E7D06 /* FormatString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72122C53242FB27D007E7D06 /* FormatString.swift */; };
 		7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */; };
 		72275686240CA1C400654898 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72275685240CA1C400654898 /* UILabelExt.swift */; };
+		7229A30124307C940046E9CF /* Memo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7229A2FF24307C940046E9CF /* Memo.xcdatamodeld */; };
 		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
@@ -32,20 +34,21 @@
 		724CA6F22408F34C0088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6F42408F34C0088F581 /* Localizable.strings */; };
 		724CA6F72408F35E0088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6F92408F35E0088F581 /* Localizable.strings */; };
 		724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6FE240A18390088F581 /* UIViewExt.swift */; };
-		724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA701240A1FAD0088F581 /* MemoItem.swift */; };
 		724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA703240A23DF0088F581 /* UIColorExt.swift */; };
 		724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA705240A3D960088F581 /* UITextViewExt.swift */; };
+		724FB6DC242C30E5006C419B /* RecentlyDeletedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */; };
 		7259011324149679009153A5 /* SeceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7259011224149679009153A5 /* SeceneDelegate.swift */; };
+		726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */; };
 		727E50ED24120B950042E81F /* light@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50E924120B950042E81F /* light@3x.png */; };
 		727E50EE24120B950042E81F /* dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EA24120B950042E81F /* dark@2x.png */; };
 		727E50EF24120B950042E81F /* light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EB24120B950042E81F /* light@2x.png */; };
 		727E50F024120B950042E81F /* dark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EC24120B950042E81F /* dark@3x.png */; };
 		727E50F224120F8B0042E81F /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 727E50F124120F8B0042E81F /* Launch.storyboard */; };
-		7299A527240A79C900AE39DE /* RealmServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7299A526240A79C900AE39DE /* RealmServices.swift */; };
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
-		72D0F8322417753F0026706A /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D0F8312417753F0026706A /* Const.swift */; };
+		72E7CEDB242E1CAC00541E63 /* UINavigationItemExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */; };
+		72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
 		72EFECE92408D3A00035296F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72EFECE82408D3A00035296F /* Assets.xcassets */; };
 		BC918B97F24D138C0E3C485C /* Pods_Set_Memo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BF6FA6DA92213F1BAE67B1 /* Pods_Set_Memo.framework */; };
@@ -55,8 +58,10 @@
 		171D6606EF39714791448C0A /* Pods-Set Memo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set Memo.debug.xcconfig"; path = "Target Support Files/Pods-Set Memo/Pods-Set Memo.debug.xcconfig"; sourceTree = "<group>"; };
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
+		72122C53242FB27D007E7D06 /* FormatString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatString.swift; sourceTree = "<group>"; };
 		7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatetimeUtil.swift; sourceTree = "<group>"; };
 		72275685240CA1C400654898 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
+		7229A30024307C940046E9CF /* Memo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Memo.xcdatamodel; sourceTree = "<group>"; };
 		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
@@ -78,20 +83,21 @@
 		724CA6F32408F34C0088F581 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		724CA6F82408F35E0088F581 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		724CA6FE240A18390088F581 /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
-		724CA701240A1FAD0088F581 /* MemoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoItem.swift; sourceTree = "<group>"; };
 		724CA703240A23DF0088F581 /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
 		724CA705240A3D960088F581 /* UITextViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExt.swift; sourceTree = "<group>"; };
+		724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyDeletedController.swift; sourceTree = "<group>"; };
 		7259011224149679009153A5 /* SeceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeceneDelegate.swift; sourceTree = "<group>"; };
+		726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewCell.swift; sourceTree = "<group>"; };
 		727E50E924120B950042E81F /* light@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@3x.png"; sourceTree = "<group>"; };
 		727E50EA24120B950042E81F /* dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@2x.png"; sourceTree = "<group>"; };
 		727E50EB24120B950042E81F /* light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@2x.png"; sourceTree = "<group>"; };
 		727E50EC24120B950042E81F /* dark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@3x.png"; sourceTree = "<group>"; };
 		727E50F124120F8B0042E81F /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
-		7299A526240A79C900AE39DE /* RealmServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServices.swift; sourceTree = "<group>"; };
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
-		72D0F8312417753F0026706A /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemExt.swift; sourceTree = "<group>"; };
+		72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExt.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EFECDF2408D39F0035296F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72EFECE82408D3A00035296F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 				72406D9D24107E1B00037EB4 /* EmptyMemoView.swift */,
 				72406D9F24109BA000037EB4 /* SettingCell.swift */,
 				729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */,
+				726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -182,6 +189,7 @@
 			children = (
 				7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */,
 				72406D9B24107A1C00037EB4 /* DeviceControl.swift */,
+				72122C53242FB27D007E7D06 /* FormatString.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -196,6 +204,8 @@
 				7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */,
 				72275685240CA1C400654898 /* UILabelExt.swift */,
 				72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */,
+				72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */,
+				72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -204,7 +214,6 @@
 			isa = PBXGroup;
 			children = (
 				729E996B24126E0E001A5D2C /* Colors */,
-				724CA701240A1FAD0088F581 /* MemoItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -223,7 +232,6 @@
 		7299A525240A79B400AE39DE /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7299A526240A79C900AE39DE /* RealmServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -236,14 +244,6 @@
 			path = Colors;
 			sourceTree = "<group>";
 		};
-		72D0F8302417752C0026706A /* Const */ = {
-			isa = PBXGroup;
-			children = (
-				72D0F8312417753F0026706A /* Const.swift */,
-			);
-			path = Const;
-			sourceTree = "<group>";
-		};
 		72E4D438241232D600606AD2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +253,7 @@
 				722BB3B22413C6E5001189C9 /* PrivacyController.swift */,
 				724B3B0C24162E1000C4946B /* FontSizeController.swift */,
 				72C22DB724205EF0004EC65A /* RemindViewController.swift */,
+				724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -288,9 +289,9 @@
 		72EFECDE2408D39F0035296F /* Set Memo */ = {
 			isa = PBXGroup;
 			children = (
+				7229A2FF24307C940046E9CF /* Memo.xcdatamodeld */,
 				7248D0732429EB2D00359505 /* Theme */,
 				723F8E25241DD02800149049 /* Common */,
-				72D0F8302417752C0026706A /* Const */,
 				727E50E824120B710042E81F /* App Icons */,
 				7244892D240F3D62008E723C /* Views */,
 				7299A525240A79B400AE39DE /* Services */,
@@ -438,20 +439,25 @@
 				723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */,
 				72406DA024109BA000037EB4 /* SettingCell.swift in Sources */,
 				72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */,
+				724FB6DC242C30E5006C419B /* RecentlyDeletedController.swift in Sources */,
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
 				723F8E29241DDFCF00149049 /* Resource.swift in Sources */,
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
+				7229A30124307C940046E9CF /* Memo.xcdatamodeld in Sources */,
+				72122C54242FB27D007E7D06 /* FormatString.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
 				7248D0752429EB4700359505 /* Themes.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,
 				724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */,
+				72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,
 				724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */,
 				72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */,
-				724CA702240A1FAD0088F581 /* MemoItem.swift in Sources */,
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
+				72E7CEDB242E1CAC00541E63 /* UINavigationItemExt.swift in Sources */,
+				726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
 				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
@@ -461,8 +467,6 @@
 				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,
 				724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,
-				72D0F8322417753F0026706A /* Const.swift in Sources */,
-				7299A527240A79C900AE39DE /* RealmServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,6 +678,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7229A2FF24307C940046E9CF /* Memo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7229A30024307C940046E9CF /* Memo.xcdatamodel */,
+			);
+			currentVersion = 7229A30024307C940046E9CF /* Memo.xcdatamodel */;
+			path = Memo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 72EFECD42408D39F0035296F /* Project object */;
 }

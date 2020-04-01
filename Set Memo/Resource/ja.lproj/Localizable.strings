@@ -15,7 +15,8 @@
 "Done" = "完了";
 "Save" = "保存";
 "Delete" = "削除";
-"DeleteAll" = "全てのメモが削除されます、\nよろしいですか？";
+"Share" = "共有";
+"DeleteAllMessage" = "全てのメモが削除されます。\nよろしいですか？";
 "Edit" = "編集";
 "DatetimeFormat" = "yyyy年MM月dd日 HH時mm分";
 "EmptyLabel" = "メモがありません";
@@ -23,7 +24,7 @@
 "General" = "一般";
 "Advanced" = "アドバンスド";
 "Biometrics" = "生体認証";
-"UseTouchOrFaceId" = "タッチIDまたはフェイスIDを使用します";
+"UseTouchOrFaceId" = "Touch ID(Face ID)を使用する";
 "Privacy" = "プライバシー";
 "ChangeAppIcon" = "アプリアイコンの変更";
 "Alert" = "アラート";
@@ -46,9 +47,9 @@
 "Medium" = "中 (標準)";
 "Large" = "大";
 "Maximum" = "特大";
-"SortByDateCreated" = "作成日でソート";
-"SortByDateEdited" = "編集日でソート";
-"SortByTitle" = "タイトルでソート";
+"SortByDateCreated" = "作成日";
+"SortByDateEdited" = "編集日";
+"SortByTitle" = "タイトル";
 "Sort" = "ソート";
 "Vibration" = "タッチ時の振動";
 "RandomColor" = "ランダム　カラー";
@@ -56,7 +57,14 @@
 "Light" = "ライト";
 "Dark" = "ダーク";
 "RemindEveryDay" = "リマインダーの通知";
+"RemindMe" = "通知";
 "Yourname" = "お名前";
 "WriteMemoToday" = "こんにちは%@さん、今日のメモを書きましょう。^.^";
 "IconBadge" = "アイコンバッジ";
 "UseDarkMode" = "ダークテーマを利用";
+"RecentlyDeleted" = "最近削除した";
+"RecentlyDeletedMemo" = "最近削除したメモ";
+"RecoverBodyContent" = "最近削除したメモを編集できません。\n編集するの為に、最初に復元してください。";
+"Recover" = "復元";
+"SearchPlaceholder" = "検索";
+"SortBy" = "%@で並び替え";

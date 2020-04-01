@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19C56a" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Memo" representedClassName="Memo" syncable="YES" codeGenerationType="class">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dateEdited" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="dateReminder" optional="YES" attributeType="String"/>
+        <attribute name="dateReminderDisplay" optional="YES" attributeType="String"/>
+        <attribute name="dateString" optional="YES" attributeType="String"/>
+        <attribute name="hashTag" optional="YES" attributeType="String"/>
+        <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="notificationUUID" optional="YES" attributeType="String"/>
+        <attribute name="temporarilyDelete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="Memo" positionX="-63" positionY="-18" width="128" height="208"/>
+    </elements>
+</model>

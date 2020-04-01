@@ -15,7 +15,8 @@
 "Done" = "Xong";
 "Save" = "Lưu";
 "Delete" = "Xoá";
-"DeleteAll" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
+"Share" = "Chia sẻ";
+"DeleteAllMessage" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
 "DatetimeFormat" = "HH:mm dd/MM/yyyy";
 "EmptyLabel" = "Bạn chưa tạo ghi chú !";
@@ -27,7 +28,7 @@
 "Biometrics" = "Sinh trắc học";
 "ChangeAppIcon" = "Thay đổi biểu tượng ứng dụng";
 "Alert" = "Cảnh báo";
-"DeleteLabel" = "Xoá hết ghi chú";
+"DeleteLabel" = "Xoá tất cả";
 "PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
 "Placeholder" = "Văn bản đánh dấu";
 "CustomPlaceholder" = "Thay đổi văn bản đánh dấu\n tại màn hình tạo ghi chú mới";
@@ -46,9 +47,9 @@
 "Medium" = "Trung bình (Tiêu chuẩn)";
 "Large" = "Lớn";
 "Maximum" = "Tối đa";
-"SortByDateCreated" = "Theo ngày tạo";
-"SortByDateEdited" = "Theo ngày sửa";
-"SortByTitle" = "Theo tiêu đề";
+"SortByDateCreated" = "Ngày tạo";
+"SortByDateEdited" = "Ngày sửa";
+"SortByTitle" = "Tiêu đề";
 "Sort" = "Sắp xếp";
 "Vibration" = "Rung khi chạm";
 "RandomColor" = "Màu ngẫu nhiên";
@@ -56,7 +57,14 @@
 "Light" = "Sáng";
 "Dark" = "Tối";
 "RemindEveryDay" = "Nhắc nhở tôi hàng ngày";
+"RemindMe" = "Nhắc nhở tôi";
 "Yourname" = "Tên của bạn";
 "WriteMemoToday" = "%@ ơi, Bạn đã viết ghi chú cho ngày hôm nay chưa?";
 "IconBadge" = "Icon badges";
 "UseDarkMode" = "Ứng dụng nền tối";
+"RecentlyDeleted" = "Đã xóa gần đây";
+"RecentlyDeletedMemo" = "Ghi chú đã xóa gần đây";
+"RecoverBodyContent" = "Không thể sửa ghi chú đã xóa gần đây.\n Để sửa, hãy khôi phục ghi chú này.";
+"Recover" = "Khôi phục";
+"SearchPlaceholder" = "Tìm kiếm";
+"SortBy" = "Sắp xếp theo %@";

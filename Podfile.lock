@@ -1,26 +1,16 @@
 PODS:
   - MultilineTextField (1.0.0)
-  - Realm (4.3.2):
-    - Realm/Headers (= 4.3.2)
-  - Realm/Headers (4.3.2)
-  - RealmSwift (4.3.2):
-    - Realm (= 4.3.2)
 
 DEPENDENCIES:
   - MultilineTextField
-  - RealmSwift
 
 SPEC REPOS:
   trunk:
     - MultilineTextField
-    - Realm
-    - RealmSwift
 
 SPEC CHECKSUMS:
   MultilineTextField: bb965487257ce72f880d313074d419cac34024ff
-  Realm: 5e92902e2875dff4bb0fd02f67bb737c3d5db2bc
-  RealmSwift: 9a360fc7bae04fc2e308a34fbd899d5faa2d6b22
 
-PODFILE CHECKSUM: 914dd74ae1cdc17ccfc55f2d8afe28cef4b3f84f
+PODFILE CHECKSUM: 2c971448592d87130ba922b3ae010d63938f0ba1
 
 COCOAPODS: 1.9.0

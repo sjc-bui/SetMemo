@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RealmSwift
+import CoreData
 
 class SettingViewController: UITableViewController {
     let sections: Array = [
@@ -26,10 +26,16 @@ class SettingViewController: UITableViewController {
         "UseDarkMode".localized
     ]
     
-    let advanced: Array = ["DeleteLabel".localized]
+    let advancedDelete: Array = [
+        "DeleteLabel".localized
+    ]
+    
+    let advanced: Array = [
+        "DeleteLabel".localized,
+        "RecentlyDeleted".localized
+    ]
     let other: Array = ["Version".localized]
     
-    //var tableView: UITableView = UITableView()
     let themes = Themes()
     let defaults = UserDefaults.standard
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
@@ -55,7 +61,7 @@ class SettingViewController: UITableViewController {
         super.viewWillAppear(animated)
         setupDynamicElement()
         removeExtraHeaderView()
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     func removeExtraHeaderView() {
@@ -76,14 +82,38 @@ class SettingViewController: UITableViewController {
         if section == 0 {
             return general.count
         } else if section == 1 {
-            return advanced.count
+            if getRecentlyDeletedCount() == 0 {
+                return advancedDelete.count
+            } else {
+                return advanced.count
+            }
         } else if section == 2 {
             return other.count
         }
         return 0
     }
     
+    func getRecentlyDeletedCount() -> Int {
+        var deleteCount: Int = 0
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
+        fetchRequest.returnsObjectsAsFaults = false
+        fetchRequest.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+        
+        do {
+            deleteCount = try! managedContext!.count(for: fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        return deleteCount
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let recentlyDeleteTotal = getRecentlyDeletedCount()
+        
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
@@ -155,7 +185,29 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 1 && recentlyDeleteTotal != 0 {
+            // When recently delete item != 0
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.accentColor
+                return cell
+            case 1:
+                let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.accentColor
+                
+                cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
+                cell.accessoryType = .disclosureIndicator
+                
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                return cell
+            }
+        } else if indexPath.section == 1 && recentlyDeleteTotal == 0 {
+            // When recently delete item = 0
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -263,9 +315,25 @@ class SettingViewController: UITableViewController {
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAll".localized, preferredStyle: .alert)
-                let delete = UIAlertAction(title: "Delete".localized, style: .destructive, handler: { action in
-                    RealmServices.shared.deleteAll()
+                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
+                
+                let delete = UIAlertAction(title: "DeleteLabel".localized, style: .destructive, handler: { action in
+                    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                    let managedContext = appDelegate?.persistentContainer.viewContext
+                    
+                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+                    deleteFetch.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+                    
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    
+                    do {
+                        try managedContext?.execute(deleteRequest)
+                        try managedContext?.save()
+                    } catch let error as NSError {
+                        print("Could not fetch. \(error), \(error.userInfo)")
+                    }
+                    
+                    tableView.reloadData()
                 })
                 let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
                 
@@ -273,6 +341,8 @@ class SettingViewController: UITableViewController {
                 deleteAllAlert.addAction(delete)
                 
                 present(deleteAllAlert, animated: true, completion: nil)
+            case 1:
+                self.navigationController?.pushViewController(RecentlyDeletedController(), animated: true)
             default:
                 return
             }
@@ -281,17 +351,15 @@ class SettingViewController: UITableViewController {
             cell?.selectionStyle = .none
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
     func darkModeIsEnable() -> Bool {
         if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-            print("dark")
             return true
         } else {
-            print("light")
             return false
         }
     }
