@@ -68,3 +68,4 @@
 "Recover" = "復元";
 "SearchPlaceholder" = "検索";
 "SortBy" = "%@で並び替え";
+"AutoDeleteMemo" = "メモは30日後に完全に削除されます。";

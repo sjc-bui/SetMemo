@@ -27,15 +27,15 @@ class MemoViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchMemoFromCoreData()
         setupNavigation()
+        configureSearchBar()
         resetIconBadges()
         requestReviewApp()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configureSearchBar()
+        fetchMemoFromCoreData()
         setupBarButton()
     }
     
@@ -135,10 +135,11 @@ class MemoViewController: UITableViewController {
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
         
-        alertController.popoverPresentationController?.sourceView = self.view
-        alertController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
-        let screen = UIScreen.main.bounds
-        alertController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         present(alertController, animated: true, completion: nil)
     }
@@ -241,12 +242,14 @@ class MemoViewController: UITableViewController {
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
+            cell.dateEdited.textColor = Colors.shared.systemGrayColor
             cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
             cell.dateEdited.text = dateString
             
             cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.hashTag.textColor = Colors.shared.systemGrayColor
             cell.hashTag.textAlignment = .right
-            cell.hashTag.text = hashTag
+            cell.hashTag.text = "#\(hashTag!)"
         } else {
             cell.dateEdited.text = ""
         }
@@ -296,7 +299,7 @@ class MemoViewController: UITableViewController {
         
         return String(format: "SortBy".localized, sortText!)
     }
-
+    
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = .clear
         let header = view as! UITableViewHeaderFooterView
@@ -398,10 +401,11 @@ class MemoViewController: UITableViewController {
         alertSheet.addAction(delete)
         alertSheet.addAction(cancel)
         
-        alertSheet.popoverPresentationController?.sourceView = self.view
-        alertSheet.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
-        let screen = UIScreen.main.bounds
-        alertSheet.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        if let popoverController = alertSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
             DeviceControl().feedbackOnPress()
@@ -417,10 +421,11 @@ class MemoViewController: UITableViewController {
         activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop,
                                                          UIActivity.ActivityType.addToReadingList]
         
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
-        let screen = UIScreen.main.bounds
-        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        if let popoverController = activityViewController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         self.present(activityViewController, animated: true, completion: nil)
     }

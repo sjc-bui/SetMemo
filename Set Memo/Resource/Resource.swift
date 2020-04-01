@@ -18,6 +18,8 @@ public class Resource {
         public static var searchButton: UIImage? = UIImage(named: "search")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
+        public static var trashButton: UIImage? = UIImage(systemName: "trash")
+        public static var recoverButton: UIImage? = UIImage(systemName: "folder")
     }
     
     public class SortBy {
@@ -41,6 +43,7 @@ public class Resource {
         public static let remindAt = "remindAt"
         public static let useDarkMode = "useDarkMode"
         public static let firstTimeDeleted = "firstTimeDeleted"
+        public static let titleTextColor = "titleTextColor"
     }
     
     public class FilterBy {

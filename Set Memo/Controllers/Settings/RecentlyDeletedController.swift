@@ -30,9 +30,6 @@ class RecentlyDeletedController: UITableViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
-        
-//        let selectBtn = UIBarButtonItem(title: "DeleteLabel".localized, style: .done, target: self, action: nil)
-//        self.navigationItem.rightBarButtonItem = selectBtn
     }
     
     func fetchMemoFromDB() {
@@ -97,7 +94,7 @@ class RecentlyDeletedController: UITableViewController {
             self.deleteMemo(indexPath: indexPath)
             completion(true)
         }
-        action.image = UIImage(systemName: "trash")
+        action.image = Resource.Images.trashButton
         action.backgroundColor = .red
         return action
     }
@@ -129,8 +126,9 @@ class RecentlyDeletedController: UITableViewController {
             self.recoverMemo(indexPath: indexPath)
             completion(true)
         }
-        action.image = UIImage(systemName: "folder")
+        action.image = Resource.Images.recoverButton
         action.backgroundColor = Colors.shared.accentColor
+        
         return action
     }
     
@@ -162,23 +160,40 @@ class RecentlyDeletedController: UITableViewController {
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        let target = "titleTextColor"
-        recoverButton.setValue(Colors.shared.accentColor, forKey: target)
-        deleteButton.setValue(Colors.shared.accentColor, forKey: target)
-        cancelButton.setValue(Colors.shared.accentColor, forKey: target)
+        recoverButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        deleteButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        cancelButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
         
         alertSheetController.addAction(recoverButton)
         alertSheetController.addAction(deleteButton)
         alertSheetController.addAction(cancelButton)
         
-        alertSheetController.popoverPresentationController?.sourceView = self.view
-        alertSheetController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
-        let screen = UIScreen.main.bounds
-        alertSheetController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        if let popoverController = alertSheetController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
             DeviceControl().feedbackOnPress()
             self.present(alertSheetController, animated: true, completion: nil)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let titleHeaderMessage = "AutoDeleteMemo".localized
+        return titleHeaderMessage
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = .secondarySystemBackground
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        header.textLabel?.textAlignment = NSTextAlignment.center
+        header.textLabel?.textColor = UIColor.systemGray
     }
 }

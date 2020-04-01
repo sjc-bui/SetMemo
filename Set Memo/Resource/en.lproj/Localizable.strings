@@ -68,3 +68,4 @@
 "Recover" = "Recover";
 "SearchPlaceholder" = "Search";
 "SortBy" = "Sort by %@";
+"AutoDeleteMemo" = "Memo are permanently deleted after 30 days.";

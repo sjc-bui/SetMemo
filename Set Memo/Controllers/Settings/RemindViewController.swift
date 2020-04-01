@@ -16,20 +16,9 @@ class RemindViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.layer.cornerRadius = 12
         button.backgroundColor = Colors.shared.accentColor
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let cancelButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Cancel".localized, for: .normal)
-        button.addTarget(self, action: #selector(cancel(sender:)), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.layer.cornerRadius = 12
-        button.backgroundColor = .lightGray
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -38,7 +27,15 @@ class RemindViewController: UIViewController {
         super.viewDidLoad()
         self.navigationItem.title = "RemindEveryDay".localized
         view.backgroundColor = .secondarySystemBackground
-        setupView()
+        let buttonWidth: CGFloat?
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            buttonWidth = 350
+        } else {
+            buttonWidth = view.frame.size.width - 28
+        }
+        
+        setupView(btnWidth: buttonWidth!)
     }
     
     @objc func setRemind(sender: UIButton) {
@@ -47,14 +44,9 @@ class RemindViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @objc func cancel(sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    func setupView() {
+    func setupView(btnWidth: CGFloat) {
         self.view.addSubview(datePicker)
         self.view.addSubview(confirmButton)
-        self.view.addSubview(cancelButton)
         
         datePicker.datePickerMode = .time
         datePicker.timeZone = NSTimeZone.local
@@ -62,19 +54,14 @@ class RemindViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 4).isActive = true
+        datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         datePicker.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        datePicker.heightAnchor.constraint(equalToConstant: 160).isActive = true
+        datePicker.heightAnchor.constraint(equalToConstant: view.frame.size.height / 3).isActive = true
         
         confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        confirmButton.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        confirmButton.widthAnchor.constraint(equalToConstant: btnWidth).isActive = true
         confirmButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
-        confirmButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 20).isActive = true
-        
-        cancelButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cancelButton.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        cancelButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: confirmButton.bottomAnchor, constant: 8).isActive = true
+        confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
     }
     
     func fireNotification() {

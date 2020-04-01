@@ -37,6 +37,10 @@ public class Colors {
         return UIColor.systemOrange
     }
     
+    var systemGrayColor: UIColor {
+        return UIColor.systemGray
+    }
+    
     var darkColor: UIColor {
         return UIColor(hexString: "#2c302d")
     }

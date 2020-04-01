@@ -61,9 +61,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
             textField.autocapitalizationType = .none
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+        let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             let text = textField?.text
             
@@ -72,7 +71,13 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
                 self.hashTag = FormatString().formatHashTag(text: text!)
                 print(FormatString().formatHashTag(text: text!))
             }
-        }))
+        })
+        
+        cancelBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        
+        alert.addAction(cancelBtn)
+        alert.addAction(doneBtn)
         
         self.present(alert, animated: true, completion: nil)
     }

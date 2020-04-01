@@ -68,3 +68,4 @@
 "Recover" = "Khôi phục";
 "SearchPlaceholder" = "Tìm kiếm";
 "SortBy" = "Sắp xếp theo %@";
+"AutoDeleteMemo" = "Ghi chú tại đây sẽ bị xóa vĩnh viễn sau 30 ngày.";
