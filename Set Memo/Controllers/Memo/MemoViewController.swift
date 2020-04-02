@@ -9,6 +9,7 @@
 import UIKit
 import StoreKit
 import CoreData
+import SPAlert
 
 class MemoViewController: UITableViewController {
     var memoData: [Memo] = []
@@ -32,6 +33,7 @@ class MemoViewController: UITableViewController {
         configureSearchBar()
         resetIconBadges()
         requestReviewApp()
+        tableView.tableFooterView = UIView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -493,6 +495,10 @@ class MemoViewController: UITableViewController {
             let dateFromPicker = dateFormatter.string(from: datePicker.date)
             
             print(dateFromPicker)
+            let alert = SPAlertView(title: "Reminder Set", message: "Set at \(dateFromPicker)", icon: UIImageView(image: UIImage(systemName: "checkmark")))
+            alert.duration = 1
+            alert.haptic = .success
+            alert.present()
         }
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 

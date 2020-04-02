@@ -72,3 +72,7 @@
 "DeletedMemoMoved" = "削除したメモは最近削除したフォルダに\n移動されます。";
 "DeletedMemoMovedMess" = "30日以内に最近削除したフォルダから\n復元または削除できます。";
 "ShowAlertOnDelete" = "削除時にアラートを表示";
+"Confirm" = "確認";
+"ConfirmDeleteMessage" = "このメモを削除しますか？";
+"Today" = "今日";
+"Yesterday" = "昨日";

@@ -9,6 +9,7 @@
 import UIKit
 
 public class Resource {
+    
     public class Images {
         public static var createButton: UIImage? = UIImage(named: "plus")
         public static var sortButton: UIImage? = UIImage(named: "sort")
@@ -18,7 +19,7 @@ public class Resource {
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
         public static var trashButton: UIImage? = UIImage(systemName: "trash")
-        public static var recoverButton: UIImage? = UIImage(systemName: "folder")
+        public static var recoverButton: UIImage? = UIImage(systemName: "arrowshape.turn.up.left")
         public static var alarmButton: UIImage? = UIImage(systemName: "alarm")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
         public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")

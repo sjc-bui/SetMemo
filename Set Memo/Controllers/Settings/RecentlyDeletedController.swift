@@ -22,6 +22,7 @@ class RecentlyDeletedController: UITableViewController {
         super.viewWillAppear(animated)
         setupNavigation()
         fetchMemoFromDB()
+        tableView.tableFooterView = UIView()
     }
     
     func setupNavigation() {
@@ -103,7 +104,7 @@ class RecentlyDeletedController: UITableViewController {
     func showAlertOnDelete(indexPath: IndexPath) {
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
-            let alertController = UIAlertController(title: "Confirm", message: "Do you want to delete this memo?", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, preferredStyle: .alert)
             
             let deleteBtn = UIAlertAction(title: "Delete".localized, style: .destructive) { (action) in
                 self.deleteMemo(indexPath: indexPath)

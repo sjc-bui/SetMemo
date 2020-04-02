@@ -72,3 +72,7 @@
 "DeletedMemoMoved" = "Ghi chú đã xóa được di chuyển đến thư mục Đã xóa gần đây.";
 "DeletedMemoMovedMess" = "Bạn có thể khôi phục hoặc xóa khỏi Đã xóa gần đây trong vòng 30 ngày.";
 "ShowAlertOnDelete" = "Xác nhận trước khi xóa";
+"Confirm" = "Xác nhận";
+"ConfirmDeleteMessage" = "Bạn có muốn xóa ghi chú này không?";
+"Today" = "Hôm nay";
+"Yesterday" = "Hôm qua";

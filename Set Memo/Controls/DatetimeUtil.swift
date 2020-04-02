@@ -15,7 +15,7 @@ class DatetimeUtil {
         let dateFormatter = DateFormatter()
         
         dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .medium
+        dateFormatter.timeStyle = .short
         dateFormatter.timeZone = .current
         
         let dateString = dateFormatter.string(from: dateEdit)
