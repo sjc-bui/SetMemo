@@ -68,7 +68,7 @@ class RecentlyDeletedController: UITableViewController {
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         
         cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .semibold)
-        cell.textLabel?.numberOfLines = 2
+        cell.textLabel?.numberOfLines = 1
         cell.textLabel?.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)

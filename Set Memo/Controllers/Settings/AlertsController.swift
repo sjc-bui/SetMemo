@@ -11,7 +11,6 @@ import UIKit
 class AlertsController: UITableViewController {
     let sections: Array = ["",""]
     let touchAction: Array = ["Vibration".localized]
-    let iconBadges: Array = ["IconBadge".localized]
     
     private let reuseSettingCell = "SettingCell"
     private let reuseSettingSwitchCell = "SettingSwitchCell"
@@ -41,8 +40,6 @@ class AlertsController: UITableViewController {
         switch section {
         case 0:
             return touchAction.count
-        case 1:
-            return iconBadges.count
         default:
             return 0
         }
@@ -70,25 +67,6 @@ class AlertsController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingCell, for: indexPath) as! SettingCell
                 return cell
             }
-        } else if indexPath.section == 1 {
-            switch indexPath.row {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingSwitchCell, for: indexPath) as! SettingSwitchCell
-                cell.textLabel?.text = "\(iconBadges[indexPath.row])"
-                cell.selectionStyle = .none
-                cell.switchButton.addTarget(self, action: #selector(showIconBadges(sender:)), for: .valueChanged)
-                
-                if defaults.bool(forKey: Resource.Defaults.showIconBadges) == true {
-                    cell.switchButton.isOn = true
-                } else {
-                    cell.switchButton.isOn = false
-                }
-                
-                return cell
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingCell, for: indexPath) as! SettingCell
-                return cell
-            }
         }
         
         return cell
@@ -100,16 +78,6 @@ class AlertsController: UITableViewController {
             self.tableView.reloadData()
         } else {
             defaults.set(false, forKey: Resource.Defaults.vibrationOnTouch)
-            self.tableView.reloadData()
-        }
-    }
-    
-    @objc func showIconBadges(sender: UISwitch) {
-        if sender.isOn == true {
-            defaults.set(true, forKey: Resource.Defaults.showIconBadges)
-            self.tableView.reloadData()
-        } else {
-            defaults.set(false, forKey: Resource.Defaults.showIconBadges)
             self.tableView.reloadData()
         }
     }

@@ -23,6 +23,7 @@ class MemoViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.delegate = self
         tableView.register(MemoViewCell.self, forCellReuseIdentifier: "cellId")
+        self.navigationItem.setBackButtonTitle(title: "")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -233,7 +234,7 @@ class MemoViewController: UITableViewController {
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
 
         cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
-        cell.content.numberOfLines = 2
+        cell.content.numberOfLines = 1
         cell.content.text = content
 
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
@@ -258,7 +259,7 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //var memoId: String?
+        var memoId: String?
         
 //        if isFiltering() {
 //            memoId = filterMemo[indexPath.row].id
@@ -266,9 +267,9 @@ class MemoViewController: UITableViewController {
 //            memoId = data[indexPath.row].id
 //        }
         
-//        let updateView = UpdateMemoViewController()
-//        updateView.memoId = memoId!
-//        self.navigationController?.pushViewController(updateView, animated: true)
+        let updateView = UpdateMemoViewController()
+        updateView.memoId = "memoId"
+        self.navigationController?.pushViewController(updateView, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

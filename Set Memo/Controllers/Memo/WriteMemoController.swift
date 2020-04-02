@@ -35,6 +35,12 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         setupRightBarButtons()
     }
     
+    func setupRightBarButtons() {
+        let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
+        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
+        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -44,12 +50,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         writeMemoView.inputTextView.resignFirstResponder()
-    }
-    
-    func setupRightBarButtons() {
-        let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
-        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
-        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
     }
     
     @objc func setHashTag() {
@@ -177,8 +177,10 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             writeMemoView.inputTextView.contentInset = .zero
+            //self.navigationItem.removeBarButtonItem(item: doneButton)
         } else {
             writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
+            //self.navigationItem.addToRightBar(item: doneButton)
         }
         
         writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset

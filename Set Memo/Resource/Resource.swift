@@ -32,7 +32,6 @@ public class Resource {
     
     public class Defaults {
         public static let vibrationOnTouch = "vibrationOnTouch"
-        public static let showIconBadges = "showIconBadges"
         public static let displayDateTime = "displayDateTime"
         public static let writeMemoPlaceholder = "Write something"
         public static let useBiometrics = "useBiometrics"

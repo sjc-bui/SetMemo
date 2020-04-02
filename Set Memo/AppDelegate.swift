@@ -22,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         UserDefaults.standard.register(defaults: [
             Resource.Defaults.iconType: "light",
             Resource.Defaults.vibrationOnTouch: true,
-            Resource.Defaults.showIconBadges: false,
             Resource.Defaults.displayDateTime: true,
             Resource.Defaults.writeMemoPlaceholder: "Write something...",
             Resource.Defaults.useBiometrics: false,
