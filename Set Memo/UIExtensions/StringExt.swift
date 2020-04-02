@@ -21,11 +21,6 @@ extension String {
         return NSLocalizedString(self, comment: "")
     }
     
-    // "hello %@! you are %d years old".localized("Mike", 25)
-    func localized(_ args: [CVarArg]) -> String {
-        return localized(args)
-    }
-    
     func capitalizingFirstLetter() -> String {
         return prefix(1).uppercased() + dropFirst()
     }

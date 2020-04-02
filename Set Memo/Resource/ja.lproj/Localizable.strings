@@ -51,7 +51,7 @@
 "SortByDateEdited" = "編集日";
 "SortByTitle" = "タイトル";
 "Sort" = "ソート";
-"Vibration" = "タッチ時の振動";
+"Vibration" = "タップの時に振動";
 "RandomColor" = "ランダム　カラー";
 "Type" = "タイプ";
 "Light" = "ライト";
@@ -68,3 +68,7 @@
 "SearchPlaceholder" = "検索";
 "SortBy" = "%@で並び替え";
 "AutoDeleteMemo" = "メモは30日後に完全に削除されます。";
+"SetReminder" = "通知設定";
+"DeletedMemoMoved" = "削除したメモは最近削除したフォルダに\n移動されます。";
+"DeletedMemoMovedMess" = "30日以内に最近削除したフォルダから\n復元または削除できます。";
+"ShowAlertOnDelete" = "削除時にアラートを表示";

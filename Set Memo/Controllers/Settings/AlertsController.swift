@@ -9,8 +9,11 @@
 import UIKit
 
 class AlertsController: UITableViewController {
-    let sections: Array = ["",""]
-    let touchAction: Array = ["Vibration".localized]
+    let sections: Array = [""]
+    let alertActions: Array = [
+        "Vibration".localized,
+        "ShowAlertOnDelete".localized
+    ]
     
     private let reuseSettingCell = "SettingCell"
     private let reuseSettingSwitchCell = "SettingSwitchCell"
@@ -39,7 +42,7 @@ class AlertsController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return touchAction.count
+            return alertActions.count
         default:
             return 0
         }
@@ -52,7 +55,7 @@ class AlertsController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingSwitchCell, for: indexPath) as! SettingSwitchCell
-                cell.textLabel?.text = "\(touchAction[indexPath.row])"
+                cell.textLabel?.text = "\(alertActions[indexPath.row])"
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(setupVibrationOnTouch(sender:)), for: .valueChanged)
                 
@@ -63,6 +66,21 @@ class AlertsController: UITableViewController {
                 }
                 
                 return cell
+                
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingSwitchCell, for: indexPath) as! SettingSwitchCell
+                cell.textLabel?.text = "\(alertActions[indexPath.row])"
+                cell.selectionStyle = .none
+                cell.switchButton.addTarget(self, action: #selector(setupShowAlertOnDelete(sender:)), for: .valueChanged)
+                
+                if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
+                    cell.switchButton.isOn = true
+                } else {
+                    cell.switchButton.isOn = false
+                }
+                
+                return cell
+                
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSettingCell, for: indexPath) as! SettingCell
                 return cell
@@ -78,6 +96,16 @@ class AlertsController: UITableViewController {
             self.tableView.reloadData()
         } else {
             defaults.set(false, forKey: Resource.Defaults.vibrationOnTouch)
+            self.tableView.reloadData()
+        }
+    }
+    
+    @objc func setupShowAlertOnDelete(sender: UISwitch) {
+        if sender.isOn == true {
+            defaults.set(true, forKey: Resource.Defaults.showAlertOnDelete)
+            self.tableView.reloadData()
+        } else {
+            defaults.set(false, forKey: Resource.Defaults.showAlertOnDelete)
             self.tableView.reloadData()
         }
     }

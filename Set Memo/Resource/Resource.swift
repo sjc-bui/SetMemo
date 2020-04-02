@@ -21,6 +21,7 @@ public class Resource {
         public static var recoverButton: UIImage? = UIImage(systemName: "folder")
         public static var alarmButton: UIImage? = UIImage(systemName: "alarm")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
+        public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
     }
     
     public class SortBy {
@@ -32,6 +33,7 @@ public class Resource {
     
     public class Defaults {
         public static let vibrationOnTouch = "vibrationOnTouch"
+        public static let showAlertOnDelete = "showAlertOnDelete"
         public static let displayDateTime = "displayDateTime"
         public static let writeMemoPlaceholder = "Write something"
         public static let useBiometrics = "useBiometrics"

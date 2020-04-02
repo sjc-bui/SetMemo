@@ -272,36 +272,10 @@ class MemoViewController: UITableViewController {
         self.navigationController?.pushViewController(updateView, animated: true)
     }
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        let remind = remindAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [delete, remind])
-    }
-    
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.deleteHandler(indexPath: indexPath)
-            completion(true)
-        }
-        action.image = Resource.Images.trashButton
-        action.backgroundColor = .systemRed
-        return action
-    }
-    
-    func remindAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            print("remind memo")
-            completion(true)
-        }
-        action.image = Resource.Images.alarmButton
-        action.backgroundColor = .systemBlue
-        return action
-    }
-    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
     }
-
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         var sortText: String?
         let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
@@ -328,10 +302,78 @@ class MemoViewController: UITableViewController {
         header.addGestureRecognizer(gesture)
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        let remind = remindAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete, remind])
+    }
+    
+    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.deleteHandler(indexPath: indexPath)
+            completion(true)
+        }
+        action.image = Resource.Images.trashButton
+        action.backgroundColor = .systemRed
+        return action
+    }
+    
+    func remindAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.setReminder()
+            completion(true)
+        }
+        action.image = Resource.Images.alarmButton
+        action.backgroundColor = .systemBlue
+        return action
+    }
+    
+    // MARK: - Long Tap Handle
+    @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
+        let location = sender.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: location)!
+        
+        let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let remind = UIAlertAction(title: "RemindMe".localized, style: .default) { (action) in
+            self.setReminder()
+        }
+        
+        let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
+            self.shareHandler(indexPath: indexPath)
+        }
+        
+        let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
+            self.deleteHandler(indexPath: indexPath)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        
+        alertSheet.view.tintColor = Colors.shared.accentColor
+        
+        alertSheet.addAction(remind)
+        alertSheet.addAction(share)
+        alertSheet.addAction(delete)
+        alertSheet.addAction(cancel)
+        alertSheet.pruneNegativeWidthConstraints()
+        
+        if let popoverController = alertSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
+        
+        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+            DeviceControl().feedbackOnPress()
+            self.present(alertSheet, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - Delete memo
     func deleteHandler(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
-            let alertController = UIAlertController(title: "Delete", message: "This memo will be move to recently deleted folder, you can recover it.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, preferredStyle: .alert)
             
             let acceptButton = UIAlertAction(title: "OK", style: .default, handler: nil)
             acceptButton.setValue(Colors.shared.accentColor, forKey: "titleTextColor")
@@ -383,47 +425,19 @@ class MemoViewController: UITableViewController {
         }
     }
     
-    @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: tableView)
-        let indexPath = tableView.indexPathForRow(at: location)!
-        
-        let memo = memoData[indexPath.row]
-        let content = memo.value(forKey: "content") as? String
-        let hashTag = memo.value(forKey: "hashTag") as? String
-        
-        let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let remind = UIAlertAction(title: "RemindMe".localized, style: .default) { (action) in
-            print("remind me")
-        }
-        
-        let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
+    // MARK: - Share memo
+    func shareHandler(indexPath: IndexPath) {
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            let content = filterData.value(forKey: "content") as? String
+            let hashTag = filterData.value(forKey: "hashTag") as? String
             self.shareMemo(content: content!, hashTag: hashTag!)
-        }
-        
-        let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            self.deleteHandler(indexPath: indexPath)
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        alertSheet.view.tintColor = Colors.shared.accentColor
-        
-        alertSheet.addAction(remind)
-        alertSheet.addAction(share)
-        alertSheet.addAction(delete)
-        alertSheet.addAction(cancel)
-        alertSheet.pruneNegativeWidthConstraints()
-        
-        if let popoverController = alertSheet.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
-            DeviceControl().feedbackOnPress()
-            self.present(alertSheet, animated: true, completion: nil)
+            
+        } else {
+            let memo = memoData[indexPath.row]
+            let content = memo.value(forKey: "content") as? String
+            let hashTag = memo.value(forKey: "hashTag") as? String
+            self.shareMemo(content: content!, hashTag: hashTag!)
         }
     }
     
@@ -442,6 +456,58 @@ class MemoViewController: UITableViewController {
         }
         
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    // MARK: - Set Reminder
+    func setReminder() {
+        let remindController = UIAlertController(title: "SetReminder".localized, message: nil, preferredStyle: .actionSheet)
+        let customView = UIView()
+        let datePicker = UIDatePicker()
+        
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.setValue(UIColor.label, forKey: "textColor")
+        
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        customView.translatesAutoresizingMaskIntoConstraints = false
+        
+        customView.addSubview(datePicker)
+        remindController.view.addSubview(customView)
+        
+        datePicker.topAnchor.constraint(equalTo: customView.topAnchor).isActive = true
+        datePicker.leftAnchor.constraint(equalTo: customView.leftAnchor).isActive = true
+        datePicker.rightAnchor.constraint(equalTo: customView.rightAnchor).isActive = true
+        datePicker.bottomAnchor.constraint(equalTo: customView.bottomAnchor).isActive = true
+        
+        customView.topAnchor.constraint(equalTo: remindController.view.topAnchor, constant: 45).isActive = true
+        customView.rightAnchor.constraint(equalTo: remindController.view.rightAnchor, constant: -10).isActive = true
+        customView.leftAnchor.constraint(equalTo: remindController.view.leftAnchor, constant: 10).isActive = true
+        customView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        remindController.view.translatesAutoresizingMaskIntoConstraints = false
+        remindController.view.heightAnchor.constraint(equalToConstant: 330).isActive = true
+        
+        let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+            let dateFromPicker = dateFormatter.string(from: datePicker.date)
+            
+            print(dateFromPicker)
+        }
+        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+
+        remindController.pruneNegativeWidthConstraints()
+        remindController.view.tintColor = Colors.shared.accentColor
+        remindController.addAction(doneBtn)
+        remindController.addAction(cancelBtn)
+        
+        if let popoverController = remindController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
+        
+        self.present(remindController, animated: true, completion: nil)
     }
 }
 

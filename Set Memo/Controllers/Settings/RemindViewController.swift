@@ -56,7 +56,7 @@ class RemindViewController: UIViewController {
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         datePicker.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        datePicker.heightAnchor.constraint(equalToConstant: view.frame.size.height / 3).isActive = true
+        datePicker.heightAnchor.constraint(equalToConstant: view.frame.size.height / 4).isActive = true
         
         confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         confirmButton.widthAnchor.constraint(equalToConstant: btnWidth).isActive = true

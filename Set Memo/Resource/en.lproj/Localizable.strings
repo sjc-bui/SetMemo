@@ -68,3 +68,7 @@
 "SearchPlaceholder" = "Search";
 "SortBy" = "Sort by %@";
 "AutoDeleteMemo" = "Memo are permanently deleted after 30 days.";
+"SetReminder" = "Set Reminder";
+"DeletedMemoMoved" = "Deleted memo are moved to the\n Recently Deleted folder.";
+"DeletedMemoMovedMess" = "You can recover or delete from\n Recently Deleted within 30 days.";
+"ShowAlertOnDelete" = "Show alert on delete";

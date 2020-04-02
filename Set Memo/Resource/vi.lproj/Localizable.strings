@@ -68,3 +68,7 @@
 "SearchPlaceholder" = "Tìm kiếm";
 "SortBy" = "Sắp xếp theo %@";
 "AutoDeleteMemo" = "Ghi chú tại đây sẽ bị xóa vĩnh viễn sau 30 ngày.";
+"SetReminder" = "Đặt thông báo";
+"DeletedMemoMoved" = "Ghi chú đã xóa được di chuyển đến thư mục Đã xóa gần đây.";
+"DeletedMemoMovedMess" = "Bạn có thể khôi phục hoặc xóa khỏi Đã xóa gần đây trong vòng 30 ngày.";
+"ShowAlertOnDelete" = "Xác nhận trước khi xóa";

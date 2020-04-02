@@ -92,12 +92,34 @@ class RecentlyDeletedController: UITableViewController {
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: "Delete".localized) { (action, view, completion) in
-            self.deleteMemo(indexPath: indexPath)
+            self.showAlertOnDelete(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.trashButton
         action.backgroundColor = .red
         return action
+    }
+    
+    func showAlertOnDelete(indexPath: IndexPath) {
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
+            let alertController = UIAlertController(title: "Confirm", message: "Do you want to delete this memo?", preferredStyle: .alert)
+            
+            let deleteBtn = UIAlertAction(title: "Delete".localized, style: .destructive) { (action) in
+                self.deleteMemo(indexPath: indexPath)
+            }
+            let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+            
+            alertController.view.tintColor = Colors.shared.accentColor
+            alertController.addAction(cancelBtn)
+            alertController.addAction(deleteBtn)
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+        } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
+            // no alert on delete
+            self.deleteMemo(indexPath: indexPath)
+        }
     }
     
     func deleteMemo(indexPath: IndexPath) {
@@ -157,7 +179,7 @@ class RecentlyDeletedController: UITableViewController {
             self.recoverMemo(indexPath: indexPath)
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            self.deleteMemo(indexPath: indexPath)
+            self.showAlertOnDelete(indexPath: indexPath)
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
