@@ -22,6 +22,7 @@ class RecentlyDeletedController: UITableViewController {
         super.viewWillAppear(animated)
         setupNavigation()
         fetchMemoFromDB()
+        tableView.tableFooterView = UIView()
     }
     
     func setupNavigation() {
@@ -30,9 +31,6 @@ class RecentlyDeletedController: UITableViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
-        
-//        let selectBtn = UIBarButtonItem(title: "DeleteLabel".localized, style: .done, target: self, action: nil)
-//        self.navigationItem.rightBarButtonItem = selectBtn
     }
     
     func fetchMemoFromDB() {
@@ -70,12 +68,13 @@ class RecentlyDeletedController: UITableViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         
-        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .regular)
-        cell.textLabel?.numberOfLines = 2
+        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .semibold)
+        cell.textLabel?.numberOfLines = 1
         cell.textLabel?.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-        cell.detailTextLabel?.text = dateString
+        cell.detailTextLabel!.text = "\(dateString)"
+        cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
         cell.accessoryType = .none
         
         return cell
@@ -94,12 +93,34 @@ class RecentlyDeletedController: UITableViewController {
     
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: "Delete".localized) { (action, view, completion) in
-            self.deleteMemo(indexPath: indexPath)
+            self.showAlertOnDelete(indexPath: indexPath)
             completion(true)
         }
-        action.image = UIImage(systemName: "trash")
+        action.image = Resource.Images.trashButton
         action.backgroundColor = .red
         return action
+    }
+    
+    func showAlertOnDelete(indexPath: IndexPath) {
+        let defaults = UserDefaults.standard
+        if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
+            let alertController = UIAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, preferredStyle: .alert)
+            
+            let deleteBtn = UIAlertAction(title: "Delete".localized, style: .destructive) { (action) in
+                self.deleteMemo(indexPath: indexPath)
+            }
+            let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+            
+            alertController.view.tintColor = Colors.shared.accentColor
+            alertController.addAction(cancelBtn)
+            alertController.addAction(deleteBtn)
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+        } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
+            // no alert on delete
+            self.deleteMemo(indexPath: indexPath)
+        }
     }
     
     func deleteMemo(indexPath: IndexPath) {
@@ -129,8 +150,9 @@ class RecentlyDeletedController: UITableViewController {
             self.recoverMemo(indexPath: indexPath)
             completion(true)
         }
-        action.image = UIImage(systemName: "folder")
+        action.image = Resource.Images.recoverButton
         action.backgroundColor = Colors.shared.accentColor
+        
         return action
     }
     
@@ -158,27 +180,43 @@ class RecentlyDeletedController: UITableViewController {
             self.recoverMemo(indexPath: indexPath)
         }
         let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            self.deleteMemo(indexPath: indexPath)
+            self.showAlertOnDelete(indexPath: indexPath)
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        let target = "titleTextColor"
-        recoverButton.setValue(Colors.shared.accentColor, forKey: target)
-        deleteButton.setValue(Colors.shared.accentColor, forKey: target)
-        cancelButton.setValue(Colors.shared.accentColor, forKey: target)
+        alertSheetController.view.tintColor = Colors.shared.accentColor
         
         alertSheetController.addAction(recoverButton)
         alertSheetController.addAction(deleteButton)
         alertSheetController.addAction(cancelButton)
+        alertSheetController.pruneNegativeWidthConstraints()
         
-        alertSheetController.popoverPresentationController?.sourceView = self.view
-        alertSheetController.popoverPresentationController?.permittedArrowDirections = .init(rawValue: 0)
-        let screen = UIScreen.main.bounds
-        alertSheetController.popoverPresentationController?.sourceRect = CGRect(x: screen.size.width / 2, y: screen.size.height, width: 1.0, height: 1.0)
+        if let popoverController = alertSheetController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
             DeviceControl().feedbackOnPress()
             self.present(alertSheetController, animated: true, completion: nil)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let titleHeaderMessage = "AutoDeleteMemo".localized
+        return titleHeaderMessage
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = .secondarySystemBackground
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        header.textLabel?.textAlignment = NSTextAlignment.center
+        header.textLabel?.textColor = UIColor.systemGray
     }
 }

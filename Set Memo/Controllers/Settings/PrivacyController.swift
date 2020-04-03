@@ -20,11 +20,11 @@ class PrivacyController: UITableViewController {
     let blurEffectView = UIVisualEffectView()
     let unlockButton: UIButton = {
         let button = UIButton()
-        button.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
-        button.setTitle("UnlockApp".localized, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.frame = CGRect(x: 0, y: 0, width: 57, height: 57)
+        button.tintColor = Colors.whiteColor
+        button.setImage(Resource.Images.unlockButton, for: .normal)
         button.isUserInteractionEnabled = true
-        button.layer.cornerRadius = 12
+        button.layer.cornerRadius = 10
         button.tag = 101
         
         return button

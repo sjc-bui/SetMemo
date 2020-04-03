@@ -46,6 +46,8 @@ class SettingViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Setting".localized
+        self.navigationItem.setBackButtonTitle(title: "")
+        
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -292,11 +294,11 @@ class SettingViewController: UITableViewController {
                     textField.autocapitalizationType = .sentences
                 }
                 
-                alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: { [weak alert] _ in
+                let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: { [weak alert] _ in
                     print(alert?.message ?? "cancel")
-                }))
+                })
                 
-                alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+                let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
                     let textField = alert?.textFields![0]
                     let text = textField?.text
                     
@@ -304,7 +306,13 @@ class SettingViewController: UITableViewController {
                     } else {
                         self.defaults.set(text, forKey: Resource.Defaults.writeMemoPlaceholder)
                     }
-                }))
+                })
+                
+                cancelBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+                doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+                
+                alert.addAction(cancelBtn)
+                alert.addAction(doneBtn)
                 
                 present(alert, animated: true, completion: nil)
             default:
@@ -322,7 +330,7 @@ class SettingViewController: UITableViewController {
                     let managedContext = appDelegate?.persistentContainer.viewContext
                     
                     let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
-                    deleteFetch.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+                    //deleteFetch.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
                     
                     let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
                     
@@ -336,7 +344,7 @@ class SettingViewController: UITableViewController {
                     tableView.reloadData()
                 })
                 let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
-                
+                cancel.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
                 deleteAllAlert.addAction(cancel)
                 deleteAllAlert.addAction(delete)
                 

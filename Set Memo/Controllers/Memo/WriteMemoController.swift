@@ -35,6 +35,12 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         setupRightBarButtons()
     }
     
+    func setupRightBarButtons() {
+        let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
+        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
+        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
@@ -46,12 +52,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.resignFirstResponder()
     }
     
-    func setupRightBarButtons() {
-        let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
-        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
-        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
-    }
-    
     @objc func setHashTag() {
         let alert = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
         
@@ -61,9 +61,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
             textField.autocapitalizationType = .none
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+        let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             let text = textField?.text
             
@@ -72,7 +71,13 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
                 self.hashTag = FormatString().formatHashTag(text: text!)
                 print(FormatString().formatHashTag(text: text!))
             }
-        }))
+        })
+        
+        cancelBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        
+        alert.addAction(cancelBtn)
+        alert.addAction(doneBtn)
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -172,8 +177,10 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             writeMemoView.inputTextView.contentInset = .zero
+            //self.navigationItem.removeBarButtonItem(item: doneButton)
         } else {
             writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
+            //self.navigationItem.addToRightBar(item: doneButton)
         }
         
         writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset

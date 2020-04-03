@@ -9,15 +9,20 @@
 import UIKit
 
 public class Resource {
+    
     public class Images {
         public static var createButton: UIImage? = UIImage(named: "plus")
         public static var sortButton: UIImage? = UIImage(named: "sort")
         public static var settingButton: UIImage? = UIImage(named: "setting")
         public static var backButton: UIImage? = UIImage(named: "back")
-        public static var alarmButton: UIImage? = UIImage(named: "alarm")
         public static var searchButton: UIImage? = UIImage(named: "search")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
+        public static var trashButton: UIImage? = UIImage(systemName: "trash")
+        public static var recoverButton: UIImage? = UIImage(systemName: "arrowshape.turn.up.left")
+        public static var alarmButton: UIImage? = UIImage(systemName: "alarm")
+        public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
+        public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
     }
     
     public class SortBy {
@@ -29,7 +34,7 @@ public class Resource {
     
     public class Defaults {
         public static let vibrationOnTouch = "vibrationOnTouch"
-        public static let showIconBadges = "showIconBadges"
+        public static let showAlertOnDelete = "showAlertOnDelete"
         public static let displayDateTime = "displayDateTime"
         public static let writeMemoPlaceholder = "Write something"
         public static let useBiometrics = "useBiometrics"
@@ -41,6 +46,7 @@ public class Resource {
         public static let remindAt = "remindAt"
         public static let useDarkMode = "useDarkMode"
         public static let firstTimeDeleted = "firstTimeDeleted"
+        public static let titleTextColor = "titleTextColor"
     }
     
     public class FilterBy {

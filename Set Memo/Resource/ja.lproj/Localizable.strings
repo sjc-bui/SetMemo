@@ -51,7 +51,7 @@
 "SortByDateEdited" = "編集日";
 "SortByTitle" = "タイトル";
 "Sort" = "ソート";
-"Vibration" = "タッチ時の振動";
+"Vibration" = "タップの時に振動";
 "RandomColor" = "ランダム　カラー";
 "Type" = "タイプ";
 "Light" = "ライト";
@@ -60,7 +60,6 @@
 "RemindMe" = "通知";
 "Yourname" = "お名前";
 "WriteMemoToday" = "こんにちは%@さん、今日のメモを書きましょう。^.^";
-"IconBadge" = "アイコンバッジ";
 "UseDarkMode" = "ダークテーマを利用";
 "RecentlyDeleted" = "最近削除した";
 "RecentlyDeletedMemo" = "最近削除したメモ";
@@ -68,3 +67,12 @@
 "Recover" = "復元";
 "SearchPlaceholder" = "検索";
 "SortBy" = "%@で並び替え";
+"AutoDeleteMemo" = "メモは30日後に完全に削除されます。";
+"SetReminder" = "通知設定";
+"DeletedMemoMoved" = "削除したメモは最近削除したフォルダに\n移動されます。";
+"DeletedMemoMovedMess" = "30日以内に最近削除したフォルダから\n復元または削除できます。";
+"ShowAlertOnDelete" = "削除時にアラートを表示";
+"Confirm" = "確認";
+"ConfirmDeleteMessage" = "このメモを削除しますか？";
+"Today" = "今日";
+"Yesterday" = "昨日";
