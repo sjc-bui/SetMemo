@@ -10,6 +10,10 @@ import UIKit
 
 public class Resource {
     
+    public class FontFamily {
+        public static let HelveticaNeue = "HelveticaNeue"
+    }
+    
     public class Images {
         public static var createButton: UIImage? = UIImage(named: "plus")
         public static var sortButton: UIImage? = UIImage(named: "sort")

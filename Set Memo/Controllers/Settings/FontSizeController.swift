@@ -21,10 +21,6 @@ class FontSizeController: UITableViewController {
     var lastIndexPath: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
     private let reuseIdentifier = "cellId"
-    private let small: Float = 14
-    private let medium: Float = 18
-    private let large: Float = 26
-    private let maximum: Float = 32
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,19 +59,19 @@ class FontSizeController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            if selectedFontFromDefault(key: small, indexPath: indexPath) == true {
+            if selectedFontFromDefault(key: Dimension.shared.fontSmallSize, indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         case 1:
-            if selectedFontFromDefault(key: medium, indexPath: indexPath) == true {
+            if selectedFontFromDefault(key: Dimension.shared.fontMediumSize, indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         case 2:
-            if selectedFontFromDefault(key: large, indexPath: indexPath) == true {
+            if selectedFontFromDefault(key: Dimension.shared.fontLargeSize, indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         case 3:
-            if selectedFontFromDefault(key: maximum, indexPath: indexPath) == true {
+            if selectedFontFromDefault(key: Dimension.shared.fontMaxSize, indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         default:
@@ -85,10 +81,10 @@ class FontSizeController: UITableViewController {
         return cell
     }
     
-    func selectedFontFromDefault(key: Float, indexPath: IndexPath) -> Bool {
+    func selectedFontFromDefault(key: CGFloat, indexPath: IndexPath) -> Bool {
         // set checkmark for selected font size
         let size = defaults.float(forKey: Resource.Defaults.fontSize)
-        if size == key {
+        if size == Float(key) {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
             return true
         } else {
@@ -109,16 +105,16 @@ class FontSizeController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            defaults.set(small, forKey: Resource.Defaults.fontSize)
+            defaults.set(Dimension.shared.fontSmallSize, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         case 1:
-            defaults.set(medium, forKey: Resource.Defaults.fontSize)
+            defaults.set(Dimension.shared.fontMediumSize, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         case 2:
-            defaults.set(large, forKey: Resource.Defaults.fontSize)
+            defaults.set(Dimension.shared.fontLargeSize, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         case 3:
-            defaults.set(maximum, forKey: Resource.Defaults.fontSize)
+            defaults.set(Dimension.shared.fontMaxSize, forKey: Resource.Defaults.fontSize)
             tableView.reloadData()
         default:
             print("not implement")

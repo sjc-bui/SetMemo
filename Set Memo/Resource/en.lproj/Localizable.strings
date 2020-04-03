@@ -19,7 +19,7 @@
 "DeleteAllMessage" = "All saved memo will be delete.";
 "Edit" = "Edit";
 "DatetimeFormat" = "yyyy/MM/dd HH:mm";
-"EmptyLabel" = "You haven't saved any memo !";
+"EmptyLabel" = "No memo";
 "EmptyDescription" = "Tap + to add new one.";
 "General" = "General";
 "Advanced" = "Advanced";
@@ -69,8 +69,8 @@
 "SortBy" = "Sort by %@";
 "AutoDeleteMemo" = "Memo are permanently deleted after 30 days.";
 "SetReminder" = "Set Reminder";
-"DeletedMemoMoved" = "Deleted memo are moved to the\n Recently Deleted folder.";
-"DeletedMemoMovedMess" = "You can recover or delete from\n Recently Deleted within 30 days.";
+"DeletedMemoMoved" = "Deleted memo are moved to the Recently Deleted folder.";
+"DeletedMemoMovedMess" = "You can recover or delete from Recently Deleted within 30 days.";
 "ShowAlertOnDelete" = "Show alert on delete";
 "Confirm" = "Confirm";
 "ConfirmDeleteMessage" = "Do you want to delete this memo?";

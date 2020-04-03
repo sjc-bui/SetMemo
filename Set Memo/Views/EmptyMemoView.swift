@@ -10,7 +10,7 @@ import UIKit
 
 class EmptyMemoView: UIView {
     lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel]) // [titleLabel, descriptionLabel]
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -22,7 +22,7 @@ class EmptyMemoView: UIView {
     lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: Dimension.shared.fontMediumSize)
         label.textColor = UIColor.systemGray
         label.numberOfLines = 1
         label.text = "EmptyLabel".localized
@@ -32,7 +32,7 @@ class EmptyMemoView: UIView {
     lazy var descriptionLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: Dimension.shared.fontSmallSize)
         label.textColor = UIColor.systemGray
         label.numberOfLines = 1
         label.text = "EmptyDescription".localized

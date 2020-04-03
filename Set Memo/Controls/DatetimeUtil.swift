@@ -21,4 +21,8 @@ class DatetimeUtil {
         let dateString = dateFormatter.string(from: dateEdit)
         return dateString
     }
+    
+    func calculateDate() -> String {
+        return "Today"
+    }
 }

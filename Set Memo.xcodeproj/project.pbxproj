@@ -24,6 +24,7 @@
 		72406DA024109BA000037EB4 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406D9F24109BA000037EB4 /* SettingCell.swift */; };
 		72406DA42411192900037EB4 /* AppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA32411192900037EB4 /* AppearanceController.swift */; };
 		72406DA62411194300037EB4 /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA52411194300037EB4 /* AlertsController.swift */; };
+		7241A4A12436F005008826C7 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7241A4A02436F005008826C7 /* Dimension.swift */; };
 		7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244892E240F3D90008E723C /* WriteMemoView.swift */; };
 		7248D0752429EB4700359505 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7248D0742429EB4700359505 /* Themes.swift */; };
 		724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724B3B0C24162E1000C4946B /* FontSizeController.swift */; };
@@ -74,6 +75,7 @@
 		72406D9F24109BA000037EB4 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		72406DA32411192900037EB4 /* AppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceController.swift; sourceTree = "<group>"; };
 		72406DA52411194300037EB4 /* AlertsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
+		7241A4A02436F005008826C7 /* Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = "<group>"; };
 		7244892E240F3D90008E723C /* WriteMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoView.swift; sourceTree = "<group>"; };
 		7248D0742429EB4700359505 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		724B3B0C24162E1000C4946B /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
@@ -157,12 +159,13 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		7248D0732429EB2D00359505 /* Theme */ = {
+		7248D0732429EB2D00359505 /* Style */ = {
 			isa = PBXGroup;
 			children = (
 				7248D0742429EB4700359505 /* Themes.swift */,
+				7241A4A02436F005008826C7 /* Dimension.swift */,
 			);
-			path = Theme;
+			path = Style;
 			sourceTree = "<group>";
 		};
 		724CA6D12408D9060088F581 /* Controllers */ = {
@@ -293,7 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				7229A2FF24307C940046E9CF /* Memo.xcdatamodeld */,
-				7248D0732429EB2D00359505 /* Theme */,
+				7248D0732429EB2D00359505 /* Style */,
 				723F8E25241DD02800149049 /* Common */,
 				727E50E824120B710042E81F /* App Icons */,
 				7244892D240F3D62008E723C /* Views */,
@@ -450,6 +453,7 @@
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				7229A30124307C940046E9CF /* Memo.xcdatamodeld in Sources */,
 				72122C54242FB27D007E7D06 /* FormatString.swift in Sources */,
+				7241A4A12436F005008826C7 /* Dimension.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
 				7248D0752429EB4700359505 /* Themes.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,

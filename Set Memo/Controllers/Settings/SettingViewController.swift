@@ -380,9 +380,9 @@ class SettingViewController: UITableViewController {
     
     func setupDynamicElement() {
         if darkModeIsEnable() == true {
-            tableView.separatorColor = nil
+            //tableView.separatorColor = nil
         } else {
-            tableView.separatorColor = Colors.whiteColor
+            //tableView.separatorColor = Colors.whiteColor
         }
     }
 }

@@ -44,6 +44,7 @@ class MemoViewController: UITableViewController {
     
     func requestReviewApp() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        
         // request user review when update to new version
         if memoData.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
             if #available(iOS 10.3, *) {
@@ -92,11 +93,13 @@ class MemoViewController: UITableViewController {
     }
     
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        
         if searchController.searchBar.selectedScopeButtonIndex == 0 {
             filterMemoData = memoData.filter({ (memo: Memo) -> Bool in
                 memo.content!.lowercased().contains(searchText.lowercased())
             })
             tableView.reloadData()
+            
         } else if searchController.searchBar.selectedScopeButtonIndex == 1 {
             filterMemoData = memoData.filter({ (memo: Memo) -> Bool in
                 memo.hashTag!.lowercased().contains(searchText.lowercased())
@@ -169,8 +172,10 @@ class MemoViewController: UITableViewController {
         
         if sortBy == Resource.SortBy.dateCreated {
             sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateCreated, ascending: false)
+            
         } else if sortBy == Resource.SortBy.title {
             sortDescriptor = NSSortDescriptor(key: Resource.SortBy.content, ascending: false)
+            
         } else if sortBy == Resource.SortBy.dateEdited {
             sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
         }
@@ -183,6 +188,7 @@ class MemoViewController: UITableViewController {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -204,12 +210,11 @@ class MemoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if memoData.isEmpty {
             tableView.backgroundView = emptyView
-            tableView.separatorStyle = .none
         } else {
             tableView.backgroundView = nil
-            tableView.separatorStyle = .singleLine
             if isFiltering() {
                 return filterMemoData.count
+                
             } else {
                 return memoData.count
             }
@@ -224,6 +229,7 @@ class MemoViewController: UITableViewController {
         var memo = memoData[indexPath.row]
         if isFiltering() {
             memo = filterMemoData[indexPath.row]
+            
         } else {
             memo = memoData[indexPath.row]
         }
@@ -235,10 +241,11 @@ class MemoViewController: UITableViewController {
         
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
 
-        cell.content.font = UIFont.boldSystemFont(ofSize: CGFloat(defaultFontSize))
+        cell.content.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .medium)
+        cell.content.textColor = UIColor(named: "mainTextColor")
         cell.content.numberOfLines = 1
         cell.content.text = content
-
+        
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
@@ -250,11 +257,12 @@ class MemoViewController: UITableViewController {
             cell.hashTag.textColor = Colors.shared.systemGrayColor
             cell.hashTag.textAlignment = .right
             cell.hashTag.text = "#\(hashTag!)"
+            
         } else {
             cell.dateEdited.text = ""
         }
-
-        cell.accessoryType = .disclosureIndicator
+        
+        cell.accessoryType = .none
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
         
         return cell
@@ -297,7 +305,7 @@ class MemoViewController: UITableViewController {
         view.tintColor = .clear
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = Colors.shared.accentColor
-        header.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        header.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .medium)
         header.textLabel?.textAlignment = NSTextAlignment.right
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(sortBy))
@@ -326,7 +334,7 @@ class MemoViewController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.alarmButton
-        action.backgroundColor = .systemBlue
+        action.backgroundColor = Colors.shared.accentColor
         return action
     }
     
@@ -481,13 +489,17 @@ class MemoViewController: UITableViewController {
         datePicker.rightAnchor.constraint(equalTo: customView.rightAnchor).isActive = true
         datePicker.bottomAnchor.constraint(equalTo: customView.bottomAnchor).isActive = true
         
-        customView.topAnchor.constraint(equalTo: remindController.view.topAnchor, constant: 45).isActive = true
+        customView.topAnchor.constraint(equalTo: remindController.view.topAnchor, constant: 36).isActive = true
         customView.rightAnchor.constraint(equalTo: remindController.view.rightAnchor, constant: -10).isActive = true
         customView.leftAnchor.constraint(equalTo: remindController.view.leftAnchor, constant: 10).isActive = true
-        customView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -120).isActive = true
+        } else {
+            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -50).isActive = true
+        }
         
         remindController.view.translatesAutoresizingMaskIntoConstraints = false
-        remindController.view.heightAnchor.constraint(equalToConstant: 330).isActive = true
+        remindController.view.heightAnchor.constraint(equalToConstant: Dimension.shared.reminderBoundHeight).isActive = true
         
         let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
             let dateFormatter = DateFormatter()
@@ -496,7 +508,7 @@ class MemoViewController: UITableViewController {
             
             print(dateFromPicker)
             let alert = SPAlertView(title: "Reminder Set", message: "Set at \(dateFromPicker)", icon: UIImageView(image: UIImage(systemName: "checkmark")))
-            alert.duration = 1
+            alert.duration = 1.5
             alert.haptic = .success
             alert.present()
         }
