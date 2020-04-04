@@ -22,7 +22,7 @@ class WriteMemoView: UIView {
         let frame = CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight)
         let textField = MultilineTextField(frame: frame)
         textField.placeholderColor = UIColor.tertiaryLabel
-        textField.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
+        textField.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .regular)
         textField.isEditable = true
         textField.textContainerInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         textField.leftViewOrigin = CGPoint(x: 8, y: 8)

@@ -274,8 +274,11 @@ class MemoViewController: UITableViewController {
         
         if isFiltering() {
             memo = filterMemoData[indexPath.row]
+            updateView.filterMemoData = filterMemoData
+            updateView.isFiltering = true
         } else {
             memo = memoData[indexPath.row]
+            updateView.memoData = memoData
         }
         
         let content = memo.value(forKey: "content") as? String
@@ -295,6 +298,7 @@ class MemoViewController: UITableViewController {
         updateView.dateEdited = dateEditedString
         updateView.isReminder = isReminder!
         updateView.dateReminder = dateReminder
+        updateView.index = indexPath.row
         
         self.navigationController?.pushViewController(updateView, animated: true)
     }
