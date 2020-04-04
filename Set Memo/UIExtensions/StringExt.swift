@@ -35,4 +35,11 @@ extension String {
     var stripped: String {
         return self.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
     }
+    
+    func countWords() -> Int {
+        let charSet = CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters)
+        let component = self.components(separatedBy: charSet)
+        let words = component.filter { !$0.isEmpty }
+        return words.count
+    }
 }

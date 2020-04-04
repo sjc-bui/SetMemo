@@ -26,7 +26,7 @@
 "Privacy" = "Riêng tư";
 "UseTouchOrFaceId" = "Sử dụng Touch ID hoặc Face ID";
 "Biometrics" = "Sinh trắc học";
-"ChangeAppIcon" = "Thay đổi biểu tượng ứng dụng";
+"AppIcon" = "Biểu tượng cho ứng dụng";
 "Alert" = "Cảnh báo";
 "DeleteLabel" = "Xoá tất cả";
 "PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
@@ -60,7 +60,7 @@
 "RemindMe" = "Nhắc nhở tôi";
 "Yourname" = "Tên của bạn";
 "WriteMemoToday" = "%@ ơi, Bạn đã viết ghi chú cho ngày hôm nay chưa?";
-"UseDarkMode" = "Ứng dụng nền tối";
+"Themes" = "Chủ đề";
 "RecentlyDeleted" = "Đã xóa gần đây";
 "RecentlyDeletedMemo" = "Ghi chú đã xóa gần đây";
 "RecoverBodyContent" = "Không thể sửa ghi chú đã xóa gần đây.\n Để sửa, hãy khôi phục ghi chú này.";
@@ -68,7 +68,7 @@
 "SearchPlaceholder" = "Tìm kiếm";
 "SortBy" = "Sắp xếp theo %@";
 "AutoDeleteMemo" = "Ghi chú tại đây sẽ bị xóa vĩnh viễn sau 30 ngày.";
-"SetReminder" = "Đặt thông báo";
+"SetReminder" = "Đặt thông báo cho ghi chú này";
 "DeletedMemoMoved" = "Ghi chú đã xóa được di chuyển đến thư mục Đã xóa gần đây.";
 "DeletedMemoMovedMess" = "Bạn có thể khôi phục hoặc xóa khỏi Đã xóa gần đây trong vòng 30 ngày.";
 "ShowAlertOnDelete" = "Xác nhận trước khi xóa";
@@ -76,3 +76,14 @@
 "ConfirmDeleteMessage" = "Bạn có muốn xóa ghi chú này không?";
 "Today" = "Hôm nay";
 "Yesterday" = "Hôm qua";
+"RemindEveryDayAt" = "Nhắc nhở hàng ngày lúc %@";
+"RemindSetTitle" = "Đã đặt nhắc nhở";
+"RemindAt" = "Nhắc nhở vào %@";
+"AutoChange" = "Tự động";
+"LightTheme" = "Sáng";
+"DarkTheme" = "Tối";
+"DeleteReminder" = "Xóa nhắc nhở";
+"DateCreatedInfo" = "Thời gian tạo: %@";
+"DateEditedInfo" = "Thời gian sửa: %@";
+"WordsCount" = "Số từ: %d";
+"CharactersCount" = "Số kí tự: %d";

@@ -27,6 +27,7 @@ public class Resource {
         public static var alarmButton: UIImage? = UIImage(systemName: "alarm")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
         public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
+        public static var infoButton: UIImage? = UIImage(systemName: "info.circle")
     }
     
     public class SortBy {
@@ -51,6 +52,7 @@ public class Resource {
         public static let useDarkMode = "useDarkMode"
         public static let firstTimeDeleted = "firstTimeDeleted"
         public static let titleTextColor = "titleTextColor"
+        public static let theme = "theme"
     }
     
     public class FilterBy {

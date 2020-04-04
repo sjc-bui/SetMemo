@@ -35,7 +35,7 @@ public class Colors {
     }
     
     var accentColor: UIColor {
-        return UIColor.systemOrange
+        return #colorLiteral(red: 0, green: 0.3313085437, blue: 0.7222445011, alpha: 1)
     }
     
     var mainTextColor: UIColor {

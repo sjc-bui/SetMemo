@@ -9,9 +9,14 @@
 import UIKit
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
-    var memoId: String = ""
-    var hashTagString: String = ""
-    var inputContent: String? = nil
+    
+    var content: String = ""
+    var hashTag: String = ""
+    var dateCreated: String = ""
+    var dateEdited: String = ""
+    var isReminder: Bool = false
+    var dateReminder: String?
+    
     var textViewIsChanging: Bool = false
     let writeMemoView = WriteMemoView()
     
@@ -22,7 +27,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupView()
-        writeMemoView.inputTextView.text = "content"
+        writeMemoView.inputTextView.text = content
         setupNavigation()
         addKeyboardListener()
     }
@@ -65,10 +70,42 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     func setupNavigation() {
-//        self.navigationItem.title = time
+        
         let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
         let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(updateHashTag))
-        self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn]
+        let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(showMemoInfo))
+        self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn, infoBtn]
+    }
+    
+    @objc func showMemoInfo() {
+        let contentCount = content.countWords()
+        let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
+        let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
+        let charsCount = String(format: "CharactersCount".localized, content.count)
+        let wordsCount = String(format: "WordsCount".localized, contentCount)
+        
+        let alert = UIAlertController(title: nil, message: "\(createdInfo)\n\(editedInfo)\n\(charsCount)\n\(wordsCount)", preferredStyle: .actionSheet)
+        
+        let deleteReminderBtn = UIAlertAction(title: "DeleteReminder".localized, style: .default) { (action) in
+            print("reminder deleted")
+        }
+        let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
+        
+        alert.view.tintColor = Colors.shared.accentColor
+        alert.pruneNegativeWidthConstraints()
+        alert.addAction(doneBtn)
+        
+        if isReminder {
+            alert.addAction(deleteReminderBtn)
+        }
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func hideKeyboard() {
@@ -77,8 +114,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func updateHashTag() {
-        //let alert = UIAlertController(title: "#\(self.item.hashTag)", message: nil, preferredStyle: .alert)
-        let alert = UIAlertController(title: "#doing", message: nil, preferredStyle: .alert)
+        
+        let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
             textField.placeholder = "newHashTag"
@@ -97,8 +134,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 if text?.isEmpty ?? false {
                 } else {
                     self.textViewIsChanging = true
-                    self.hashTagString = FormatString().formatHashTag(text: text!)
-                    print(self.hashTagString)
+                    self.hashTag = FormatString().formatHashTag(text: text!)
+                    print(self.hashTag)
                 }
             }
         }))
@@ -123,7 +160,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if textViewIsChanging {
             print("update memo here")
         }
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

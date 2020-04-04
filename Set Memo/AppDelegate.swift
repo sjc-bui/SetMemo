@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         // Override point for customization after application launch.
         
         UserDefaults.standard.register(defaults: [
+            Resource.Defaults.theme: "default",
             Resource.Defaults.iconType: "light",
             Resource.Defaults.vibrationOnTouch: true,
             Resource.Defaults.showAlertOnDelete: false,
@@ -43,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         
         return true
     }
+    
+//    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+//
+//    }
     
     func applicationWillTerminate(_ application: UIApplication) {
         self.saveContext()

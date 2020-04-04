@@ -94,7 +94,7 @@ class RemindViewController: UIViewController {
             }
         }
         
-        let alert = SPAlertView(title: "nil", message: "Remind every day at \(dateFromPicker)", preset: .done)
+        let alert = SPAlertView(title: "", message: String(format: "RemindEveryDayAt".localized, dateFromPicker), preset: .done)
         alert.duration = 2
         alert.haptic = .success
         alert.present()

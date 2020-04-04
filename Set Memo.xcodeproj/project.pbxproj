@@ -25,6 +25,10 @@
 		72406DA42411192900037EB4 /* AppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA32411192900037EB4 /* AppearanceController.swift */; };
 		72406DA62411194300037EB4 /* AlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72406DA52411194300037EB4 /* AlertsController.swift */; };
 		7241A4A12436F005008826C7 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7241A4A02436F005008826C7 /* Dimension.swift */; };
+		7241C60A243784DA00D3E617 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7241C60C243784DA00D3E617 /* InfoPlist.strings */; };
+		7241C60F243785CC00D3E617 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7241C611243785CC00D3E617 /* InfoPlist.strings */; };
+		7241C614243785EF00D3E617 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7241C616243785EF00D3E617 /* InfoPlist.strings */; };
+		7241C61924382CE400D3E617 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7241C61824382CE400D3E617 /* ThemesViewController.swift */; };
 		7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244892E240F3D90008E723C /* WriteMemoView.swift */; };
 		7248D0752429EB4700359505 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7248D0742429EB4700359505 /* Themes.swift */; };
 		724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724B3B0C24162E1000C4946B /* FontSizeController.swift */; };
@@ -76,6 +80,10 @@
 		72406DA32411192900037EB4 /* AppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceController.swift; sourceTree = "<group>"; };
 		72406DA52411194300037EB4 /* AlertsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsController.swift; sourceTree = "<group>"; };
 		7241A4A02436F005008826C7 /* Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = "<group>"; };
+		7241C60B243784DA00D3E617 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7241C610243785CC00D3E617 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7241C615243785EF00D3E617 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7241C61824382CE400D3E617 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		7244892E240F3D90008E723C /* WriteMemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoView.swift; sourceTree = "<group>"; };
 		7248D0742429EB4700359505 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		724B3B0C24162E1000C4946B /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
@@ -147,6 +155,13 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		7241C61724382B5400D3E617 /* OnBoard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = OnBoard;
+			sourceTree = "<group>";
+		};
 		7244892D240F3D62008E723C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +186,7 @@
 		724CA6D12408D9060088F581 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7241C61724382B5400D3E617 /* OnBoard */,
 				72E4D439241232F500606AD2 /* Memo */,
 				72E4D438241232D600606AD2 /* Settings */,
 				724CA6D82408DA850088F581 /* TabbarViewController.swift */,
@@ -181,10 +197,14 @@
 		724CA6DA2408E91A0088F581 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				72EFECED2408D3A00035296F /* Info.plist */,
 				724CA6EF2408F3320088F581 /* Localizable.strings */,
 				724CA6F42408F34C0088F581 /* Localizable.strings */,
 				724CA6F92408F35E0088F581 /* Localizable.strings */,
 				723F8E28241DDFCF00149049 /* Resource.swift */,
+				7241C60C243784DA00D3E617 /* InfoPlist.strings */,
+				7241C616243785EF00D3E617 /* InfoPlist.strings */,
+				7241C611243785CC00D3E617 /* InfoPlist.strings */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -260,6 +280,7 @@
 				724B3B0C24162E1000C4946B /* FontSizeController.swift */,
 				72C22DB724205EF0004EC65A /* RemindViewController.swift */,
 				724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */,
+				7241C61824382CE400D3E617 /* ThemesViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -308,7 +329,6 @@
 				724CA6D12408D9060088F581 /* Controllers */,
 				72EFECDF2408D39F0035296F /* AppDelegate.swift */,
 				72EFECE82408D3A00035296F /* Assets.xcassets */,
-				72EFECED2408D3A00035296F /* Info.plist */,
 				727E50F124120F8B0042E81F /* Launch.storyboard */,
 				7259011224149679009153A5 /* SeceneDelegate.swift */,
 			);
@@ -378,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				727E50EE24120B950042E81F /* dark@2x.png in Resources */,
+				7241C614243785EF00D3E617 /* InfoPlist.strings in Resources */,
 				727E50ED24120B950042E81F /* light@3x.png in Resources */,
 				724CA6F72408F35E0088F581 /* Localizable.strings in Resources */,
 				727E50F224120F8B0042E81F /* Launch.storyboard in Resources */,
@@ -386,6 +407,8 @@
 				727E50EF24120B950042E81F /* light@2x.png in Resources */,
 				727E50F024120B950042E81F /* dark@3x.png in Resources */,
 				72EFECE92408D3A00035296F /* Assets.xcassets in Resources */,
+				7241C60F243785CC00D3E617 /* InfoPlist.strings in Resources */,
+				7241C60A243784DA00D3E617 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +475,7 @@
 				7244892F240F3D90008E723C /* WriteMemoView.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				7229A30124307C940046E9CF /* Memo.xcdatamodeld in Sources */,
+				7241C61924382CE400D3E617 /* ThemesViewController.swift in Sources */,
 				72122C54242FB27D007E7D06 /* FormatString.swift in Sources */,
 				7241A4A12436F005008826C7 /* Dimension.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
@@ -481,6 +505,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		7241C60C243784DA00D3E617 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7241C60B243784DA00D3E617 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7241C611243785CC00D3E617 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7241C610243785CC00D3E617 /* ja */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7241C616243785EF00D3E617 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7241C615243785EF00D3E617 /* vi */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		724CA6EF2408F3320088F581 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -631,7 +679,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9ZWLNZ43F6;
-				INFOPLIST_FILE = "Set Memo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Set Memo/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -651,7 +699,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9ZWLNZ43F6;
-				INFOPLIST_FILE = "Set Memo/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Set Memo/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

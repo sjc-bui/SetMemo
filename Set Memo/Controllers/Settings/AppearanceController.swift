@@ -11,38 +11,21 @@ import UIKit
 class AppearanceController: UITableViewController {
     let iconTypes: Array = ["Type".localized]
     let mode: Array = ["Light".localized, "Dark".localized]
-    let settingController = SettingViewController()
-    let themes = Themes()
     
-    private let reuseIdentifier = "SettingCell"
+    private let reuseIdentifier = "appIconCell"
     
     let defaults = UserDefaults.standard
     var lastIndexPath: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "ChangeAppIcon".localized
+        self.navigationItem.title = "AppIcon".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupDynamicElement()
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        themes.triggerSystemMode(mode: traitCollection)
-        setupDynamicElement()
-        tableView.reloadData()
-    }
-    
-    func setupDynamicElement() {
-        if settingController.darkModeIsEnable() == true {
-            tableView.separatorColor = nil
-        } else {
-            tableView.separatorColor = .white
-        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

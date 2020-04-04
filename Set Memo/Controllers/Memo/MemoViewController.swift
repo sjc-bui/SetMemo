@@ -269,16 +269,33 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var memoId: String?
-        
-//        if isFiltering() {
-//            memoId = filterMemo[indexPath.row].id
-//        } else {
-//            memoId = data[indexPath.row].id
-//        }
-        
         let updateView = UpdateMemoViewController()
-        updateView.memoId = "memoId"
+        var memo = memoData[indexPath.row]
+        
+        if isFiltering() {
+            memo = filterMemoData[indexPath.row]
+        } else {
+            memo = memoData[indexPath.row]
+        }
+        
+        let content = memo.value(forKey: "content") as? String
+        let hashTag = memo.value(forKey: "hashTag") as? String
+        let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
+        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        let isReminder = memo.value(forKey: "isReminder") as? Bool
+        let dateReminder = memo.value(forKey: "dateReminder") as? String
+        
+        let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
+        let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
+        
+        updateView.navigationItem.title = dateEditedString
+        updateView.content = content!
+        updateView.hashTag = hashTag!
+        updateView.dateCreated = dateCreatedString
+        updateView.dateEdited = dateEditedString
+        updateView.isReminder = isReminder!
+        updateView.dateReminder = dateReminder
+        
         self.navigationController?.pushViewController(updateView, animated: true)
     }
     
@@ -503,12 +520,12 @@ class MemoViewController: UITableViewController {
         
         let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+            dateFormatter.dateFormat = "DatetimeFormat".localized
             let dateFromPicker = dateFormatter.string(from: datePicker.date)
             
             print(dateFromPicker)
-            let alert = SPAlertView(title: "Reminder Set", message: "Set at \(dateFromPicker)", icon: UIImageView(image: UIImage(systemName: "checkmark")))
-            alert.duration = 1.5
+            let alert = SPAlertView(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), preset: .done)
+            alert.duration = 2
             alert.haptic = .success
             alert.present()
         }
