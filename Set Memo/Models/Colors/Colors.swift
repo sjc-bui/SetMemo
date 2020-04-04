@@ -9,6 +9,7 @@
 import UIKit
 
 public class Colors {
+    
     public static var shared = Colors()
     
     private init() {}
@@ -34,7 +35,11 @@ public class Colors {
     }
     
     var accentColor: UIColor {
-        return UIColor.systemOrange
+        return #colorLiteral(red: 0, green: 0.3313085437, blue: 0.7222445011, alpha: 1)
+    }
+    
+    var mainTextColor: UIColor {
+        return UIColor(hexString: "#121212")
     }
     
     var systemGrayColor: UIColor {

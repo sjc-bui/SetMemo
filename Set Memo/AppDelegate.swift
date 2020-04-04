@@ -20,13 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         // Override point for customization after application launch.
         
         UserDefaults.standard.register(defaults: [
+            Resource.Defaults.theme: "default",
             Resource.Defaults.iconType: "light",
             Resource.Defaults.vibrationOnTouch: true,
             Resource.Defaults.showAlertOnDelete: false,
             Resource.Defaults.displayDateTime: true,
-            Resource.Defaults.writeMemoPlaceholder: "Write something...",
+            Resource.Defaults.writeMemoPlaceholder: "Change this in setting...",
             Resource.Defaults.useBiometrics: false,
-            Resource.Defaults.fontSize: 18,
+            Resource.Defaults.fontSize: Dimension.shared.fontMediumSize,
             Resource.Defaults.sortBy: "dateCreated",
             Resource.Defaults.remindEveryDay: false,
             Resource.Defaults.useDarkMode: false,
@@ -43,6 +44,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         
         return true
     }
+    
+//    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+//
+//    }
     
     func applicationWillTerminate(_ application: UIApplication) {
         self.saveContext()

@@ -1,30 +1,28 @@
 //
-//  FontSizeController.swift
+//  ThemesViewController.swift
 //  Set Memo
 //
-//  Created by popcorn on 2020/03/09.
+//  Created by Quan Bui Van on 2020/04/04.
 //  Copyright © 2020 popcorn. All rights reserved.
 //
 
 import UIKit
 
-class FontSizeController: UITableViewController {
-    let sections = ["Size".localized]
-    let fontSizeOptions = [
-        "Small".localized,
-        "Medium".localized,
-        "Large".localized,
-        "Maximum".localized
+class ThemesViewController: UITableViewController {
+    let sections = [""]
+    let themeOptions = [
+        "AutoChange".localized,
+        "LightTheme".localized,
+        "DarkTheme".localized
     ]
     
+    let reuseIdentifier = "themesCell"
     let defaults = UserDefaults.standard
-    var lastIndexPath: NSIndexPath = NSIndexPath(row: 0, section: 0)
-    
-    private let reuseIdentifier = "cellId"
+    var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "FontSize".localized
+        self.navigationItem.title = "Themes".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -44,7 +42,7 @@ class FontSizeController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return fontSizeOptions.count
+            return themeOptions.count
         default:
             return 0
         }
@@ -52,26 +50,21 @@ class FontSizeController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
-        
-        cell.textLabel?.text = "\(fontSizeOptions[indexPath.row])"
+        cell.textLabel?.text = "\(themeOptions[indexPath.row])"
         cell.tintColor = Colors.shared.accentColor
         cell.selectionStyle = .none
         
         switch indexPath.row {
         case 0:
-            if selectedFontFromDefault(key: Dimension.shared.fontSmallSize, indexPath: indexPath) == true {
+            if isSelectThemeFromDefault(key: "default", indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         case 1:
-            if selectedFontFromDefault(key: Dimension.shared.fontMediumSize, indexPath: indexPath) == true {
+            if isSelectThemeFromDefault(key: "light", indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         case 2:
-            if selectedFontFromDefault(key: Dimension.shared.fontLargeSize, indexPath: indexPath) == true {
-                cell.accessoryType = .checkmark
-            }
-        case 3:
-            if selectedFontFromDefault(key: Dimension.shared.fontMaxSize, indexPath: indexPath) == true {
+            if isSelectThemeFromDefault(key: "dark", indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         default:
@@ -81,40 +74,26 @@ class FontSizeController: UITableViewController {
         return cell
     }
     
-    func selectedFontFromDefault(key: CGFloat, indexPath: IndexPath) -> Bool {
-        // set checkmark for selected font size
-        let size = defaults.float(forKey: Resource.Defaults.fontSize)
-        if size == Float(key) {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
-            return true
-        } else {
-            return false
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newRow = indexPath.row
-        let oldRow = lastIndexPath.row
+        let oldRow = lastIndex.row
         
-        if oldRow != newRow {
+        if newRow != oldRow {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            tableView.cellForRow(at: lastIndexPath as IndexPath)?.accessoryType = .none
+            tableView.cellForRow(at: lastIndex as IndexPath)?.accessoryType = .none
             
-            lastIndexPath = indexPath as NSIndexPath
+            lastIndex = indexPath as NSIndexPath
         }
         
         switch indexPath.row {
         case 0:
-            defaults.set(Dimension.shared.fontSmallSize, forKey: Resource.Defaults.fontSize)
+            defaults.set("default", forKey: Resource.Defaults.theme)
             tableView.reloadData()
         case 1:
-            defaults.set(Dimension.shared.fontMediumSize, forKey: Resource.Defaults.fontSize)
+            defaults.set("light", forKey: Resource.Defaults.theme)
             tableView.reloadData()
         case 2:
-            defaults.set(Dimension.shared.fontLargeSize, forKey: Resource.Defaults.fontSize)
-            tableView.reloadData()
-        case 3:
-            defaults.set(Dimension.shared.fontMaxSize, forKey: Resource.Defaults.fontSize)
+            defaults.set("dark", forKey: Resource.Defaults.theme)
             tableView.reloadData()
         default:
             print("not implement")
@@ -127,5 +106,16 @@ class FontSizeController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
+    }
+    
+    func isSelectThemeFromDefault(key: String, indexPath: IndexPath) -> Bool {
+        let themeStyle = defaults.string(forKey: Resource.Defaults.theme)
+        if themeStyle == key {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+            return true
+            
+        } else {
+            return false
+        }
     }
 }

@@ -60,7 +60,6 @@ class RecentlyDeletedController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let defaultFontSize: Double = 16
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
         
         let memo = memoData[indexPath.row]
@@ -68,13 +67,14 @@ class RecentlyDeletedController: UITableViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         
-        cell.textLabel?.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .semibold)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
         cell.textLabel?.numberOfLines = 1
         cell.textLabel?.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
         cell.detailTextLabel!.text = "\(dateString)"
         cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
         cell.accessoryType = .none
         
         return cell
@@ -215,7 +215,7 @@ class RecentlyDeletedController: UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = .secondarySystemBackground
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        header.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
         header.textLabel?.textAlignment = NSTextAlignment.center
         header.textLabel?.textColor = UIColor.systemGray
     }

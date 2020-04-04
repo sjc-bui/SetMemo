@@ -14,10 +14,12 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     var inputContent: String? = nil
     let defaults = UserDefaults.standard
     var hashTag: String?
+    var navigationBarHeight: CGFloat?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        navigationBarHeight = self.navigationController?.navigationBar.bounds.height ?? 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,6 +99,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     @objc func autoSave() {
+        
         if !writeMemoView.inputTextView.text.isNullOrWhiteSpace() {
             let date = Date.timeIntervalSinceReferenceDate
             
@@ -142,14 +145,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
-        
-//        let uiToolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44))
-//        uiToolBar.backgroundColor = UIColor.secondarySystemBackground
-//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-//        let doneBtn = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
-//
-//        uiToolBar.items = [flexibleSpace, doneBtn]
-//        writeMemoView.inputTextView.inputAccessoryView = uiToolBar
     }
     
     @objc func hideKeyboard() {
@@ -173,14 +168,12 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         
-        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            writeMemoView.inputTextView.contentInset = .zero
-            //self.navigationItem.removeBarButtonItem(item: doneButton)
+            writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 68, right: 0)
         } else {
-            writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
-            //self.navigationItem.addToRightBar(item: doneButton)
+            writeMemoView.inputTextView.contentInset.bottom = keyboardViewEndFrame.size.height + 68
         }
         
         writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset

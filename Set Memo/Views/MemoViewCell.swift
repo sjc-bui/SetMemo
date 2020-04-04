@@ -36,12 +36,12 @@ class MemoViewCell: UITableViewCell {
         
         var allConstraints: [NSLayoutConstraint] = []
         
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[content]-[dateEdited]-|", options: [], metrics: nil, views: views)
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-[content]-[hashTag]-|", options: [], metrics: nil, views: views)
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[dateEdited]-|", options: [], metrics: nil, views: views)
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[hashTag]-|", options: [], metrics: nil, views: views)
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-[content]-|", options: [], metrics: nil, views: views)
-        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-[dateEdited]-[hashTag]-|", options: [], metrics: nil, views: views)
+        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[content]-3-[dateEdited]-10-|", options: [], metrics: nil, views: views)
+        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[content]-3-[hashTag]-10-|", options: [], metrics: nil, views: views)
+        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[dateEdited]-10-|", options: [], metrics: nil, views: views)
+        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "V:[hashTag]-10-|", options: [], metrics: nil, views: views)
+        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[content]-10-|", options: [], metrics: nil, views: views)
+        allConstraints += NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[dateEdited]-[hashTag]-15-|", options: [], metrics: nil, views: views)
         
         NSLayoutConstraint.activate(allConstraints)
     }

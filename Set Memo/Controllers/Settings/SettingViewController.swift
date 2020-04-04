@@ -19,11 +19,11 @@ class SettingViewController: UITableViewController {
         "Privacy".localized,
         "Alert".localized,
         "FontSize".localized,
-        "ChangeAppIcon".localized,
+        "AppIcon".localized,
         "PlaceHolderLabel".localized,
         "DisplayUpdateTime".localized,
         "RemindEveryDay".localized,
-        "UseDarkMode".localized
+        "Themes".localized
     ]
     
     let advancedDelete: Array = [
@@ -171,17 +171,9 @@ class SettingViewController: UITableViewController {
                 
                 return cell
             case 7:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.selectionStyle = .none
-                cell.switchButton.addTarget(self, action: #selector(setupDarkTheme(sender:)), for: .valueChanged)
-                
-                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-                    cell.switchButton.isOn = true
-                } else {
-                    cell.switchButton.isOn = false
-                }
-                
+                cell.accessoryType = .disclosureIndicator
                 return cell
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -236,18 +228,6 @@ class SettingViewController: UITableViewController {
             
             cell.backgroundColor = UIColor.systemBackground
             return cell
-        }
-    }
-    
-    @objc func setupDarkTheme(sender: UISwitch) {
-        if sender.isOn == true {
-            defaults.set(true, forKey: Resource.Defaults.useDarkMode)
-            viewWillAppear(true)
-            themes.setupPureDarkTheme()
-        } else {
-            defaults.set(false, forKey: Resource.Defaults.useDarkMode)
-            viewWillAppear(true)
-            themes.setupDefaultTheme()
         }
     }
     
@@ -315,6 +295,8 @@ class SettingViewController: UITableViewController {
                 alert.addAction(doneBtn)
                 
                 present(alert, animated: true, completion: nil)
+            case 7:
+                self.navigationController?.pushViewController(ThemesViewController(style: .insetGrouped), animated: true)
             default:
                 return
             }
@@ -380,9 +362,9 @@ class SettingViewController: UITableViewController {
     
     func setupDynamicElement() {
         if darkModeIsEnable() == true {
-            tableView.separatorColor = nil
+            //tableView.separatorColor = nil
         } else {
-            tableView.separatorColor = Colors.whiteColor
+            //tableView.separatorColor = Colors.whiteColor
         }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SPAlert
 
 class RemindViewController: UIViewController {
     let datePicker: UIDatePicker = UIDatePicker()
@@ -16,8 +17,8 @@ class RemindViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.layer.cornerRadius = 12
+        button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
+        button.layer.cornerRadius = 10
         button.backgroundColor = Colors.shared.accentColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -41,7 +42,10 @@ class RemindViewController: UIViewController {
     @objc func setRemind(sender: UIButton) {
         fireNotification()
         defaults.set(true, forKey: Resource.Defaults.remindEveryDay)
-        self.navigationController?.popViewController(animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func setupView(btnWidth: CGFloat) {
@@ -55,12 +59,12 @@ class RemindViewController: UIViewController {
         
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        datePicker.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        datePicker.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
         datePicker.heightAnchor.constraint(equalToConstant: view.frame.size.height / 4).isActive = true
         
         confirmButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         confirmButton.widthAnchor.constraint(equalToConstant: btnWidth).isActive = true
-        confirmButton.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        confirmButton.heightAnchor.constraint(equalToConstant: 46).isActive = true
         confirmButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
     }
     
@@ -89,5 +93,10 @@ class RemindViewController: UIViewController {
                 print(error!)
             }
         }
+        
+        let alert = SPAlertView(title: "", message: String(format: "RemindEveryDayAt".localized, dateFromPicker), preset: .done)
+        alert.duration = 2
+        alert.haptic = .success
+        alert.present()
     }
 }
