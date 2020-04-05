@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SPAlert
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
@@ -14,9 +15,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var hashTag: String = ""
     var dateCreated: String = ""
     var dateEdited: String = ""
+    var dateReminder: String = ""
     var isReminder: Bool = false
-    var dateReminder: String?
-    
+    var isEdited: Bool = false
     let writeMemoView = WriteMemoView()
     
     var memoData: [Memo] = []
@@ -25,7 +26,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var index: Int = 0
     
     override func initialize() {
-        print(index)
+        print(isReminder)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,23 +78,35 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     func setupRightBarButton() {
         
         let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
-        let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(hashTagChangeHandler))
-        let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(showMemoInfo))
+        let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(hashTagChangeHandle))
+        let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(viewMemoInfo))
         
         self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn, infoBtn]
     }
     
-    @objc func showMemoInfo() {
+    @objc func viewMemoInfo() {
         let contentCount = content.countWords()
         let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
         let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
+        let reminderInfo = String(format: "DateReminderInfo".localized, dateReminder)
         let charsCount = String(format: "CharactersCount".localized, content.count)
         let wordsCount = String(format: "WordsCount".localized, contentCount)
         
-        let alert = UIAlertController(title: nil, message: "\(createdInfo)\n\(editedInfo)\n\(charsCount)\n\(wordsCount)", preferredStyle: .actionSheet)
+        var info: String = ""
+        info += "\(createdInfo)\n"
+        if isEdited {
+            info += "\(editedInfo)\n"
+        }
+        if isReminder {
+            info += "\(reminderInfo)\n"
+        }
+        info += "\n\(charsCount)\n"
+        info += "\(wordsCount)"
+        
+        let alert = UIAlertController(title: nil, message: "\(info)", preferredStyle: .actionSheet)
         
         let deleteReminderBtn = UIAlertAction(title: "DeleteReminder".localized, style: .default) { (action) in
-            print("reminder deleted")
+            self.deleteReminderHandle()
         }
         let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
         
@@ -114,12 +127,45 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func deleteReminderHandle() {
+        
+        if isFiltering == true {
+            let removeUUID = filterMemoData[index].notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
+            filterMemoData[index].isReminder = false
+            filterMemoData[index].notificationUUID = "cleared"
+            
+        } else {
+            let removeUUID = memoData[index].notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
+            memoData[index].isReminder = false
+            memoData[index].notificationUUID = "clear"
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            isReminder = false
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
+        alertView.duration = 1
+        alertView.present()
+    }
+    
     @objc func hideKeyboard() {
         DeviceControl().feedbackOnPress()
         self.view.endEditing(true)
     }
     
-    @objc func hashTagChangeHandler() {
+    @objc func hashTagChangeHandle() {
         
         let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
         
@@ -147,15 +193,22 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     func updateHashTag(index: Int, newHashTag: String) {
+        
         if isFiltering == true {
             if filterMemoData[index].hashTag != newHashTag {
                 filterMemoData[index].hashTag = newHashTag
+                if filterMemoData[index].isEdited == false {
+                    filterMemoData[index].isEdited = true
+                }
                 filterMemoData[index].dateEdited = Date.timeIntervalSinceReferenceDate
             }
             
         } else if isFiltering == false {
             if memoData[index].hashTag != newHashTag {
                 memoData[index].hashTag = newHashTag
+                if memoData[index].isEdited == false {
+                    memoData[index].isEdited = true
+                }
                 memoData[index].dateEdited = Date.timeIntervalSinceReferenceDate
             }
         }
@@ -193,6 +246,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if isFiltering == true {
             if filterMemoData[index].content != newContent {
                 filterMemoData[index].content = newContent
+                if filterMemoData[index].isEdited == false {
+                    filterMemoData[index].isEdited = true
+                }
                 filterMemoData[index].dateEdited = Date.timeIntervalSinceReferenceDate
                 print("Update filter data")
             }
@@ -200,6 +256,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         } else if isFiltering == false {
             if memoData[index].content != newContent {
                 memoData[index].content = newContent
+                if memoData[index].isEdited == false {
+                    memoData[index].isEdited = true
+                }
                 memoData[index].dateEdited = Date.timeIntervalSinceReferenceDate
                 print("Update data")
             }

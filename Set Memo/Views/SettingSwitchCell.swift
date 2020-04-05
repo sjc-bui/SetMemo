@@ -24,14 +24,13 @@ class SettingSwitchCell: UITableViewCell {
         detailText.translatesAutoresizingMaskIntoConstraints = false
         switchButton.translatesAutoresizingMaskIntoConstraints = false
         descriptionText.translatesAutoresizingMaskIntoConstraints = false
-        switchButton.onTintColor = Colors.shared.accentColor
         
         detailText.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         detailText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10).isActive = true
         detailText.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -10).isActive = true
         
         descriptionText.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        descriptionText.leftAnchor.constraint(equalTo: contentView.rightAnchor, constant: -112).isActive = true
+        descriptionText.leftAnchor.constraint(equalTo: contentView.rightAnchor, constant: -114).isActive = true
         descriptionText.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10).isActive = true
         descriptionText.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -10).isActive = true
         

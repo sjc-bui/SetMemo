@@ -23,3 +23,12 @@ class paddingLabel: UILabel {
         return intrinsicSuperViewContentSize
     }
 }
+
+extension UILabel {
+    func textDropShadow() {
+        self.layer.masksToBounds = false
+        self.layer.shadowRadius = 1.0
+        self.layer.shadowOpacity = 0.1
+        self.layer.shadowOffset = CGSize(width: 1, height: 1)
+    }
+}

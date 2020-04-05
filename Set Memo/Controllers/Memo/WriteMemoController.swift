@@ -119,6 +119,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setMemoValue(context: NSManagedObjectContext, content: String, hashTag: String, date: Double) {
+        
         let entity = NSEntityDescription.entity(forEntityName: "Memo", in: context)
         let memo = NSManagedObject(entity: entity!, insertInto: context)
         
@@ -127,8 +128,9 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         memo.setValue(date, forKey: "dateCreated")
         memo.setValue(hashTag, forKey: "hashTag")
         memo.setValue(false, forKey: "isReminder")
+        memo.setValue(false, forKey: "isEdited")
         memo.setValue(false, forKey: "temporarilyDelete")
-        memo.setValue("", forKey: "dateReminder")
+        memo.setValue(0, forKey: "dateReminder")
         
         let updateDate = Date(timeIntervalSinceReferenceDate: date)
         let dateFormatter = DateFormatter()

@@ -18,6 +18,7 @@ class MemoViewController: UITableViewController {
     let notification = UINotificationFeedbackGenerator()
     let searchController = UISearchController(searchResultsController: nil)
     let emptyView = EmptyMemoView()
+    let datePicker = UIDatePicker()
     let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -244,6 +245,7 @@ class MemoViewController: UITableViewController {
         cell.content.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .medium)
         cell.content.textColor = UIColor(named: "mainTextColor")
         cell.content.numberOfLines = 1
+        cell.content.textDropShadow()
         cell.content.text = content
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
@@ -251,11 +253,13 @@ class MemoViewController: UITableViewController {
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
             cell.dateEdited.textColor = Colors.shared.systemGrayColor
             cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.textDropShadow()
             cell.dateEdited.text = dateString
             
             cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
             cell.hashTag.textColor = Colors.shared.systemGrayColor
             cell.hashTag.textAlignment = .right
+            cell.hashTag.textDropShadow()
             cell.hashTag.text = "#\(hashTag!)"
             
         } else {
@@ -263,7 +267,6 @@ class MemoViewController: UITableViewController {
         }
         
         cell.accessoryType = .none
-        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longTapHandler(sender:))))
         
         return cell
     }
@@ -285,19 +288,22 @@ class MemoViewController: UITableViewController {
         let hashTag = memo.value(forKey: "hashTag") as? String
         let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        let isEdited = memo.value(forKey: "isEdited") as? Bool
         let isReminder = memo.value(forKey: "isReminder") as? Bool
-        let dateReminder = memo.value(forKey: "dateReminder") as? String
+        let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
         
         let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
+        let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
         updateView.navigationItem.title = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!
         updateView.dateCreated = dateCreatedString
         updateView.dateEdited = dateEditedString
+        updateView.isEdited = isEdited!
         updateView.isReminder = isReminder!
-        updateView.dateReminder = dateReminder
+        updateView.dateReminder = dateReminderString
         updateView.index = indexPath.row
         
         self.navigationController?.pushViewController(updateView, animated: true)
@@ -334,14 +340,55 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        let remind = remindAction(at: indexPath)
+        let delete = deleteMemoAction(at: indexPath)
+        let remind = remindMemoAction(at: indexPath)
+        let deleteRemind = deleteReminderAction(at: indexPath)
+        
+        if reminderIsSetAtIndex(indexPath: indexPath) == true {
+            return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
+        }
+        
         return UISwipeActionsConfiguration(actions: [delete, remind])
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let share = shareMemoAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [share])
+    }
+    
+    func reminderIsSetAtIndex(indexPath: IndexPath) -> Bool {
+        
+        if isFiltering() == true {
+            if filterMemoData[indexPath.row].isReminder == true {
+                return true
+            } else {
+                return false
+            }
+            
+        } else {
+            if memoData[indexPath.row].isReminder == true {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
+    func shareMemoAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.deleteHandler(indexPath: indexPath)
+            self.shareMemoHandle(indexPath: indexPath)
+            completion(true)
+        }
+        action.image = Resource.Images.shareButton
+        action.backgroundColor = .systemGreen
+        return action
+    }
+    
+    func deleteMemoAction(at indexPath: IndexPath) -> UIContextualAction {
+        
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.deleteMemoHandle(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.trashButton
@@ -349,9 +396,10 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func remindAction(at indexPath: IndexPath) -> UIContextualAction {
+    func remindMemoAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.setReminder()
+            self.setReminderForMemo(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.alarmButton
@@ -359,49 +407,56 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    // MARK: - Long Tap Handle
-    @objc func longTapHandler(sender: UILongPressGestureRecognizer) {
-        let location = sender.location(in: tableView)
-        let indexPath = tableView.indexPathForRow(at: location)!
+    func deleteReminderAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.deleteReminderHandle(indexPath: indexPath)
+            completion(true)
+        }
+        action.image = Resource.Images.slashBellButton
+        action.backgroundColor = Colors.shared.accentColor
+        return action
+    }
+    
+    func deleteReminderHandle(indexPath: IndexPath) {
         
-        let alertSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let remind = UIAlertAction(title: "RemindMe".localized, style: .default) { (action) in
-            self.setReminder()
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            let removeUUID = filterData.notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
+            
+            filterData.notificationUUID = "cleared"
+            filterData.isReminder = false
+            filterData.dateReminder = 0.0
+            
+        } else if isFiltering() == false {
+            let memo = memoData[indexPath.row]
+            let removeUUID = memo.notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
+            
+            memo.notificationUUID = "cleared"
+            memo.isReminder = false
+            memo.dateReminder = 0.0
         }
         
-        let share = UIAlertAction(title: "Share".localized, style: .default) { (action) in
-            self.shareHandler(indexPath: indexPath)
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        let delete = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            self.deleteHandler(indexPath: indexPath)
-        }
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        alertSheet.view.tintColor = Colors.shared.accentColor
-        
-        alertSheet.addAction(remind)
-        alertSheet.addAction(share)
-        alertSheet.addAction(delete)
-        alertSheet.addAction(cancel)
-        alertSheet.pruneNegativeWidthConstraints()
-        
-        if let popoverController = alertSheet.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
-            DeviceControl().feedbackOnPress()
-            self.present(alertSheet, animated: true, completion: nil)
-        }
+        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
+        alertView.duration = 1
+        alertView.present()
     }
     
     // MARK: - Delete memo
-    func deleteHandler(indexPath: IndexPath) {
+    func deleteMemoHandle(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
             let alertController = UIAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, preferredStyle: .alert)
@@ -424,8 +479,6 @@ class MemoViewController: UITableViewController {
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [notificationUUID])
             
-            // remove notification on badge.
-            
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -447,6 +500,7 @@ class MemoViewController: UITableViewController {
         
         do {
             try managedContext.save()
+            
         } catch let error as NSError {
             print("Could not save. \(error) , \(error.userInfo)")
         }
@@ -457,22 +511,22 @@ class MemoViewController: UITableViewController {
     }
     
     // MARK: - Share memo
-    func shareHandler(indexPath: IndexPath) {
+    func shareMemoHandle(indexPath: IndexPath) {
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
             let content = filterData.value(forKey: "content") as? String
             let hashTag = filterData.value(forKey: "hashTag") as? String
-            self.shareMemo(content: content!, hashTag: hashTag!)
+            self.shareActivityViewController(content: content!, hashTag: hashTag!)
             
         } else {
             let memo = memoData[indexPath.row]
             let content = memo.value(forKey: "content") as? String
             let hashTag = memo.value(forKey: "hashTag") as? String
-            self.shareMemo(content: content!, hashTag: hashTag!)
+            self.shareActivityViewController(content: content!, hashTag: hashTag!)
         }
     }
     
-    func shareMemo(content: String, hashTag: String) {
+    func shareActivityViewController(content: String, hashTag: String) {
         let textToShare = "#\(hashTag)\n\(content)"
         let objectToShare = [textToShare] as [Any]
         
@@ -490,10 +544,9 @@ class MemoViewController: UITableViewController {
     }
     
     // MARK: - Set Reminder
-    func setReminder() {
+    func setReminderForMemo(indexPath: IndexPath) {
         let remindController = UIAlertController(title: "SetReminder".localized, message: nil, preferredStyle: .actionSheet)
         let customView = UIView()
-        let datePicker = UIDatePicker()
         
         datePicker.datePickerMode = .dateAndTime
         datePicker.timeZone = NSTimeZone.local
@@ -515,6 +568,7 @@ class MemoViewController: UITableViewController {
         customView.leftAnchor.constraint(equalTo: remindController.view.leftAnchor, constant: 10).isActive = true
         if UIDevice.current.userInterfaceIdiom == .phone {
             customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -120).isActive = true
+            
         } else {
             customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -50).isActive = true
         }
@@ -523,16 +577,9 @@ class MemoViewController: UITableViewController {
         remindController.view.heightAnchor.constraint(equalToConstant: Dimension.shared.reminderBoundHeight).isActive = true
         
         let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "DatetimeFormat".localized
-            let dateFromPicker = dateFormatter.string(from: datePicker.date)
-            
-            print(dateFromPicker)
-            let alert = SPAlertView(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), preset: .done)
-            alert.duration = 2
-            alert.haptic = .success
-            alert.present()
+            self.setReminderContent(indexPath: indexPath)
         }
+        
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 
         remindController.pruneNegativeWidthConstraints()
@@ -547,6 +594,82 @@ class MemoViewController: UITableViewController {
         }
         
         self.present(remindController, animated: true, completion: nil)
+    }
+    
+    func setReminderContent(indexPath: IndexPath) {
+        
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            let content = filterData.value(forKey: "content") as? String
+            let hashTag = filterData.value(forKey: "hashTag") as? String
+            scheduleNotification(title: hashTag!, bodyContent: content!, index: indexPath.row)
+            
+        } else {
+            let memo = memoData[indexPath.row]
+            let content = memo.value(forKey: "content") as? String
+            let hashTag = memo.value(forKey: "hashTag") as? String
+            scheduleNotification(title: hashTag!, bodyContent: content!, index: indexPath.row)
+        }
+    }
+    
+    func scheduleNotification(title: String, bodyContent: String, index: Int) {
+        
+        let center = UNUserNotificationCenter.current()
+        let uuid = UUID().uuidString
+        
+        let content = UNMutableNotificationContent()
+        content.title = "#\(title)"
+        content.body = bodyContent
+        content.userInfo = ["reminderTitle": title]
+        content.sound = UNNotificationSound.default
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+        
+        let components = datePicker.calendar?.dateComponents([.year, .month, .day, .hour, .minute], from: datePicker.date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components!, repeats: false)
+        let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "DatetimeFormat".localized
+        let dateFromPicker = dateFormatter.string(from: datePicker.date)
+        
+        center.add(request) { (error) in
+            if error != nil {
+                print("Reminder error: \(error!)")
+            }
+        }
+        
+        updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
+        
+        let alert = SPAlertView(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), preset: .done)
+        alert.duration = 2
+        alert.haptic = .success
+        alert.present()
+    }
+    
+    func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
+        
+        if isFiltering() == true {
+            let filterData = filterMemoData[index]
+            filterData.notificationUUID = notificationUUID
+            filterData.dateReminder = dateReminder
+            filterData.isReminder = true
+            
+        } else {
+            let memo = memoData[index]
+            memo.notificationUUID = notificationUUID
+            memo.dateReminder = dateReminder
+            memo.isReminder = true
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
 }
 
