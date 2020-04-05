@@ -78,13 +78,13 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     func setupRightBarButton() {
         
         let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
-        let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(hashTagChangeHandler))
-        let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(showMemoInfo))
+        let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(hashTagChangeHandle))
+        let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(viewMemoInfo))
         
         self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn, infoBtn]
     }
     
-    @objc func showMemoInfo() {
+    @objc func viewMemoInfo() {
         let contentCount = content.countWords()
         let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
         let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
@@ -150,6 +150,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         do {
             try context?.save()
             isReminder = false
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -164,7 +165,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         self.view.endEditing(true)
     }
     
-    @objc func hashTagChangeHandler() {
+    @objc func hashTagChangeHandle() {
         
         let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
         

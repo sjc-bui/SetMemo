@@ -119,6 +119,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     }
     
     func setMemoValue(context: NSManagedObjectContext, content: String, hashTag: String, date: Double) {
+        
         let entity = NSEntityDescription.entity(forEntityName: "Memo", in: context)
         let memo = NSManagedObject(entity: entity!, insertInto: context)
         

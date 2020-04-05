@@ -340,23 +340,23 @@ class MemoViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        let remind = remindAction(at: indexPath)
-        let deleteReminder = deleteRemindAction(at: indexPath)
+        let delete = deleteMemoAction(at: indexPath)
+        let remind = remindMemoAction(at: indexPath)
+        let deleteRemind = deleteReminderAction(at: indexPath)
         
-        if reminderIsSetAtCell(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [delete, deleteReminder])
+        if reminderIsSetAtIndex(indexPath: indexPath) == true {
+            return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
         }
         
         return UISwipeActionsConfiguration(actions: [delete, remind])
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let share = shareAction(at: indexPath)
+        let share = shareMemoAction(at: indexPath)
         return UISwipeActionsConfiguration(actions: [share])
     }
     
-    func reminderIsSetAtCell(indexPath: IndexPath) -> Bool {
+    func reminderIsSetAtIndex(indexPath: IndexPath) -> Bool {
         
         if isFiltering() == true {
             if filterMemoData[indexPath.row].isReminder == true {
@@ -374,9 +374,10 @@ class MemoViewController: UITableViewController {
         }
     }
     
-    func shareAction(at indexPath: IndexPath) -> UIContextualAction {
+    func shareMemoAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.shareHandler(indexPath: indexPath)
+            self.shareMemoHandle(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.shareButton
@@ -384,9 +385,10 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+    func deleteMemoAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.deleteHandler(indexPath: indexPath)
+            self.deleteMemoHandle(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.trashButton
@@ -394,9 +396,10 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func remindAction(at indexPath: IndexPath) -> UIContextualAction {
+    func remindMemoAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.setReminder(indexPath: indexPath)
+            self.setReminderForMemo(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.alarmButton
@@ -404,9 +407,9 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func deleteRemindAction(at indexPath: IndexPath) -> UIContextualAction {
+    func deleteReminderAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            print("delete reminder")
+            self.deleteReminderHandle(indexPath: indexPath)
             completion(true)
         }
         action.image = Resource.Images.slashBellButton
@@ -414,8 +417,46 @@ class MemoViewController: UITableViewController {
         return action
     }
     
+    func deleteReminderHandle(indexPath: IndexPath) {
+        
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            let removeUUID = filterData.notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
+            
+            filterData.notificationUUID = "cleared"
+            filterData.isReminder = false
+            filterData.dateReminder = 0.0
+            
+        } else if isFiltering() == false {
+            let memo = memoData[indexPath.row]
+            let removeUUID = memo.notificationUUID ?? "empty"
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
+            
+            memo.notificationUUID = "cleared"
+            memo.isReminder = false
+            memo.dateReminder = 0.0
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
+        alertView.duration = 1
+        alertView.present()
+    }
+    
     // MARK: - Delete memo
-    func deleteHandler(indexPath: IndexPath) {
+    func deleteMemoHandle(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
             let alertController = UIAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, preferredStyle: .alert)
@@ -437,8 +478,6 @@ class MemoViewController: UITableViewController {
             let notificationUUID = filteredMemo.notificationUUID ?? "empty"
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [notificationUUID])
-            
-            // remove notification on badge.
             
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
@@ -472,22 +511,22 @@ class MemoViewController: UITableViewController {
     }
     
     // MARK: - Share memo
-    func shareHandler(indexPath: IndexPath) {
+    func shareMemoHandle(indexPath: IndexPath) {
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
             let content = filterData.value(forKey: "content") as? String
             let hashTag = filterData.value(forKey: "hashTag") as? String
-            self.shareMemo(content: content!, hashTag: hashTag!)
+            self.shareActivityViewController(content: content!, hashTag: hashTag!)
             
         } else {
             let memo = memoData[indexPath.row]
             let content = memo.value(forKey: "content") as? String
             let hashTag = memo.value(forKey: "hashTag") as? String
-            self.shareMemo(content: content!, hashTag: hashTag!)
+            self.shareActivityViewController(content: content!, hashTag: hashTag!)
         }
     }
     
-    func shareMemo(content: String, hashTag: String) {
+    func shareActivityViewController(content: String, hashTag: String) {
         let textToShare = "#\(hashTag)\n\(content)"
         let objectToShare = [textToShare] as [Any]
         
@@ -505,7 +544,7 @@ class MemoViewController: UITableViewController {
     }
     
     // MARK: - Set Reminder
-    func setReminder(indexPath: IndexPath) {
+    func setReminderForMemo(indexPath: IndexPath) {
         let remindController = UIAlertController(title: "SetReminder".localized, message: nil, preferredStyle: .actionSheet)
         let customView = UIView()
         
@@ -538,7 +577,7 @@ class MemoViewController: UITableViewController {
         remindController.view.heightAnchor.constraint(equalToConstant: Dimension.shared.reminderBoundHeight).isActive = true
         
         let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
-            self.remindHandler(indexPath: indexPath)
+            self.setReminderContent(indexPath: indexPath)
         }
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
@@ -557,7 +596,7 @@ class MemoViewController: UITableViewController {
         self.present(remindController, animated: true, completion: nil)
     }
     
-    func remindHandler(indexPath: IndexPath) {
+    func setReminderContent(indexPath: IndexPath) {
         
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
@@ -579,8 +618,8 @@ class MemoViewController: UITableViewController {
         let uuid = UUID().uuidString
         
         let content = UNMutableNotificationContent()
+        content.title = "#\(title)"
         content.body = bodyContent
-        content.title = title
         content.userInfo = ["reminderTitle": title]
         content.sound = UNNotificationSound.default
         content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
