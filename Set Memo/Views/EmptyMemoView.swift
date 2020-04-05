@@ -26,6 +26,7 @@ class EmptyMemoView: UIView {
         label.textColor = UIColor.systemGray
         label.numberOfLines = 1
         label.text = "EmptyLabel".localized
+        label.textDropShadow()
         return label
     }()
     

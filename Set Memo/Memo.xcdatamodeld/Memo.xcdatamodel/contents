@@ -5,15 +5,16 @@
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="dateCreated" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="dateEdited" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="dateReminder" optional="YES" attributeType="String"/>
+        <attribute name="dateReminder" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="dateReminderDisplay" optional="YES" attributeType="String"/>
         <attribute name="dateString" optional="YES" attributeType="String"/>
         <attribute name="hashTag" optional="YES" attributeType="String"/>
+        <attribute name="isEdited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notificationUUID" optional="YES" attributeType="String"/>
         <attribute name="temporarilyDelete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Memo" positionX="-63" positionY="-18" width="128" height="208"/>
+        <element name="Memo" positionX="-63" positionY="-18" width="128" height="223"/>
     </elements>
 </model>

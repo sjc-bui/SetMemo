@@ -42,10 +42,7 @@ class RemindViewController: UIViewController {
     @objc func setRemind(sender: UIButton) {
         fireNotification()
         defaults.set(true, forKey: Resource.Defaults.remindEveryDay)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            self.navigationController?.popViewController(animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     func setupView(btnWidth: CGFloat) {
@@ -70,11 +67,10 @@ class RemindViewController: UIViewController {
     
     func fireNotification() {
         let center = UNUserNotificationCenter.current()
-        // let uuid = UUID().uuidString
-        let id = "daily"
+        let id = "dailyReminder"
         
         let content = UNMutableNotificationContent()
-        content.body = String(format: "WriteMemoToday".localized, "Quan")
+        content.body = String(format: "WriteMemoToday".localized, "User")
         content.sound = UNNotificationSound.default
         content.threadIdentifier = "notifi"
         content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
@@ -93,10 +89,5 @@ class RemindViewController: UIViewController {
                 print(error!)
             }
         }
-        
-        let alert = SPAlertView(title: "", message: String(format: "RemindEveryDayAt".localized, dateFromPicker), preset: .done)
-        alert.duration = 2
-        alert.haptic = .success
-        alert.present()
     }
 }

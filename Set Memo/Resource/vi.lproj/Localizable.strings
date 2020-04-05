@@ -85,5 +85,7 @@
 "DeleteReminder" = "Xóa nhắc nhở";
 "DateCreatedInfo" = "Thời gian tạo: %@";
 "DateEditedInfo" = "Thời gian sửa: %@";
+"DateReminderInfo" = "Thời gian nhắc nhở: %@";
 "WordsCount" = "Số từ: %d";
 "CharactersCount" = "Số kí tự: %d";
+"ReminderDeleted" = "Đã xóa nhắc nhở";

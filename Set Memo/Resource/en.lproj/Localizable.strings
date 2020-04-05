@@ -85,5 +85,7 @@
 "DeleteReminder" = "Delete reminder";
 "DateCreatedInfo" = "Created: %@";
 "DateEditedInfo" = "Edited: %@";
+"DateReminderInfo" = "Remind: %@";
 "WordsCount" = "Words: %d";
 "CharactersCount" = "Characters: %d";
+"ReminderDeleted" = "Reminder deleted";

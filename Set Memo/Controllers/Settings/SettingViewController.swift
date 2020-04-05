@@ -83,14 +83,18 @@ class SettingViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return general.count
+            
         } else if section == 1 {
             if getRecentlyDeletedCount() == 0 {
                 return advancedDelete.count
+                
             } else {
                 return advanced.count
+                
             }
         } else if section == 2 {
             return other.count
+            
         }
         return 0
     }
@@ -106,6 +110,7 @@ class SettingViewController: UITableViewController {
         
         do {
             deleteCount = try! managedContext!.count(for: fetchRequest)
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -123,26 +128,31 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 return cell
+                
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 return cell
+                
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 return cell
+                
             case 3:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 return cell
+                
             case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 return cell
+                
             case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
@@ -156,6 +166,7 @@ class SettingViewController: UITableViewController {
                 }
                 
                 return cell
+                
             case 6:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
@@ -170,15 +181,18 @@ class SettingViewController: UITableViewController {
                 }
                 
                 return cell
+                
             case 7:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 return cell
+                
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
+            
         } else if indexPath.section == 1 && recentlyDeleteTotal != 0 {
             // When recently delete item != 0
             switch indexPath.row {
@@ -187,6 +201,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.accentColor
                 return cell
+                
             case 1:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
@@ -196,10 +211,12 @@ class SettingViewController: UITableViewController {
                 cell.accessoryType = .disclosureIndicator
                 
                 return cell
+                
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
+            
         } else if indexPath.section == 1 && recentlyDeleteTotal == 0 {
             // When recently delete item = 0
             switch indexPath.row {
@@ -208,10 +225,12 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.accentColor
                 return cell
+                
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
+            
         } else if indexPath.section == 2 {
             switch indexPath.row {
             case 0:
@@ -219,10 +238,12 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.detailTextLabel?.text = "\(appVersion)"
                 return cell
+                
             default:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
@@ -234,9 +255,10 @@ class SettingViewController: UITableViewController {
     @objc func setupRemindEveryDay(sender: UISwitch) {
         if sender.isOn == true {
             self.navigationController?.pushViewController(RemindViewController(), animated: true)
+            
         } else {
             let center = UNUserNotificationCenter.current()
-            center.removeAllPendingNotificationRequests()
+            center.removePendingNotificationRequests(withIdentifiers: ["dailyReminder"])
             defaults.set(false, forKey: Resource.Defaults.remindEveryDay)
             defaults.set("", forKey: Resource.Defaults.remindAt)
             self.tableView.reloadData()
@@ -300,6 +322,7 @@ class SettingViewController: UITableViewController {
             default:
                 return
             }
+            
         } else if indexPath.section == 1 {
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
@@ -336,6 +359,7 @@ class SettingViewController: UITableViewController {
             default:
                 return
             }
+            
         } else if indexPath.section == 2 {
             let cell = tableView.cellForRow(at: indexPath)
             cell?.selectionStyle = .none

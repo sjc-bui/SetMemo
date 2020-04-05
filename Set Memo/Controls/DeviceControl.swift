@@ -14,7 +14,7 @@ class DeviceControl {
         if UIDevice.current.hasHapticFeedback == true {
             if UserDefaults.standard.bool(forKey: "vibrationOnTouch") == true {
                 // iPhone 7 and newer
-                let generator = UIImpactFeedbackGenerator(style: .heavy)
+                let generator = UIImpactFeedbackGenerator(style: .medium)
                 generator.impactOccurred()                
             }
         }

@@ -85,5 +85,7 @@
 "DeleteReminder" = "リマインダーを削除";
 "DateCreatedInfo" = "作成日時: %@";
 "DateEditedInfo" = "編集日時: %@";
+"DateReminderInfo" = "通知日時: %@";
 "WordsCount" = "単語数: %d";
 "CharactersCount" = "文字数: %d";
+"ReminderDeleted" = "通知を削除しました";

@@ -69,11 +69,13 @@ class RecentlyDeletedController: UITableViewController {
         
         cell.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
         cell.textLabel?.numberOfLines = 1
+        cell.textLabel?.textDropShadow()
         cell.textLabel?.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
         cell.detailTextLabel!.text = "\(dateString)"
         cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
+        cell.detailTextLabel?.textDropShadow()
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
         cell.accessoryType = .none
         
@@ -217,6 +219,7 @@ class RecentlyDeletedController: UITableViewController {
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
         header.textLabel?.textAlignment = NSTextAlignment.center
+        header.textLabel?.numberOfLines = 0
         header.textLabel?.textColor = UIColor.systemGray
     }
 }
