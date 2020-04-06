@@ -15,12 +15,10 @@ public class Resource {
     }
     
     public class Images {
-        public static var createButton: UIImage? = UIImage(named: "plus")
-        public static var sortButton: UIImage? = UIImage(named: "sort")
-        public static var settingButton: UIImage? = UIImage(named: "setting")
-        public static var backButton: UIImage? = UIImage(named: "back")
-        public static var searchButton: UIImage? = UIImage(named: "search")
+        public static var createButton: UIImage? = UIImage(systemName: "plus.circle")
+        public static var settingButton: UIImage? = UIImage(systemName: "gear")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
+        public static var sortButton: UIImage? = UIImage(systemName: "arrow.up.arrow.down.circle")
         public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
         public static var trashButton: UIImage? = UIImage(systemName: "trash")
         public static var recoverButton: UIImage? = UIImage(systemName: "arrowshape.turn.up.left")
