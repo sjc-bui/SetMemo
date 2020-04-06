@@ -340,7 +340,7 @@ class SettingViewController: UITableViewController {
                 })
                 
                 let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
-                cancel.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+                
                 deleteAllAlert.addAction(cancel)
                 deleteAllAlert.addAction(delete)
                 

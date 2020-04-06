@@ -72,7 +72,6 @@ class RecentlyDeletedController: UITableViewController {
             }
             let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
             
-            alertController.view.tintColor = Colors.shared.accentColor
             alertController.addAction(cancelBtn)
             alertController.addAction(deleteBtn)
             
@@ -108,7 +107,7 @@ class RecentlyDeletedController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.recoverButton
-        action.backgroundColor = Colors.shared.accentColor
+        action.backgroundColor = .systemGreen
         
         return action
     }

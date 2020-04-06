@@ -288,7 +288,7 @@ class MemoViewController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.shareButton
-        action.backgroundColor = .systemGreen
+        action.backgroundColor = .systemBlue
         return action
     }
     
@@ -699,7 +699,7 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        updateView.navigationItem.title = dateEditedString
+        //updateView.navigationItem.title = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!
         updateView.dateCreated = dateCreatedString
