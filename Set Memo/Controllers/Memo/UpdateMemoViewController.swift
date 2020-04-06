@@ -176,9 +176,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             textField.autocapitalizationType = .none
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .default, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+        let doneButton = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
             
             let textField = alert?.textFields![0]
             let text = textField?.text
@@ -188,8 +187,11 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 let newHashTag = FormatString().formatHashTag(text: text!)
                 self.updateHashTag(index: self.index, newHashTag: newHashTag)
             }
-        }))
-        alert.view.tintColor = Colors.shared.accentColor
+        })
+        
+        doneButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        alert.addAction(cancelButton)
+        alert.addAction(doneButton)
         
         self.present(alert, animated: true, completion: nil)
     }

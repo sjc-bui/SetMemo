@@ -12,11 +12,12 @@ import CoreData
 class RecentlyDeletedController: UITableViewController {
     
     var memoData: [Memo] = []
+    fileprivate let cellID = "cellId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "RecentlyDeleted".localized
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellId")
+        tableView.register(MemoViewCell.self, forCellReuseIdentifier: cellID)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +72,6 @@ class RecentlyDeletedController: UITableViewController {
             }
             let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
             
-            alertController.view.tintColor = Colors.shared.accentColor
             alertController.addAction(cancelBtn)
             alertController.addAction(deleteBtn)
             
@@ -107,7 +107,7 @@ class RecentlyDeletedController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.recoverButton
-        action.backgroundColor = Colors.shared.accentColor
+        action.backgroundColor = .systemGreen
         
         return action
     }
@@ -175,7 +175,7 @@ extension RecentlyDeletedController {
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = .secondarySystemBackground
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
+        header.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         header.textLabel?.textAlignment = NSTextAlignment.center
         header.textLabel?.numberOfLines = 0
         header.textLabel?.textColor = UIColor.systemGray
@@ -196,24 +196,23 @@ extension RecentlyDeletedController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MemoViewCell
         
         let memo = memoData[indexPath.row]
         
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
-        cell.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
-        cell.textLabel?.numberOfLines = 1
-        cell.textLabel?.textDropShadow()
-        cell.textLabel?.text = content
+        cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
+        cell.content.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-        cell.detailTextLabel!.text = "\(dateString)"
-        cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
-        cell.detailTextLabel?.textDropShadow()
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
-        cell.accessoryType = .none
+        cell.dateEdited.text = "\(dateString)"
+        cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
+        
+        cell.hashTag.text = "#\(hashTag)"
+        cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
         
         return cell
     }
