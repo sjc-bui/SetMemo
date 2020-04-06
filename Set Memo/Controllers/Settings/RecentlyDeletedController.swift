@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class RecentlyDeletedController: UITableViewController {
+    
     var memoData: [Memo] = []
     
     override func viewDidLoad() {
@@ -20,17 +21,8 @@ class RecentlyDeletedController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigation()
         fetchMemoFromDB()
         tableView.tableFooterView = UIView()
-    }
-    
-    func setupNavigation() {
-        self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = false
-        extendedLayoutIncludesOpaqueBars = true
     }
     
     func fetchMemoFromDB() {
@@ -55,55 +47,21 @@ class RecentlyDeletedController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return memoData.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
-        
-        let memo = memoData[indexPath.row]
-        
-        let content = memo.value(forKey: "content") as? String
-        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
-        
-        cell.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
-        cell.textLabel?.numberOfLines = 1
-        cell.textLabel?.textDropShadow()
-        cell.textLabel?.text = content
-        
-        let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-        cell.detailTextLabel!.text = "\(dateString)"
-        cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
-        cell.detailTextLabel?.textDropShadow()
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
-        cell.accessoryType = .none
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectedBackground()
-        tapHandler(indexPath: indexPath)
-    }
-    
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
-    
     func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: "Delete".localized) { (action, view, completion) in
             self.showAlertOnDelete(indexPath: indexPath)
             completion(true)
+            
         }
+        
         action.image = Resource.Images.trashButton
         action.backgroundColor = .red
         return action
     }
     
     func showAlertOnDelete(indexPath: IndexPath) {
+        
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
             let alertController = UIAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, preferredStyle: .alert)
@@ -137,14 +95,10 @@ class RecentlyDeletedController: UITableViewController {
         
         do {
             try managedContext?.save()
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let recover = recoverAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [recover])
     }
     
     func recoverAction(at indexPath: IndexPath) -> UIContextualAction {
@@ -170,6 +124,7 @@ class RecentlyDeletedController: UITableViewController {
         
         do {
             try managedContext?.save()
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
@@ -204,6 +159,9 @@ class RecentlyDeletedController: UITableViewController {
             self.present(alertSheetController, animated: true, completion: nil)
         }
     }
+}
+
+extension RecentlyDeletedController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return UITableView.automaticDimension
@@ -221,5 +179,48 @@ class RecentlyDeletedController: UITableViewController {
         header.textLabel?.textAlignment = NSTextAlignment.center
         header.textLabel?.numberOfLines = 0
         header.textLabel?.textColor = UIColor.systemGray
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let recover = recoverAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [recover])
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = deleteAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return memoData.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
+        
+        let memo = memoData[indexPath.row]
+        
+        let content = memo.value(forKey: "content") as? String
+        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        
+        cell.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
+        cell.textLabel?.numberOfLines = 1
+        cell.textLabel?.textDropShadow()
+        cell.textLabel?.text = content
+        
+        let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
+        cell.detailTextLabel!.text = "\(dateString)"
+        cell.detailTextLabel?.textColor = Colors.shared.systemGrayColor
+        cell.detailTextLabel?.textDropShadow()
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
+        cell.accessoryType = .none
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.selectedBackground()
+        tapHandler(indexPath: indexPath)
     }
 }

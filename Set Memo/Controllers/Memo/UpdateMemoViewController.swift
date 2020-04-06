@@ -56,6 +56,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func adjustForKeyboard(notification: Notification) {
+        
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
@@ -141,7 +142,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [removeUUID])
             memoData[index].isReminder = false
-            memoData[index].notificationUUID = "clear"
+            memoData[index].notificationUUID = "cleared"
         }
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -188,6 +189,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 self.updateHashTag(index: self.index, newHashTag: newHashTag)
             }
         }))
+        alert.view.tintColor = Colors.shared.accentColor
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -229,6 +231,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let textView = writeMemoView.inputTextView
         writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
         textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)))
+        textView.textColor = UIColor(named: "mainTextColor")
         textView.placeholder = ""
         textView.alwaysBounceVertical = true
         textView.isUserInteractionEnabled = true

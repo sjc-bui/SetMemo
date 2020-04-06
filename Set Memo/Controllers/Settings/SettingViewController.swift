@@ -48,12 +48,6 @@ class SettingViewController: UITableViewController {
         self.navigationItem.title = "Setting".localized
         self.navigationItem.setBackButtonTitle(title: "")
         
-        self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = false
-        
-        tableView.contentInset = .zero
-        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchIdentifier)
@@ -62,14 +56,7 @@ class SettingViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupDynamicElement()
-        removeExtraHeaderView()
         self.tableView.reloadData()
-    }
-    
-    func removeExtraHeaderView() {
-        var frame = `CGRect`.zero
-        frame.size.height = .leastNormalMagnitude
-        tableView.tableHeaderView = UIView(frame: frame)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

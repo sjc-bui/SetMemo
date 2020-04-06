@@ -35,7 +35,16 @@ public class Colors {
     }
     
     var accentColor: UIColor {
-        return UIColor(hexString: "#0078FF")
+        //#F2A13D
+        return UIColor(hexString: "#F02828")
+    }
+    
+    var subColor: UIColor {
+        return UIColor(hexString: "#AFABAE")
+    }
+    
+    var remindButtonBackground: UIColor {
+        return UIColor(hexString: "#F2A13D")
     }
     
     var mainTextColor: UIColor {
@@ -48,10 +57,6 @@ public class Colors {
     
     var darkColor: UIColor {
         return UIColor(hexString: "#2c302d")
-    }
-    
-    var orangeColor: UIColor {
-        return UIColor(red: 0.8941176471, green: 0.5764705882, blue: 0.1176470588, alpha: 1)
     }
     
     //MARK: Background

@@ -24,11 +24,10 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        writeMemoView.backgroundColor = .white
         setupPlaceholder()
         characterCount()
-        setupDynamicKeyboardColor()
         addKeyboardListener()
+        setupNavigationToolBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,21 +36,32 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         setupRightBarButtons()
     }
     
-    func setupRightBarButtons() {
-        let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
-        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
-        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        self.navigationController?.setToolbarHidden(true, animated: true)
         self.autoSave()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         writeMemoView.inputTextView.resignFirstResponder()
+    }
+    
+    fileprivate func setupNavigationToolBar() {
+        self.navigationController?.setToolbarHidden(false, animated: true)
+        
+        let items: [UIBarButtonItem] = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+            UIBarButtonItem(title: "Select", style: .plain, target: self, action: nil)
+        ]
+        self.toolbarItems = items
+    }
+    
+    func setupRightBarButtons() {
+        let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
+        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
+        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
     }
     
     @objc func setHashTag() {
@@ -144,6 +154,7 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     func setupView() {
         view = writeMemoView
         writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
+        writeMemoView.inputTextView.textColor = UIColor(named: "mainTextColor")
         writeMemoView.inputTextView.isScrollEnabled = false
         writeMemoView.inputTextView.delegate = self
         writeMemoView.inputTextView.isScrollEnabled = true
@@ -151,14 +162,6 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
     
     @objc func hideKeyboard() {
         writeMemoView.inputTextView.endEditing(true)
-    }
-    
-    func setupDynamicKeyboardColor() {
-        if defaults.string(forKey: Resource.Defaults.iconType) == "light" {
-            writeMemoView.inputTextView.keyboardAppearance = .default
-        } else {
-            writeMemoView.inputTextView.keyboardAppearance = .dark
-        }
     }
     
     func addKeyboardListener() {
