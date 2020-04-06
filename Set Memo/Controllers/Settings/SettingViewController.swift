@@ -311,8 +311,10 @@ class SettingViewController: UITableViewController {
             }
             
         } else if indexPath.section == 1 {
+            
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
+            
             switch indexPath.row {
             case 0:
                 let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
@@ -329,12 +331,14 @@ class SettingViewController: UITableViewController {
                     do {
                         try managedContext?.execute(deleteRequest)
                         try managedContext?.save()
+                        
                     } catch let error as NSError {
                         print("Could not fetch. \(error), \(error.userInfo)")
                     }
                     
                     tableView.reloadData()
                 })
+                
                 let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
                 cancel.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
                 deleteAllAlert.addAction(cancel)
@@ -343,6 +347,7 @@ class SettingViewController: UITableViewController {
                 present(deleteAllAlert, animated: true, completion: nil)
             case 1:
                 self.navigationController?.pushViewController(RecentlyDeletedController(), animated: true)
+                
             default:
                 return
             }

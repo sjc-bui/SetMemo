@@ -18,7 +18,7 @@
 "Share" = "Chia sẻ";
 "DeleteAllMessage" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
-"DatetimeFormat" = "HH:mm dd/MM/yyyy";
+"DatetimeFormat" = "HH:mm dd/MM/yy";
 "EmptyLabel" = "Chưa có ghi chú";
 "EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
 "General" = "Chung";

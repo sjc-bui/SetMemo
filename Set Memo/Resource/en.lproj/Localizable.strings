@@ -18,7 +18,7 @@
 "Share" = "Share";
 "DeleteAllMessage" = "All saved memo will be delete.";
 "Edit" = "Edit";
-"DatetimeFormat" = "yyyy/MM/dd HH:mm";
+"DatetimeFormat" = "MMM d, yyyy h:mm a";
 "EmptyLabel" = "No memo";
 "EmptyDescription" = "Tap + to add new one.";
 "General" = "General";

@@ -100,18 +100,37 @@ class MemoViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = settingButton
         
         self.navigationController?.setToolbarHidden(false, animated: true)
-        let countMemo = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 2, height: self.view.frame.size.height))
+        let countMemo = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: self.view.frame.size.height))
         countMemo.textAlignment = NSTextAlignment.left
-        countMemo.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        countMemo.textColor = UIColor(named: "mainTextColor")
+        countMemo.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
         
+        let sortButtonTitle = showSortType()
         let items: [UIBarButtonItem] = [
             UIBarButtonItem(customView: countMemo),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(image: Resource.Images.sortButton, style: .plain, target: self, action: #selector(sortBy))
+            UIBarButtonItem(title: sortButtonTitle, style: .done, target: self, action: #selector(sortBy))
         ]
         self.toolbarItems = items
         setTranslutionBar()
+    }
+    
+    func showSortType() -> String {
+        var sortText: String?
+        let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
+        
+        if sortBy == Resource.SortBy.title {
+            sortText = "SortByTitle".localized
+            
+        } else if sortBy == Resource.SortBy.dateCreated {
+            sortText = "SortByDateCreated".localized
+            
+        } else if sortBy == Resource.SortBy.dateEdited {
+            sortText = "SortByDateEdited".localized
+        }
+        
+        return String(format: "SortBy".localized, sortText!)
     }
     
     func configureSearchBar() {
@@ -574,33 +593,6 @@ class MemoViewController: UITableViewController {
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        var sortText: String?
-        let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
-        
-        if sortBy == Resource.SortBy.title {
-            sortText = "SortByTitle".localized
-        } else if sortBy == Resource.SortBy.dateCreated {
-            sortText = "SortByDateCreated".localized
-        } else if sortBy == Resource.SortBy.dateEdited {
-            sortText = "SortByDateEdited".localized
-        }
-        
-        return String(format: "SortBy".localized, sortText!)
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = UIColor(named: "barTranslutionColor")!.withAlphaComponent(0.9)
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = Colors.shared.accentColor
-        header.textLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .medium)
-        header.textLabel?.textAlignment = NSTextAlignment.right
-    }
-    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = deleteMemoAction(at: indexPath)
         let remind = remindMemoAction(at: indexPath)
@@ -648,29 +640,22 @@ extension MemoViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let isReminder = memo.value(forKey: "isReminder") as? Bool
-        let hashTag = memo.value(forKey: "hashTag") as? String
+        let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
 
         cell.content.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .medium)
-        cell.content.textColor = UIColor(named: "mainTextColor")
-        cell.content.numberOfLines = 1
-        cell.content.textDropShadow()
         cell.content.text = content
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
-            cell.dateEdited.textColor = Colors.shared.subColor
-            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-            cell.dateEdited.textDropShadow()
-            cell.dateEdited.text = dateString
             
+            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.text = dateString
+
             cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
-            cell.hashTag.textColor = Colors.shared.subColor
-            cell.hashTag.textAlignment = .right
-            cell.hashTag.textDropShadow()
-            cell.hashTag.text = "#\(hashTag!)"
+            cell.hashTag.text = "#\(hashTag)"
             
         } else {
             cell.dateEdited.text = ""
