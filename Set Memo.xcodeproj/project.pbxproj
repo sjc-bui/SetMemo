@@ -44,6 +44,7 @@
 		724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA705240A3D960088F581 /* UITextViewExt.swift */; };
 		724FB6DC242C30E5006C419B /* RecentlyDeletedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */; };
 		7259011324149679009153A5 /* SeceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7259011224149679009153A5 /* SeceneDelegate.swift */; };
+		726DB88F243C777F00EA63A4 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726DB88E243C777F00EA63A4 /* DateExt.swift */; };
 		726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */; };
 		727E50ED24120B950042E81F /* light@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50E924120B950042E81F /* light@3x.png */; };
 		727E50EE24120B950042E81F /* dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EA24120B950042E81F /* dark@2x.png */; };
@@ -99,6 +100,7 @@
 		724CA705240A3D960088F581 /* UITextViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExt.swift; sourceTree = "<group>"; };
 		724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyDeletedController.swift; sourceTree = "<group>"; };
 		7259011224149679009153A5 /* SeceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeceneDelegate.swift; sourceTree = "<group>"; };
+		726DB88E243C777F00EA63A4 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewCell.swift; sourceTree = "<group>"; };
 		727E50E924120B950042E81F /* light@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@3x.png"; sourceTree = "<group>"; };
 		727E50EA24120B950042E81F /* dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@2x.png"; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */,
 				72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */,
 				721FFF5F2434932500A2E503 /* UIAlertControllerExt.swift */,
+				726DB88E243C777F00EA63A4 /* DateExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -463,6 +466,7 @@
 			files = (
 				724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */,
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
+				726DB88F243C777F00EA63A4 /* DateExt.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,
 				723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */,

@@ -19,6 +19,9 @@
 "DeleteAllMessage" = "全てのメモが削除されます。\nよろしいですか？";
 "Edit" = "編集";
 "DatetimeFormat" = "yy/MM/dd HH:mm";
+"DateMonthYear" = "yyyy年MM月dd日";
+"DateTimeShort" = "yyyy/MM/dd";
+"HourAndMinute" = "HH:mm";
 "EmptyLabel" = "メモなし";
 "EmptyDescription" = "プラスボタンをタップして、新規メモを作成しましょう";
 "General" = "一般";

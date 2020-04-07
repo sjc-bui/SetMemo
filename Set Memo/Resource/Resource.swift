@@ -27,10 +27,13 @@ public class Resource {
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
         public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
         public static var infoButton: UIImage? = UIImage(systemName: "info.circle")
-        public static var moveLeftButton: UIImage? = UIImage(systemName: "arrow.left")
-        public static var moveRightButton: UIImage? = UIImage(systemName: "arrow.right")
+        public static var moveLeftButton: UIImage? = UIImage(systemName: "chevron.left")
+        public static var moveRightButton: UIImage? = UIImage(systemName: "chevron.right")
         public static var addCalendarButton: UIImage? = UIImage(systemName: "calendar.badge.plus")
         public static var sharpButton: UIImage? = UIImage(systemName: "number")
+        public static var moveToBeginButton: UIImage? = UIImage(systemName: "arrow.up.to.line")
+        public static var moveToEndButton: UIImage? = UIImage(systemName: "arrow.down.to.line")
+        public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
     }
     
     public class SortBy {

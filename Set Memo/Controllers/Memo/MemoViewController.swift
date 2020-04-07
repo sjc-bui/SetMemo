@@ -59,10 +59,11 @@ class MemoViewController: UITableViewController {
     }
     
     fileprivate func setTranslutionBar() {
+        
         let toolbar = self.navigationController?.toolbar
         let navigationBar = self.navigationController?.navigationBar
         
-        let slightWhiteColor = getImage(withColor: UIColor(named: "barTranslutionColor")!.withAlphaComponent(0.9), andSize: CGSize(width: 30, height: 30))
+        let slightWhiteColor = getImage(withColor: UIColor.systemBackground.withAlphaComponent(0.9), andSize: CGSize(width: 30, height: 30))
         toolbar?.setBackgroundImage(slightWhiteColor, forToolbarPosition: .any, barMetrics: .default)
         toolbar?.setShadowImage(UIImage(), forToolbarPosition: .any)
         toolbar?.tintColor = Colors.shared.accentColor
@@ -70,6 +71,7 @@ class MemoViewController: UITableViewController {
     }
     
     func requestReviewApp() {
+        
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         
         // request user review when update to new version
@@ -94,6 +96,7 @@ class MemoViewController: UITableViewController {
     }
     
     func setupBarButton() {
+        
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItem = createButton
@@ -117,6 +120,7 @@ class MemoViewController: UITableViewController {
     }
     
     func showSortType() -> String {
+        
         var sortText: String?
         let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
         
@@ -168,6 +172,7 @@ class MemoViewController: UITableViewController {
     }
     
     @objc func sortBy() {
+        
         DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         

@@ -75,8 +75,18 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let moveRight = UIBarButtonItem(image: Resource.Images.moveRightButton, style: .plain, target: self, action: #selector(moveCursorToRight))
         let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: #selector(selectCurrentDate))
         let sharpSign = UIBarButtonItem(image: Resource.Images.sharpButton, style: .plain, target: self, action: #selector(addSharpSign))
+        let moveToBegin = UIBarButtonItem(image: Resource.Images.moveToBeginButton, style: .plain, target: self, action: #selector(moveBegin))
+        let moveToEnd = UIBarButtonItem(image: Resource.Images.moveToEndButton, style: .plain, target: self, action: #selector(moveEnd))
+        let addTabSpace = UIBarButtonItem(image: Resource.Images.addTabSpace, style: .plain, target: self, action: #selector(addTab))
         
-        items.setItems([moveLeft, flexibleSpace, moveRight, flexibleSpace, sharpSign, flexibleSpace, calendarBadge], animated: true)
+        items.setItems([
+            moveLeft, flexibleSpace,
+            moveRight, flexibleSpace,
+            addTabSpace, flexibleSpace,
+            moveToBegin, flexibleSpace,
+            moveToEnd, flexibleSpace,
+            sharpSign, flexibleSpace,
+            calendarBadge], animated: true)
         items.barStyle = .default
         items.tintColor = Colors.shared.accentColor
         items.isUserInteractionEnabled = true
@@ -86,19 +96,78 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc fileprivate func moveCursorToLeft() {
-        print("move left")
+        if let selectedRange = textView.selectedTextRange {
+            if let newPosition = textView.position(from: selectedRange.start, offset: -1) {
+                textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
+            }
+        }
     }
     
     @objc fileprivate func moveCursorToRight() {
-        print("move right")
+        if let selectedRange = textView.selectedTextRange {
+            if let newPosition = textView.position(from: selectedRange.start, offset: 1) {
+                textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
+            }
+        }
     }
     
     @objc fileprivate func selectCurrentDate() {
-        print("select date time now")
+        let selectCurrentDateSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let now = Date()
+        
+        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
+        let timeLongString = now.string(with: "DateMonthYear".localized)
+        let timeShortString = now.string(with: "DateTimeShort".localized)
+        let hourMinuteString = now.string(with: "HourAndMinute".localized)
+        
+        let fullStyle = UIAlertAction(title: "\(dateTimeFullString)", style: .default) { (action) in
+            self.textView.insertText(" \(dateTimeFullString)")
+        }
+        let timeLong = UIAlertAction(title: "\(timeLongString)", style: .default) { (action) in
+            self.textView.insertText(" \(timeLongString)")
+        }
+        let timeShort = UIAlertAction(title: "\(timeShortString)", style: .default) { (action) in
+            self.textView.insertText(" \(timeShortString)")
+        }
+        let hourMinute = UIAlertAction(title: "\(hourMinuteString)", style: .default) { (action) in
+            self.textView.insertText(" \(hourMinuteString)")
+        }
+        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        
+        selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
+        selectCurrentDateSheet.pruneNegativeWidthConstraints()
+        selectCurrentDateSheet.addAction(cancelButton)
+        selectCurrentDateSheet.addAction(fullStyle)
+        selectCurrentDateSheet.addAction(timeLong)
+        selectCurrentDateSheet.addAction(timeShort)
+        selectCurrentDateSheet.addAction(hourMinute)
+        
+        if let popoverController = selectCurrentDateSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
+        
+        self.present(selectCurrentDateSheet, animated: true, completion: nil)
     }
     
     @objc fileprivate func addSharpSign() {
-        print("#")
+        let sharpSign = "#"
+        textView.insertText(sharpSign)
+    }
+    
+    @objc fileprivate func moveBegin() {
+        let begin = textView.beginningOfDocument
+        textView.selectedTextRange = textView.textRange(from: begin, to: begin)
+    }
+    
+    @objc fileprivate func moveEnd() {
+        let end = textView.endOfDocument
+        textView.selectedTextRange = textView.textRange(from: end, to: end)
+    }
+    
+    @objc fileprivate func addTab() {
+        textView.insertText("\t")
     }
     
     override func initialize() {
