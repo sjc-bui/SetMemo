@@ -699,7 +699,7 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        //updateView.navigationItem.title = dateEditedString
+        updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!
         updateView.dateCreated = dateCreatedString
@@ -711,7 +711,6 @@ extension MemoViewController {
         
         self.navigationController?.pushViewController(updateView, animated: true)
     }
-    
 }
 
 extension MemoViewController: UISearchResultsUpdating {

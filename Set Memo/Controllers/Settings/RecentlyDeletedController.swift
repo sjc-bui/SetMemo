@@ -106,6 +106,7 @@ class RecentlyDeletedController: UITableViewController {
             self.recoverMemo(indexPath: indexPath)
             completion(true)
         }
+        
         action.image = Resource.Images.recoverButton
         action.backgroundColor = .systemGreen
         
@@ -131,6 +132,7 @@ class RecentlyDeletedController: UITableViewController {
     }
     
     func tapHandler(indexPath: IndexPath) {
+        
         let alertSheetController = UIAlertController(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, preferredStyle: .actionSheet)
         
         let recoverButton = UIAlertAction(title: "Recover".localized, style: .default) { (action) in
@@ -196,6 +198,7 @@ extension RecentlyDeletedController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MemoViewCell
         
         let memo = memoData[indexPath.row]
@@ -204,15 +207,15 @@ extension RecentlyDeletedController {
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
-        cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
+        cell.content.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         cell.content.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
         cell.dateEdited.text = "\(dateString)"
-        cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
+        cell.dateEdited.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         
         cell.hashTag.text = "#\(hashTag)"
-        cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.fontSmallSize, weight: .regular)
+        cell.hashTag.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         
         return cell
     }

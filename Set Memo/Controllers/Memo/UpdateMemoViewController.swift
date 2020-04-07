@@ -18,33 +18,111 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var dateReminder: String = ""
     var isReminder: Bool = false
     var isEdited: Bool = false
-    let writeMemoView = WriteMemoView()
+    var dateLabelHeader: String = ""
     
     var memoData: [Memo] = []
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
     
+    fileprivate var textView: UITextView = {
+        let tv = UITextView()
+        tv.tintColor = Colors.shared.accentColor
+        tv.isEditable = true
+        tv.isScrollEnabled = true
+        tv.text = "update text view."
+        tv.textColor = UIColor(named: "mainTextColor")
+        tv.isUserInteractionEnabled = true
+        tv.alwaysBounceVertical = true
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tv.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
+        return tv
+    }()
+    
+    fileprivate var dateEditedLabel: UILabel = {
+        let lb = UILabel()
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        lb.text = "not set"
+        lb.textColor = UIColor.lightGray
+        lb.backgroundColor = UIColor.systemBackground
+        lb.textDropShadow()
+        lb.textAlignment = .center
+        return lb
+    }()
+    
+    func setupUI() {
+        view.addSubview(dateEditedLabel)
+        view.addSubview(textView)
+        
+        dateEditedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        dateEditedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        dateEditedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        dateEditedLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    }
+    
+    func textViewToolBar() {
+        let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let moveLeft = UIBarButtonItem(image: Resource.Images.moveLeftButton, style: .plain, target: self, action: #selector(moveCursorToLeft))
+        let moveRight = UIBarButtonItem(image: Resource.Images.moveRightButton, style: .plain, target: self, action: #selector(moveCursorToRight))
+        let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: #selector(selectCurrentDate))
+        let sharpSign = UIBarButtonItem(image: Resource.Images.sharpButton, style: .plain, target: self, action: #selector(addSharpSign))
+        
+        items.setItems([moveLeft, flexibleSpace, moveRight, flexibleSpace, sharpSign, flexibleSpace, calendarBadge], animated: true)
+        items.barStyle = .default
+        items.tintColor = Colors.shared.accentColor
+        items.isUserInteractionEnabled = true
+        items.sizeToFit()
+        
+        textView.inputAccessoryView = items
+    }
+    
+    @objc fileprivate func moveCursorToLeft() {
+        print("move left")
+    }
+    
+    @objc fileprivate func moveCursorToRight() {
+        print("move right")
+    }
+    
+    @objc fileprivate func selectCurrentDate() {
+        print("select date time now")
+    }
+    
+    @objc fileprivate func addSharpSign() {
+        print("#")
+    }
+    
     override func initialize() {
-        print(isReminder)
+        print("This memo is remind = \(isReminder)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupView()
-        writeMemoView.inputTextView.text = content
+        setupUI()
+        textView.text = content
+        dateEditedLabel.text = dateLabelHeader
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupRightBarButton()
         addKeyboardListener()
+        textViewToolBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        updateContent(index: index, newContent: writeMemoView.inputTextView.text)
+        updateContent(index: index, newContent: textView.text)
     }
     
     func addKeyboardListener() {
@@ -62,18 +140,18 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            writeMemoView.inputTextView.contentInset = .zero
+            //writeMemoView.inputTextView.contentInset = .zero
             self.navigationItem.rightBarButtonEnable(isEnabled: false)
             
         } else {
-            writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
+            //writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
             self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
-        writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
+        textView.scrollIndicatorInsets = textView.contentInset
         
-        let selectedRange = writeMemoView.inputTextView.selectedRange
-        writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
+        let selectedRange = textView.selectedRange
+        textView.scrollRangeToVisible(selectedRange)
     }
     
     func setupRightBarButton() {
@@ -86,6 +164,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func viewMemoInfo() {
+        
         let contentCount = content.countWords()
         let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
         let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
@@ -226,20 +305,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    func setupView() {
-        view = writeMemoView
-        let textView = writeMemoView.inputTextView
-        writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)))
-        textView.textColor = UIColor(named: "mainTextColor")
-        textView.placeholder = ""
-        textView.alwaysBounceVertical = true
-        textView.isUserInteractionEnabled = true
-        textView.isScrollEnabled = true
-        textView.isPlaceholderScrollEnabled = true
-        textView.delegate = self
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

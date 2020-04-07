@@ -297,13 +297,12 @@ class SettingViewController: UITableViewController {
                     }
                 })
                 
-                cancelBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
                 doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
                 
                 alert.addAction(cancelBtn)
                 alert.addAction(doneBtn)
                 
-                present(alert, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             case 7:
                 self.navigationController?.pushViewController(ThemesViewController(style: .insetGrouped), animated: true)
             default:

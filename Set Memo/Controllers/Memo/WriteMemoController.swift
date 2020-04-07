@@ -9,43 +9,63 @@
 import UIKit
 import CoreData
 
-class WriteMemoController: UIViewController, UITextViewDelegate {
-    let writeMemoView = WriteMemoView()
-    var inputContent: String? = nil
+class WriteMemoController: BaseViewController, UITextViewDelegate {
+    
     let defaults = UserDefaults.standard
     var hashTag: String?
     var navigationBarHeight: CGFloat?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
+    fileprivate var textView: UITextView = {
+        let tv = UITextView()
+        tv.tintColor = Colors.shared.accentColor
+        tv.isEditable = true
+        tv.isScrollEnabled = true
+        tv.text = ""
+        tv.textColor = UIColor(named: "mainTextColor")
+        tv.isUserInteractionEnabled = true
+        tv.alwaysBounceVertical = true
+        tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
+        return tv
+    }()
+    
+    func setupUI() {
+        self.view.addSubview(textView)
+        textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    }
+    
+    override func initialize() {
+        setupUI()
         navigationBarHeight = self.navigationController?.navigationBar.bounds.height ?? 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupPlaceholder()
         characterCount()
         addKeyboardListener()
-        setupNavigationToolBar()
+        //setupNavigationToolBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        writeMemoView.inputTextView.becomeFirstResponder()
+        textView.becomeFirstResponder()
         setupRightBarButtons()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        self.navigationController?.setToolbarHidden(true, animated: true)
+        //self.navigationController?.setToolbarHidden(true, animated: true)
         self.autoSave()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        writeMemoView.inputTextView.resignFirstResponder()
+        textView.resignFirstResponder()
     }
     
     fileprivate func setupNavigationToolBar() {
@@ -97,33 +117,29 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         characterCount()
     }
     
-    func setupPlaceholder() {
-        let placeholder = UserDefaults.standard.string(forKey: Resource.Defaults.writeMemoPlaceholder) ?? ""
-        writeMemoView.inputTextView.placeholder = placeholder
-    }
-    
     private func characterCount() {
-        let textCount: Int = writeMemoView.inputTextView.text.count
+        let textCount: Int = textView.text.count
         self.navigationItem.title = String(format: "%d", textCount)
     }
     
     @objc func autoSave() {
         
-        if !writeMemoView.inputTextView.text.isNullOrWhiteSpace() {
+        if !textView.text.isNullOrWhiteSpace() {
             let date = Date.timeIntervalSinceReferenceDate
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let managedContext = appDelegate.persistentContainer.viewContext
             
             do {
-                setMemoValue(context: managedContext, content: writeMemoView.inputTextView.text, hashTag: hashTag ?? "todo", date: date)
+                setMemoValue(context: managedContext, content: textView.text, hashTag: hashTag ?? "todo", date: date)
                 try managedContext.save()
+                
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
             }
             
             characterCount()
-            writeMemoView.inputTextView.text = ""
+            textView.text = ""
         }
     }
     
@@ -150,17 +166,8 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         memo.setValue(dateString, forKey: "dateString")
     }
     
-    func setupView() {
-        view = writeMemoView
-        writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        writeMemoView.inputTextView.textColor = UIColor(named: "mainTextColor")
-        writeMemoView.inputTextView.isScrollEnabled = false
-        writeMemoView.inputTextView.delegate = self
-        writeMemoView.inputTextView.isScrollEnabled = true
-    }
-    
     @objc func hideKeyboard() {
-        writeMemoView.inputTextView.endEditing(true)
+        textView.endEditing(true)
     }
     
     func addKeyboardListener() {
@@ -175,14 +182,14 @@ class WriteMemoController: UIViewController, UITextViewDelegate {
         let keyboardViewEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 68, right: 0)
+            //writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 68, right: 0)
         } else {
-            writeMemoView.inputTextView.contentInset.bottom = keyboardViewEndFrame.size.height + 68
+            //writeMemoView.inputTextView.contentInset.bottom = keyboardViewEndFrame.size.height + 68
         }
         
-        writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
+        textView.scrollIndicatorInsets = textView.contentInset
         
-        let selectedRange = writeMemoView.inputTextView.selectedRange
-        writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
+        let selectedRange = textView.selectedRange
+        textView.scrollRangeToVisible(selectedRange)
     }
 }

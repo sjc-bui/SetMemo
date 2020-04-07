@@ -27,6 +27,10 @@ public class Resource {
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
         public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
         public static var infoButton: UIImage? = UIImage(systemName: "info.circle")
+        public static var moveLeftButton: UIImage? = UIImage(systemName: "arrow.left")
+        public static var moveRightButton: UIImage? = UIImage(systemName: "arrow.right")
+        public static var addCalendarButton: UIImage? = UIImage(systemName: "calendar.badge.plus")
+        public static var sharpButton: UIImage? = UIImage(systemName: "number")
     }
     
     public class SortBy {
