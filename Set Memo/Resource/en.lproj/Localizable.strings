@@ -32,7 +32,6 @@
 "AppIcon" = "App icon";
 "Alert" = "Alerts";
 "DeleteLabel" = "Delete all";
-"PlaceHolderLabel" = "Custom placeholder";
 "Placeholder" = "Placeholder";
 "CustomPlaceholder" = "Customize the message on screen\n where you create memo";
 "Sure" = "Are you sure?";

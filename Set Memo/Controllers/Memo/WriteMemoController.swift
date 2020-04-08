@@ -26,7 +26,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         tv.alwaysBounceVertical = true
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
+        tv.font = UIFont.monospacedSystemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
         return tv
     }()
     
@@ -173,8 +173,10 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             textView.contentInset = .zero
+            self.navigationItem.rightBarButtonEnable(isEnabled: false)
         } else {
             textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardViewEndFrame.size.height, right: 0.0)
+            self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
         textView.scrollIndicatorInsets = textView.contentInset

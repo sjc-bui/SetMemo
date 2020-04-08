@@ -27,9 +27,9 @@ extension UITextView {
         let addTabSpace = UIBarButtonItem(image: Resource.Images.addTabSpace, style: .plain, target: self, action: #selector(addTab))
         
         items.setItems([
+            addTabSpace, flexibleSpace,
             moveLeft, flexibleSpace,
             moveRight, flexibleSpace,
-            addTabSpace, flexibleSpace,
             moveToBegin, flexibleSpace,
             moveToEnd, flexibleSpace,
             sharpSign, flexibleSpace,

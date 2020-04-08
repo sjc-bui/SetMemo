@@ -44,7 +44,7 @@ public class Dimension {
     }
     
     var iconSize: CGFloat {
-        return 15 * heightScale
+        return 16 * heightScale
     }
     
     var reminderBoundHeight: CGFloat {

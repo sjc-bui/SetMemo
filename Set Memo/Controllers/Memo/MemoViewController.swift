@@ -331,6 +331,7 @@ class MemoViewController: UITableViewController {
     
     func setImportantAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.updateImportant(isImportant: true, indexPath: indexPath)
             print("important")
             completion(true)
         }
@@ -339,8 +340,35 @@ class MemoViewController: UITableViewController {
         return action
     }
     
+    func updateImportant(isImportant: Bool, indexPath: IndexPath) {
+        
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            filterData.isImportant = isImportant
+            
+        } else if isFiltering() == false {
+            let memo = memoData[indexPath.row]
+            memo.isImportant = isImportant
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.tableView.reloadData()
+        }
+    }
+    
     func removeImportantAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.updateImportant(isImportant: false, indexPath: indexPath)
             print("remove important")
             completion(true)
         }

@@ -42,6 +42,7 @@ class MemoViewCell: UITableViewCell {
         let r = UIImageView()
         r.image = Resource.Images.smallBellButton
         r.tintColor = Colors.shared.reminderBtn
+        r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r
     }()
@@ -49,6 +50,7 @@ class MemoViewCell: UITableViewCell {
     var importantIcon: UIImageView = {
         let i = UIImageView()
         i.image = Resource.Images.smallStarFillButton
+        i.contentMode = .scaleAspectFill
         i.tintColor = Colors.shared.importantBtn
         i.isHidden = true
         return i

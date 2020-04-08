@@ -32,7 +32,6 @@
 "AppIcon" = "アプリのアイコン";
 "Alert" = "アラート";
 "DeleteLabel" = "全て削除";
-"PlaceHolderLabel" = "カスタムプレースホルダー";
 "Placeholder" = "プレースホルダー";
 "CustomPlaceholder" = "メモを作成する画面上のメッセージをカスタマイズする";
 "Sure" = "本当に？";

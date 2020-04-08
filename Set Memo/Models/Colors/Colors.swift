@@ -48,7 +48,7 @@ public class Colors {
     }
     
     var importantBtn: UIColor {
-        return UIColor(hexString: "#F2A13D")
+        return UIColor(hexString: "#ffa534")
     }
     
     var mainTextColor: UIColor {

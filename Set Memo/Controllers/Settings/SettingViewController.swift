@@ -20,7 +20,6 @@ class SettingViewController: UITableViewController {
         "Alert".localized,
         "FontSize".localized,
         "AppIcon".localized,
-        "PlaceHolderLabel".localized,
         "DisplayUpdateTime".localized,
         "RemindEveryDay".localized,
         "Themes".localized
@@ -135,12 +134,6 @@ class SettingViewController: UITableViewController {
                 return cell
                 
             case 4:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.accessoryType = .disclosureIndicator
-                return cell
-                
-            case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
@@ -154,7 +147,7 @@ class SettingViewController: UITableViewController {
                 
                 return cell
                 
-            case 6:
+            case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
@@ -169,7 +162,7 @@ class SettingViewController: UITableViewController {
                 
                 return cell
                 
-            case 7:
+            case 6:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
@@ -261,6 +254,7 @@ class SettingViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if indexPath.section == 0 {
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
@@ -273,37 +267,7 @@ class SettingViewController: UITableViewController {
                 self.navigationController?.pushViewController(FontSizeController(style: .insetGrouped), animated: true)
             case 3:
                 self.navigationController?.pushViewController(AppearanceController(style: .insetGrouped), animated: true)
-            case 4:
-                let alert = UIAlertController(title: "Placeholder".localized, message: "CustomPlaceholder".localized, preferredStyle: .alert)
-                
-                alert.addTextField { textField in
-                    let placeholder = self.defaults.string(forKey: Resource.Defaults.writeMemoPlaceholder)
-                    textField.placeholder = placeholder ?? "lalala..."
-                    textField.autocorrectionType = .yes
-                    textField.autocapitalizationType = .sentences
-                }
-                
-                let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: { [weak alert] _ in
-                    print(alert?.message ?? "cancel")
-                })
-                
-                let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
-                    let textField = alert?.textFields![0]
-                    let text = textField?.text
-                    
-                    if text?.isEmpty ?? false {
-                    } else {
-                        self.defaults.set(text, forKey: Resource.Defaults.writeMemoPlaceholder)
-                    }
-                })
-                
-                doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
-                
-                alert.addAction(cancelBtn)
-                alert.addAction(doneBtn)
-                
-                self.present(alert, animated: true, completion: nil)
-            case 7:
+            case 6:
                 self.navigationController?.pushViewController(ThemesViewController(style: .insetGrouped), animated: true)
             default:
                 return
@@ -319,11 +283,11 @@ class SettingViewController: UITableViewController {
                 let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
                 
                 let delete = UIAlertAction(title: "DeleteLabel".localized, style: .destructive, handler: { action in
+                    
                     let appDelegate = UIApplication.shared.delegate as? AppDelegate
                     let managedContext = appDelegate?.persistentContainer.viewContext
                     
                     let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
-                    //deleteFetch.predicate = NSPredicate(format: "temporarilyDelete = %d", true)
                     
                     let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
                     
@@ -344,6 +308,7 @@ class SettingViewController: UITableViewController {
                 deleteAllAlert.addAction(delete)
                 
                 present(deleteAllAlert, animated: true, completion: nil)
+                
             case 1:
                 self.navigationController?.pushViewController(RecentlyDeletedController(), animated: true)
                 
