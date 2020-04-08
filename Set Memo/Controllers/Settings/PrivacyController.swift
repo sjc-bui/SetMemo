@@ -18,32 +18,31 @@ class PrivacyController: UITableViewController {
     private let reuseSwitchCell = "SettingSwitchCell"
     
     let blurEffectView = UIVisualEffectView()
-    let unlockButton: UIButton = {
-        let button = UIButton()
-        button.frame = CGRect(x: 0, y: 0, width: 57, height: 57)
-        button.tintColor = Colors.whiteColor
-        button.setImage(Resource.Images.unlockButton, for: .normal)
-        button.isUserInteractionEnabled = true
-        button.layer.cornerRadius = 10
-        button.tag = 101
-        
-        return button
+    let unlockImage: UIImageView = {
+        let img = UIImageView()
+        img.image = Resource.Images.unlockButton
+        img.frame = CGRect(x: 0, y: 0, width: 62, height: 62)
+        img.contentMode = .scaleAspectFill
+        img.tintColor = UIColor.white
+        img.isUserInteractionEnabled = true
+        img.tag = 101
+        return img
     }()
     
     // Call this method when app enter foreground. and biometrics is enabled.
     func setupBiometricsView(window: UIWindow) {
+        
         let blurEffect = UIBlurEffect(style: .dark)
         blurEffectView.effect = blurEffect
         blurEffectView.frame = window.frame
         blurEffectView.alpha = 1
-        
-        unlockButton.center = window.center
-        unlockButton.backgroundColor = Colors.shared.accentColor
         blurEffectView.tag = 100
-        unlockButton.alpha = 0
+        
+        unlockImage.center = window.center
+        unlockImage.alpha = 0
         
         window.addSubview(blurEffectView)
-        window.addSubview(unlockButton)
+        window.addSubview(unlockImage)
     }
     
     func authenticateUserWithBioMetrics(window: UIWindow) {
@@ -65,6 +64,7 @@ class PrivacyController: UITableViewController {
                         }) { _ in
                             self.blurEffectView.removeFromSuperview()
                         }
+                        
                     } else {
                         guard let error = evaluateError else {
                             return
@@ -72,7 +72,7 @@ class PrivacyController: UITableViewController {
                         
                         // display unlock button if error with biometric
                         UIView.animate(withDuration: 0.2, animations: {
-                            self.unlockButton.alpha = 1
+                            self.unlockImage.alpha = 1
                         }) {_ in
                             let message = self.showErrorMessageForLAErrorCode(errorCode: error._code)
                             print(message)
@@ -84,6 +84,7 @@ class PrivacyController: UITableViewController {
     }
     
     func showErrorMessageForLAErrorCode( errorCode:Int ) -> String{
+        
         var message = ""
         
         switch errorCode {
@@ -194,7 +195,9 @@ class PrivacyController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         if indexPath.section == 0 {
+            
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchCell, for: indexPath) as! SettingSwitchCell
@@ -205,6 +208,7 @@ class PrivacyController: UITableViewController {
                 
                 if defaults.bool(forKey: Resource.Defaults.useBiometrics) == true {
                     cell.switchButton.isOn = true
+                    
                 } else {
                     cell.switchButton.isOn = false
                 }
@@ -214,6 +218,7 @@ class PrivacyController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 return cell
             }
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
@@ -224,8 +229,10 @@ class PrivacyController: UITableViewController {
     }
     
     @objc func useBiometric(sender: UISwitch) {
+        
         if sender.isOn == true {
             defaults.set(true, forKey: Resource.Defaults.useBiometrics)
+            
         } else {
             defaults.set(false, forKey: Resource.Defaults.useBiometrics)
         }

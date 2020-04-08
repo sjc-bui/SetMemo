@@ -67,105 +67,105 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     }
     
-    func textViewToolBar() {
-        let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
-        
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let moveLeft = UIBarButtonItem(image: Resource.Images.moveLeftButton, style: .plain, target: self, action: #selector(moveCursorToLeft))
-        let moveRight = UIBarButtonItem(image: Resource.Images.moveRightButton, style: .plain, target: self, action: #selector(moveCursorToRight))
-        let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: #selector(selectCurrentDate))
-        let sharpSign = UIBarButtonItem(image: Resource.Images.sharpButton, style: .plain, target: self, action: #selector(addSharpSign))
-        let moveToBegin = UIBarButtonItem(image: Resource.Images.moveToBeginButton, style: .plain, target: self, action: #selector(moveBegin))
-        let moveToEnd = UIBarButtonItem(image: Resource.Images.moveToEndButton, style: .plain, target: self, action: #selector(moveEnd))
-        let addTabSpace = UIBarButtonItem(image: Resource.Images.addTabSpace, style: .plain, target: self, action: #selector(addTab))
-        
-        items.setItems([
-            moveLeft, flexibleSpace,
-            moveRight, flexibleSpace,
-            addTabSpace, flexibleSpace,
-            moveToBegin, flexibleSpace,
-            moveToEnd, flexibleSpace,
-            sharpSign, flexibleSpace,
-            calendarBadge], animated: true)
-        items.barStyle = .default
-        items.tintColor = Colors.shared.accentColor
-        items.isUserInteractionEnabled = true
-        items.sizeToFit()
-        
-        textView.inputAccessoryView = items
-    }
+//    func textViewToolBar() {
+//        let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+//
+//        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+//        let moveLeft = UIBarButtonItem(image: Resource.Images.moveLeftButton, style: .plain, target: self, action: #selector(moveCursorToLeft))
+//        let moveRight = UIBarButtonItem(image: Resource.Images.moveRightButton, style: .plain, target: self, action: #selector(moveCursorToRight))
+//        let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: #selector(selectCurrentDate))
+//        let sharpSign = UIBarButtonItem(image: Resource.Images.sharpButton, style: .plain, target: self, action: #selector(addSharpSign))
+//        let moveToBegin = UIBarButtonItem(image: Resource.Images.moveToBeginButton, style: .plain, target: self, action: #selector(moveBegin))
+//        let moveToEnd = UIBarButtonItem(image: Resource.Images.moveToEndButton, style: .plain, target: self, action: #selector(moveEnd))
+//        let addTabSpace = UIBarButtonItem(image: Resource.Images.addTabSpace, style: .plain, target: self, action: #selector(addTab))
+//
+//        items.setItems([
+//            moveLeft, flexibleSpace,
+//            moveRight, flexibleSpace,
+//            addTabSpace, flexibleSpace,
+//            moveToBegin, flexibleSpace,
+//            moveToEnd, flexibleSpace,
+//            sharpSign, flexibleSpace,
+//            calendarBadge], animated: true)
+//        items.barStyle = .default
+//        items.tintColor = Colors.shared.accentColor
+//        items.isUserInteractionEnabled = true
+//        items.sizeToFit()
+//
+//        textView.inputAccessoryView = items
+//    }
     
-    @objc fileprivate func moveCursorToLeft() {
-        if let selectedRange = textView.selectedTextRange {
-            if let newPosition = textView.position(from: selectedRange.start, offset: -1) {
-                textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
-            }
-        }
-    }
-    
-    @objc fileprivate func moveCursorToRight() {
-        if let selectedRange = textView.selectedTextRange {
-            if let newPosition = textView.position(from: selectedRange.start, offset: 1) {
-                textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
-            }
-        }
-    }
-    
-    @objc fileprivate func selectCurrentDate() {
-        
-        let selectCurrentDateSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let now = Date()
-        
-        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
-        let timeLongString = now.string(with: "DateMonthYear".localized)
-        let timeShortString = now.string(with: "DateTimeShort".localized)
-        let hourMinuteString = now.string(with: "HourAndMinute".localized)
-        
-        let fullStyle = UIAlertAction(title: "\(dateTimeFullString)", style: .default) { (action) in
-            self.textView.insertText(" \(dateTimeFullString)")
-        }
-        let timeLong = UIAlertAction(title: "\(timeLongString)", style: .default) { (action) in
-            self.textView.insertText(" \(timeLongString)")
-        }
-        let timeShort = UIAlertAction(title: "\(timeShortString)", style: .default) { (action) in
-            self.textView.insertText(" \(timeShortString)")
-        }
-        let hourMinute = UIAlertAction(title: "\(hourMinuteString)", style: .default) { (action) in
-            self.textView.insertText(" \(hourMinuteString)")
-        }
-        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
-        selectCurrentDateSheet.addAction(cancelButton)
-        selectCurrentDateSheet.addAction(fullStyle)
-        selectCurrentDateSheet.addAction(timeLong)
-        selectCurrentDateSheet.addAction(timeShort)
-        selectCurrentDateSheet.addAction(hourMinute)
-        
-        selectCurrentDateSheet.pruneNegativeWidthConstraints()
-        selectCurrentDateSheet.safePosition()
-        
-        self.present(selectCurrentDateSheet, animated: true, completion: nil)
-    }
-    
-    @objc fileprivate func addSharpSign() {
-        let sharpSign = "#"
-        textView.insertText(sharpSign)
-    }
-    
-    @objc fileprivate func moveBegin() {
-        let begin = textView.beginningOfDocument
-        textView.selectedTextRange = textView.textRange(from: begin, to: begin)
-    }
-    
-    @objc fileprivate func moveEnd() {
-        let end = textView.endOfDocument
-        textView.selectedTextRange = textView.textRange(from: end, to: end)
-    }
-    
-    @objc fileprivate func addTab() {
-        textView.insertText("\t")
-    }
+//    @objc fileprivate func moveCursorToLeft() {
+//        if let selectedRange = textView.selectedTextRange {
+//            if let newPosition = textView.position(from: selectedRange.start, offset: -1) {
+//                textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
+//            }
+//        }
+//    }
+//    
+//    @objc fileprivate func moveCursorToRight() {
+//        if let selectedRange = textView.selectedTextRange {
+//            if let newPosition = textView.position(from: selectedRange.start, offset: 1) {
+//                textView.selectedTextRange = textView.textRange(from: newPosition, to: newPosition)
+//            }
+//        }
+//    }
+//    
+//    @objc fileprivate func selectCurrentDate() {
+//        
+//        let selectCurrentDateSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        let now = Date()
+//        
+//        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
+//        let timeLongString = now.string(with: "DateMonthYear".localized)
+//        let timeShortString = now.string(with: "DateTimeShort".localized)
+//        let hourMinuteString = now.string(with: "HourAndMinute".localized)
+//        
+//        let fullStyle = UIAlertAction(title: "\(dateTimeFullString)", style: .default) { (action) in
+//            self.textView.insertText(" \(dateTimeFullString)")
+//        }
+//        let timeLong = UIAlertAction(title: "\(timeLongString)", style: .default) { (action) in
+//            self.textView.insertText(" \(timeLongString)")
+//        }
+//        let timeShort = UIAlertAction(title: "\(timeShortString)", style: .default) { (action) in
+//            self.textView.insertText(" \(timeShortString)")
+//        }
+//        let hourMinute = UIAlertAction(title: "\(hourMinuteString)", style: .default) { (action) in
+//            self.textView.insertText(" \(hourMinuteString)")
+//        }
+//        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+//        
+//        selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
+//        selectCurrentDateSheet.addAction(cancelButton)
+//        selectCurrentDateSheet.addAction(fullStyle)
+//        selectCurrentDateSheet.addAction(timeLong)
+//        selectCurrentDateSheet.addAction(timeShort)
+//        selectCurrentDateSheet.addAction(hourMinute)
+//        
+//        selectCurrentDateSheet.pruneNegativeWidthConstraints()
+//        selectCurrentDateSheet.safePosition()
+//        
+//        self.present(selectCurrentDateSheet, animated: true, completion: nil)
+//    }
+//    
+//    @objc fileprivate func addSharpSign() {
+//        let sharpSign = "#"
+//        textView.insertText(sharpSign)
+//    }
+//    
+//    @objc fileprivate func moveBegin() {
+//        let begin = textView.beginningOfDocument
+//        textView.selectedTextRange = textView.textRange(from: begin, to: begin)
+//    }
+//    
+//    @objc fileprivate func moveEnd() {
+//        let end = textView.endOfDocument
+//        textView.selectedTextRange = textView.textRange(from: end, to: end)
+//    }
+//    
+//    @objc fileprivate func addTab() {
+//        textView.insertText("\t")
+//    }
     
     override func initialize() {
         print("This memo is remind = \(isReminder)")
@@ -182,7 +182,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewDidAppear(animated)
         setupRightBarButton()
         addKeyboardListener()
-        textViewToolBar()
+        textView.setupTextViewToolbar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -206,11 +206,11 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            //writeMemoView.inputTextView.contentInset = .zero
+            textView.contentInset = .zero
             self.navigationItem.rightBarButtonEnable(isEnabled: false)
             
         } else {
-            //writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
+            textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardScreenEndFrame.size.height, right: 0.0)
             self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         

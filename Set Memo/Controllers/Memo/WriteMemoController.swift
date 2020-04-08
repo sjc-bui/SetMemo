@@ -47,11 +47,11 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         characterCount()
         addKeyboardListener()
-        //setupNavigationToolBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        textView.setupTextViewToolbar()
         textView.becomeFirstResponder()
         setupRightBarButtons()
     }
@@ -59,23 +59,12 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        //self.navigationController?.setToolbarHidden(true, animated: true)
         self.autoSave()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         textView.resignFirstResponder()
-    }
-    
-    fileprivate func setupNavigationToolBar() {
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        
-        let items: [UIBarButtonItem] = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: "Select", style: .plain, target: self, action: nil)
-        ]
-        self.toolbarItems = items
     }
     
     func setupRightBarButtons() {
@@ -183,9 +172,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         let keyboardViewEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            //writeMemoView.inputTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 68, right: 0)
+            textView.contentInset = .zero
         } else {
-            //writeMemoView.inputTextView.contentInset.bottom = keyboardViewEndFrame.size.height + 68
+            textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardViewEndFrame.size.height, right: 0.0)
         }
         
         textView.scrollIndicatorInsets = textView.contentInset

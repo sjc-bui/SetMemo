@@ -49,7 +49,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
         if UserDefaults.standard.bool(forKey: Resource.Defaults.useBiometrics) == true {
             let privacyController = PrivacyController()
             privacyController.setupBiometricsView(window: window!)
-            privacyController.unlockButton.addTarget(self, action: #selector(unlockApp(sender:)), for: .touchUpInside)
+            privacyController.unlockImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(unlockApp)))
             privacyController.authenticateUserWithBioMetrics(window: window!)
         }
     }
@@ -62,7 +62,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
         privacyController.removeBlurView(window: window!)
     }
 
-    @objc func unlockApp(sender: UIButton) {
+    @objc func unlockApp() {
         // Call authenticateUserWithBiometrics method when user click unlock button
         let privacyController = PrivacyController()
         privacyController.authenticateUserWithBioMetrics(window: window!)

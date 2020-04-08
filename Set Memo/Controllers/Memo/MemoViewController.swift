@@ -676,6 +676,7 @@ extension MemoViewController {
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
 
         cell.content.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .medium)
+        //cell.content.font = UIFont(name: "Menlo-Regular", size: CGFloat(defaultFontSize))
         cell.content.text = content
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {

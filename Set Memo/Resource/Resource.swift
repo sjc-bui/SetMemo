@@ -25,7 +25,7 @@ public class Resource {
         public static var alarmButton: UIImage? = UIImage(systemName: "bell")
         public static var slashBellButton: UIImage? = UIImage(systemName: "bell.slash")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
-        public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
+        public static var unlockButton: UIImage? = UIImage(systemName: "lock")
         public static var infoButton: UIImage? = UIImage(systemName: "info.circle")
         public static var moveLeftButton: UIImage? = UIImage(systemName: "chevron.left")
         public static var moveRightButton: UIImage? = UIImage(systemName: "chevron.right")
