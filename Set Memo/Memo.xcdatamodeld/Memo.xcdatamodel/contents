@@ -10,11 +10,12 @@
         <attribute name="dateString" optional="YES" attributeType="String"/>
         <attribute name="hashTag" optional="YES" attributeType="String"/>
         <attribute name="isEdited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isImportant" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isReminder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notificationUUID" optional="YES" attributeType="String"/>
         <attribute name="temporarilyDelete" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="Memo" positionX="-63" positionY="-18" width="128" height="223"/>
+        <element name="Memo" positionX="-63" positionY="-18" width="128" height="238"/>
     </elements>
 </model>

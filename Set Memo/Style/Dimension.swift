@@ -43,6 +43,10 @@ public class Dimension {
         return maximum * heightScale
     }
     
+    var iconSize: CGFloat {
+        return 15 * heightScale
+    }
+    
     var reminderBoundHeight: CGFloat {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return 310 * heightScale

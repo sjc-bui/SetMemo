@@ -112,6 +112,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc fileprivate func selectCurrentDate() {
+        
         let selectCurrentDateSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let now = Date()
         
@@ -135,18 +136,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
         selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
-        selectCurrentDateSheet.pruneNegativeWidthConstraints()
         selectCurrentDateSheet.addAction(cancelButton)
         selectCurrentDateSheet.addAction(fullStyle)
         selectCurrentDateSheet.addAction(timeLong)
         selectCurrentDateSheet.addAction(timeShort)
         selectCurrentDateSheet.addAction(hourMinute)
         
-        if let popoverController = selectCurrentDateSheet.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        selectCurrentDateSheet.pruneNegativeWidthConstraints()
+        selectCurrentDateSheet.safePosition()
         
         self.present(selectCurrentDateSheet, animated: true, completion: nil)
     }
@@ -260,18 +257,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
         
         alert.view.tintColor = Colors.shared.accentColor
-        alert.pruneNegativeWidthConstraints()
         alert.addAction(doneBtn)
         
         if isReminder {
             alert.addAction(deleteReminderBtn)
         }
         
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        alert.pruneNegativeWidthConstraints()
+        alert.safePosition()
         
         self.present(alert, animated: true, completion: nil)
     }

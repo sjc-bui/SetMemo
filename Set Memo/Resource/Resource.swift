@@ -34,6 +34,11 @@ public class Resource {
         public static var moveToBeginButton: UIImage? = UIImage(systemName: "arrow.up.to.line")
         public static var moveToEndButton: UIImage? = UIImage(systemName: "arrow.down.to.line")
         public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
+        
+        public static var smallBellButton: UIImage? = UIImage(systemName: "bell.fill")
+        public static var smallStarFillButton: UIImage? = UIImage(systemName: "star.fill")
+        public static var setImportantButton: UIImage? = UIImage(systemName: "star")
+        public static var removeImportantButton: UIImage? = UIImage(systemName: "star.slash")
     }
     
     public class SortBy {

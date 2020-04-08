@@ -49,27 +49,6 @@ class MemoViewController: UITableViewController {
         self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
-    fileprivate func getImage(withColor color: UIColor, andSize size: CGSize) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        return image
-    }
-    
-    fileprivate func setTranslutionBar() {
-        
-        let toolbar = self.navigationController?.toolbar
-        let navigationBar = self.navigationController?.navigationBar
-        
-        let slightWhiteColor = getImage(withColor: UIColor.systemBackground.withAlphaComponent(0.9), andSize: CGSize(width: 30, height: 30))
-        toolbar?.setBackgroundImage(slightWhiteColor, forToolbarPosition: .any, barMetrics: .default)
-        toolbar?.setShadowImage(UIImage(), forToolbarPosition: .any)
-        toolbar?.tintColor = Colors.shared.accentColor
-        navigationBar?.setBackgroundImage(slightWhiteColor, for: .default)
-    }
-    
     func requestReviewApp() {
         
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
@@ -92,6 +71,7 @@ class MemoViewController: UITableViewController {
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
     }
     
@@ -106,17 +86,23 @@ class MemoViewController: UITableViewController {
         let countMemo = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: self.view.frame.size.height))
         countMemo.textAlignment = NSTextAlignment.left
         countMemo.textColor = UIColor(named: "mainTextColor")
-        countMemo.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        countMemo.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
         
+        let sortBtn = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height))
         let sortButtonTitle = showSortType()
+        sortBtn.setTitle(sortButtonTitle, for: .normal)
+        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        sortBtn.setTitleColor(Colors.shared.accentColor, for: .normal)
+        sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
+        
         let items: [UIBarButtonItem] = [
             UIBarButtonItem(customView: countMemo),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: sortButtonTitle, style: .done, target: self, action: #selector(sortBy))
+            UIBarButtonItem(customView: sortBtn)
         ]
+        self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         self.toolbarItems = items
-        setTranslutionBar()
     }
     
     func showSortType() -> String {
@@ -200,13 +186,9 @@ class MemoViewController: UITableViewController {
         alertController.addAction(sortByDateEdited)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
-        alertController.pruneNegativeWidthConstraints()
         
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        alertController.pruneNegativeWidthConstraints()
+        alertController.safePosition()
         
         present(alertController, animated: true, completion: nil)
     }
@@ -286,6 +268,24 @@ class MemoViewController: UITableViewController {
         }
     }
     
+    func importantIsSetAtIndex(indexPath: IndexPath) -> Bool {
+        
+        if isFiltering() == true {
+            if filterMemoData[indexPath.row].isImportant == true {
+                return true
+            } else {
+                return false
+            }
+            
+        } else {
+            if memoData[indexPath.row].isImportant == true {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
     func shareMemoAction(at indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
@@ -315,7 +315,7 @@ class MemoViewController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.alarmButton
-        action.backgroundColor = Colors.shared.remindButtonBackground
+        action.backgroundColor = Colors.shared.reminderBtn
         return action
     }
     
@@ -325,7 +325,27 @@ class MemoViewController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.slashBellButton
-        action.backgroundColor = Colors.shared.remindButtonBackground
+        action.backgroundColor = Colors.shared.reminderBtn
+        return action
+    }
+    
+    func setImportantAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            print("important")
+            completion(true)
+        }
+        action.image = Resource.Images.setImportantButton
+        action.backgroundColor = Colors.shared.importantBtn
+        return action
+    }
+    
+    func removeImportantAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            print("remove important")
+            completion(true)
+        }
+        action.image = Resource.Images.removeImportantButton
+        action.backgroundColor = Colors.shared.importantBtn
         return action
     }
     
@@ -366,7 +386,7 @@ class MemoViewController: UITableViewController {
         alertView.duration = 1
         alertView.present()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             self.tableView.reloadData()
         }
     }
@@ -430,6 +450,7 @@ class MemoViewController: UITableViewController {
     
     // MARK: - Share memo
     func shareMemoHandle(indexPath: IndexPath) {
+        
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
             let content = filterData.value(forKey: "content") as? String
@@ -500,16 +521,12 @@ class MemoViewController: UITableViewController {
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 
-        remindController.pruneNegativeWidthConstraints()
         remindController.view.tintColor = Colors.shared.accentColor
         remindController.addAction(doneBtn)
         remindController.addAction(cancelBtn)
         
-        if let popoverController = remindController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        remindController.pruneNegativeWidthConstraints()
+        remindController.safePosition()
         
         self.present(remindController, animated: true, completion: nil)
     }
@@ -612,7 +629,14 @@ extension MemoViewController {
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = shareMemoAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [share])
+        let important = setImportantAction(at: indexPath)
+        let removeImportant = removeImportantAction(at: indexPath)
+        
+        if importantIsSetAtIndex(indexPath: indexPath) == true {
+            return UISwipeActionsConfiguration(actions: [share, removeImportant])
+        }
+        
+        return UISwipeActionsConfiguration(actions: [share, important])
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -631,6 +655,7 @@ extension MemoViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
         cell.selectedBackground()
         
@@ -645,6 +670,7 @@ extension MemoViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let isReminder = memo.value(forKey: "isReminder") as? Bool
+        let isImportant = memo.value(forKey: "isImportant") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
         let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
@@ -667,11 +693,15 @@ extension MemoViewController {
         }
         
         if isReminder == true {
-            cell.layer.borderWidth = 5.5
-            cell.layer.borderColor = Colors.shared.accentColor.withAlphaComponent(0.2).cgColor
+            cell.reminderIsSetIcon.isHidden = false
         } else {
-            cell.layer.borderWidth = 0
-            cell.layer.borderColor = UIColor.clear.cgColor
+            cell.reminderIsSetIcon.isHidden = true
+        }
+        
+        if isImportant == true {
+            cell.importantIcon.isHidden = false
+        } else {
+            cell.importantIcon.isHidden = true
         }
         
         cell.accessoryType = .none

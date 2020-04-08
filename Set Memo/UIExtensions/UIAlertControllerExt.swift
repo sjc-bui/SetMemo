@@ -16,4 +16,12 @@ extension UIAlertController {
             }
         }
     }
+    
+    func safePosition() {
+        if let popoverController = self.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
+    }
 }

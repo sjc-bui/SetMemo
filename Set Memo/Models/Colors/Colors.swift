@@ -43,7 +43,11 @@ public class Colors {
         return UIColor(hexString: "#AFABAE")
     }
     
-    var remindButtonBackground: UIColor {
+    var reminderBtn: UIColor {
+        return UIColor(hexString: "#59C3AC")
+    }
+    
+    var importantBtn: UIColor {
         return UIColor(hexString: "#F2A13D")
     }
     
