@@ -26,7 +26,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         tv.alwaysBounceVertical = true
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.font = UIFont.monospacedSystemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
+        tv.font = UIFont(name: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, size: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
         return tv
     }()
     

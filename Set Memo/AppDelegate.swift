@@ -25,13 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.vibrationOnTouch: true,
             Resource.Defaults.showAlertOnDelete: false,
             Resource.Defaults.displayDateTime: true,
-            Resource.Defaults.writeMemoPlaceholder: "Change this in setting...",
             Resource.Defaults.useBiometrics: false,
-            Resource.Defaults.fontSize: Dimension.shared.fontMediumSize,
             Resource.Defaults.sortBy: "dateCreated",
             Resource.Defaults.remindEveryDay: false,
             Resource.Defaults.useDarkMode: false,
-            Resource.Defaults.firstTimeDeleted: true
+            Resource.Defaults.firstTimeDeleted: true,
+            Resource.Defaults.defaultFontStyle: "HelveticaNeue",
+            Resource.Defaults.defaultTextViewFontSize: 16
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

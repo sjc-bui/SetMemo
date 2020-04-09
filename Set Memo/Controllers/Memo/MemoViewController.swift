@@ -410,9 +410,7 @@ class MemoViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
-        alertView.duration = 1
-        alertView.present()
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 1)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             self.tableView.reloadData()
@@ -603,10 +601,7 @@ class MemoViewController: UITableViewController {
         
         updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
         
-        let alert = SPAlertView(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), preset: .done)
-        alert.duration = 2
-        alert.haptic = .success
-        alert.present()
+        SPAlert().done(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), haptic: true, duration: 2.0)
     }
     
     func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
@@ -701,20 +696,19 @@ extension MemoViewController {
         let isImportant = memo.value(forKey: "isImportant") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
-        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
+        let defaultFontSize = Dimension.shared.fontMediumSize
 
-        cell.content.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .medium)
-        //cell.content.font = UIFont(name: "Menlo-Regular", size: CGFloat(defaultFontSize))
+        cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
         cell.content.text = content
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
             
-            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.font = UIFont.systemFont(ofSize: detailTextSize)
             cell.dateEdited.text = dateString
 
-            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.hashTag.font = UIFont.systemFont(ofSize: detailTextSize)
             cell.hashTag.text = "#\(hashTag)"
             
         } else {

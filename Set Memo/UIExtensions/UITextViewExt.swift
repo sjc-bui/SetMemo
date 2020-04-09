@@ -32,8 +32,8 @@ extension UITextView {
             moveRight, flexibleSpace,
             moveToBegin, flexibleSpace,
             moveToEnd, flexibleSpace,
-            sharpSign, flexibleSpace,
-            calendarBadge], animated: true)
+            sharpSign], animated: true)
+        
         items.barStyle = .default
         items.tintColor = Colors.shared.accentColor
         items.isUserInteractionEnabled = true
@@ -56,43 +56,6 @@ extension UITextView {
                 self.selectedTextRange = self.textRange(from: newPosition, to: newPosition)
             }
         }
-    }
-    
-    @objc fileprivate func selectCurrentDate() {
-        
-        let selectCurrentDateSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let now = Date()
-        
-        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
-        let timeLongString = now.string(with: "DateMonthYear".localized)
-        let timeShortString = now.string(with: "DateTimeShort".localized)
-        let hourMinuteString = now.string(with: "HourAndMinute".localized)
-        
-        let fullStyle = UIAlertAction(title: "\(dateTimeFullString)", style: .default) { (action) in
-            self.insertText(" \(dateTimeFullString)")
-        }
-        let timeLong = UIAlertAction(title: "\(timeLongString)", style: .default) { (action) in
-            self.insertText(" \(timeLongString)")
-        }
-        let timeShort = UIAlertAction(title: "\(timeShortString)", style: .default) { (action) in
-            self.insertText(" \(timeShortString)")
-        }
-        let hourMinute = UIAlertAction(title: "\(hourMinuteString)", style: .default) { (action) in
-            self.insertText(" \(hourMinuteString)")
-        }
-        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
-        selectCurrentDateSheet.addAction(cancelButton)
-        selectCurrentDateSheet.addAction(fullStyle)
-        selectCurrentDateSheet.addAction(timeLong)
-        selectCurrentDateSheet.addAction(timeShort)
-        selectCurrentDateSheet.addAction(hourMinute)
-        
-        selectCurrentDateSheet.pruneNegativeWidthConstraints()
-        selectCurrentDateSheet.safePosition()
-        
-        //self.window?.rootViewController?.view.present(selectCurrentDateSheet, animated: true, completion: nil)
     }
     
     @objc fileprivate func addSharpSign() {

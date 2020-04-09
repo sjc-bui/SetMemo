@@ -43,7 +43,7 @@
 "DisplayUpdateTime" = "Display update time";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
-"FontSize" = "Font size";
+"FontSize" = "Size";
 "Size" = "Size";
 "Small" = "Small";
 "Medium" = "Medium (Standard)";
@@ -91,3 +91,6 @@
 "WordsCount" = "Words: %d";
 "CharactersCount" = "Characters: %d";
 "ReminderDeleted" = "Reminder deleted";
+"FontStyle" = "Style";
+"Example" = "Example";
+"Font" = "Font";

@@ -18,10 +18,10 @@ class SettingViewController: UITableViewController {
     let general: Array = [
         "Privacy".localized,
         "Alert".localized,
-        "FontSize".localized,
         "AppIcon".localized,
         "DisplayUpdateTime".localized,
         "RemindEveryDay".localized,
+        "Font".localized,
         "Themes".localized
     ]
     
@@ -128,12 +128,6 @@ class SettingViewController: UITableViewController {
                 return cell
                 
             case 3:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(general[indexPath.row])"
-                cell.accessoryType = .disclosureIndicator
-                return cell
-                
-            case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
@@ -147,7 +141,7 @@ class SettingViewController: UITableViewController {
                 
                 return cell
                 
-            case 5:
+            case 4:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.selectionStyle = .none
@@ -160,6 +154,12 @@ class SettingViewController: UITableViewController {
                     cell.switchButton.isOn = false
                 }
                 
+                return cell
+                
+            case 5:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(general[indexPath.row])"
+                cell.accessoryType = .disclosureIndicator
                 return cell
                 
             case 6:
@@ -264,9 +264,9 @@ class SettingViewController: UITableViewController {
             case 1:
                 self.navigationController?.pushViewController(AlertsController(style: .insetGrouped), animated: true)
             case 2:
-                self.navigationController?.pushViewController(FontSizeController(style: .insetGrouped), animated: true)
-            case 3:
                 self.navigationController?.pushViewController(AppearanceController(style: .insetGrouped), animated: true)
+            case 5:
+                self.navigationController?.pushViewController(FontStyleViewController(style: .insetGrouped), animated: true)
             case 6:
                 self.navigationController?.pushViewController(ThemesViewController(style: .insetGrouped), animated: true)
             default:

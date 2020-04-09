@@ -10,6 +10,10 @@
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
 		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
 		72122C54242FB27D007E7D06 /* FormatString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72122C53242FB27D007E7D06 /* FormatString.swift */; };
+		721F41CE243EB6CD0098EA00 /* SPAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41CD243EB6CD0098EA00 /* SPAlert.swift */; };
+		721F41D0243ED90A0098EA00 /* FontStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41CF243ED90A0098EA00 /* FontStyleViewController.swift */; };
+		721F41D2243ED9590098EA00 /* PickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41D1243ED9590098EA00 /* PickerViewCell.swift */; };
+		721F41D4243EDE720098EA00 /* UIScreenExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41D3243EDE720098EA00 /* UIScreenExt.swift */; };
 		721FFF602434932500A2E503 /* UIAlertControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721FFF5F2434932500A2E503 /* UIAlertControllerExt.swift */; };
 		7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */; };
 		72275686240CA1C400654898 /* UILabelExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72275685240CA1C400654898 /* UILabelExt.swift */; };
@@ -30,7 +34,6 @@
 		7241C614243785EF00D3E617 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7241C616243785EF00D3E617 /* InfoPlist.strings */; };
 		7241C61924382CE400D3E617 /* ThemesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7241C61824382CE400D3E617 /* ThemesViewController.swift */; };
 		7248D0752429EB4700359505 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7248D0742429EB4700359505 /* Themes.swift */; };
-		724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724B3B0C24162E1000C4946B /* FontSizeController.swift */; };
 		724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D22408D9250088F581 /* MemoViewController.swift */; };
 		724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D62408D94A0088F581 /* SettingViewController.swift */; };
 		724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D82408DA850088F581 /* TabbarViewController.swift */; };
@@ -65,6 +68,10 @@
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
 		72122C53242FB27D007E7D06 /* FormatString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatString.swift; sourceTree = "<group>"; };
+		721F41CD243EB6CD0098EA00 /* SPAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPAlert.swift; sourceTree = "<group>"; };
+		721F41CF243ED90A0098EA00 /* FontStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyleViewController.swift; sourceTree = "<group>"; };
+		721F41D1243ED9590098EA00 /* PickerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewCell.swift; sourceTree = "<group>"; };
+		721F41D3243EDE720098EA00 /* UIScreenExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExt.swift; sourceTree = "<group>"; };
 		721FFF5F2434932500A2E503 /* UIAlertControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExt.swift; sourceTree = "<group>"; };
 		7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatetimeUtil.swift; sourceTree = "<group>"; };
 		72275685240CA1C400654898 /* UILabelExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExt.swift; sourceTree = "<group>"; };
@@ -85,7 +92,6 @@
 		7241C615243785EF00D3E617 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7241C61824382CE400D3E617 /* ThemesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemesViewController.swift; sourceTree = "<group>"; };
 		7248D0742429EB4700359505 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
-		724B3B0C24162E1000C4946B /* FontSizeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeController.swift; sourceTree = "<group>"; };
 		724CA6D22408D9250088F581 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
 		724CA6D62408D94A0088F581 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		724CA6D82408DA850088F581 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +175,7 @@
 				72406D9F24109BA000037EB4 /* SettingCell.swift */,
 				729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */,
 				726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */,
+				721F41D1243ED9590098EA00 /* PickerViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -214,6 +221,7 @@
 				7223F6AB240CD96F00D62D6C /* DatetimeUtil.swift */,
 				72406D9B24107A1C00037EB4 /* DeviceControl.swift */,
 				72122C53242FB27D007E7D06 /* FormatString.swift */,
+				721F41CD243EB6CD0098EA00 /* SPAlert.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -232,6 +240,7 @@
 				72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */,
 				721FFF5F2434932500A2E503 /* UIAlertControllerExt.swift */,
 				726DB88E243C777F00EA63A4 /* DateExt.swift */,
+				721F41D3243EDE720098EA00 /* UIScreenExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -277,10 +286,10 @@
 				72406DA32411192900037EB4 /* AppearanceController.swift */,
 				724CA6D62408D94A0088F581 /* SettingViewController.swift */,
 				722BB3B22413C6E5001189C9 /* PrivacyController.swift */,
-				724B3B0C24162E1000C4946B /* FontSizeController.swift */,
 				72C22DB724205EF0004EC65A /* RemindViewController.swift */,
 				724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */,
 				7241C61824382CE400D3E617 /* ThemesViewController.swift */,
+				721F41CF243ED90A0098EA00 /* FontStyleViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -477,12 +486,13 @@
 				7229A30124307C940046E9CF /* Memo.xcdatamodeld in Sources */,
 				7241C61924382CE400D3E617 /* ThemesViewController.swift in Sources */,
 				72122C54242FB27D007E7D06 /* FormatString.swift in Sources */,
+				721F41CE243EB6CD0098EA00 /* SPAlert.swift in Sources */,
 				7241A4A12436F005008826C7 /* Dimension.swift in Sources */,
 				72406DA62411194300037EB4 /* AlertsController.swift in Sources */,
 				7248D0752429EB4700359505 /* Themes.swift in Sources */,
 				724CA704240A23DF0088F581 /* UIColorExt.swift in Sources */,
-				724B3B0D24162E1000C4946B /* FontSizeController.swift in Sources */,
 				72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */,
+				721F41D0243ED90A0098EA00 /* FontStyleViewController.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,
 				724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */,
 				72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */,
@@ -494,6 +504,8 @@
 				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
+				721F41D4243EDE720098EA00 /* UIScreenExt.swift in Sources */,
+				721F41D2243ED9590098EA00 /* PickerViewCell.swift in Sources */,
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,
 				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,

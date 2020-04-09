@@ -24,6 +24,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
+    let userDefaults = UserDefaults.standard
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
@@ -36,8 +37,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         tv.alwaysBounceVertical = true
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        //tv.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
-        tv.font = UIFont.monospacedSystemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)), weight: .regular)
+        tv.font = UIFont(name: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, size: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
         return tv
     }()
     
@@ -198,9 +198,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
-        alertView.duration = 1
-        alertView.present()
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 1)
     }
     
     @objc func hideKeyboard() {

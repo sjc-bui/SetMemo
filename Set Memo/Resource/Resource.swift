@@ -52,10 +52,8 @@ public class Resource {
         public static let vibrationOnTouch = "vibrationOnTouch"
         public static let showAlertOnDelete = "showAlertOnDelete"
         public static let displayDateTime = "displayDateTime"
-        public static let writeMemoPlaceholder = "Write something"
         public static let useBiometrics = "useBiometrics"
         public static let iconType = "iconType"
-        public static let fontSize = "fontSize"
         public static let sortBy = "sortBy"
         public static let lastReview = "lastReview"
         public static let remindEveryDay = "remindEveryDay"
@@ -64,6 +62,8 @@ public class Resource {
         public static let firstTimeDeleted = "firstTimeDeleted"
         public static let titleTextColor = "titleTextColor"
         public static let theme = "theme"
+        public static let defaultFontStyle = "defaultFontStyle"
+        public static let defaultTextViewFontSize = "defaultTextViewFontSize"
     }
     
     public class FilterBy {

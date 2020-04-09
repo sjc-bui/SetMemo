@@ -35,6 +35,10 @@ public class Dimension {
         return medium * heightScale
     }
     
+    var subLabelSize: CGFloat {
+        return 14 * heightScale
+    }
+    
     var fontLargeSize: CGFloat {
         return large * heightScale
     }

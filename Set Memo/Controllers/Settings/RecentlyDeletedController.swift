@@ -207,15 +207,15 @@ extension RecentlyDeletedController {
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
-        cell.content.font = UIFont.systemFont(ofSize: 17, weight: .medium)
+        cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
         cell.content.text = content
         
         let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
         cell.dateEdited.text = "\(dateString)"
-        cell.dateEdited.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
         cell.hashTag.text = "#\(hashTag)"
-        cell.hashTag.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
         return cell
     }

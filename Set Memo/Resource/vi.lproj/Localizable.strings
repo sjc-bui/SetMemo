@@ -43,7 +43,7 @@
 "DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
-"FontSize" = "Kích thước phông chữ";
+"FontSize" = "Kích thước";
 "Size" = "Kích thước";
 "Small" = "Nhỏ";
 "Medium" = "Trung bình (Tiêu chuẩn)";
@@ -91,3 +91,6 @@
 "WordsCount" = "Số từ: %d";
 "CharactersCount" = "Số kí tự: %d";
 "ReminderDeleted" = "Đã xóa nhắc nhở";
+"FontStyle" = "Kiểu chữ";
+"Example" = "Ví dụ";
+"Font" = "Phông chữ";
