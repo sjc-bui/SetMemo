@@ -45,7 +45,7 @@ extension UIViewController {
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
+        selectCurrentDateSheet.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         selectCurrentDateSheet.addAction(cancelButton)
         selectCurrentDateSheet.addAction(fullStyle)
         selectCurrentDateSheet.addAction(timeLong)

@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
         // Override point for customization after application launch.
         
         UserDefaults.standard.register(defaults: [
-            Resource.Defaults.theme: "default",
+            Resource.Defaults.theme: 0,
             Resource.Defaults.iconType: "light",
             Resource.Defaults.vibrationOnTouch: true,
             Resource.Defaults.showAlertOnDelete: false,
@@ -31,7 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.useDarkMode: false,
             Resource.Defaults.firstTimeDeleted: true,
             Resource.Defaults.defaultFontStyle: "HelveticaNeue",
-            Resource.Defaults.defaultTextViewFontSize: 16
+            Resource.Defaults.defaultTextViewFontSize: 17,
+            Resource.Defaults.defaultTintColor: 0
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

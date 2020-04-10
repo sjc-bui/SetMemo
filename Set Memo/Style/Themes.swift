@@ -21,11 +21,12 @@ struct InterfaceColors {
 class Themes {
     
     func setupDefaultTheme() {
-        InterfaceColors.viewBackgroundColor = .white
+        InterfaceColors.viewBackgroundColor = .secondarySystemBackground
         InterfaceColors.navigationBarColor = .white
-        InterfaceColors.cellColor = Colors.cellLight
+        InterfaceColors.cellColor = .white
         InterfaceColors.fontColor = .black
         InterfaceColors.iconColor = Colors.shared.accentColor
+        InterfaceColors.separatorColor = .lightGray
     }
     
     func setupPureDarkTheme() {
@@ -35,7 +36,7 @@ class Themes {
         InterfaceColors.fontColor = .white
         InterfaceColors.iconColor = Colors.shared.veryHightStatisticColor
         InterfaceColors.actionSheetColor = .black
-        InterfaceColors.separatorColor = .white
+        InterfaceColors.separatorColor = .darkGray
     }
     
     func triggerSystemMode(mode: UITraitCollection) {

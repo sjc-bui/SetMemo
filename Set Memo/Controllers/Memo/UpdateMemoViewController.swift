@@ -24,11 +24,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
-    let userDefaults = UserDefaults.standard
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
-        tv.tintColor = Colors.shared.accentColor
+        tv.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = "update text view."
@@ -157,7 +156,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
         let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
         
-        alert.view.tintColor = Colors.shared.accentColor
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         alert.addAction(doneBtn)
         
         if isReminder {
@@ -229,7 +228,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        doneButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        doneButton.setValue(UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
         alert.addAction(cancelButton)
         alert.addAction(doneButton)
         

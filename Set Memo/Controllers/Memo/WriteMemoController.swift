@@ -80,7 +80,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        doneBtn.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
         
         alert.addAction(cancelBtn)
         alert.addAction(doneBtn)

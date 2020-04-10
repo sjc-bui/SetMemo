@@ -64,6 +64,7 @@ public class Resource {
         public static let theme = "theme"
         public static let defaultFontStyle = "defaultFontStyle"
         public static let defaultTextViewFontSize = "defaultTextViewFontSize"
+        public static let defaultTintColor = "defaultTintColor";
     }
     
     public class FilterBy {

@@ -68,7 +68,7 @@ class MemoViewController: UITableViewController {
     
     private func setupNavigation() {
         self.navigationItem.title = "Memo".localized
-        self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
+        self.navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = false
@@ -92,8 +92,8 @@ class MemoViewController: UITableViewController {
         let sortBtn = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height))
         let sortButtonTitle = showSortType()
         sortBtn.setTitle(sortButtonTitle, for: .normal)
-        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        sortBtn.setTitleColor(Colors.shared.accentColor, for: .normal)
+        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        sortBtn.setTitleColor(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
         let items: [UIBarButtonItem] = [
@@ -180,7 +180,7 @@ class MemoViewController: UITableViewController {
         
         let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        alertController.view.tintColor = Colors.shared.accentColor
+        alertController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
         
         alertController.addAction(sortByDateCreated)
         alertController.addAction(sortByDateEdited)
@@ -424,7 +424,7 @@ class MemoViewController: UITableViewController {
             let alertController = UIAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, preferredStyle: .alert)
             
             let acceptButton = UIAlertAction(title: "OK", style: .default, handler: nil)
-            acceptButton.setValue(Colors.shared.accentColor, forKey: "titleTextColor")
+            acceptButton.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: "titleTextColor")
             
             alertController.addAction(acceptButton)
             
@@ -543,7 +543,7 @@ class MemoViewController: UITableViewController {
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 
-        remindController.view.tintColor = Colors.shared.accentColor
+        remindController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
         remindController.addAction(doneBtn)
         remindController.addAction(cancelBtn)
         

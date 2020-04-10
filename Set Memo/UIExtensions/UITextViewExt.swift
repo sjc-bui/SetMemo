@@ -35,7 +35,7 @@ extension UITextView {
             sharpSign], animated: true)
         
         items.barStyle = .default
-        items.tintColor = Colors.shared.accentColor
+        items.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         items.isUserInteractionEnabled = true
         items.sizeToFit()
         

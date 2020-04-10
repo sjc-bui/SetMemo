@@ -41,4 +41,24 @@ extension UIColor {
         }
         return nil
     }
+    
+    static func colorFromString(from customColor: Int) -> UIColor {
+        
+        switch customColor {
+        case 1:
+            return UIColor.systemRed
+        case 2:
+            return UIColor.systemOrange
+        case 3:
+            return UIColor.systemPink
+        case 4:
+            return UIColor.systemBlue
+        case 5:
+            return UIColor.systemGreen
+        case 6:
+            return UIColor.systemYellow
+        default:
+            return UIColor.systemIndigo
+        }
+    }
 }

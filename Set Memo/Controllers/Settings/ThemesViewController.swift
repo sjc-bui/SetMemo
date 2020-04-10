@@ -8,23 +8,109 @@
 
 import UIKit
 
-class ThemesViewController: UITableViewController {
-    let sections = [""]
-    let themeOptions = [
+class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    let reuseIdentifier = "themesCell"
+    let reusePickerCellId = "pickerCell"
+    let defaults = UserDefaults.standard
+    var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
+    
+    let sections = ["Appearance (Pro feature)", "Tin Color (Pro feature)"]
+    var themesOptionsData: [String] = [
         "AutoChange".localized,
         "LightTheme".localized,
         "DarkTheme".localized
     ]
+    var tintColorData: [String] = [
+        "Indigo".localized,
+        "Red".localized,
+        "Orange".localized,
+        "Pink".localized,
+        "Blue".localized,
+        "Green".localized,
+        "Yellow".localized
+    ]
     
-    let reuseIdentifier = "themesCell"
-    let defaults = UserDefaults.standard
-    var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
+        if pickerView.tag == 1 {
+            return 1
+            
+        } else if pickerView.tag == 2 {
+            return 1
+        }
+        
+        return 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        if pickerView.tag == 1 {
+            return themesOptionsData.count
+            
+        } else if pickerView.tag == 2 {
+            return tintColorData.count
+        }
+        
+        return 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        if pickerView.tag == 1 {
+            return themesOptionsData[row]
+            
+        } else if pickerView.tag == 2 {
+            return tintColorData[row]
+        }
+        
+        return ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        let premium: Bool = false
+        
+        if pickerView.tag == 1 {
+            if row != 0 {
+                print("should be upgrade to preminu")
+                pickerView.selectRow(0, inComponent: 0, animated: true)
+                return
+                
+            } else {
+                defaults.set(row, forKey: Resource.Defaults.theme)
+            }
+            
+        } else if pickerView.tag == 2 {
+            
+            if premium == false && row != 0 {
+                let alert = UIAlertController(title: "Pro feature", message: "This feature is only available with Set Memo Premium.", preferredStyle: .alert)
+                
+                let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+                let buyPremiumBtn = UIAlertAction(title: "Buy Premium", style: .default, handler: nil)
+                
+                alert.view.tintColor = .red
+                alert.addAction(cancelBtn)
+                alert.addAction(buyPremiumBtn)
+                
+                present(alert, animated: true, completion: nil)
+                
+                pickerView.selectRow(0, inComponent: 0, animated: true)
+                
+            } else {
+                defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
+                navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Themes".localized
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(PickerViewCell.self, forCellReuseIdentifier: reusePickerCellId)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,82 +126,58 @@ class ThemesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return themeOptions.count
-        default:
-            return 0
+        
+        if section == 0 {
+            return 1
+            
+        } else if section == 1 {
+            return 1
         }
+        
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
-        cell.textLabel?.text = "\(themeOptions[indexPath.row])"
-        cell.tintColor = Colors.shared.accentColor
-        cell.selectionStyle = .none
         
-        switch indexPath.row {
-        case 0:
-            if isSelectThemeFromDefault(key: "default", indexPath: indexPath) == true {
-                cell.accessoryType = .checkmark
-            }
-        case 1:
-            if isSelectThemeFromDefault(key: "light", indexPath: indexPath) == true {
-                cell.accessoryType = .checkmark
-            }
-        case 2:
-            if isSelectThemeFromDefault(key: "dark", indexPath: indexPath) == true {
-                cell.accessoryType = .checkmark
-            }
-        default:
-            cell.accessoryType = .none
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newRow = indexPath.row
-        let oldRow = lastIndex.row
-        
-        if newRow != oldRow {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            tableView.cellForRow(at: lastIndex as IndexPath)?.accessoryType = .none
+        if indexPath.section == 0 {
             
-            lastIndex = indexPath as NSIndexPath
+            let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
+            cell.pickerView.delegate = self
+            cell.pickerView.dataSource = self
+            cell.pickerView.tag = 1
+
+            let index = defaults.integer(forKey: Resource.Defaults.theme)
+            cell.pickerView.selectRow(index, inComponent: 0, animated: false)
+            
+            return cell
+            
+        } else if indexPath.section == 1 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
+            cell.pickerView.delegate = self
+            cell.pickerView.dataSource = self
+            cell.pickerView.tag = 2
+            
+            let index = defaults.integer(forKey: Resource.Defaults.defaultTintColor)
+            cell.pickerView.selectRow(index, inComponent: 0, animated: false)
+            
+            return cell
+            
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
+            return cell
         }
-        
-        switch indexPath.row {
-        case 0:
-            defaults.set("default", forKey: Resource.Defaults.theme)
-            tableView.reloadData()
-        case 1:
-            defaults.set("light", forKey: Resource.Defaults.theme)
-            tableView.reloadData()
-        case 2:
-            defaults.set("dark", forKey: Resource.Defaults.theme)
-            tableView.reloadData()
-        default:
-            print("not implement")
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
-    
-    func isSelectThemeFromDefault(key: String, indexPath: IndexPath) -> Bool {
-        let themeStyle = defaults.string(forKey: Resource.Defaults.theme)
-        if themeStyle == key {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
-            return true
+        
+        if indexPath.section == 0 {
+            return UIScreen.height / 4
             
-        } else {
-            return false
+        } else if indexPath.section == 1 {
+            return UIScreen.height / 4
         }
+        
+        return 0
     }
 }

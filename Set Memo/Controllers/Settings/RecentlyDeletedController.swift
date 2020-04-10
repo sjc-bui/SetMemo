@@ -13,6 +13,7 @@ class RecentlyDeletedController: UITableViewController {
     
     var memoData: [Memo] = []
     fileprivate let cellID = "cellId"
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,7 +144,7 @@ class RecentlyDeletedController: UITableViewController {
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        alertSheetController.view.tintColor = Colors.shared.accentColor
+        alertSheetController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
         
         alertSheetController.addAction(recoverButton)
         alertSheetController.addAction(deleteButton)
