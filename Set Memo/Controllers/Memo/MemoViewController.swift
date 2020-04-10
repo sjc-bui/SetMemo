@@ -443,7 +443,7 @@ class MemoViewController: UITableViewController {
             
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
             
         } else {
             let memo = memoData[indexPath.row]
@@ -454,7 +454,7 @@ class MemoViewController: UITableViewController {
             
             memo.setValue(true, forKey: "temporarilyDelete")
             memoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -468,10 +468,6 @@ class MemoViewController: UITableViewController {
         }
         
         self.setupBarButton()
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
     
     // MARK: - Share memo
@@ -632,6 +628,24 @@ class MemoViewController: UITableViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+class AirDropOnlyActivityItemSource: NSObject, UIActivityItemSource {
+    ///The item you want to send via AirDrop.
+    let item: Any
+
+    init(item: Any) {
+        self.item = item
+    }
+
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        //using NSURL here, since URL with an empty string would crash
+        return NSURL(string: "")!
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return item
     }
 }
 

@@ -54,7 +54,6 @@ class SettingViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupDynamicElement()
         self.tableView.reloadData()
     }
     
@@ -336,15 +335,6 @@ class SettingViewController: UITableViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         themes.triggerSystemMode(mode: traitCollection)
-        setupDynamicElement()
         tableView.reloadData()
-    }
-    
-    func setupDynamicElement() {
-        if darkModeIsEnable() == true {
-            //tableView.separatorColor = nil
-        } else {
-            //tableView.separatorColor = Colors.whiteColor
-        }
     }
 }

@@ -36,7 +36,8 @@ public class Colors {
     
     var accentColor: UIColor {
         //#F2A13D
-        return UIColor(hexString: "#F02828")
+        //return UIColor(hexString: "#F02828")
+        return UIColor.systemIndigo
     }
     
     var subColor: UIColor {
