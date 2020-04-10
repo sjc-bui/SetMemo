@@ -6,6 +6,5 @@ target 'Set Memo' do
   use_frameworks!
 
   # Pods for Set Memo
-    pod 'MultilineTextField'
     pod 'SPAlert'
 end

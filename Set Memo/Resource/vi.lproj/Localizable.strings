@@ -18,7 +18,10 @@
 "Share" = "Chia sẻ";
 "DeleteAllMessage" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
-"DatetimeFormat" = "HH:mm dd/MM/yy";
+"DatetimeFormat" = "h:mm a dd/MM/yy";
+"DateMonthYear" = "d MMM yyyy";
+"DateTimeShort" = "dd/MM/yyyy";
+"HourAndMinute" = "h:mm a";
 "EmptyLabel" = "Chưa có ghi chú";
 "EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
 "General" = "Chung";
@@ -29,7 +32,6 @@
 "AppIcon" = "Biểu tượng cho ứng dụng";
 "Alert" = "Cảnh báo";
 "DeleteLabel" = "Xoá tất cả";
-"PlaceHolderLabel" = "Thay đổi văn bản đánh dấu";
 "Placeholder" = "Văn bản đánh dấu";
 "CustomPlaceholder" = "Thay đổi văn bản đánh dấu\n tại màn hình tạo ghi chú mới";
 "Sure" = "Bạn có chắc chắn không?";
@@ -41,7 +43,7 @@
 "DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
-"FontSize" = "Kích thước phông chữ";
+"FontSize" = "Kích thước";
 "Size" = "Kích thước";
 "Small" = "Nhỏ";
 "Medium" = "Trung bình (Tiêu chuẩn)";
@@ -89,3 +91,6 @@
 "WordsCount" = "Số từ: %d";
 "CharactersCount" = "Số kí tự: %d";
 "ReminderDeleted" = "Đã xóa nhắc nhở";
+"FontStyle" = "Kiểu chữ";
+"Example" = "Ví dụ";
+"Font" = "Phông chữ";

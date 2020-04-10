@@ -36,15 +36,20 @@ public class Colors {
     
     var accentColor: UIColor {
         //#F2A13D
-        return UIColor(hexString: "#F02828")
+        //return UIColor(hexString: "#F02828")
+        return UIColor.systemIndigo
     }
     
     var subColor: UIColor {
         return UIColor(hexString: "#AFABAE")
     }
     
-    var remindButtonBackground: UIColor {
-        return UIColor(hexString: "#F2A13D")
+    var reminderBtn: UIColor {
+        return UIColor(hexString: "#59C3AC")
+    }
+    
+    var importantBtn: UIColor {
+        return UIColor(hexString: "#ffa534")
     }
     
     var mainTextColor: UIColor {

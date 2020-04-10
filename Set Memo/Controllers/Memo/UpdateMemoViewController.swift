@@ -18,33 +18,78 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var dateReminder: String = ""
     var isReminder: Bool = false
     var isEdited: Bool = false
-    let writeMemoView = WriteMemoView()
+    var dateLabelHeader: String = ""
     
     var memoData: [Memo] = []
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
+    let userDefaults = UserDefaults.standard
+    
+    fileprivate var textView: UITextView = {
+        let tv = UITextView()
+        tv.tintColor = Colors.shared.accentColor
+        tv.isEditable = true
+        tv.isScrollEnabled = true
+        tv.text = "update text view."
+        tv.textColor = UIColor(named: "mainTextColor")
+        tv.isUserInteractionEnabled = true
+        tv.alwaysBounceVertical = true
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tv.font = UIFont.setCustomFont(style: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, fontSize: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
+        return tv
+    }()
+    
+    fileprivate var dateEditedLabel: UILabel = {
+        let lb = UILabel()
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        lb.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        lb.text = "not set"
+        lb.textColor = UIColor.lightGray
+        lb.backgroundColor = UIColor.systemBackground
+        lb.textDropShadow()
+        lb.textAlignment = .center
+        return lb
+    }()
+    
+    func setupUI() {
+        view.addSubview(dateEditedLabel)
+        view.addSubview(textView)
+        
+        dateEditedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        dateEditedLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        dateEditedLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        dateEditedLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+    }
     
     override func initialize() {
-        print(isReminder)
+        print("This memo is remind = \(isReminder)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupView()
-        writeMemoView.inputTextView.text = content
+        setupUI()
+        textView.text = content
+        dateEditedLabel.text = dateLabelHeader
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupRightBarButton()
         addKeyboardListener()
+        textView.setupTextViewToolbar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        updateContent(index: index, newContent: writeMemoView.inputTextView.text)
+        updateContent(index: index, newContent: textView.text)
     }
     
     func addKeyboardListener() {
@@ -62,18 +107,18 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let keyboardScreenEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            writeMemoView.inputTextView.contentInset = .zero
+            textView.contentInset = .zero
             self.navigationItem.rightBarButtonEnable(isEnabled: false)
             
         } else {
-            writeMemoView.inputTextView.contentInset.bottom = keyboardScreenEndFrame.size.height + 68
+            textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardScreenEndFrame.size.height, right: 0.0)
             self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
-        writeMemoView.inputTextView.scrollIndicatorInsets = writeMemoView.inputTextView.contentInset
+        textView.scrollIndicatorInsets = textView.contentInset
         
-        let selectedRange = writeMemoView.inputTextView.selectedRange
-        writeMemoView.inputTextView.scrollRangeToVisible(selectedRange)
+        let selectedRange = textView.selectedRange
+        textView.scrollRangeToVisible(selectedRange)
     }
     
     func setupRightBarButton() {
@@ -86,6 +131,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func viewMemoInfo() {
+        
         let contentCount = content.countWords()
         let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
         let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
@@ -112,18 +158,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
         
         alert.view.tintColor = Colors.shared.accentColor
-        alert.pruneNegativeWidthConstraints()
         alert.addAction(doneBtn)
         
         if isReminder {
             alert.addAction(deleteReminderBtn)
         }
         
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        alert.pruneNegativeWidthConstraints()
+        alert.safePosition()
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -156,9 +198,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
-        alertView.duration = 1
-        alertView.present()
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 1)
     }
     
     @objc func hideKeyboard() {
@@ -226,20 +266,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    func setupView() {
-        view = writeMemoView
-        let textView = writeMemoView.inputTextView
-        writeMemoView.inputTextView.frame = CGRect(x: 0, y: 0, width: writeMemoView.screenWidth, height: writeMemoView.screenHeight)
-        textView.font = UIFont.systemFont(ofSize: CGFloat(UserDefaults.standard.float(forKey: Resource.Defaults.fontSize)))
-        textView.textColor = UIColor(named: "mainTextColor")
-        textView.placeholder = ""
-        textView.alwaysBounceVertical = true
-        textView.isUserInteractionEnabled = true
-        textView.isScrollEnabled = true
-        textView.isPlaceholderScrollEnabled = true
-        textView.delegate = self
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

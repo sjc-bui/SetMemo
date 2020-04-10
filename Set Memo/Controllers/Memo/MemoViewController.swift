@@ -49,27 +49,8 @@ class MemoViewController: UITableViewController {
         self.navigationController?.setToolbarHidden(true, animated: true)
     }
     
-    fileprivate func getImage(withColor color: UIColor, andSize size: CGSize) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        return image
-    }
-    
-    fileprivate func setTranslutionBar() {
-        let toolbar = self.navigationController?.toolbar
-        let navigationBar = self.navigationController?.navigationBar
-        
-        let slightWhiteColor = getImage(withColor: UIColor(named: "barTranslutionColor")!.withAlphaComponent(0.9), andSize: CGSize(width: 30, height: 30))
-        toolbar?.setBackgroundImage(slightWhiteColor, forToolbarPosition: .any, barMetrics: .default)
-        toolbar?.setShadowImage(UIImage(), forToolbarPosition: .any)
-        toolbar?.tintColor = Colors.shared.accentColor
-        navigationBar?.setBackgroundImage(slightWhiteColor, for: .default)
-    }
-    
     func requestReviewApp() {
+        
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         
         // request user review when update to new version
@@ -90,10 +71,12 @@ class MemoViewController: UITableViewController {
         self.navigationController?.navigationBar.tintColor = Colors.shared.accentColor
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = false
         extendedLayoutIncludesOpaqueBars = true
     }
     
     func setupBarButton() {
+        
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
         self.navigationItem.rightBarButtonItem = createButton
@@ -103,20 +86,27 @@ class MemoViewController: UITableViewController {
         let countMemo = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: self.view.frame.size.height))
         countMemo.textAlignment = NSTextAlignment.left
         countMemo.textColor = UIColor(named: "mainTextColor")
-        countMemo.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        countMemo.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
         
+        let sortBtn = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height))
         let sortButtonTitle = showSortType()
+        sortBtn.setTitle(sortButtonTitle, for: .normal)
+        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        sortBtn.setTitleColor(Colors.shared.accentColor, for: .normal)
+        sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
+        
         let items: [UIBarButtonItem] = [
             UIBarButtonItem(customView: countMemo),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(title: sortButtonTitle, style: .done, target: self, action: #selector(sortBy))
+            UIBarButtonItem(customView: sortBtn)
         ]
+        self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         self.toolbarItems = items
-        setTranslutionBar()
     }
     
     func showSortType() -> String {
+        
         var sortText: String?
         let sortBy = defaults.string(forKey: Resource.Defaults.sortBy)
         
@@ -168,6 +158,7 @@ class MemoViewController: UITableViewController {
     }
     
     @objc func sortBy() {
+        
         DeviceControl().feedbackOnPress()
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -195,13 +186,9 @@ class MemoViewController: UITableViewController {
         alertController.addAction(sortByDateEdited)
         alertController.addAction(sortByTitle)
         alertController.addAction(cancel)
-        alertController.pruneNegativeWidthConstraints()
         
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        alertController.pruneNegativeWidthConstraints()
+        alertController.safePosition()
         
         present(alertController, animated: true, completion: nil)
     }
@@ -281,6 +268,24 @@ class MemoViewController: UITableViewController {
         }
     }
     
+    func importantIsSetAtIndex(indexPath: IndexPath) -> Bool {
+        
+        if isFiltering() == true {
+            if filterMemoData[indexPath.row].isImportant == true {
+                return true
+            } else {
+                return false
+            }
+            
+        } else {
+            if memoData[indexPath.row].isImportant == true {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    
     func shareMemoAction(at indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
@@ -310,7 +315,7 @@ class MemoViewController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.alarmButton
-        action.backgroundColor = Colors.shared.remindButtonBackground
+        action.backgroundColor = Colors.shared.reminderBtn
         return action
     }
     
@@ -320,7 +325,55 @@ class MemoViewController: UITableViewController {
             completion(true)
         }
         action.image = Resource.Images.slashBellButton
-        action.backgroundColor = Colors.shared.remindButtonBackground
+        action.backgroundColor = Colors.shared.reminderBtn
+        return action
+    }
+    
+    func setImportantAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.updateImportant(isImportant: true, indexPath: indexPath)
+            print("important")
+            completion(true)
+        }
+        action.image = Resource.Images.setImportantButton
+        action.backgroundColor = Colors.shared.importantBtn
+        return action
+    }
+    
+    func updateImportant(isImportant: Bool, indexPath: IndexPath) {
+        
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            filterData.isImportant = isImportant
+            
+        } else if isFiltering() == false {
+            let memo = memoData[indexPath.row]
+            memo.isImportant = isImportant
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func removeImportantAction(at indexPath: IndexPath) -> UIContextualAction {
+        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
+            self.updateImportant(isImportant: false, indexPath: indexPath)
+            print("remove important")
+            completion(true)
+        }
+        action.image = Resource.Images.removeImportantButton
+        action.backgroundColor = Colors.shared.importantBtn
         return action
     }
     
@@ -357,11 +410,9 @@ class MemoViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        let alertView = SPAlertView(title: "ReminderDeleted".localized, message: nil, preset: .done)
-        alertView.duration = 1
-        alertView.present()
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 1)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             self.tableView.reloadData()
         }
     }
@@ -392,7 +443,7 @@ class MemoViewController: UITableViewController {
             
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
             
         } else {
             let memo = memoData[indexPath.row]
@@ -403,7 +454,7 @@ class MemoViewController: UITableViewController {
             
             memo.setValue(true, forKey: "temporarilyDelete")
             memoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -417,14 +468,11 @@ class MemoViewController: UITableViewController {
         }
         
         self.setupBarButton()
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
     
     // MARK: - Share memo
     func shareMemoHandle(indexPath: IndexPath) {
+        
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
             let content = filterData.value(forKey: "content") as? String
@@ -495,16 +543,12 @@ class MemoViewController: UITableViewController {
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 
-        remindController.pruneNegativeWidthConstraints()
         remindController.view.tintColor = Colors.shared.accentColor
         remindController.addAction(doneBtn)
         remindController.addAction(cancelBtn)
         
-        if let popoverController = remindController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
+        remindController.pruneNegativeWidthConstraints()
+        remindController.safePosition()
         
         self.present(remindController, animated: true, completion: nil)
     }
@@ -553,10 +597,7 @@ class MemoViewController: UITableViewController {
         
         updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
         
-        let alert = SPAlertView(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), preset: .done)
-        alert.duration = 2
-        alert.haptic = .success
-        alert.present()
+        SPAlert().done(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), haptic: true, duration: 2.0)
     }
     
     func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
@@ -590,6 +631,24 @@ class MemoViewController: UITableViewController {
     }
 }
 
+class AirDropOnlyActivityItemSource: NSObject, UIActivityItemSource {
+    ///The item you want to send via AirDrop.
+    let item: Any
+
+    init(item: Any) {
+        self.item = item
+    }
+
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        //using NSURL here, since URL with an empty string would crash
+        return NSURL(string: "")!
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return item
+    }
+}
+
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
@@ -607,7 +666,14 @@ extension MemoViewController {
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = shareMemoAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [share])
+        let important = setImportantAction(at: indexPath)
+        let removeImportant = removeImportantAction(at: indexPath)
+        
+        if importantIsSetAtIndex(indexPath: indexPath) == true {
+            return UISwipeActionsConfiguration(actions: [share, removeImportant])
+        }
+        
+        return UISwipeActionsConfiguration(actions: [share, important])
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -626,6 +692,7 @@ extension MemoViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
         cell.selectedBackground()
         
@@ -640,21 +707,22 @@ extension MemoViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let isReminder = memo.value(forKey: "isReminder") as? Bool
+        let isImportant = memo.value(forKey: "isImportant") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         
-        let defaultFontSize = defaults.float(forKey: Resource.Defaults.fontSize)
+        let defaultFontSize = Dimension.shared.fontMediumSize
 
-        cell.content.font = UIFont.systemFont(ofSize: CGFloat(defaultFontSize), weight: .medium)
+        cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
         cell.content.text = content
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
             
-            cell.dateEdited.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.dateEdited.font = UIFont.systemFont(ofSize: detailTextSize)
             cell.dateEdited.text = dateString
 
-            cell.hashTag.font = UIFont.systemFont(ofSize: CGFloat(detailTextSize))
+            cell.hashTag.font = UIFont.systemFont(ofSize: detailTextSize)
             cell.hashTag.text = "#\(hashTag)"
             
         } else {
@@ -662,11 +730,15 @@ extension MemoViewController {
         }
         
         if isReminder == true {
-            cell.layer.borderWidth = 5.5
-            cell.layer.borderColor = Colors.shared.accentColor.withAlphaComponent(0.2).cgColor
+            cell.reminderIsSetIcon.isHidden = false
         } else {
-            cell.layer.borderWidth = 0
-            cell.layer.borderColor = UIColor.clear.cgColor
+            cell.reminderIsSetIcon.isHidden = true
+        }
+        
+        if isImportant == true {
+            cell.importantIcon.isHidden = false
+        } else {
+            cell.importantIcon.isHidden = true
         }
         
         cell.accessoryType = .none
@@ -699,7 +771,7 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        //updateView.navigationItem.title = dateEditedString
+        updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!
         updateView.dateCreated = dateCreatedString
@@ -711,7 +783,6 @@ extension MemoViewController {
         
         self.navigationController?.pushViewController(updateView, animated: true)
     }
-    
 }
 
 extension MemoViewController: UISearchResultsUpdating {

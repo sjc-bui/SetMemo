@@ -19,6 +19,9 @@
 "DeleteAllMessage" = "All saved memo will be delete.";
 "Edit" = "Edit";
 "DatetimeFormat" = "MMM d, yyyy h:mm a";
+"DateMonthYear" = "MMM d, yyyy";
+"DateTimeShort" = "yyyy/MM/dd";
+"HourAndMinute" = "h:mm a";
 "EmptyLabel" = "No memo";
 "EmptyDescription" = "Tap + to add new one.";
 "General" = "General";
@@ -29,7 +32,6 @@
 "AppIcon" = "App icon";
 "Alert" = "Alerts";
 "DeleteLabel" = "Delete all";
-"PlaceHolderLabel" = "Custom placeholder";
 "Placeholder" = "Placeholder";
 "CustomPlaceholder" = "Customize the message on screen\n where you create memo";
 "Sure" = "Are you sure?";
@@ -41,7 +43,7 @@
 "DisplayUpdateTime" = "Display update time";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
-"FontSize" = "Font size";
+"FontSize" = "Size";
 "Size" = "Size";
 "Small" = "Small";
 "Medium" = "Medium (Standard)";
@@ -89,3 +91,6 @@
 "WordsCount" = "Words: %d";
 "CharactersCount" = "Characters: %d";
 "ReminderDeleted" = "Reminder deleted";
+"FontStyle" = "Style";
+"Example" = "Example";
+"Font" = "Font";

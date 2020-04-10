@@ -38,11 +38,30 @@ class MemoViewCell: UITableViewCell {
         return d
     }()
     
+    var reminderIsSetIcon: UIImageView = {
+        let r = UIImageView()
+        r.image = Resource.Images.smallBellButton
+        r.tintColor = Colors.shared.reminderBtn
+        r.contentMode = .scaleAspectFill
+        r.isHidden = true
+        return r
+    }()
+    
+    var importantIcon: UIImageView = {
+        let i = UIImageView()
+        i.image = Resource.Images.smallStarFillButton
+        i.contentMode = .scaleAspectFill
+        i.tintColor = Colors.shared.importantBtn
+        i.isHidden = true
+        return i
+    }()
+    
     fileprivate lazy var horizontalStackView: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [dateEdited, hashTag])
+        let s = UIStackView(arrangedSubviews: [importantIcon, dateEdited, hashTag, reminderIsSetIcon])
         s.axis = .horizontal
         s.alignment = .leading
-        s.spacing = 10
+        s.spacing = 6
+        s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
     
@@ -58,6 +77,12 @@ class MemoViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(verticalStackView)
+        
+        reminderIsSetIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        reminderIsSetIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        importantIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        importantIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        
         verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13).isActive = true

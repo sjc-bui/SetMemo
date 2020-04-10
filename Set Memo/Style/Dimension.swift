@@ -23,8 +23,8 @@ public class Dimension {
     private init() {
         let widthIP6: CGFloat = 375
         let heightIP6: CGFloat = 667
-        widthScale = UIScreen.main.bounds.width / widthIP6
-        heightScale = UIScreen.main.bounds.height / heightIP6
+        widthScale = UIScreen.width / widthIP6
+        heightScale = UIScreen.height / heightIP6
     }
     
     var fontSmallSize: CGFloat {
@@ -35,12 +35,20 @@ public class Dimension {
         return medium * heightScale
     }
     
+    var subLabelSize: CGFloat {
+        return 14 * heightScale
+    }
+    
     var fontLargeSize: CGFloat {
         return large * heightScale
     }
     
     var fontMaxSize: CGFloat {
         return maximum * heightScale
+    }
+    
+    var iconSize: CGFloat {
+        return 16 * heightScale
     }
     
     var reminderBoundHeight: CGFloat {

@@ -25,8 +25,20 @@ public class Resource {
         public static var alarmButton: UIImage? = UIImage(systemName: "bell")
         public static var slashBellButton: UIImage? = UIImage(systemName: "bell.slash")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
-        public static var unlockButton: UIImage? = UIImage(systemName: "lock.open")
+        public static var unlockButton: UIImage? = UIImage(systemName: "lock")
         public static var infoButton: UIImage? = UIImage(systemName: "info.circle")
+        public static var moveLeftButton: UIImage? = UIImage(systemName: "chevron.left")
+        public static var moveRightButton: UIImage? = UIImage(systemName: "chevron.right")
+        public static var addCalendarButton: UIImage? = UIImage(systemName: "calendar.badge.plus")
+        public static var sharpButton: UIImage? = UIImage(systemName: "number")
+        public static var moveToBeginButton: UIImage? = UIImage(systemName: "arrow.up.to.line")
+        public static var moveToEndButton: UIImage? = UIImage(systemName: "arrow.down.to.line")
+        public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
+        
+        public static var smallBellButton: UIImage? = UIImage(systemName: "bell.fill")
+        public static var smallStarFillButton: UIImage? = UIImage(systemName: "star.fill")
+        public static var setImportantButton: UIImage? = UIImage(systemName: "star")
+        public static var removeImportantButton: UIImage? = UIImage(systemName: "star.slash")
     }
     
     public class SortBy {
@@ -40,10 +52,8 @@ public class Resource {
         public static let vibrationOnTouch = "vibrationOnTouch"
         public static let showAlertOnDelete = "showAlertOnDelete"
         public static let displayDateTime = "displayDateTime"
-        public static let writeMemoPlaceholder = "Write something"
         public static let useBiometrics = "useBiometrics"
         public static let iconType = "iconType"
-        public static let fontSize = "fontSize"
         public static let sortBy = "sortBy"
         public static let lastReview = "lastReview"
         public static let remindEveryDay = "remindEveryDay"
@@ -52,6 +62,8 @@ public class Resource {
         public static let firstTimeDeleted = "firstTimeDeleted"
         public static let titleTextColor = "titleTextColor"
         public static let theme = "theme"
+        public static let defaultFontStyle = "defaultFontStyle"
+        public static let defaultTextViewFontSize = "defaultTextViewFontSize"
     }
     
     public class FilterBy {

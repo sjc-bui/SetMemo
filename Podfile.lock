@@ -1,20 +1,16 @@
 PODS:
-  - MultilineTextField (1.0.0)
   - SPAlert (2.1.4)
 
 DEPENDENCIES:
-  - MultilineTextField
   - SPAlert
 
 SPEC REPOS:
   trunk:
-    - MultilineTextField
     - SPAlert
 
 SPEC CHECKSUMS:
-  MultilineTextField: bb965487257ce72f880d313074d419cac34024ff
   SPAlert: 1a8afa1c6ac86a82ab5b2cfdf7f9a51e68cb6c0c
 
-PODFILE CHECKSUM: 20722200f8f3fb600a0ef0ae0395633c8c008042
+PODFILE CHECKSUM: d16deca26bc2ebc80f31042240097f22e5553969
 
 COCOAPODS: 1.9.0
