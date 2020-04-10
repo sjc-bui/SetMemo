@@ -11,31 +11,17 @@ import CoreData
 
 class WriteMemoController: BaseViewController, UITextViewDelegate {
     
+    let editor = TextViewEditor()
     let defaults = UserDefaults.standard
     var hashTag: String?
     var navigationBarHeight: CGFloat?
     
-    fileprivate var textView: UITextView = {
-        let tv = UITextView()
-        tv.tintColor = Colors.shared.accentColor
-        tv.isEditable = true
-        tv.isScrollEnabled = true
-        tv.text = ""
-        tv.textColor = UIColor(named: "mainTextColor")
-        tv.isUserInteractionEnabled = true
-        tv.alwaysBounceVertical = true
-        tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.font = UIFont(name: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, size: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
-        return tv
-    }()
-    
     func setupUI() {
-        self.view.addSubview(textView)
-        textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        view = editor
+        editor.textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        editor.textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        editor.textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        editor.textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     }
     
     override func initialize() {
@@ -51,8 +37,8 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        textView.setupTextViewToolbar()
-        textView.becomeFirstResponder()
+        editor.textView.setupTextViewToolbar()
+        editor.textView.becomeFirstResponder()
         setupRightBarButtons()
     }
     
@@ -64,7 +50,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        textView.resignFirstResponder()
+        editor.textView.resignFirstResponder()
     }
     
     func setupRightBarButtons() {
@@ -107,20 +93,20 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     private func characterCount() {
-        let textCount: Int = textView.text.count
+        let textCount: Int = editor.textView.text.count
         self.navigationItem.title = String(format: "%d", textCount)
     }
     
     @objc func autoSave() {
         
-        if !textView.text.isNullOrWhiteSpace() {
+        if !editor.textView.text.isNullOrWhiteSpace() {
             let date = Date.timeIntervalSinceReferenceDate
             
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             let managedContext = appDelegate.persistentContainer.viewContext
             
             do {
-                setMemoValue(context: managedContext, content: textView.text, hashTag: hashTag ?? "todo", date: date)
+                setMemoValue(context: managedContext, content: editor.textView.text, hashTag: hashTag ?? "todo", date: date)
                 try managedContext.save()
                 
             } catch let error as NSError {
@@ -128,7 +114,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             }
             
             characterCount()
-            textView.text = ""
+            editor.textView.text = ""
         }
     }
     
@@ -157,7 +143,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func hideKeyboard() {
-        textView.endEditing(true)
+        editor.textView.endEditing(true)
     }
     
     func addKeyboardListener() {
@@ -172,16 +158,16 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         let keyboardViewEndFrame = keyboardValue.cgRectValue
         
         if notification.name == UIResponder.keyboardWillHideNotification {
-            textView.contentInset = .zero
+            editor.textView.contentInset = .zero
             self.navigationItem.rightBarButtonEnable(isEnabled: false)
         } else {
-            textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardViewEndFrame.size.height, right: 0.0)
+            editor.textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardViewEndFrame.size.height, right: 0.0)
             self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
-        textView.scrollIndicatorInsets = textView.contentInset
+        editor.textView.scrollIndicatorInsets = editor.textView.contentInset
         
-        let selectedRange = textView.selectedRange
-        textView.scrollRangeToVisible(selectedRange)
+        let selectedRange = editor.textView.selectedRange
+        editor.textView.scrollRangeToVisible(selectedRange)
     }
 }

@@ -23,8 +23,8 @@ public class Dimension {
     private init() {
         let widthIP6: CGFloat = 375
         let heightIP6: CGFloat = 667
-        widthScale = UIScreen.main.bounds.width / widthIP6
-        heightScale = UIScreen.main.bounds.height / heightIP6
+        widthScale = UIScreen.width / widthIP6
+        heightScale = UIScreen.height / heightIP6
     }
     
     var fontSmallSize: CGFloat {

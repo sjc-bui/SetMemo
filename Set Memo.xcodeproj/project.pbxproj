@@ -53,6 +53,8 @@
 		727E50EF24120B950042E81F /* light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EB24120B950042E81F /* light@2x.png */; };
 		727E50F024120B950042E81F /* dark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50EC24120B950042E81F /* dark@3x.png */; };
 		727E50F224120F8B0042E81F /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 727E50F124120F8B0042E81F /* Launch.storyboard */; };
+		728D10C7244005D500B463FD /* UIFontExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728D10C6244005D500B463FD /* UIFontExt.swift */; };
+		728D10C924400A1E00B463FD /* TextViewEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728D10C824400A1D00B463FD /* TextViewEditor.swift */; };
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
@@ -111,6 +113,8 @@
 		727E50EB24120B950042E81F /* light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@2x.png"; sourceTree = "<group>"; };
 		727E50EC24120B950042E81F /* dark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@3x.png"; sourceTree = "<group>"; };
 		727E50F124120F8B0042E81F /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
+		728D10C6244005D500B463FD /* UIFontExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFontExt.swift; sourceTree = "<group>"; };
+		728D10C824400A1D00B463FD /* TextViewEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewEditor.swift; sourceTree = "<group>"; };
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +180,7 @@
 				729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */,
 				726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */,
 				721F41D1243ED9590098EA00 /* PickerViewCell.swift */,
+				728D10C824400A1D00B463FD /* TextViewEditor.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 				721FFF5F2434932500A2E503 /* UIAlertControllerExt.swift */,
 				726DB88E243C777F00EA63A4 /* DateExt.swift */,
 				721F41D3243EDE720098EA00 /* UIScreenExt.swift */,
+				728D10C6244005D500B463FD /* UIFontExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -472,6 +478,7 @@
 			files = (
 				724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */,
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
+				728D10C924400A1E00B463FD /* TextViewEditor.swift in Sources */,
 				726DB88F243C777F00EA63A4 /* DateExt.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,
@@ -502,6 +509,7 @@
 				726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
 				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,
+				728D10C7244005D500B463FD /* UIFontExt.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
 				721F41D4243EDE720098EA00 /* UIScreenExt.swift in Sources */,

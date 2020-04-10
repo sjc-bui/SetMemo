@@ -15,7 +15,7 @@ extension UITextView {
     }
     
     func setupTextViewToolbar() {
-        let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+        let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 30))
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let moveLeft = UIBarButtonItem(image: Resource.Images.moveLeftButton, style: .plain, target: self, action: #selector(moveCursorToLeft))

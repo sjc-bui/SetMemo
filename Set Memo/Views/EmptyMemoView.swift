@@ -9,6 +9,7 @@
 import UIKit
 
 class EmptyMemoView: UIView {
+    
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleLabel]) // [titleLabel, descriptionLabel]
         stackView.translatesAutoresizingMaskIntoConstraints = false

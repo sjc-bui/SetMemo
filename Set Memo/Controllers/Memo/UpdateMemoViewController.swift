@@ -37,7 +37,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         tv.alwaysBounceVertical = true
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        tv.font = UIFont(name: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, size: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
+        tv.font = UIFont.setCustomFont(style: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, fontSize: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
         return tv
     }()
     
@@ -58,14 +58,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         view.addSubview(textView)
         
         dateEditedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        dateEditedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        dateEditedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        dateEditedLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        dateEditedLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         dateEditedLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     }
     
     override func initialize() {

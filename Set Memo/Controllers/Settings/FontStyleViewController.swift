@@ -63,7 +63,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
         }
         
         let reloadSectionIndex: IndexSet = [0]
-        self.tableView.reloadSections(reloadSectionIndex, with: .automatic)
+        self.tableView.reloadSections(reloadSectionIndex, with: .fade)
     }
     
     let sections = ["Example".localized, "FontSize".localized, "FontStyle".localized]
