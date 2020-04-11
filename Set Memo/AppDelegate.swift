@@ -32,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.firstTimeDeleted: true,
             Resource.Defaults.defaultFontStyle: "HelveticaNeue",
             Resource.Defaults.defaultTextViewFontSize: 17,
-            Resource.Defaults.defaultTintColor: 0
+            Resource.Defaults.defaultTintColor: 0,
+            Resource.Defaults.setMemoPremium: false
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

@@ -15,6 +15,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     let defaults = UserDefaults.standard
     var hashTag: String?
     var navigationBarHeight: CGFloat?
+    let randomColor = UIColor.getRandomColor()
     
     func setupUI() {
         view = editor
@@ -33,6 +34,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         characterCount()
         addKeyboardListener()
+        
+        editor.textView.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
+        setupNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,6 +55,12 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         editor.textView.resignFirstResponder()
+    }
+    
+    func setupNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
+        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: randomColor)
+        navigationController?.navigationBar.tintColor = .white
     }
     
     func setupRightBarButtons() {
@@ -132,6 +142,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         memo.setValue(false, forKey: "isEdited")
         memo.setValue(false, forKey: "temporarilyDelete")
         memo.setValue(0, forKey: "dateReminder")
+        memo.setValue(randomColor, forKey: "color")
         
         let updateDate = Date(timeIntervalSinceReferenceDate: date)
         let dateFormatter = DateFormatter()

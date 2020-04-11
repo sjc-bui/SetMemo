@@ -37,6 +37,13 @@ class MemoViewController: UITableViewController {
         resetIconBadges()
         requestReviewApp()
         tableView.tableFooterView = UIView()
+        
+        if defaults.integer(forKey: Resource.Defaults.theme) == 2 {
+            tableView.separatorStyle = .singleLine
+            
+        } else {
+            tableView.separatorStyle = .none
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,6 +75,8 @@ class MemoViewController: UITableViewController {
     
     private func setupNavigation() {
         self.navigationItem.title = "Memo".localized
+        self.navigationController?.navigationBar.backgroundColor = UIColor.systemBackground
+        self.navigationController?.navigationBar.barTintColor = UIColor.systemBackground
         self.navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -83,16 +92,17 @@ class MemoViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = settingButton
         
         self.navigationController?.setToolbarHidden(false, animated: true)
-        let countMemo = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: self.view.frame.size.height))
-        countMemo.textAlignment = NSTextAlignment.left
+        let countMemo = UILabel(frame: .zero)
         countMemo.textColor = UIColor(named: "mainTextColor")
-        countMemo.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        countMemo.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
+        countMemo.textDropShadow()
         
-        let sortBtn = UIButton(frame: CGRect(x: 0, y: 0, width: view.frame.size.width / 3, height: view.frame.size.height))
+        let sortBtn = UIButton(frame: .zero)
         let sortButtonTitle = showSortType()
         sortBtn.setTitle(sortButtonTitle, for: .normal)
         sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        sortBtn.titleLabel?.textDropShadow()
         sortBtn.setTitleColor(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
@@ -709,7 +719,9 @@ extension MemoViewController {
         let isReminder = memo.value(forKey: "isReminder") as? Bool
         let isImportant = memo.value(forKey: "isImportant") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
+        let color = memo.value(forKey: "color") as? String ?? "white"
         
+        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
         let defaultFontSize = Dimension.shared.fontMediumSize
 
         cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
@@ -766,11 +778,13 @@ extension MemoViewController {
         let isEdited = memo.value(forKey: "isEdited") as? Bool
         let isReminder = memo.value(forKey: "isReminder") as? Bool
         let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
+        let color = memo.value(forKey: "color") as? String ?? "white"
         
         let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
+        updateView.backgroundColor = color
         updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!

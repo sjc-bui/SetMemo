@@ -69,13 +69,12 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let premium: Bool = false
+        let premium = defaults.bool(forKey: Resource.Defaults.setMemoPremium)
         
         if pickerView.tag == 1 {
-            if row != 0 {
-                print("should be upgrade to preminu")
+            if premium == false && row != 0 {
+                checkPremiumUser()
                 pickerView.selectRow(0, inComponent: 0, animated: true)
-                return
                 
             } else {
                 defaults.set(row, forKey: Resource.Defaults.theme)
@@ -84,23 +83,38 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         } else if pickerView.tag == 2 {
             
             if premium == false && row != 0 {
-                let alert = UIAlertController(title: "Pro feature", message: "This feature is only available with Set Memo Premium.", preferredStyle: .alert)
-                
-                let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-                let buyPremiumBtn = UIAlertAction(title: "Buy Premium", style: .default, handler: nil)
-                
-                alert.view.tintColor = .red
-                alert.addAction(cancelBtn)
-                alert.addAction(buyPremiumBtn)
-                
-                present(alert, animated: true, completion: nil)
-                
+                checkPremiumUser()
                 pickerView.selectRow(0, inComponent: 0, animated: true)
                 
             } else {
                 defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
                 navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
             }
+        }
+    }
+    
+    func checkPremiumUser() {
+        
+        let alert = UIAlertController(title: "Pro feature", message: "This feature is only available with Set Memo Premium", preferredStyle: .alert)
+        
+        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let buyPremiumBtn = UIAlertAction(title: "Buy Premium", style: .default) { (action) in
+            self.defaults.set(true, forKey: Resource.Defaults.setMemoPremium)
+            self.restorePurchase()
+        }
+        
+        alert.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.addAction(cancelBtn)
+        alert.addAction(buyPremiumBtn)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func restorePurchase() {
+        if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
+            let alert = UIAlertController(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
         }
     }
     

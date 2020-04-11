@@ -14,7 +14,7 @@ class MemoViewCell: UITableViewCell {
         let c = UILabel()
         c.numberOfLines = 1
         c.text = "content"
-        c.textColor = UIColor(named: "mainTextColor")
+        c.textColor = .white
         c.textDropShadow()
         return c
     }()
@@ -23,7 +23,7 @@ class MemoViewCell: UITableViewCell {
         let h = UILabel()
         h.numberOfLines = 1
         h.text = "hashTag"
-        h.textColor = Colors.shared.subColor
+        h.textColor = .lightText
         h.textDropShadow()
         h.textAlignment = NSTextAlignment.right
         return h
@@ -33,7 +33,7 @@ class MemoViewCell: UITableViewCell {
         let d = UILabel()
         d.numberOfLines = 1
         d.text = "24/01/2019"
-        d.textColor = Colors.shared.subColor
+        d.textColor = .lightText
         d.textDropShadow()
         return d
     }()
@@ -41,7 +41,8 @@ class MemoViewCell: UITableViewCell {
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
         r.image = Resource.Images.smallBellButton
-        r.tintColor = Colors.shared.reminderBtn
+        //r.tintColor = Colors.shared.reminderBtn
+        r.tintColor = .white
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r

@@ -16,7 +16,8 @@ class TextViewEditor: UIView {
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = ""
-        tv.textColor = UIColor(named: "mainTextColor")
+        //tv.textColor = UIColor(named: "mainTextColor")
+        tv.textColor = UIColor.white
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)

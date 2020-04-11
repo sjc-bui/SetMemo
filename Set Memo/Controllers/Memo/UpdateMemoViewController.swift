@@ -19,6 +19,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var isReminder: Bool = false
     var isEdited: Bool = false
     var dateLabelHeader: String = ""
+    var backgroundColor: String = ""
     
     var memoData: [Memo] = []
     var filterMemoData: [Memo] = []
@@ -31,7 +32,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = "update text view."
-        tv.textColor = UIColor(named: "mainTextColor")
+        tv.textColor = UIColor.white
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +46,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         lb.text = "not set"
-        lb.textColor = UIColor.lightGray
+        lb.textColor = UIColor.lightText
         lb.backgroundColor = UIColor.systemBackground
         lb.textDropShadow()
         lb.textAlignment = .center
@@ -75,6 +76,13 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         setupUI()
         textView.text = content
+        
+        textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.tintColor = .white
+        
         dateEditedLabel.text = dateLabelHeader
     }
     
