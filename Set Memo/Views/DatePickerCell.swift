@@ -16,6 +16,8 @@ class DatePickerCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.datePickerMode = .time
         contentView.addSubview(datePicker)
         
         datePicker.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true

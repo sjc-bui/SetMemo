@@ -239,8 +239,7 @@ class SettingViewController: UITableViewController {
     
     @objc func setupRemindEveryDay(sender: UISwitch) {
         if sender.isOn == true {
-            //self.navigationController?.pushViewController(RemindViewController(), animated: true)
-            self.navigationController?.pushViewController(TestRemindViewController(style: .insetGrouped), animated: true)
+            self.navigationController?.pushViewController(RemindViewController(style: .insetGrouped), animated: true)
             
         } else {
             let center = UNUserNotificationCenter.current()
