@@ -18,7 +18,7 @@ class RemindViewController: UIViewController {
         button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = 4
         button.backgroundColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

@@ -37,13 +37,7 @@ class MemoViewController: UITableViewController {
         resetIconBadges()
         requestReviewApp()
         tableView.tableFooterView = UIView()
-        
-        if defaults.integer(forKey: Resource.Defaults.theme) == 2 {
-            tableView.separatorStyle = .singleLine
-            
-        } else {
-            tableView.separatorStyle = .none
-        }
+        tableView.separatorStyle = .none
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -198,7 +192,11 @@ class MemoViewController: UITableViewController {
         alertController.addAction(cancel)
         
         alertController.pruneNegativeWidthConstraints()
-        alertController.safePosition()
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         present(alertController, animated: true, completion: nil)
     }
@@ -558,7 +556,11 @@ class MemoViewController: UITableViewController {
         remindController.addAction(cancelBtn)
         
         remindController.pruneNegativeWidthConstraints()
-        remindController.safePosition()
+        if let popoverController = remindController.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         self.present(remindController, animated: true, completion: nil)
     }
@@ -641,24 +643,6 @@ class MemoViewController: UITableViewController {
     }
 }
 
-class AirDropOnlyActivityItemSource: NSObject, UIActivityItemSource {
-    ///The item you want to send via AirDrop.
-    let item: Any
-
-    init(item: Any) {
-        self.item = item
-    }
-
-    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
-        //using NSURL here, since URL with an empty string would crash
-        return NSURL(string: "")!
-    }
-
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
-        return item
-    }
-}
-
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
@@ -723,7 +707,7 @@ extension MemoViewController {
         
         cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
         let defaultFontSize = Dimension.shared.fontMediumSize
-
+        
         cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
         cell.content.text = content
         

@@ -10,6 +10,7 @@ import UIKit
 
 class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    let themes = Themes()
     let reuseIdentifier = "themesCell"
     let reusePickerCellId = "pickerCell"
     let defaults = UserDefaults.standard
@@ -77,6 +78,19 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 pickerView.selectRow(0, inComponent: 0, animated: true)
                 
             } else {
+                if row == 0 || row == 1 {
+                    themes.setupDefaultTheme()
+                    setupDefaultPersistentNavigationBar()
+                    view.backgroundColor = InterfaceColors.viewBackgroundColor
+                    defaults.set(false, forKey: Resource.Defaults.useDarkMode)
+                    
+                } else if row == 2 {
+                    themes.setupPureDarkTheme()
+                    setupDarkPersistentNavigationBar()
+                    view.backgroundColor = InterfaceColors.viewBackgroundColor
+                    defaults.set(true, forKey: Resource.Defaults.useDarkMode)
+                }
+                
                 defaults.set(row, forKey: Resource.Defaults.theme)
             }
             
@@ -90,6 +104,38 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
                 navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
             }
+        }
+        
+        let reloadSectionIndex: IndexSet = [0, 1]
+        self.tableView.reloadSections(reloadSectionIndex, with: .fade)
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func darkModeEnabled() -> Bool {
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            return true
+            
+        } else {
+            return false
         }
     }
     
@@ -129,6 +175,30 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        if darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.viewBackgroundColor
+            tableView.separatorColor = nil
+            
+        } else if darkModeEnabled() == true {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.viewBackgroundColor
+            tableView.separatorColor = .white
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        themes.triggerSystemMode(mode: traitCollection)
+        setupDynamicElements()
+        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -159,6 +229,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             cell.pickerView.delegate = self
             cell.pickerView.dataSource = self
             cell.pickerView.tag = 1
+            dynamicCell(cell: cell, picker: cell.pickerView)
 
             let index = defaults.integer(forKey: Resource.Defaults.theme)
             cell.pickerView.selectRow(index, inComponent: 0, animated: false)
@@ -171,6 +242,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             cell.pickerView.delegate = self
             cell.pickerView.dataSource = self
             cell.pickerView.tag = 2
+            dynamicCell(cell: cell, picker: cell.pickerView)
             
             let index = defaults.integer(forKey: Resource.Defaults.defaultTintColor)
             cell.pickerView.selectRow(index, inComponent: 0, animated: false)
@@ -181,6 +253,14 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
             return cell
         }
+    }
+    
+    func dynamicCell(cell: UITableViewCell, picker: UIPickerView) {
+        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = InterfaceColors.cellColor
+        
+        picker.setValue(UIColor.black, forKeyPath: "textColor")
+        picker.setValue(InterfaceColors.fontColor, forKeyPath: "textColor")
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

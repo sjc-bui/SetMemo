@@ -28,7 +28,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
-        tv.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        tv.tintColor = UIColor.white
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = "update text view."
@@ -64,7 +64,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     }
     
@@ -139,6 +139,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func viewMemoInfo() {
         
+        DeviceControl().feedbackOnPress()
         let contentCount = content.countWords()
         let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
         let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
@@ -172,7 +173,11 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
         
         alert.pruneNegativeWidthConstraints()
-        alert.safePosition()
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -215,6 +220,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func hashTagChangeHandle() {
         
+        DeviceControl().feedbackOnPress()
         let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in

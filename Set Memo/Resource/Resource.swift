@@ -66,6 +66,7 @@ public class Resource {
         public static let defaultTextViewFontSize = "defaultTextViewFontSize"
         public static let defaultTintColor = "defaultTintColor";
         public static let setMemoPremium = "setMemoPremium";
+        public static let remindEverydayContent = "remindEverydayContent";
     }
     
     public class FilterBy {

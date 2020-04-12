@@ -24,6 +24,7 @@ class RecentlyDeletedController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchMemoFromDB()
+        tableView.separatorStyle = .none
         tableView.tableFooterView = UIView()
     }
     
@@ -207,6 +208,7 @@ extension RecentlyDeletedController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
+        let color = memo.value(forKey: "color") as? String ?? "white"
         
         cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
         cell.content.text = content
@@ -217,6 +219,7 @@ extension RecentlyDeletedController {
         
         cell.hashTag.text = "#\(hashTag)"
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
+        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
         
         return cell
     }

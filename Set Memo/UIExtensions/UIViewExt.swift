@@ -53,7 +53,11 @@ extension UIViewController {
         selectCurrentDateSheet.addAction(hourMinute)
         
         selectCurrentDateSheet.pruneNegativeWidthConstraints()
-        selectCurrentDateSheet.safePosition()
+        if let popoverController = selectCurrentDateSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         self.present(selectCurrentDateSheet, animated: true, completion: nil)
     }

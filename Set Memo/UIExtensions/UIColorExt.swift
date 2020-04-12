@@ -25,11 +25,10 @@ extension UIColor {
     static let lightPurple = UIColor(hexString: "#8a8aef")
     static let medPurple = UIColor(hexString: "#905bec")
     static let azDarkPink = UIColor(hexString: "#c06c84")
-    static let azDarkBlue = UIColor(hexString: "#355c7d")
     static let azGold = UIColor(hexString: "#e8bc76")
     static let darkBlue = UIColor(hexString: "#2b589b")
     
-    static var defaultColors = ["lightRed", "lightRedBack", "medRed", "lightOrange", "medOrange", "lightYellow", "medYellow", "lightGreen", "medGreen", "heavyGreen", "lightBlue", "medBlue", "lightPurple", "medPurple", "azDarkPink", "azDarkBlue", "azGold", "darkBlue"]
+    static var defaultColors = ["lightRed", "lightRedBack", "medRed", "lightOrange", "medOrange", "lightYellow", "medYellow", "lightGreen", "medGreen", "heavyGreen", "lightBlue", "medBlue", "lightPurple", "medPurple", "azDarkPink", "azGold", "darkBlue"]
     
     static func getRandomColor() -> String {
         let random = UIColor.defaultColors.randomElement() ?? "white"
@@ -38,42 +37,41 @@ extension UIColor {
     
     static func getRandomColorFromString(color: String) -> UIColor {
         
-        if UserDefaults.standard.integer(forKey: Resource.Defaults.theme) == 2 {
-            return UIColor.systemBackground
-            
-        } else {
-            switch color {
-            case "lightRed":
-                return .lightRed
-            case "lightRedBack":
-                return .lightRedBack
-            case "medRed":
-                return .medRed
-            case "lightOrange":
-                return .lightOrange
-            case "medOrange":
-                return .medOrange
-            case "lightYellow":
-                return .lightYellow
-            case "medYellow":
-                return .medYellow
-            case "lightGreen":
-                return .lightGreen
-            case "medGreen":
-                return .medGreen
-            case "heavyGreen":
-                return .heavyGreen
-            case "lightBlue":
-                return .lightBlue
-            case "medBlue":
-                return .medBlue
-            case "lightPurple":
-                return .lightPurple
-            case "medPurple":
-                return .medPurple
-            default:
-                return .darkBlue
-            }
+        switch color {
+        case "lightRed":
+            return .lightRed
+        case "lightRedBack":
+            return .lightRedBack
+        case "medRed":
+            return .medRed
+        case "lightOrange":
+            return .lightOrange
+        case "medOrange":
+            return .medOrange
+        case "lightYellow":
+            return .lightYellow
+        case "medYellow":
+            return .medYellow
+        case "lightGreen":
+            return .lightGreen
+        case "medGreen":
+            return .medGreen
+        case "heavyGreen":
+            return .heavyGreen
+        case "lightBlue":
+            return .lightBlue
+        case "medBlue":
+            return .medBlue
+        case "lightPurple":
+            return .lightPurple
+        case "medPurple":
+            return .medPurple
+        case "azDarkPink":
+            return .azDarkPink
+        case "azGold":
+            return .azGold
+        default:
+            return .darkBlue
         }
     }
     

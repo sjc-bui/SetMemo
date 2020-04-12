@@ -12,7 +12,7 @@ class TextViewEditor: UIView {
     
     var textView: UITextView = {
         let tv = UITextView()
-        tv.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        tv.tintColor = UIColor.white
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = ""

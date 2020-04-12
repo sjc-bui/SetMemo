@@ -70,6 +70,8 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func setHashTag() {
+        
+        DeviceControl().feedbackOnPress()
         let alert = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
@@ -154,6 +156,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func hideKeyboard() {
+        DeviceControl().feedbackOnPress()
         editor.textView.endEditing(true)
     }
     

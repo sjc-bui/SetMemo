@@ -41,7 +41,6 @@ class MemoViewCell: UITableViewCell {
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
         r.image = Resource.Images.smallBellButton
-        //r.tintColor = Colors.shared.reminderBtn
         r.tintColor = .white
         r.contentMode = .scaleAspectFill
         r.isHidden = true
@@ -52,7 +51,7 @@ class MemoViewCell: UITableViewCell {
         let i = UIImageView()
         i.image = Resource.Images.smallStarFillButton
         i.contentMode = .scaleAspectFill
-        i.tintColor = Colors.shared.importantBtn
+        i.tintColor = .white
         i.isHidden = true
         return i
     }()
