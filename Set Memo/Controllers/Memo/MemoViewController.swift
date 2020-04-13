@@ -294,7 +294,7 @@ class MemoViewController: UITableViewController {
         }
     }
     
-    func importantIsSetAtIndex(indexPath: IndexPath) -> Bool {
+    func lockIsSetAtIndex(indexPath: IndexPath) -> Bool {
         
         if isFiltering() == true {
             if filterMemoData[indexPath.row].isLocked == true {

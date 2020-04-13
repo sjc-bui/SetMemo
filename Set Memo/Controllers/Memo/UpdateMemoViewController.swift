@@ -114,35 +114,61 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         // using Local Authentication to lock or unlock current memo
         let context = LAContext()
+        context.localizedFallbackTitle = "Enter password"
         var error: NSError?
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reason = "UnlockToViewMemo".localized
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
+                
                 DispatchQueue.main.async {
                     if success {
-                        
                         UIView.animate(withDuration: 0.5, animations: {
                             self.userUnlocked = true
                             self.lockView.removeFromSuperview()
                         })
                         
-                        print("unlock successfully")
-                        
                     } else {
-                        guard evaluateError != nil else {
+                        
+                        guard let error = evaluateError else {
                             return
                         }
                         
-                        // display unlock button if error with biometric
-                        UIView.animate(withDuration: 0.2, animations: {
-                            print("error")
-                        })
+                        switch error {
+                        case LAError.userFallback:
+                            self.handleEnterUnlockPassword()
+                        case LAError.userCancel:
+                            print("User cancel")
+                        default:
+                            print("Touch ID may not be configured")
+                        }
                     }
                 }
             }
+        } else {
+            handleEnterUnlockPassword()
         }
+    }
+    
+    func handleEnterUnlockPassword() {
+        
+        let alert = UIAlertController(title: "Enter your password to view this memo", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField: UITextField) in
+            textField.placeholder = "******"
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.userUnlocked = true
+            self.lockView.removeFromSuperview()
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(done)
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -215,7 +241,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let wordsCount = String(format: "WordsCount".localized, contentCount)
         
         var info: String = ""
-        if isLocked == true && userUnlocked == false {
+        if isLocked {
             info += "\("MemoIsLocked".localized)\n"
         }
         info += "\(createdInfo)\n"

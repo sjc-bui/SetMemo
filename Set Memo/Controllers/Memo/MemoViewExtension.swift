@@ -16,20 +16,25 @@ extension MemoViewController {
         let remind = remindMemoAction(at: indexPath)
         let deleteRemind = deleteReminderAction(at: indexPath)
         
-        if reminderIsSetAtIndex(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
+        if lockIsSetAtIndex(indexPath: indexPath) == true {
+            return UISwipeActionsConfiguration(actions: [])
+            
+        } else {
+            if reminderIsSetAtIndex(indexPath: indexPath) == true {
+                return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
+            }
+            
+            return UISwipeActionsConfiguration(actions: [delete, remind])
         }
-        
-        return UISwipeActionsConfiguration(actions: [delete, remind])
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = shareMemoAction(at: indexPath)
         let important = setLockAction(at: indexPath)
-        let removeImportant = removeLockedAction(at: indexPath)
+        let removeLock = removeLockedAction(at: indexPath)
         
-        if importantIsSetAtIndex(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [share, removeImportant])
+        if lockIsSetAtIndex(indexPath: indexPath) == true {
+            return UISwipeActionsConfiguration(actions: [removeLock])
         }
         
         return UISwipeActionsConfiguration(actions: [share, important])
