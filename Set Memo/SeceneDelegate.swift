@@ -46,6 +46,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
         if UserDefaults.standard.bool(forKey: Resource.Defaults.useBiometrics) == true {
             let privacyController = PrivacyController()
             privacyController.setupBiometricsView(window: window!)
@@ -58,6 +59,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        
         let privacyController = PrivacyController()
         privacyController.removeBlurView(window: window!)
     }

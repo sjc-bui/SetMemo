@@ -82,8 +82,7 @@ class MemoViewController: UITableViewController {
         
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        self.navigationItem.rightBarButtonItem = createButton
-        self.navigationItem.leftBarButtonItem = settingButton
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         
         self.navigationController?.setToolbarHidden(false, animated: true)
         let countMemo = UILabel(frame: .zero)
@@ -100,11 +99,29 @@ class MemoViewController: UITableViewController {
         sortBtn.setTitleColor(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
-        let items: [UIBarButtonItem] = [
+        settingButton.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        createButton.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        
+        var items: [UIBarButtonItem] = []
+        
+        if memoData.count != 0 {
+            items = [
+            settingButton,
+            flexibleSpace,
             UIBarButtonItem(customView: countMemo),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-            UIBarButtonItem(customView: sortBtn)
-        ]
+            flexibleSpace,
+            UIBarButtonItem(customView: sortBtn),
+            flexibleSpace,
+            createButton
+            ]
+        } else {
+            items = [
+            settingButton,
+            flexibleSpace,
+            createButton
+            ]
+        }
+        
         self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         self.toolbarItems = items
     }
@@ -279,14 +296,14 @@ class MemoViewController: UITableViewController {
     func importantIsSetAtIndex(indexPath: IndexPath) -> Bool {
         
         if isFiltering() == true {
-            if filterMemoData[indexPath.row].isImportant == true {
+            if filterMemoData[indexPath.row].isLocked == true {
                 return true
             } else {
                 return false
             }
             
         } else {
-            if memoData[indexPath.row].isImportant == true {
+            if memoData[indexPath.row].isLocked == true {
                 return true
             } else {
                 return false
@@ -339,24 +356,24 @@ class MemoViewController: UITableViewController {
     
     func setImportantAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.updateImportant(isImportant: true, indexPath: indexPath)
+            self.updateLocked(isLocked: true, indexPath: indexPath)
             print("important")
             completion(true)
         }
-        action.image = Resource.Images.setImportantButton
+        action.image = Resource.Images.setLockButton
         action.backgroundColor = Colors.shared.importantBtn
         return action
     }
     
-    func updateImportant(isImportant: Bool, indexPath: IndexPath) {
+    func updateLocked(isLocked: Bool, indexPath: IndexPath) {
         
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
-            filterData.isImportant = isImportant
+            filterData.isLocked = isLocked
             
         } else if isFiltering() == false {
             let memo = memoData[indexPath.row]
-            memo.isImportant = isImportant
+            memo.isLocked = isLocked
         }
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -374,13 +391,15 @@ class MemoViewController: UITableViewController {
         }
     }
     
-    func removeImportantAction(at indexPath: IndexPath) -> UIContextualAction {
+    func removeLockedAction(at indexPath: IndexPath) -> UIContextualAction {
+        
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.updateImportant(isImportant: false, indexPath: indexPath)
-            print("remove important")
+            self.updateLocked(isLocked: false, indexPath: indexPath)
+            print("remove lock")
             completion(true)
         }
-        action.image = Resource.Images.removeImportantButton
+        
+        action.image = Resource.Images.removeLockButton
         action.backgroundColor = Colors.shared.importantBtn
         return action
     }
@@ -661,7 +680,7 @@ extension MemoViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = shareMemoAction(at: indexPath)
         let important = setImportantAction(at: indexPath)
-        let removeImportant = removeImportantAction(at: indexPath)
+        let removeImportant = removeLockedAction(at: indexPath)
         
         if importantIsSetAtIndex(indexPath: indexPath) == true {
             return UISwipeActionsConfiguration(actions: [share, removeImportant])
@@ -701,7 +720,7 @@ extension MemoViewController {
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let isReminder = memo.value(forKey: "isReminder") as? Bool
-        let isImportant = memo.value(forKey: "isImportant") as? Bool
+        let isLocked = memo.value(forKey: "isLocked") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         let color = memo.value(forKey: "color") as? String ?? "white"
         
@@ -731,10 +750,10 @@ extension MemoViewController {
             cell.reminderIsSetIcon.isHidden = true
         }
         
-        if isImportant == true {
-            cell.importantIcon.isHidden = false
+        if isLocked == true {
+            cell.lockIcon.isHidden = false
         } else {
-            cell.importantIcon.isHidden = true
+            cell.lockIcon.isHidden = true
         }
         
         cell.accessoryType = .none
@@ -761,6 +780,7 @@ extension MemoViewController {
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
         let isEdited = memo.value(forKey: "isEdited") as? Bool
         let isReminder = memo.value(forKey: "isReminder") as? Bool
+        let isLocked = memo.value(forKey: "isLocked") as? Bool
         let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
         let color = memo.value(forKey: "color") as? String ?? "white"
         
@@ -776,6 +796,7 @@ extension MemoViewController {
         updateView.dateEdited = dateEditedString
         updateView.isEdited = isEdited!
         updateView.isReminder = isReminder!
+        updateView.isLocked = isLocked!
         updateView.dateReminder = dateReminderString
         updateView.index = indexPath.row
         

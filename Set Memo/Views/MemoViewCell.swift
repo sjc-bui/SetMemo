@@ -47,9 +47,9 @@ class MemoViewCell: UITableViewCell {
         return r
     }()
     
-    var importantIcon: UIImageView = {
+    var lockIcon: UIImageView = {
         let i = UIImageView()
-        i.image = Resource.Images.smallStarFillButton
+        i.image = Resource.Images.smallLockButton
         i.contentMode = .scaleAspectFill
         i.tintColor = .white
         i.isHidden = true
@@ -57,7 +57,7 @@ class MemoViewCell: UITableViewCell {
     }()
     
     fileprivate lazy var horizontalStackView: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [importantIcon, dateEdited, hashTag, reminderIsSetIcon])
+        let s = UIStackView(arrangedSubviews: [lockIcon, dateEdited, hashTag, reminderIsSetIcon])
         s.axis = .horizontal
         s.alignment = .leading
         s.spacing = 6
@@ -80,8 +80,8 @@ class MemoViewCell: UITableViewCell {
         
         reminderIsSetIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         reminderIsSetIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        importantIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        importantIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
         verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true

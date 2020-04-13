@@ -64,7 +64,7 @@ class PrivacyController: UITableViewController {
                         }) { _ in
                             self.blurEffectView.removeFromSuperview()
                         }
-                        
+                        print("unlock successfully")
                     } else {
                         guard let error = evaluateError else {
                             return
@@ -77,6 +77,7 @@ class PrivacyController: UITableViewController {
                             let message = self.showErrorMessageForLAErrorCode(errorCode: error._code)
                             print(message)
                         }
+                        print("unlock error !!!!!")
                     }
                 }
             }

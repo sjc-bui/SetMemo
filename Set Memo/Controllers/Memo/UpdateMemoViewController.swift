@@ -17,6 +17,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var dateEdited: String = ""
     var dateReminder: String = ""
     var isReminder: Bool = false
+    var isLocked: Bool = false
     var isEdited: Bool = false
     var dateLabelHeader: String = ""
     var backgroundColor: String = ""
@@ -53,6 +54,12 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         return lb
     }()
     
+    let lockView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     func setupUI() {
         view.addSubview(dateEditedLabel)
         view.addSubview(textView)
@@ -68,6 +75,15 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     }
     
+    func setupLockView() {
+        view.addSubview(lockView)
+        
+        lockView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        lockView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        lockView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        lockView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    }
+    
     override func initialize() {
         print("This memo is remind = \(isReminder)")
     }
@@ -76,6 +92,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         setupUI()
         textView.text = content
+        dateEditedLabel.text = dateLabelHeader
         
         textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
@@ -83,7 +100,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: backgroundColor)
         navigationController?.navigationBar.tintColor = .white
         
-        dateEditedLabel.text = dateLabelHeader
+        if isLocked {
+            setupLockView()
+            lockView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,6 +117,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         updateContent(index: index, newContent: textView.text)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if isLocked {
+            self.lockView.removeFromSuperview()
+        }
     }
     
     func addKeyboardListener() {

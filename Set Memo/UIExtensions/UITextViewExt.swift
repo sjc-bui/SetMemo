@@ -61,7 +61,7 @@ extension UITextView {
     }
     
     @objc fileprivate func addSharpSign() {
-        let sharpSign = "#"
+        let sharpSign = "#\u{00A0}"
         self.insertText(sharpSign)
     }
     
@@ -82,6 +82,6 @@ extension UITextView {
     @objc fileprivate func addToday() {
         let now = Date()
         let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
-        self.insertText("\(dateTimeFullString)")
+        self.insertText("\(dateTimeFullString)\u{00A0}")
     }
 }

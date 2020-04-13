@@ -140,7 +140,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         memo.setValue(date, forKey: "dateCreated")
         memo.setValue(hashTag, forKey: "hashTag")
         memo.setValue(false, forKey: "isReminder")
-        memo.setValue(false, forKey: "isImportant")
+        memo.setValue(false, forKey: "isLocked")
         memo.setValue(false, forKey: "isEdited")
         memo.setValue(false, forKey: "temporarilyDelete")
         memo.setValue(0, forKey: "dateReminder")

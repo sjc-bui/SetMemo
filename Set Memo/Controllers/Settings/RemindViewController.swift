@@ -18,9 +18,17 @@ class RemindViewController: UITableViewController {
     
     var button = UIButton(type: .custom)
     func setReminderButton(){
-        let btnWidth = 250
+        var btnWidth: Int?
         let btnHeight = 44
-        button.frame = CGRect(x: (Int(self.view.frame.size.width) - btnWidth) / 2, y: Int(view.frame.size.height) - 70, width: btnWidth, height: btnHeight)
+        let screenSize = self.view.frame.size
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            btnWidth = Int(self.view.frame.size.width - 32)
+        } else {
+            btnWidth = 250
+        }
+        
+        button.frame = CGRect(x: (Int(screenSize.width) - btnWidth!) / 2, y: Int(screenSize.height) - 68, width: btnWidth!, height: btnHeight)
         button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
