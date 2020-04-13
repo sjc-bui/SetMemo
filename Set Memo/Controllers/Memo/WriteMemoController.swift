@@ -15,6 +15,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     let defaults = UserDefaults.standard
     var hashTag: String?
     var navigationBarHeight: CGFloat?
+    let randomColor = UIColor.getRandomColor()
     
     func setupUI() {
         view = editor
@@ -33,6 +34,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         characterCount()
         addKeyboardListener()
+        
+        editor.textView.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
+        setupNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -53,6 +57,12 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         editor.textView.resignFirstResponder()
     }
     
+    func setupNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
+        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: randomColor)
+        navigationController?.navigationBar.tintColor = .white
+    }
+    
     func setupRightBarButtons() {
         let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
         let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
@@ -60,6 +70,8 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func setHashTag() {
+        
+        DeviceControl().feedbackOnPress()
         let alert = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
@@ -80,7 +92,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        doneBtn.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        doneBtn.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
         
         alert.addAction(cancelBtn)
         alert.addAction(doneBtn)
@@ -128,10 +140,11 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         memo.setValue(date, forKey: "dateCreated")
         memo.setValue(hashTag, forKey: "hashTag")
         memo.setValue(false, forKey: "isReminder")
-        memo.setValue(false, forKey: "isImportant")
+        memo.setValue(false, forKey: "isLocked")
         memo.setValue(false, forKey: "isEdited")
         memo.setValue(false, forKey: "temporarilyDelete")
         memo.setValue(0, forKey: "dateReminder")
+        memo.setValue(randomColor, forKey: "color")
         
         let updateDate = Date(timeIntervalSinceReferenceDate: date)
         let dateFormatter = DateFormatter()
@@ -143,6 +156,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     @objc func hideKeyboard() {
+        DeviceControl().feedbackOnPress()
         editor.textView.endEditing(true)
     }
     

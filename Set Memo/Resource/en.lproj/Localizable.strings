@@ -61,7 +61,6 @@
 "RemindEveryDay" = "Remind me every day";
 "RemindMe" = "Remind me";
 "Yourname" = "Your name";
-"WriteMemoToday" = "Hey %@, Did you write a memo today?";
 "Themes" = "Theme";
 "RecentlyDeleted" = "Recently deleted";
 "RecentlyDeletedMemo" = "Recently deleted memo";
@@ -94,3 +93,10 @@
 "FontStyle" = "Style";
 "Example" = "Example";
 "Font" = "Font";
+"Indigo" = "Indigo";
+"Red" = "Red";
+"Orange" = "Orange";
+"Pink" = "Pink";
+"Blue" = "Blue";
+"Green" = "Green";
+"Yellow" = "Yellow";

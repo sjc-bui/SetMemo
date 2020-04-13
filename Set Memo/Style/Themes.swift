@@ -16,24 +16,26 @@ struct InterfaceColors {
     static var iconColor = UIColor()
     static var actionSheetColor = UIColor()
     static var separatorColor = UIColor()
+    static var textViewColor = UIColor()
 }
 
 class Themes {
     
     func setupDefaultTheme() {
-        InterfaceColors.viewBackgroundColor = .white
+        InterfaceColors.viewBackgroundColor = .secondarySystemBackground
         InterfaceColors.navigationBarColor = .white
-        InterfaceColors.cellColor = Colors.cellLight
+        InterfaceColors.cellColor = .white
         InterfaceColors.fontColor = .black
         InterfaceColors.iconColor = Colors.shared.accentColor
+        InterfaceColors.separatorColor = .lightGray
     }
     
     func setupPureDarkTheme() {
+        InterfaceColors.textViewColor = .black
         InterfaceColors.viewBackgroundColor = .black
-        InterfaceColors.navigationBarColor = .black
-        InterfaceColors.cellColor = Colors.cellDark
+        InterfaceColors.cellColor = UIColor(hexString: "#232323")
         InterfaceColors.fontColor = .white
-        InterfaceColors.iconColor = Colors.shared.veryHightStatisticColor
+        InterfaceColors.navigationBarColor = .black
         InterfaceColors.actionSheetColor = .black
         InterfaceColors.separatorColor = .white
     }

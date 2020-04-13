@@ -46,6 +46,9 @@
 		724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA705240A3D960088F581 /* UITextViewExt.swift */; };
 		724FB6DC242C30E5006C419B /* RecentlyDeletedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */; };
 		7259011324149679009153A5 /* SeceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7259011224149679009153A5 /* SeceneDelegate.swift */; };
+		725EAD63244183F4005D9CCF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EAD62244183F4005D9CCF /* CoreDataManager.swift */; };
+		725EAD672442C4B3005D9CCF /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EAD662442C4B3005D9CCF /* DatePickerCell.swift */; };
+		725EAD692442CFB5005D9CCF /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725EAD682442CFB5005D9CCF /* TextFieldCell.swift */; };
 		726DB88F243C777F00EA63A4 /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726DB88E243C777F00EA63A4 /* DateExt.swift */; };
 		726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */; };
 		727E50ED24120B950042E81F /* light@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 727E50E924120B950042E81F /* light@3x.png */; };
@@ -106,6 +109,9 @@
 		724CA705240A3D960088F581 /* UITextViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextViewExt.swift; sourceTree = "<group>"; };
 		724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyDeletedController.swift; sourceTree = "<group>"; };
 		7259011224149679009153A5 /* SeceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeceneDelegate.swift; sourceTree = "<group>"; };
+		725EAD62244183F4005D9CCF /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		725EAD662442C4B3005D9CCF /* DatePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
+		725EAD682442CFB5005D9CCF /* TextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		726DB88E243C777F00EA63A4 /* DateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewCell.swift; sourceTree = "<group>"; };
 		727E50E924120B950042E81F /* light@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@3x.png"; sourceTree = "<group>"; };
@@ -181,6 +187,8 @@
 				726F5AB0242DDA1D00BEAE38 /* MemoViewCell.swift */,
 				721F41D1243ED9590098EA00 /* PickerViewCell.swift */,
 				728D10C824400A1D00B463FD /* TextViewEditor.swift */,
+				725EAD662442C4B3005D9CCF /* DatePickerCell.swift */,
+				725EAD682442CFB5005D9CCF /* TextFieldCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,6 +235,7 @@
 				72406D9B24107A1C00037EB4 /* DeviceControl.swift */,
 				72122C53242FB27D007E7D06 /* FormatString.swift */,
 				721F41CD243EB6CD0098EA00 /* SPAlert.swift */,
+				725EAD62244183F4005D9CCF /* CoreDataManager.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -482,10 +491,12 @@
 				726DB88F243C777F00EA63A4 /* DateExt.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,
+				725EAD692442CFB5005D9CCF /* TextFieldCell.swift in Sources */,
 				723F8E27241DD03C00149049 /* BaseViewController.swift in Sources */,
 				72406DA024109BA000037EB4 /* SettingCell.swift in Sources */,
 				72406D9E24107E1B00037EB4 /* EmptyMemoView.swift in Sources */,
 				724FB6DC242C30E5006C419B /* RecentlyDeletedController.swift in Sources */,
+				725EAD63244183F4005D9CCF /* CoreDataManager.swift in Sources */,
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
 				723F8E29241DDFCF00149049 /* Resource.swift in Sources */,
@@ -509,6 +520,7 @@
 				726F5AB1242DDA1D00BEAE38 /* MemoViewCell.swift in Sources */,
 				72275686240CA1C400654898 /* UILabelExt.swift in Sources */,
 				72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */,
+				725EAD672442C4B3005D9CCF /* DatePickerCell.swift in Sources */,
 				728D10C7244005D500B463FD /* UIFontExt.swift in Sources */,
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,

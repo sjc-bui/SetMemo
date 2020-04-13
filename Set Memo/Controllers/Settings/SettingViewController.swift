@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class SettingViewController: UITableViewController {
+    
     let sections: Array = [
         "General".localized,
         "Advanced".localized,
@@ -33,11 +34,12 @@ class SettingViewController: UITableViewController {
         "DeleteLabel".localized,
         "RecentlyDeleted".localized
     ]
+    
     let other: Array = ["Version".localized]
     
-    let themes = Themes()
     let defaults = UserDefaults.standard
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    
     private let reuseIdentifier = "Cell"
     private let reuseSettingCell = "SettingCell"
     private let reuseSwitchIdentifier = "SettingSwitchCell"
@@ -66,6 +68,7 @@ class SettingViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         if section == 0 {
             return general.count
             
@@ -77,6 +80,7 @@ class SettingViewController: UITableViewController {
                 return advanced.count
                 
             }
+            
         } else if section == 2 {
             return other.count
             
@@ -104,6 +108,7 @@ class SettingViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let recentlyDeleteTotal = getRecentlyDeletedCount()
         
         if indexPath.section == 0 {
@@ -178,13 +183,13 @@ class SettingViewController: UITableViewController {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
-                cell.textLabel?.textColor = Colors.shared.accentColor
+                cell.textLabel?.textColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
                 return cell
                 
             case 1:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
-                cell.textLabel?.textColor = Colors.shared.accentColor
+                cell.textLabel?.textColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
                 
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
                 cell.accessoryType = .disclosureIndicator
@@ -202,7 +207,8 @@ class SettingViewController: UITableViewController {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
-                cell.textLabel?.textColor = Colors.shared.accentColor
+                cell.textLabel?.textColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+                
                 return cell
                 
             default:
@@ -233,7 +239,7 @@ class SettingViewController: UITableViewController {
     
     @objc func setupRemindEveryDay(sender: UISwitch) {
         if sender.isOn == true {
-            self.navigationController?.pushViewController(RemindViewController(), animated: true)
+            self.navigationController?.pushViewController(RemindViewController(style: .insetGrouped), animated: true)
             
         } else {
             let center = UNUserNotificationCenter.current()
@@ -245,8 +251,10 @@ class SettingViewController: UITableViewController {
     }
     
     @objc func displayUpdateTime(sender: UISwitch) {
+        
         if sender.isOn == true {
             defaults.set(true, forKey: Resource.Defaults.displayDateTime)
+            
         } else {
             defaults.set(false, forKey: Resource.Defaults.displayDateTime)
         }
@@ -255,19 +263,25 @@ class SettingViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 0 {
+            
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
                 self.navigationController?.pushViewController(PrivacyController(style: .insetGrouped), animated: true)
+                
             case 1:
                 self.navigationController?.pushViewController(AlertsController(style: .insetGrouped), animated: true)
+                
             case 2:
                 self.navigationController?.pushViewController(AppearanceController(style: .insetGrouped), animated: true)
+                
             case 5:
                 self.navigationController?.pushViewController(FontStyleViewController(style: .insetGrouped), animated: true)
+                
             case 6:
                 self.navigationController?.pushViewController(ThemesViewController(style: .insetGrouped), animated: true)
+                
             default:
                 return
             }
@@ -334,7 +348,6 @@ class SettingViewController: UITableViewController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        themes.triggerSystemMode(mode: traitCollection)
         tableView.reloadData()
     }
 }

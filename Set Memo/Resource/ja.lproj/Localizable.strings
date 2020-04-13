@@ -61,7 +61,6 @@
 "RemindEveryDay" = "リマインダーの通知";
 "RemindMe" = "通知";
 "Yourname" = "お名前";
-"WriteMemoToday" = "こんにちは%@さん、今日のメモを書きましょう。^.^";
 "Themes" = "テーマ";
 "RecentlyDeleted" = "最近削除した";
 "RecentlyDeletedMemo" = "最近削除したメモ";
@@ -94,3 +93,10 @@
 "FontStyle" = "スタイル";
 "Example" = "例";
 "Font" = "フォント";
+"Indigo" = "インディゴ";
+"Red" = "赤";
+"Orange" = "オレンジ";
+"Pink" = "ピンク";
+"Blue" = "青";
+"Green" = "緑";
+"Yellow" = "黄色";

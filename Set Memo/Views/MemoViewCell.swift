@@ -14,7 +14,7 @@ class MemoViewCell: UITableViewCell {
         let c = UILabel()
         c.numberOfLines = 1
         c.text = "content"
-        c.textColor = UIColor(named: "mainTextColor")
+        c.textColor = .white
         c.textDropShadow()
         return c
     }()
@@ -23,7 +23,7 @@ class MemoViewCell: UITableViewCell {
         let h = UILabel()
         h.numberOfLines = 1
         h.text = "hashTag"
-        h.textColor = Colors.shared.subColor
+        h.textColor = .lightText
         h.textDropShadow()
         h.textAlignment = NSTextAlignment.right
         return h
@@ -33,7 +33,7 @@ class MemoViewCell: UITableViewCell {
         let d = UILabel()
         d.numberOfLines = 1
         d.text = "24/01/2019"
-        d.textColor = Colors.shared.subColor
+        d.textColor = .lightText
         d.textDropShadow()
         return d
     }()
@@ -41,23 +41,23 @@ class MemoViewCell: UITableViewCell {
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
         r.image = Resource.Images.smallBellButton
-        r.tintColor = Colors.shared.reminderBtn
+        r.tintColor = .white
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r
     }()
     
-    var importantIcon: UIImageView = {
+    var lockIcon: UIImageView = {
         let i = UIImageView()
-        i.image = Resource.Images.smallStarFillButton
+        i.image = Resource.Images.smallLockButton
         i.contentMode = .scaleAspectFill
-        i.tintColor = Colors.shared.importantBtn
+        i.tintColor = .white
         i.isHidden = true
         return i
     }()
     
     fileprivate lazy var horizontalStackView: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [importantIcon, dateEdited, hashTag, reminderIsSetIcon])
+        let s = UIStackView(arrangedSubviews: [lockIcon, dateEdited, hashTag, reminderIsSetIcon])
         s.axis = .horizontal
         s.alignment = .leading
         s.spacing = 6
@@ -80,8 +80,8 @@ class MemoViewCell: UITableViewCell {
         
         reminderIsSetIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         reminderIsSetIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        importantIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        importantIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
         verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true

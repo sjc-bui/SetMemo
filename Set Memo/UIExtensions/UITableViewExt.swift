@@ -12,7 +12,7 @@ extension UITableViewCell {
     
     func selectedBackground() {
         let customColorView = UIView()
-        customColorView.backgroundColor = Colors.shared.accentColor.withAlphaComponent(0.2)
+        customColorView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
         self.selectedBackgroundView = customColorView
         self.isSelected = false
     }

@@ -36,9 +36,9 @@ public class Resource {
         public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
         
         public static var smallBellButton: UIImage? = UIImage(systemName: "bell.fill")
-        public static var smallStarFillButton: UIImage? = UIImage(systemName: "star.fill")
-        public static var setImportantButton: UIImage? = UIImage(systemName: "star")
-        public static var removeImportantButton: UIImage? = UIImage(systemName: "star.slash")
+        public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
+        public static var setLockButton: UIImage? = UIImage(systemName: "lock")
+        public static var removeLockButton: UIImage? = UIImage(systemName: "lock.slash")
     }
     
     public class SortBy {
@@ -64,6 +64,9 @@ public class Resource {
         public static let theme = "theme"
         public static let defaultFontStyle = "defaultFontStyle"
         public static let defaultTextViewFontSize = "defaultTextViewFontSize"
+        public static let defaultTintColor = "defaultTintColor";
+        public static let setMemoPremium = "setMemoPremium";
+        public static let remindEverydayContent = "remindEverydayContent";
     }
     
     public class FilterBy {

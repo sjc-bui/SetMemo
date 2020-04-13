@@ -61,7 +61,6 @@
 "RemindEveryDay" = "Nhắc nhở tôi hàng ngày";
 "RemindMe" = "Nhắc nhở tôi";
 "Yourname" = "Tên của bạn";
-"WriteMemoToday" = "%@ ơi, Bạn đã viết ghi chú cho ngày hôm nay chưa?";
 "Themes" = "Chủ đề";
 "RecentlyDeleted" = "Đã xóa gần đây";
 "RecentlyDeletedMemo" = "Ghi chú đã xóa gần đây";
@@ -94,3 +93,10 @@
 "FontStyle" = "Kiểu chữ";
 "Example" = "Ví dụ";
 "Font" = "Phông chữ";
+"Indigo" = "Màu xanh đậm";
+"Red" = "Màu đỏ";
+"Orange" = "Màu cam";
+"Pink" = "Màu hồng";
+"Blue" = "Màu xanh da trời";
+"Green" = "Màu xanh lá cây";
+"Yellow" = "Màu vàng";

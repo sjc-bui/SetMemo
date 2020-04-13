@@ -17,22 +17,23 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var dateEdited: String = ""
     var dateReminder: String = ""
     var isReminder: Bool = false
+    var isLocked: Bool = false
     var isEdited: Bool = false
     var dateLabelHeader: String = ""
+    var backgroundColor: String = ""
     
     var memoData: [Memo] = []
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
-    let userDefaults = UserDefaults.standard
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
-        tv.tintColor = Colors.shared.accentColor
+        tv.tintColor = UIColor.white
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = "update text view."
-        tv.textColor = UIColor(named: "mainTextColor")
+        tv.textColor = UIColor.white
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
         tv.translatesAutoresizingMaskIntoConstraints = false
@@ -46,11 +47,17 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         lb.text = "not set"
-        lb.textColor = UIColor.lightGray
+        lb.textColor = UIColor.lightText
         lb.backgroundColor = UIColor.systemBackground
         lb.textDropShadow()
         lb.textAlignment = .center
         return lb
+    }()
+    
+    let lockView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     func setupUI() {
@@ -64,8 +71,17 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+    }
+    
+    func setupLockView() {
+        view.addSubview(lockView)
+        
+        lockView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        lockView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        lockView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        lockView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     }
     
     override func initialize() {
@@ -77,6 +93,17 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         setupUI()
         textView.text = content
         dateEditedLabel.text = dateLabelHeader
+        
+        textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.tintColor = .white
+        
+        if isLocked {
+            setupLockView()
+            lockView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -90,6 +117,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         updateContent(index: index, newContent: textView.text)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if isLocked {
+            self.lockView.removeFromSuperview()
+        }
     }
     
     func addKeyboardListener() {
@@ -132,6 +167,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func viewMemoInfo() {
         
+        DeviceControl().feedbackOnPress()
         let contentCount = content.countWords()
         let createdInfo = String(format: "DateCreatedInfo".localized, dateCreated)
         let editedInfo = String(format: "DateEditedInfo".localized, dateEdited)
@@ -157,7 +193,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
         let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
         
-        alert.view.tintColor = Colors.shared.accentColor
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         alert.addAction(doneBtn)
         
         if isReminder {
@@ -165,7 +201,11 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
         
         alert.pruneNegativeWidthConstraints()
-        alert.safePosition()
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -208,6 +248,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func hashTagChangeHandle() {
         
+        DeviceControl().feedbackOnPress()
         let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
         
         alert.addTextField { textField in
@@ -229,7 +270,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        doneButton.setValue(Colors.shared.accentColor, forKey: Resource.Defaults.titleTextColor)
+        doneButton.setValue(UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
         alert.addAction(cancelButton)
         alert.addAction(doneButton)
         

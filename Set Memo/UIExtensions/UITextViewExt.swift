@@ -20,7 +20,7 @@ extension UITextView {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let moveLeft = UIBarButtonItem(image: Resource.Images.moveLeftButton, style: .plain, target: self, action: #selector(moveCursorToLeft))
         let moveRight = UIBarButtonItem(image: Resource.Images.moveRightButton, style: .plain, target: self, action: #selector(moveCursorToRight))
-        let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: nil)
+        let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: #selector(addToday))
         let sharpSign = UIBarButtonItem(image: Resource.Images.sharpButton, style: .plain, target: self, action: #selector(addSharpSign))
         let moveToBegin = UIBarButtonItem(image: Resource.Images.moveToBeginButton, style: .plain, target: self, action: #selector(moveBegin))
         let moveToEnd = UIBarButtonItem(image: Resource.Images.moveToEndButton, style: .plain, target: self, action: #selector(moveEnd))
@@ -32,10 +32,12 @@ extension UITextView {
             moveRight, flexibleSpace,
             moveToBegin, flexibleSpace,
             moveToEnd, flexibleSpace,
-            sharpSign], animated: true)
+            sharpSign, flexibleSpace,
+            calendarBadge
+        ], animated: true)
         
         items.barStyle = .default
-        items.tintColor = Colors.shared.accentColor
+        items.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         items.isUserInteractionEnabled = true
         items.sizeToFit()
         
@@ -59,7 +61,7 @@ extension UITextView {
     }
     
     @objc fileprivate func addSharpSign() {
-        let sharpSign = "#"
+        let sharpSign = "#\u{00A0}"
         self.insertText(sharpSign)
     }
     
@@ -75,5 +77,11 @@ extension UITextView {
     
     @objc fileprivate func addTab() {
         self.insertText("\t")
+    }
+    
+    @objc fileprivate func addToday() {
+        let now = Date()
+        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
+        self.insertText("\(dateTimeFullString)\u{00A0}")
     }
 }

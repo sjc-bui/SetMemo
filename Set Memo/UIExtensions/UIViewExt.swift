@@ -45,7 +45,7 @@ extension UIViewController {
         }
         let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        selectCurrentDateSheet.view.tintColor = Colors.shared.accentColor
+        selectCurrentDateSheet.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         selectCurrentDateSheet.addAction(cancelButton)
         selectCurrentDateSheet.addAction(fullStyle)
         selectCurrentDateSheet.addAction(timeLong)
@@ -53,7 +53,11 @@ extension UIViewController {
         selectCurrentDateSheet.addAction(hourMinute)
         
         selectCurrentDateSheet.pruneNegativeWidthConstraints()
-        selectCurrentDateSheet.safePosition()
+        if let popoverController = selectCurrentDateSheet.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
         
         self.present(selectCurrentDateSheet, animated: true, completion: nil)
     }
