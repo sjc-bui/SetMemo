@@ -43,6 +43,7 @@
 "DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
+"UnlockToViewMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để xem ghi chú này";
 "FontSize" = "Kích thước";
 "Size" = "Kích thước";
 "Small" = "Nhỏ";
@@ -100,3 +101,5 @@
 "Blue" = "Màu xanh da trời";
 "Green" = "Màu xanh lá cây";
 "Yellow" = "Màu vàng";
+"MemoIsLocked" = "Ghi chú này đã bị khóa";
+"ViewMemo" = "Xem ghi chú";

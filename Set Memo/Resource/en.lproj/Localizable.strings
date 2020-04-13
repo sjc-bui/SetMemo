@@ -43,6 +43,7 @@
 "DisplayUpdateTime" = "Display update time";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
+"UnlockToViewMemo" = "Use you fingerprint or enter your password to view locked memo";
 "FontSize" = "Size";
 "Size" = "Size";
 "Small" = "Small";
@@ -100,3 +101,5 @@
 "Blue" = "Blue";
 "Green" = "Green";
 "Yellow" = "Yellow";
+"MemoIsLocked" = "This memo is locked";
+"ViewMemo" = "View memo";

@@ -8,6 +8,7 @@
 
 import UIKit
 import SPAlert
+import LocalAuthentication
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
@@ -21,6 +22,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var isEdited: Bool = false
     var dateLabelHeader: String = ""
     var backgroundColor: String = ""
+    
+    var userUnlocked: Bool = false
     
     var memoData: [Memo] = []
     var filterMemoData: [Memo] = []
@@ -103,6 +106,42 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if isLocked {
             setupLockView()
             lockView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+            unlockMemoWithBioMetrics()
+        }
+    }
+    
+    func unlockMemoWithBioMetrics() {
+        
+        // using Local Authentication.
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "UnlockToViewMemo".localized
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
+                DispatchQueue.main.async {
+                    if success {
+                        
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.userUnlocked = true
+                            self.lockView.removeFromSuperview()
+                        })
+                        
+                        print("unlock successfully")
+                        
+                    } else {
+                        guard evaluateError != nil else {
+                            return
+                        }
+                        
+                        // display unlock button if error with biometric
+                        UIView.animate(withDuration: 0.2, animations: {
+                            print("error")
+                        })
+                    }
+                }
+            }
         }
     }
     
@@ -122,7 +161,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if isLocked {
+        if isLocked == true && userUnlocked == false {
             self.lockView.removeFromSuperview()
         }
     }
@@ -176,6 +215,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let wordsCount = String(format: "WordsCount".localized, contentCount)
         
         var info: String = ""
+        if isLocked == true && userUnlocked == false {
+            info += "\("MemoIsLocked".localized)\n"
+        }
         info += "\(createdInfo)\n"
         if isEdited {
             info += "\(editedInfo)\n"
@@ -187,7 +229,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         info += "\(wordsCount)"
         
         let alert = UIAlertController(title: nil, message: "\(info)", preferredStyle: .actionSheet)
-        
+        let viewLockedMemoButton = UIAlertAction(title: "ViewMemo".localized, style: .default) { (action) in
+            self.unlockMemoWithBioMetrics()
+        }
         let deleteReminderBtn = UIAlertAction(title: "DeleteReminder".localized, style: .default) { (action) in
             self.deleteReminderHandle()
         }
@@ -198,6 +242,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         if isReminder {
             alert.addAction(deleteReminderBtn)
+        }
+        
+        if isLocked == true && userUnlocked == false {
+            alert.addAction(viewLockedMemoButton)
         }
         
         alert.pruneNegativeWidthConstraints()
@@ -248,33 +296,36 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func hashTagChangeHandle() {
         
-        DeviceControl().feedbackOnPress()
-        let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "newHashTag"
-            textField.autocorrectionType = .yes
-            textField.autocapitalizationType = .none
-        }
-        
-        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
-        let doneButton = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+        if isLocked == true && userUnlocked == true || isLocked == false {
             
-            let textField = alert?.textFields![0]
-            let text = textField?.text
+            DeviceControl().feedbackOnPress()
+            let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
             
-            if text?.isNullOrWhiteSpace() ?? false {
-            } else {
-                let newHashTag = FormatString().formatHashTag(text: text!)
-                self.updateHashTag(index: self.index, newHashTag: newHashTag)
+            alert.addTextField { textField in
+                textField.placeholder = "newHashTag"
+                textField.autocorrectionType = .yes
+                textField.autocapitalizationType = .none
             }
-        })
-        
-        doneButton.setValue(UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
-        alert.addAction(cancelButton)
-        alert.addAction(doneButton)
-        
-        self.present(alert, animated: true, completion: nil)
+            
+            let cancelButton = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+            let doneButton = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+                
+                let textField = alert?.textFields![0]
+                let text = textField?.text
+                
+                if text?.isNullOrWhiteSpace() ?? false {
+                } else {
+                    let newHashTag = FormatString().formatHashTag(text: text!)
+                    self.updateHashTag(index: self.index, newHashTag: newHashTag)
+                }
+            })
+            
+            doneButton.setValue(UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
+            alert.addAction(cancelButton)
+            alert.addAction(doneButton)
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func updateHashTag(index: Int, newHashTag: String) {

@@ -43,6 +43,7 @@
 "DisplayUpdateTime" = "更新日時を表示";
 "UnlockApp" = "アンロック";
 "Reason" = "メモにアクセスするにはロックを解除";
+"UnlockToViewMemo" = "ロックされたメモを表示するには、指紋を利用するか、パスワードを入力します";
 "FontSize" = "サイズ";
 "Size" = "サイズ";
 "Small" = "小";
@@ -100,3 +101,5 @@
 "Blue" = "青";
 "Green" = "緑";
 "Yellow" = "黄色";
+"MemoIsLocked" = "このメモがロックされています";
+"ViewMemo" = "メモを表示";
