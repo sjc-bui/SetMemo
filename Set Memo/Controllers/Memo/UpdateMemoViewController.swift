@@ -112,7 +112,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func unlockMemoWithBioMetrics() {
         
-        // using Local Authentication.
+        // using Local Authentication to lock or unlock current memo
         let context = LAContext()
         var error: NSError?
         

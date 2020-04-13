@@ -43,7 +43,9 @@
 "DisplayUpdateTime" = "Display update time";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
-"UnlockToViewMemo" = "Use you fingerprint or enter your password to view locked memo";
+"UnlockToViewMemo" = "Use your fingerprint or enter your password to view locked memo";
+"ReasonToLockMemo" = "Use your fingerprint or enter your password to lock this memo";
+"ReasonToUnlockMemo" = "Use your fingerprint or enter your password to unlock this memo";
 "FontSize" = "Size";
 "Size" = "Size";
 "Small" = "Small";

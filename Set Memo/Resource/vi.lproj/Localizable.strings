@@ -44,6 +44,8 @@
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
 "UnlockToViewMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để xem ghi chú này";
+"ReasonToLockMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để khoá ghi chú này";
+"ReasonToUnlockMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để mở khoá ghi chú này";
 "FontSize" = "Kích thước";
 "Size" = "Kích thước";
 "Small" = "Nhỏ";
