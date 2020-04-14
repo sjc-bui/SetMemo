@@ -10,6 +10,7 @@
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
 		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
 		72122C54242FB27D007E7D06 /* FormatString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72122C53242FB27D007E7D06 /* FormatString.swift */; };
+		72132020244557DA00EB1521 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7213201F244557DA00EB1521 /* KeychainService.swift */; };
 		721F41CE243EB6CD0098EA00 /* SPAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41CD243EB6CD0098EA00 /* SPAlert.swift */; };
 		721F41D0243ED90A0098EA00 /* FontStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41CF243ED90A0098EA00 /* FontStyleViewController.swift */; };
 		721F41D2243ED9590098EA00 /* PickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721F41D1243ED9590098EA00 /* PickerViewCell.swift */; };
@@ -74,6 +75,7 @@
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
 		72122C53242FB27D007E7D06 /* FormatString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatString.swift; sourceTree = "<group>"; };
+		7213201F244557DA00EB1521 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KeychainService.swift; path = "Set Memo/Controllers/Memo/KeychainService.swift"; sourceTree = SOURCE_ROOT; };
 		721F41CD243EB6CD0098EA00 /* SPAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPAlert.swift; sourceTree = "<group>"; };
 		721F41CF243ED90A0098EA00 /* FontStyleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontStyleViewController.swift; sourceTree = "<group>"; };
 		721F41D1243ED9590098EA00 /* PickerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewCell.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 		7299A525240A79B400AE39DE /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7213201F244557DA00EB1521 /* KeychainService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				721F41D0243ED90A0098EA00 /* FontStyleViewController.swift in Sources */,
 				72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */,
 				724CA6FF240A18390088F581 /* UIViewExt.swift in Sources */,
+				72132020244557DA00EB1521 /* KeychainService.swift in Sources */,
 				72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */,
 				723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */,
 				721FFF602434932500A2E503 /* UIAlertControllerExt.swift in Sources */,

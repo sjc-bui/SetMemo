@@ -160,6 +160,8 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
             let alert = UIAlertController(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: nil))
+            alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+            
             present(alert, animated: true, completion: nil)
         }
     }

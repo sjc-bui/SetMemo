@@ -88,20 +88,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     override func initialize() {
-        print("This memo is remind = \(isReminder)")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         setupUI()
         textView.text = content
         dateEditedLabel.text = dateLabelHeader
-        
-        textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        navigationController?.navigationBar.tintColor = .white
         
         if isLocked {
             setupLockView()
@@ -110,11 +99,20 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: backgroundColor)
+        navigationController?.navigationBar.tintColor = .white
+    }
+    
     func unlockMemoWithBioMetrics() {
         
         // using Local Authentication to lock or unlock current memo
         let context = LAContext()
-        context.localizedFallbackTitle = "Enter password"
+        context.localizedFallbackTitle = "EnterPassword".localized
         var error: NSError?
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
@@ -146,6 +144,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                     }
                 }
             }
+            
         } else {
             handleEnterUnlockPassword()
         }
@@ -153,7 +152,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func handleEnterUnlockPassword() {
         
-        let alert = UIAlertController(title: "Enter your password to view this memo", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized, preferredStyle: .alert)
         alert.addTextField { (textField: UITextField) in
             textField.placeholder = "******"
         }
@@ -346,7 +345,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 }
             })
             
-            doneButton.setValue(UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
+            alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
             alert.addAction(cancelButton)
             alert.addAction(doneButton)
             

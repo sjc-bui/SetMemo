@@ -27,6 +27,10 @@
 "General" = "一般";
 "Advanced" = "アドバンスド";
 "Biometrics" = "生体認証";
+"Password" = "パスワード";
+"InputPassword" = "パスワードを入力";
+"ConfirmPassword" = "再度パスワードを入力";
+"SetPassword" = "パスワード設定";
 "UseTouchOrFaceId" = "Touch ID(Face ID)を使用する";
 "Privacy" = "プライバシー";
 "AppIcon" = "アプリのアイコン";
@@ -46,6 +50,12 @@
 "UnlockToViewMemo" = "ロックされたメモを表示するには、指紋を利用するか、パスワードを入力します";
 "ReasonToLockMemo" = "このメモをロックする時に、指紋を利用するか、パスワードを入力します";
 "ReasonToUnlockMemo" = "このメモをロック解除の時に、指紋を利用するか、パスワードを入力します";
+"EnterPassword" = "パスワードを入力";
+"LockMemo" = "メモをロック";
+"UnlockMemo" = "ロックを解除";
+"EnterPassToLockMemo" = "このメモをロックするには、パスワードを入力してください";
+"EnterPassToUnlockMemo" = "このメモからロックを削除するには、パスワードを入力してください";
+"UsePassword" = "TouchIDまたはFaceIDを使用できない場合に、パスワードを使用してメモにアクセスする";
 "FontSize" = "サイズ";
 "Size" = "サイズ";
 "Small" = "小";
@@ -105,3 +115,4 @@
 "Yellow" = "黄色";
 "MemoIsLocked" = "このメモがロックされています";
 "ViewMemo" = "メモを表示";
+"EnterPasswordToView" = "このメモを表示するには、パスワードを入力します";

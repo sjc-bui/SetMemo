@@ -74,10 +74,11 @@ class RecentlyDeletedController: UITableViewController {
             }
             let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
             
+            alertController.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
             alertController.addAction(cancelBtn)
             alertController.addAction(deleteBtn)
             
-            self.present(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
             
         } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
             // no alert on delete

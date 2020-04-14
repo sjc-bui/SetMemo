@@ -357,7 +357,7 @@ class MemoViewController: UITableViewController {
     
     func setLockAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, isLocked: true, indexPath: indexPath)
+            self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath)
             completion(true)
             
         }
@@ -366,15 +366,15 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func updateLocked(isLocked: Bool, indexPath: IndexPath) {
+    func updateLocked(lockThisMemo: Bool, indexPath: IndexPath) {
         
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
-            filterData.isLocked = isLocked
+            filterData.isLocked = lockThisMemo
             
         } else if isFiltering() == false {
             let memo = memoData[indexPath.row]
-            memo.isLocked = isLocked
+            memo.isLocked = lockThisMemo
         }
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -395,7 +395,7 @@ class MemoViewController: UITableViewController {
     func removeLockedAction(at indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, isLocked: false, indexPath: indexPath)
+            self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
             completion(true)
             
         }
@@ -405,10 +405,11 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func handleLockMemoWithBiometrics(reason: String, isLocked: Bool, indexPath: IndexPath) {
+    func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
         
         // using Local Authentication.
         let context = LAContext()
+        context.localizedFallbackTitle = "EnterPassword".localized
         var error: NSError?
         
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
@@ -416,18 +417,60 @@ class MemoViewController: UITableViewController {
                 
                 DispatchQueue.main.async {
                     if success {
-                        self.updateLocked(isLocked: isLocked, indexPath: indexPath)
+                        self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
                         print("lock & unlock memo")
                         
                     } else {
-                        guard evaluateError != nil else {
+                        guard let err = evaluateError else {
                             return
                         }
-                        print("error!")
+                        
+                        switch err {
+                        case LAError.userCancel:
+                            print("user cancel")
+                        case LAError.userFallback:
+                            self.enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                        default:
+                            print("not implement")
+                        }
                     }
                 }
             }
+            
+        } else {
+            enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
         }
+    }
+    
+    func enterPasswordToLockOrUnlock(lockThisMemo: Bool, indexPath: IndexPath) {
+        
+        var alertMessage = ""
+        var alertTitle = ""
+        
+        if lockThisMemo {
+            alertTitle = "LockMemo".localized
+            alertMessage = "EnterPassToLockMemo".localized
+            
+        } else {
+            alertTitle = "UnlockMemo".localized
+            alertMessage = "EnterPassToUnlockMemo".localized
+        }
+        
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        alert.addTextField { (textField: UITextField) in
+            textField.placeholder = "******"
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(done)
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func deleteReminderHandle(indexPath: IndexPath) {
@@ -483,7 +526,7 @@ class MemoViewController: UITableViewController {
             
             defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
             
-            self.present(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
         
         if isFiltering() == true {

@@ -92,8 +92,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        doneBtn.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
-        
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         alert.addAction(cancelBtn)
         alert.addAction(doneBtn)
         

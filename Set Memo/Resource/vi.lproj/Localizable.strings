@@ -29,6 +29,10 @@
 "Privacy" = "Riêng tư";
 "UseTouchOrFaceId" = "Sử dụng Touch ID hoặc Face ID";
 "Biometrics" = "Sinh trắc học";
+"Password" = "Mật khẩu";
+"InputPassword" = "Nhập mật khẩu";
+"ConfirmPassword" = "Xác nhận mật khẩu";
+"SetPassword" = "Cài đặt mật khẩu";
 "AppIcon" = "Biểu tượng cho ứng dụng";
 "Alert" = "Cảnh báo";
 "DeleteLabel" = "Xoá tất cả";
@@ -46,6 +50,12 @@
 "UnlockToViewMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để xem ghi chú này";
 "ReasonToLockMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để khoá ghi chú này";
 "ReasonToUnlockMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để mở khoá ghi chú này";
+"EnterPassword" = "Nhập mật khẩu";
+"LockMemo" = "Mở khóa ghi chú";
+"UnlockMemo" = "Khóa ghi chú";
+"EnterPassToLockMemo" = "Nhập mật khẩu để khóa ghi chú";
+"EnterPassToUnlockMemo" = "Nhập mật khẩu để mở khóa ghi chú";
+"UsePassword" = "Sử dụng mật khẩu để bảo mật ghi chú của bạn trong trường hợp không thể sử dụng TouchID hoặc FaceID";
 "FontSize" = "Kích thước";
 "Size" = "Kích thước";
 "Small" = "Nhỏ";
@@ -105,3 +115,4 @@
 "Yellow" = "Màu vàng";
 "MemoIsLocked" = "Ghi chú này đã bị khóa";
 "ViewMemo" = "Xem ghi chú";
+"EnterPasswordToView" = "Nhập mật khẩu để xem ghi chú đã khóa";
