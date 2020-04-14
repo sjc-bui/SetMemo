@@ -141,26 +141,25 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     
     func checkPremiumUser() {
         
-        let alert = UIAlertController(title: "Pro feature", message: "This feature is only available with Set Memo Premium", preferredStyle: .alert)
-        
-        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        let buyPremiumBtn = UIAlertAction(title: "Buy Premium", style: .default) { (action) in
-            self.defaults.set(true, forKey: Resource.Defaults.setMemoPremium)
-            self.restorePurchase()
-        }
-        
-        alert.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        alert.addAction(cancelBtn)
-        alert.addAction(buyPremiumBtn)
-        
-        present(alert, animated: true, completion: nil)
+        self.showAlert(title: "Pro feature", message: "This feature is only available with Set Memo Premium", alertStyle: .alert, actionTitles: ["Cancel".localized, "Buy Premium"], actionStyles: [.cancel, .default], actions: [
+            { _ in
+                print("Cancel buy premium")
+            },
+            { _ in
+                self.defaults.set(true, forKey: Resource.Defaults.setMemoPremium)
+                self.restorePurchase()
+            }
+        ])
     }
     
     func restorePurchase() {
+        
         if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
-            let alert = UIAlertController(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK".localized, style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
+            self.showAlert(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                { _ in
+                    print("Premium user restore purchase")
+                }
+            ])
         }
     }
     

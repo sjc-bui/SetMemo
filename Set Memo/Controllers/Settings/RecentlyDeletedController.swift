@@ -67,17 +67,15 @@ class RecentlyDeletedController: UITableViewController {
         
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
-            let alertController = UIAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, preferredStyle: .alert)
             
-            let deleteBtn = UIAlertAction(title: "Delete".localized, style: .destructive) { (action) in
-                self.deleteMemo(indexPath: indexPath)
-            }
-            let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
-            
-            alertController.addAction(cancelBtn)
-            alertController.addAction(deleteBtn)
-            
-            self.present(alertController, animated: true, completion: nil)
+            self.showAlert(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "Delete".localized], actionStyles: [.cancel, .destructive], actions: [
+                { _ in
+                    print("Cancel delete")
+                },
+                { _ in
+                    self.deleteMemo(indexPath: indexPath)
+                }
+            ])
             
         } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
             // no alert on delete
@@ -135,33 +133,22 @@ class RecentlyDeletedController: UITableViewController {
     
     func tapHandler(indexPath: IndexPath) {
         
-        let alertSheetController = UIAlertController(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, preferredStyle: .actionSheet)
+        DeviceControl().feedbackOnPress()
+        self.showAlert(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, alertStyle: .actionSheet, actionTitles: ["Recover".localized, "Delete".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
+            { _ in
+                self.recoverMemo(indexPath: indexPath)
+            },
+            { _ in
+                self.showAlertOnDelete(indexPath: indexPath)
+            },
+            { _ in
+                print("Cancelled recover or delete")
+            }
+        ])
         
-        let recoverButton = UIAlertAction(title: "Recover".localized, style: .default) { (action) in
-            self.recoverMemo(indexPath: indexPath)
-        }
-        let deleteButton = UIAlertAction(title: "Delete".localized, style: .default) { (action) in
-            self.showAlertOnDelete(indexPath: indexPath)
-        }
-        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        alertSheetController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        
-        alertSheetController.addAction(recoverButton)
-        alertSheetController.addAction(deleteButton)
-        alertSheetController.addAction(cancelButton)
-        alertSheetController.pruneNegativeWidthConstraints()
-        
-        if let popoverController = alertSheetController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
-            DeviceControl().feedbackOnPress()
-            self.present(alertSheetController, animated: true, completion: nil)
-        }
+//        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+//            self.present(alertSheetController, animated: true, completion: nil)
+//        }
     }
 }
 

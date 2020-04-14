@@ -16,4 +16,10 @@ class SPAlert {
         alertView.duration = duration
         alertView.present()
     }
+    
+    func customImage(title: String?, message: String?, image: UIImage?) {
+        let spalert = SPAlertView(title: title!, message: message, image: image!)
+        spalert.duration = 0.5
+        spalert.present()
+    }
 }

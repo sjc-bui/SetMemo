@@ -28,6 +28,10 @@
 "Advanced" = "Advanced";
 "Privacy" = "Privacy";
 "Biometrics" = "Biometrics";
+"Password" = "Use Password";
+"InputPassword" = "Password";
+"ConfirmPassword" = "Confirm password";
+"SetPassword" = "Password setting";
 "UseTouchOrFaceId" = "Use Touch ID or Face ID";
 "AppIcon" = "App icon";
 "Alert" = "Alerts";
@@ -40,9 +44,18 @@
 "TouchAction" = "Touch Action";
 "DeleteAction" = "Delete Action";
 "Random" = "Random";
-"DisplayUpdateTime" = "Display update time";
+"DisplayUpdateTime" = "Display date & hash tag";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
+"UnlockToViewMemo" = "Use your fingerprint or enter your password to view locked memo";
+"ReasonToLockMemo" = "Use your fingerprint or enter your password to lock this memo";
+"ReasonToUnlockMemo" = "Use your fingerprint or enter your password to unlock this memo";
+"EnterPassword" = "Enter password";
+"LockMemo" = "Lock memo";
+"UnlockMemo" = "Unlock memo";
+"EnterPassToLockMemo" = "Enter password to lock this memo";
+"EnterPassToUnlockMemo" = "Enter password to unlock this memo";
+"UsePassword" = "Use password to access your memo in case you can't use TouchID or FaceID";
 "FontSize" = "Size";
 "Size" = "Size";
 "Small" = "Small";
@@ -100,3 +113,6 @@
 "Blue" = "Blue";
 "Green" = "Green";
 "Yellow" = "Yellow";
+"MemoIsLocked" = "This memo is locked";
+"ViewMemo" = "View memo";
+"EnterPasswordToView" = "To view locked memo, enter the memo password";

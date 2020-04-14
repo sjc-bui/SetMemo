@@ -293,34 +293,29 @@ class SettingViewController: UITableViewController {
             
             switch indexPath.row {
             case 0:
-                let deleteAllAlert = UIAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized, preferredStyle: .alert)
-                
-                let delete = UIAlertAction(title: "DeleteLabel".localized, style: .destructive, handler: { action in
-                    
-                    let appDelegate = UIApplication.shared.delegate as? AppDelegate
-                    let managedContext = appDelegate?.persistentContainer.viewContext
-                    
-                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
-                    
-                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-                    
-                    do {
-                        try managedContext?.execute(deleteRequest)
-                        try managedContext?.save()
+                self.showAlert(title: "Sure".localized, message: "DeleteAllMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "DeleteLabel".localized], actionStyles: [.cancel, .destructive], actions: [
+                    { _ in
+                        print("Cancel delete")
+                    },
+                    { _ in
+                        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                        let managedContext = appDelegate?.persistentContainer.viewContext
                         
-                    } catch let error as NSError {
-                        print("Could not fetch. \(error), \(error.userInfo)")
+                        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+                        
+                        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                        
+                        do {
+                            try managedContext?.execute(deleteRequest)
+                            try managedContext?.save()
+                            
+                        } catch let error as NSError {
+                            print("Could not fetch. \(error), \(error.userInfo)")
+                        }
+                        
+                        tableView.reloadData()
                     }
-                    
-                    tableView.reloadData()
-                })
-                
-                let cancel = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
-                
-                deleteAllAlert.addAction(cancel)
-                deleteAllAlert.addAction(delete)
-                
-                present(deleteAllAlert, animated: true, completion: nil)
+                ])
                 
             case 1:
                 self.navigationController?.pushViewController(RecentlyDeletedController(), animated: true)

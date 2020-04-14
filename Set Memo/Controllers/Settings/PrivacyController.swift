@@ -10,9 +10,13 @@ import UIKit
 import LocalAuthentication
 
 class PrivacyController: UITableViewController {
-    let sections: Array = ["Biometrics".localized]
+    let sections: Array = ["Biometrics".localized, "Password".localized]
     let biometrics: Array = ["UseTouchOrFaceId".localized]
+    let passcode: Array = ["SetPassword".localized]
     let defaults = UserDefaults.standard
+    
+    let service: String = "authService"
+    let account: String = "userAccount"
     
     private let reuseIdentifier = "CellId"
     private let reuseSwitchCell = "SettingSwitchCell"
@@ -190,6 +194,9 @@ class PrivacyController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return biometrics.count
+            
+        } else if section == 1 {
+            return passcode.count
         }
         
         return 0
@@ -220,12 +227,75 @@ class PrivacyController: UITableViewController {
                 return cell
             }
             
+        } else if indexPath.section == 1 {
+            
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(passcode[indexPath.row])"
+                
+                return cell
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                return cell
+            }
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
             cell.backgroundColor = Colors.whiteColor
             cell.textLabel?.textColor = Colors.shared.darkColor
             return cell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 1 {
+            return "UsePassword".localized
+        }
+        
+        return ""
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 1 {
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.isSelected = false
+            
+            switch indexPath.row {
+            case 0:
+                let alert = UIAlertController(title: "SetPassword".localized, message: "Set password for your memo", preferredStyle: .alert)
+                
+                alert.addTextField { (password: UITextField) in
+                    password.isSecureTextEntry = true
+                    password.placeholder = "InputPassword".localized
+                }
+                
+                alert.addTextField { (confirmPassword: UITextField) in
+                    confirmPassword.isSecureTextEntry = true
+                    confirmPassword.placeholder = "ConfirmPassword".localized
+                }
+                
+                let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+                let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { (action) in
+                    
+                    let password = alert.textFields![0]
+                    let confirmPassword = alert.textFields![1]
+                    
+                    KeychainService.savePasswordToKeychain(service: self.service, account: self.account, data: password.text!)
+                    KeychainService.loadPasswordFromKeychain(service: self.service, account: self.account, data: password.text!)
+                }
+                
+                alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+                alert.addAction(cancelBtn)
+                alert.addAction(doneBtn)
+                
+                present(alert, animated: true, completion: nil)
+                
+            default:
+                return
+            }
         }
     }
     

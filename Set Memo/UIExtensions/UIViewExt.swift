@@ -19,46 +19,34 @@ extension UIView {
 }
 
 extension UIViewController {
+
+//        let now = Date()
+//        var getString: String = ""
+//
+//        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
+//        let timeLongString = now.string(with: "DateMonthYear".localized)
+//        let timeShortString = now.string(with: "DateTimeShort".localized)
+//        let hourMinuteString = now.string(with: "HourAndMinute".localized)
     
-    func getCurrenDateTimme() {
+    
+    func showAlert(title: String?, message: String?, alertStyle: UIAlertController.Style, actionTitles: [String], actionStyles: [UIAlertAction.Style], actions: [((UIAlertAction) -> Void)]) {
         
-        let selectCurrentDateSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let now = Date()
-        var getString: String = ""
+        let alert = UIAlertController(title: title, message: message, preferredStyle: alertStyle)
         
-        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
-        let timeLongString = now.string(with: "DateMonthYear".localized)
-        let timeShortString = now.string(with: "DateTimeShort".localized)
-        let hourMinuteString = now.string(with: "HourAndMinute".localized)
-        
-        let fullStyle = UIAlertAction(title: "\(dateTimeFullString)", style: .default) { (action) in
-            getString = dateTimeFullString
+        for (index, actionTitle) in actionTitles.enumerated() {
+            let action = UIAlertAction(title: actionTitle, style: actionStyles[index], handler: actions[index])
+            alert.addAction(action)
         }
-        let timeLong = UIAlertAction(title: "\(timeLongString)", style: .default) { (action) in
-            getString = timeLongString
-        }
-        let timeShort = UIAlertAction(title: "\(timeShortString)", style: .default) { (action) in
-            getString = timeShortString
-        }
-        let hourMinute = UIAlertAction(title: "\(hourMinuteString)", style: .default) { (action) in
-            getString = hourMinuteString
-        }
-        let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         
-        selectCurrentDateSheet.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
-        selectCurrentDateSheet.addAction(cancelButton)
-        selectCurrentDateSheet.addAction(fullStyle)
-        selectCurrentDateSheet.addAction(timeLong)
-        selectCurrentDateSheet.addAction(timeShort)
-        selectCurrentDateSheet.addAction(hourMinute)
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         
-        selectCurrentDateSheet.pruneNegativeWidthConstraints()
-        if let popoverController = selectCurrentDateSheet.popoverPresentationController {
+        alert.pruneNegativeWidthConstraints()
+        if let popoverController = alert.popoverPresentationController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
             popoverController.permittedArrowDirections = [.any]
         }
         
-        self.present(selectCurrentDateSheet, animated: true, completion: nil)
+        self.present(alert, animated: true)
     }
 }

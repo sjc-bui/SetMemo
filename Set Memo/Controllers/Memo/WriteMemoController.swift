@@ -80,7 +80,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             textField.autocapitalizationType = .none
         }
         
-        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             let text = textField?.text
@@ -92,8 +92,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        doneBtn.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: Resource.Defaults.titleTextColor)
-        
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
         alert.addAction(cancelBtn)
         alert.addAction(doneBtn)
         

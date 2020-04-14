@@ -10,6 +10,7 @@ import UIKit
 import StoreKit
 import CoreData
 import SPAlert
+import LocalAuthentication
 
 class MemoViewController: UITableViewController {
     
@@ -181,41 +182,23 @@ class MemoViewController: UITableViewController {
     @objc func sortBy() {
         
         DeviceControl().feedbackOnPress()
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let sortByDateCreated = UIAlertAction(title: "SortByDateCreated".localized, style: .default, handler: { (action) in
-            self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        })
-        
-        let sortByDateEdited = UIAlertAction(title: "SortByDateEdited".localized, style: .default, handler: {
-            (action) in
-            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        })
-        
-        let sortByTitle = UIAlertAction(title: "SortByTitle".localized, style: .default, handler: { (action) in
-            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        })
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        alertController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        
-        alertController.addAction(sortByDateCreated)
-        alertController.addAction(sortByDateEdited)
-        alertController.addAction(sortByTitle)
-        alertController.addAction(cancel)
-        
-        alertController.pruneNegativeWidthConstraints()
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        present(alertController, animated: true, completion: nil)
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortByDateCreated".localized, "SortByDateEdited".localized, "SortByTitle".localized, "Cancel".localized], actionStyles: [.default, .default, .default, .cancel], actions: [
+            { _ in
+                self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("Cancel sort")
+            }
+        ])
     }
     
     @objc func createNewMemo() {
@@ -293,7 +276,7 @@ class MemoViewController: UITableViewController {
         }
     }
     
-    func importantIsSetAtIndex(indexPath: IndexPath) -> Bool {
+    func lockIsSetAtIndex(indexPath: IndexPath) -> Bool {
         
         if isFiltering() == true {
             if filterMemoData[indexPath.row].isLocked == true {
@@ -354,26 +337,26 @@ class MemoViewController: UITableViewController {
         return action
     }
     
-    func setImportantAction(at indexPath: IndexPath) -> UIContextualAction {
+    func setLockAction(at indexPath: IndexPath) -> UIContextualAction {
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.updateLocked(isLocked: true, indexPath: indexPath)
-            print("important")
+            self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath)
             completion(true)
+            
         }
         action.image = Resource.Images.setLockButton
         action.backgroundColor = Colors.shared.importantBtn
         return action
     }
     
-    func updateLocked(isLocked: Bool, indexPath: IndexPath) {
+    func updateLocked(lockThisMemo: Bool, indexPath: IndexPath) {
         
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
-            filterData.isLocked = isLocked
+            filterData.isLocked = lockThisMemo
             
         } else if isFiltering() == false {
             let memo = memoData[indexPath.row]
-            memo.isLocked = isLocked
+            memo.isLocked = lockThisMemo
         }
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -386,22 +369,100 @@ class MemoViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+        DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        
+        var lockImg: UIImage?
+        
+        if lockThisMemo {
+            lockImg = UIImage(systemName: "lock.fill")
+        } else {
+            lockImg = UIImage(systemName: "lock.open.fill")
+        }
+        
+        SPAlert().customImage(title: "", message: nil, image: lockImg)
     }
     
     func removeLockedAction(at indexPath: IndexPath) -> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.updateLocked(isLocked: false, indexPath: indexPath)
-            print("remove lock")
+            self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
             completion(true)
+            
         }
         
         action.image = Resource.Images.removeLockButton
         action.backgroundColor = Colors.shared.importantBtn
         return action
+    }
+    
+    func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
+        
+        // using Local Authentication.
+        let context = LAContext()
+        context.localizedFallbackTitle = "EnterPassword".localized
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
+                
+                DispatchQueue.main.async {
+                    if success {
+                        self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                        print("lock & unlock memo")
+                        
+                    } else {
+                        guard let err = evaluateError else {
+                            return
+                        }
+                        
+                        switch err {
+                        case LAError.userCancel:
+                            print("user cancel")
+                        case LAError.userFallback:
+                            self.enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                        default:
+                            print("not implement")
+                        }
+                    }
+                }
+            }
+            
+        } else {
+            enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
+        }
+    }
+    
+    func enterPasswordToLockOrUnlock(lockThisMemo: Bool, indexPath: IndexPath) {
+        
+        var alertMessage = ""
+        var alertTitle = ""
+        
+        if lockThisMemo {
+            alertTitle = "LockMemo".localized
+            alertMessage = "EnterPassToLockMemo".localized
+            
+        } else {
+            alertTitle = "UnlockMemo".localized
+            alertMessage = "EnterPassToUnlockMemo".localized
+        }
+        
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        alert.addTextField { (textField: UITextField) in
+            textField.placeholder = "******"
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(done)
+        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func deleteReminderHandle(indexPath: IndexPath) {
@@ -448,16 +509,11 @@ class MemoViewController: UITableViewController {
     func deleteMemoHandle(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
-            let alertController = UIAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, preferredStyle: .alert)
-            
-            let acceptButton = UIAlertAction(title: "OK", style: .default, handler: nil)
-            acceptButton.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: "titleTextColor")
-            
-            alertController.addAction(acceptButton)
-            
-            defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
-            
-            self.present(alertController, animated: true, completion: nil)
+            self.showAlert(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                { _ in
+                    self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
+                }
+            ])
         }
         
         if isFiltering() == true {
@@ -659,153 +715,5 @@ class MemoViewController: UITableViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-    }
-}
-
-// MARK: - Extension MemmoViewController
-extension MemoViewController {
-    
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteMemoAction(at: indexPath)
-        let remind = remindMemoAction(at: indexPath)
-        let deleteRemind = deleteReminderAction(at: indexPath)
-        
-        if reminderIsSetAtIndex(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
-        }
-        
-        return UISwipeActionsConfiguration(actions: [delete, remind])
-    }
-    
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let share = shareMemoAction(at: indexPath)
-        let important = setImportantAction(at: indexPath)
-        let removeImportant = removeLockedAction(at: indexPath)
-        
-        if importantIsSetAtIndex(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [share, removeImportant])
-        }
-        
-        return UISwipeActionsConfiguration(actions: [share, important])
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if memoData.isEmpty {
-            tableView.backgroundView = emptyView
-        } else {
-            tableView.backgroundView = nil
-            if isFiltering() {
-                return filterMemoData.count
-                
-            } else {
-                return memoData.count
-            }
-        }
-        return memoData.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
-        cell.selectedBackground()
-        
-        var memo = memoData[indexPath.row]
-        if isFiltering() {
-            memo = filterMemoData[indexPath.row]
-            
-        } else {
-            memo = memoData[indexPath.row]
-        }
-        
-        let content = memo.value(forKey: "content") as? String
-        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
-        let isReminder = memo.value(forKey: "isReminder") as? Bool
-        let isLocked = memo.value(forKey: "isLocked") as? Bool
-        let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
-        let color = memo.value(forKey: "color") as? String ?? "white"
-        
-        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
-        let defaultFontSize = Dimension.shared.fontMediumSize
-        
-        cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
-        cell.content.text = content
-        
-        if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
-            let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-            let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
-            
-            cell.dateEdited.font = UIFont.systemFont(ofSize: detailTextSize)
-            cell.dateEdited.text = dateString
-
-            cell.hashTag.font = UIFont.systemFont(ofSize: detailTextSize)
-            cell.hashTag.text = "#\(hashTag)"
-            
-        } else {
-            cell.dateEdited.text = ""
-        }
-        
-        if isReminder == true {
-            cell.reminderIsSetIcon.isHidden = false
-        } else {
-            cell.reminderIsSetIcon.isHidden = true
-        }
-        
-        if isLocked == true {
-            cell.lockIcon.isHidden = false
-        } else {
-            cell.lockIcon.isHidden = true
-        }
-        
-        cell.accessoryType = .none
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let updateView = UpdateMemoViewController()
-        var memo = memoData[indexPath.row]
-        
-        if isFiltering() {
-            memo = filterMemoData[indexPath.row]
-            updateView.filterMemoData = filterMemoData
-            updateView.isFiltering = true
-        } else {
-            memo = memoData[indexPath.row]
-            updateView.memoData = memoData
-        }
-        
-        let content = memo.value(forKey: "content") as? String
-        let hashTag = memo.value(forKey: "hashTag") as? String
-        let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
-        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
-        let isEdited = memo.value(forKey: "isEdited") as? Bool
-        let isReminder = memo.value(forKey: "isReminder") as? Bool
-        let isLocked = memo.value(forKey: "isLocked") as? Bool
-        let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
-        let color = memo.value(forKey: "color") as? String ?? "white"
-        
-        let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
-        let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
-        let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
-        
-        updateView.backgroundColor = color
-        updateView.dateLabelHeader = dateEditedString
-        updateView.content = content!
-        updateView.hashTag = hashTag!
-        updateView.dateCreated = dateCreatedString
-        updateView.dateEdited = dateEditedString
-        updateView.isEdited = isEdited!
-        updateView.isReminder = isReminder!
-        updateView.isLocked = isLocked!
-        updateView.dateReminder = dateReminderString
-        updateView.index = indexPath.row
-        
-        self.navigationController?.pushViewController(updateView, animated: true)
-    }
-}
-
-extension MemoViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
     }
 }
