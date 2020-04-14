@@ -80,7 +80,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             textField.autocapitalizationType = .none
         }
         
-        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
         let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
             let textField = alert?.textFields![0]
             let text = textField?.text

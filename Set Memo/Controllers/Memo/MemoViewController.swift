@@ -182,41 +182,23 @@ class MemoViewController: UITableViewController {
     @objc func sortBy() {
         
         DeviceControl().feedbackOnPress()
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let sortByDateCreated = UIAlertAction(title: "SortByDateCreated".localized, style: .default, handler: { (action) in
-            self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        })
-        
-        let sortByDateEdited = UIAlertAction(title: "SortByDateEdited".localized, style: .default, handler: {
-            (action) in
-            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        })
-        
-        let sortByTitle = UIAlertAction(title: "SortByTitle".localized, style: .default, handler: { (action) in
-            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        })
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        alertController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        
-        alertController.addAction(sortByDateCreated)
-        alertController.addAction(sortByDateEdited)
-        alertController.addAction(sortByTitle)
-        alertController.addAction(cancel)
-        
-        alertController.pruneNegativeWidthConstraints()
-        if let popoverController = alertController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        present(alertController, animated: true, completion: nil)
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortByDateCreated".localized, "SortByDateEdited".localized, "SortByTitle".localized, "Cancel".localized], actionStyles: [.default, .default, .default, .cancel], actions: [
+            { _ in
+                self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("Cancel sort")
+            }
+        ])
     }
     
     @objc func createNewMemo() {
@@ -517,16 +499,11 @@ class MemoViewController: UITableViewController {
     func deleteMemoHandle(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
-            let alertController = UIAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, preferredStyle: .alert)
-            
-            let acceptButton = UIAlertAction(title: "OK", style: .default, handler: nil)
-            acceptButton.setValue(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), forKey: "titleTextColor")
-            
-            alertController.addAction(acceptButton)
-            
-            defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
-            
-            present(alertController, animated: true, completion: nil)
+            self.showAlert(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                { _ in
+                    self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
+                }
+            ])
         }
         
         if isFiltering() == true {

@@ -332,7 +332,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 textField.autocapitalizationType = .none
             }
             
-            let cancelButton = UIAlertAction(title: "Cancel".localized, style: .default, handler: nil)
+            let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
             let doneButton = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
                 
                 let textField = alert?.textFields![0]
