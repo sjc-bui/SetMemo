@@ -369,9 +369,19 @@ class MemoViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+        DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+        
+        var lockImg: UIImage?
+        
+        if lockThisMemo {
+            lockImg = UIImage(systemName: "lock.fill")
+        } else {
+            lockImg = UIImage(systemName: "lock.open.fill")
+        }
+        
+        SPAlert().customImage(title: "", message: nil, image: lockImg)
     }
     
     func removeLockedAction(at indexPath: IndexPath) -> UIContextualAction {

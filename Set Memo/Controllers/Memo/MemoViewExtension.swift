@@ -92,7 +92,8 @@ extension MemoViewController {
             cell.hashTag.text = "#\(hashTag)"
             
         } else {
-            cell.dateEdited.text = ""
+            cell.dateEdited.text = nil
+            cell.hashTag.text = nil
         }
         
         if isReminder == true {

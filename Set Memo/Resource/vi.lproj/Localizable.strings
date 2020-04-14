@@ -44,7 +44,7 @@
 "TouchAction" = "Hành động chạm";
 "DeleteAction" = "Hành động xoá";
 "Random" = "Ngẫu nhiên";
-"DisplayUpdateTime" = "Hiển thị ngày tháng cập nhật";
+"DisplayUpdateTime" = "Hiển thị thời gian & hash tag";
 "UnlockApp" = "Mở khoá";
 "Reason" = "Mở khoá để xem ghi chú";
 "UnlockToViewMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để xem ghi chú này";

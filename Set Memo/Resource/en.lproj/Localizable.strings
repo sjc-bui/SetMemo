@@ -44,7 +44,7 @@
 "TouchAction" = "Touch Action";
 "DeleteAction" = "Delete Action";
 "Random" = "Random";
-"DisplayUpdateTime" = "Display update time";
+"DisplayUpdateTime" = "Display date & hash tag";
 "UnlockApp" = "Unlock";
 "Reason" = "Unlock to access your memo";
 "UnlockToViewMemo" = "Use your fingerprint or enter your password to view locked memo";
