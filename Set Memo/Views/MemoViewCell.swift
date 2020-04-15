@@ -56,8 +56,8 @@ class MemoViewCell: UITableViewCell {
         return i
     }()
     
-    fileprivate lazy var horizontalStackView: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [lockIcon, dateEdited, hashTag, reminderIsSetIcon])
+    fileprivate lazy var dateAndHashtagStack: UIStackView = {
+        let s = UIStackView(arrangedSubviews: [dateEdited, hashTag])
         s.axis = .horizontal
         s.alignment = .leading
         s.spacing = 6
@@ -65,28 +65,38 @@ class MemoViewCell: UITableViewCell {
         return s
     }()
     
-    fileprivate lazy var verticalStackView: UIStackView = {
-        let v = UIStackView(arrangedSubviews: [content, horizontalStackView])
+    fileprivate lazy var middleCellStack: UIStackView = {
+        let v = UIStackView(arrangedSubviews: [content, dateAndHashtagStack])
         v.axis = .vertical
         v.spacing = 3
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
     
+    fileprivate lazy var groupStack: UIStackView = {
+        let s = UIStackView(arrangedSubviews: [lockIcon, middleCellStack, reminderIsSetIcon])
+        s.axis = .horizontal
+        s.alignment = .center
+        s.spacing = 6
+        s.translatesAutoresizingMaskIntoConstraints = false
+        return s
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(verticalStackView)
+        contentView.addSubview(groupStack)
         
         reminderIsSetIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         reminderIsSetIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        
         lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
-        verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
-        verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13).isActive = true
-        verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13).isActive = true
+        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
+        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
+        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13).isActive = true
+        groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
