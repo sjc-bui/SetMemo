@@ -16,7 +16,6 @@ class TextViewEditor: UIView {
         tv.isEditable = true
         tv.isScrollEnabled = true
         tv.text = ""
-        //tv.textColor = UIColor(named: "mainTextColor")
         tv.textColor = UIColor.white
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
