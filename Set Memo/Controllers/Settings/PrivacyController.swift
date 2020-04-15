@@ -286,7 +286,7 @@ class PrivacyController: UITableViewController {
                     KeychainService.loadPasswordFromKeychain(service: self.service, account: self.account, data: password.text!)
                 }
                 
-                alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+                alert.view.tintColor = Colors.shared.defaultTintColor
                 alert.addAction(cancelBtn)
                 alert.addAction(doneBtn)
                 

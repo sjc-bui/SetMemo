@@ -102,7 +102,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 
             } else {
                 defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
-                navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+                navigationController?.navigationBar.tintColor = Colors.shared.defaultTintColor
             }
         }
         

@@ -163,7 +163,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         alert.addAction(cancel)
         alert.addAction(done)
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -260,7 +260,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
         let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
         
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         alert.addAction(doneBtn)
         
         if isReminder {
@@ -343,7 +343,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 }
             })
             
-            alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+            alert.view.tintColor = Colors.shared.defaultTintColor
             alert.addAction(cancelButton)
             alert.addAction(doneButton)
             

@@ -179,13 +179,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		7241C61724382B5400D3E617 /* OnBoard */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = OnBoard;
-			sourceTree = "<group>";
-		};
 		7244892D240F3D62008E723C /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,7 +206,6 @@
 		724CA6D12408D9060088F581 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				7241C61724382B5400D3E617 /* OnBoard */,
 				72E4D439241232F500606AD2 /* Memo */,
 				72E4D438241232D600606AD2 /* Settings */,
 				724CA6D82408DA850088F581 /* TabbarViewController.swift */,

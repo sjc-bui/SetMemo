@@ -43,7 +43,7 @@ extension UIViewController {
             alert.addAction(action)
         }
         
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         
         alert.pruneNegativeWidthConstraints()
         if let popoverController = alert.popoverPresentationController {

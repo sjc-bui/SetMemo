@@ -70,7 +70,7 @@ class MemoViewController: UITableViewController {
     
     private func setupNavigation() {
         self.navigationItem.title = "Memo".localized
-        navigationController?.navigationBar.setColors(background: UIColor.systemBackground, text: UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)))
+        navigationController?.navigationBar.setColors(background: UIColor.systemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
     }
     
@@ -92,11 +92,11 @@ class MemoViewController: UITableViewController {
         sortBtn.setTitle(sortButtonTitle, for: .normal)
         sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         sortBtn.titleLabel?.textDropShadow()
-        sortBtn.setTitleColor(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), for: .normal)
+        sortBtn.setTitleColor(Colors.shared.defaultTintColor, for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
-        settingButton.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        createButton.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        settingButton.tintColor = Colors.shared.defaultTintColor
+        createButton.tintColor = Colors.shared.defaultTintColor
         
         var items: [UIBarButtonItem] = []
         
@@ -455,7 +455,7 @@ class MemoViewController: UITableViewController {
         
         alert.addAction(cancel)
         alert.addAction(done)
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -621,7 +621,7 @@ class MemoViewController: UITableViewController {
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 
-        remindController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        remindController.view.tintColor = Colors.shared.defaultTintColor
         remindController.addAction(doneBtn)
         remindController.addAction(cancelBtn)
         

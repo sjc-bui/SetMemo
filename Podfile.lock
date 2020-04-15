@@ -1,16 +1,20 @@
 PODS:
   - SPAlert (2.1.4)
+  - WhatsNewKit (1.3.2)
 
 DEPENDENCIES:
   - SPAlert
+  - WhatsNewKit
 
 SPEC REPOS:
   trunk:
     - SPAlert
+    - WhatsNewKit
 
 SPEC CHECKSUMS:
   SPAlert: 1a8afa1c6ac86a82ab5b2cfdf7f9a51e68cb6c0c
+  WhatsNewKit: 7ae08eaee23a657f26edb33adea83c6029b8bd6c
 
-PODFILE CHECKSUM: d16deca26bc2ebc80f31042240097f22e5553969
+PODFILE CHECKSUM: 11f80ca6b6056ebf892012efa2ef06acdf6d83e2
 
 COCOAPODS: 1.9.0

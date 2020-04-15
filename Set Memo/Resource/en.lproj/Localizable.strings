@@ -116,3 +116,4 @@
 "MemoIsLocked" = "This memo is locked";
 "ViewMemo" = "View memo";
 "EnterPasswordToView" = "To view locked memo, enter the memo password";
+"ShowTutorial" = "Show tutorial";

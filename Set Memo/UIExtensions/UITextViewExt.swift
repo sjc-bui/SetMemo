@@ -38,7 +38,7 @@ extension UITextView {
         ], animated: true)
         
         items.barStyle = .default
-        items.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        items.tintColor = Colors.shared.defaultTintColor
         items.isUserInteractionEnabled = true
         items.sizeToFit()
         

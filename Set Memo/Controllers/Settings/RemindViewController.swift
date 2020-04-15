@@ -33,7 +33,7 @@ class RemindViewController: UITableViewController {
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
         button.layer.cornerRadius = 4
-        button.backgroundColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        button.backgroundColor = Colors.shared.defaultTintColor
         
         view.addSubview(button)
     }
