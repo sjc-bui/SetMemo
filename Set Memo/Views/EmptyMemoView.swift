@@ -54,6 +54,7 @@ class EmptyMemoView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         addSubview(containerView)
         containerView.addSubview(stackView)
         

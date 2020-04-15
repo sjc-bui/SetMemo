@@ -62,6 +62,8 @@
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
+		72D7A2AC2446F229003912FB /* UIBarButtonItemExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */; };
+		72D7A2AE2446F95C003912FB /* UIStackViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */; };
 		72E7CEDB242E1CAC00541E63 /* UINavigationItemExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */; };
 		72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
@@ -127,6 +129,8 @@
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
+		72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExt.swift; sourceTree = "<group>"; };
+		72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExt.swift; sourceTree = "<group>"; };
 		72E7CEDA242E1CAC00541E63 /* UINavigationItemExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationItemExt.swift; sourceTree = "<group>"; };
 		72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExt.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +264,8 @@
 				726DB88E243C777F00EA63A4 /* DateExt.swift */,
 				721F41D3243EDE720098EA00 /* UIScreenExt.swift */,
 				728D10C6244005D500B463FD /* UIFontExt.swift */,
+				72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */,
+				72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -506,6 +512,7 @@
 				7223F6AC240CD96F00D62D6C /* DatetimeUtil.swift in Sources */,
 				724CA706240A3D960088F581 /* UITextViewExt.swift in Sources */,
 				723F8E29241DDFCF00149049 /* Resource.swift in Sources */,
+				72D7A2AE2446F95C003912FB /* UIStackViewExt.swift in Sources */,
 				7259011324149679009153A5 /* SeceneDelegate.swift in Sources */,
 				7229A30124307C940046E9CF /* Memo.xcdatamodeld in Sources */,
 				7241C61924382CE400D3E617 /* ThemesViewController.swift in Sources */,
@@ -533,6 +540,7 @@
 				7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */,
 				729E996D24126E26001A5D2C /* Colors.swift in Sources */,
 				721F41D4243EDE720098EA00 /* UIScreenExt.swift in Sources */,
+				72D7A2AC2446F229003912FB /* UIBarButtonItemExt.swift in Sources */,
 				721F41D2243ED9590098EA00 /* PickerViewCell.swift in Sources */,
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,

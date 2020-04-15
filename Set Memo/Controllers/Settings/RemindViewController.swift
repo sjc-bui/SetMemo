@@ -150,7 +150,7 @@ class RemindViewController: UITableViewController {
     func setTextFieldAccessory() -> UIView {
         
         let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let space = UIBarButtonItem.flexibleSpace
         let done = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
         
         items.setItems([space, done], animated: true)

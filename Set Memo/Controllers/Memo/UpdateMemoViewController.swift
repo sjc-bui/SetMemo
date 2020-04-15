@@ -64,8 +64,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }()
     
     func setupUI() {
-        view.addSubview(dateEditedLabel)
-        view.addSubview(textView)
+        
+        view.addSubviews([dateEditedLabel, textView])
         
         dateEditedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         dateEditedLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
@@ -103,9 +103,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         super.viewWillAppear(animated)
         textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: backgroundColor), text: .white)
     }
     
     func unlockMemoWithBioMetrics() {
@@ -179,7 +177,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        self.removeNotificationObserver()
         updateContent(index: index, newContent: textView.text)
     }
     
@@ -194,9 +192,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     func addKeyboardListener() {
         self.navigationItem.rightBarButtonEnable(isEnabled: false)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification)
     }
     
     @objc func adjustForKeyboard(notification: Notification) {

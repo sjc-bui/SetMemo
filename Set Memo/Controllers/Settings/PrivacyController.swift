@@ -45,8 +45,7 @@ class PrivacyController: UITableViewController {
         unlockImage.center = window.center
         unlockImage.alpha = 0
         
-        window.addSubview(blurEffectView)
-        window.addSubview(unlockImage)
+        window.addSubviews([blurEffectView, unlockImage])
     }
     
     func authenticateUserWithBioMetrics(window: UIWindow) {

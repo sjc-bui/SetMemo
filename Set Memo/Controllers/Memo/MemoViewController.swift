@@ -28,7 +28,7 @@ class MemoViewController: UITableViewController {
         self.tableView = UITableView(frame: .zero, style: .plain) // add options show list style.
         self.tableView.delegate = self
         tableView.register(MemoViewCell.self, forCellReuseIdentifier: "cellId")
-        self.navigationItem.setBackButtonTitle(title: "")
+        self.navigationItem.setBackButtonTitle(title: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,12 +70,7 @@ class MemoViewController: UITableViewController {
     
     private func setupNavigation() {
         self.navigationItem.title = "Memo".localized
-        self.navigationController?.navigationBar.backgroundColor = UIColor.systemBackground
-        self.navigationController?.navigationBar.barTintColor = UIColor.systemBackground
-        self.navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setColors(background: UIColor.systemBackground, text: UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)))
         extendedLayoutIncludesOpaqueBars = true
     }
     
@@ -83,7 +78,7 @@ class MemoViewController: UITableViewController {
         
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let flexibleSpace = UIBarButtonItem.flexibleSpace
         
         self.navigationController?.setToolbarHidden(false, animated: true)
         let countMemo = UILabel(frame: .zero)
