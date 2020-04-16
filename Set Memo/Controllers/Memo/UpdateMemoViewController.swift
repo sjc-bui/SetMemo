@@ -74,7 +74,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     }
     
@@ -101,6 +101,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.view.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         self.navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: backgroundColor), text: .white)

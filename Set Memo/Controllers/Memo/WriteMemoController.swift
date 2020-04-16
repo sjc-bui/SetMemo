@@ -21,7 +21,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         view = editor
         editor.textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         editor.textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        editor.textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        editor.textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         editor.textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
     }
     
@@ -32,9 +32,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        characterCount()
         addKeyboardListener()
         
+        self.view.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
         editor.textView.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
         setupNavigationBar()
     }
@@ -97,15 +97,6 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        characterCount()
-    }
-    
-    private func characterCount() {
-        let textCount: Int = editor.textView.text.count
-        self.navigationItem.title = String(format: "%d", textCount)
-    }
-    
     @objc func autoSave() {
         
         if !editor.textView.text.isNullOrWhiteSpace() {
@@ -122,7 +113,6 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
                 print("Could not save. \(error), \(error.userInfo)")
             }
             
-            characterCount()
             editor.textView.text = ""
         }
     }
