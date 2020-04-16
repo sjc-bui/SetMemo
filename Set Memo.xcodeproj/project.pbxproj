@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		720C31FA2447D8E7005C72B1 /* BundleExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C31F92447D8E7005C72B1 /* BundleExt.swift */; };
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
 		72114C38240FCC3B00D23ED7 /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */; };
 		72122C54242FB27D007E7D06 /* FormatString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72122C53242FB27D007E7D06 /* FormatString.swift */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		171D6606EF39714791448C0A /* Pods-Set Memo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set Memo.debug.xcconfig"; path = "Target Support Files/Pods-Set Memo/Pods-Set Memo.debug.xcconfig"; sourceTree = "<group>"; };
+		720C31F92447D8E7005C72B1 /* BundleExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExt.swift; sourceTree = "<group>"; };
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		72114C37240FCC3B00D23ED7 /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
 		72122C53242FB27D007E7D06 /* FormatString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatString.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				728D10C6244005D500B463FD /* UIFontExt.swift */,
 				72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */,
 				72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */,
+				720C31F92447D8E7005C72B1 /* BundleExt.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */,
 				72406DA42411192900037EB4 /* AppearanceController.swift in Sources */,
 				728D10C924400A1E00B463FD /* TextViewEditor.swift in Sources */,
+				720C31FA2447D8E7005C72B1 /* BundleExt.swift in Sources */,
 				726DB88F243C777F00EA63A4 /* DateExt.swift in Sources */,
 				723881EB240ADD2F004BD25B /* StringExt.swift in Sources */,
 				72406D9C24107A1C00037EB4 /* DeviceControl.swift in Sources */,

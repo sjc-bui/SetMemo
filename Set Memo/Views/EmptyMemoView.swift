@@ -11,7 +11,7 @@ import UIKit
 class EmptyMemoView: UIView {
     
     lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, showTutorialLabel]) // [titleLabel, descriptionLabel]
+        let stackView = UIStackView(arrangedSubviews: [showTutorialLabel]) // [titleLabel, descriptionLabel]
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill

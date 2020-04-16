@@ -53,7 +53,7 @@ class MemoViewController: UITableViewController {
     
     func requestReviewApp() {
         
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let appVersion = Bundle().appVersion
         
         // request user review when update to new version
         if memoData.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
@@ -113,6 +113,8 @@ class MemoViewController: UITableViewController {
         } else {
             items = [
             settingButton,
+            flexibleSpace,
+            UIBarButtonItem(customView: countMemo),
             flexibleSpace,
             createButton
             ]
@@ -250,7 +252,7 @@ class MemoViewController: UITableViewController {
         if total != 0 {
             return String(format: "TotalMemo".localized, total)
         }
-        return ""
+        return "EmptyLabel".localized
     }
     
     func reminderIsSetAtIndex(indexPath: IndexPath) -> Bool {

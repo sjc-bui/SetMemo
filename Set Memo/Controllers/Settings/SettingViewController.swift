@@ -39,7 +39,7 @@ class SettingViewController: UITableViewController {
     let other: Array = ["Version".localized]
     
     let defaults = UserDefaults.standard
-    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+    let appVersion = Bundle().appVersion
     
     private let reuseIdentifier = "Cell"
     private let reuseSettingCell = "SettingCell"
@@ -48,7 +48,7 @@ class SettingViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Setting".localized
-        self.navigationItem.setBackButtonTitle(title: "")
+        self.navigationItem.setBackButtonTitle(title: nil)
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
@@ -356,25 +356,25 @@ extension SettingViewController {
             title: Bundle.main.localizedInfoDictionary!["CFBundleDisplayName"] as! String,
             items: [
                 WhatsNew.Item (
-                    title: "Riêng tư", subtitle: "Sử dụng dấu vân tay hoặc mật khẩu để truy cập vào ứng dụng.", image: UIImage(systemName: "hand.raised")
+                    title: "Riêng tư", subtitle: "Set Memo sử dụng bảo mật sinh trắc học để đảm bảo không ai khác ngoài bạn có quyền truy cập vào ứng dụng.", image: UIImage(systemName: "hand.raised")
                 ),
                 WhatsNew.Item (
-                    title: "Ghi chú", subtitle: "Viết mọi thứ bạn muốn, ghi chú công việc, ý tưởng.", image: UIImage(systemName: "pencil")
+                    title: "Ghi chú", subtitle: "Hãy để Set Memo giúp việc viết ghi chú của bạn dễ dàng hơn bao giờ hết, ghi chú sẽ tự động lưu và đồng bộ trên tất cả các thiết bị của bạn.", image: UIImage(systemName: "pencil")
                 ),
                 WhatsNew.Item (
-                    title: "Thông báo", subtitle: "Bạn có thể đặt thông báo cho từng ghi chú theo thời gian cài đặt.", image: Resource.Images.alarmButton
+                    title: "Thông báo", subtitle: "Bạn có thể đặt thông báo cho từng ghi chú theo thời gian, hoặc đặt nhắc nhở ghi chú hàng ngày", image: Resource.Images.alarmButton
                 ),
                 WhatsNew.Item (
-                    title: "Chia sẻ", subtitle: "Chia sẻ ghi chú hoặc ý tưởng cho mọi người.", image: Resource.Images.shareButton
+                    title: "Chia sẻ", subtitle: "Chia sẻ ghi chú của bạn cho mọi người", image: Resource.Images.shareButton
                 ),
                 WhatsNew.Item (
-                    title: "Khóa ghi chú", subtitle: "Để bảo vệ nội dung riêng tư, bạn có thể khóa riêng từng ghi chú.", image: Resource.Images.setLockButton
+                    title: "Khóa ghi chú", subtitle: "Và để bảo mật nội dung riêng tư, bạn có thể thiết lập khóa riêng từng ghi chú", image: Resource.Images.setLockButton
                 ),
                 WhatsNew.Item (
-                    title: "Tùy chỉnh ghi chú", subtitle: "Lựa chọn kiểu phông chữ và kích thước theo ý thích của bạn", image: UIImage(systemName: "textformat.size")
+                    title: "Tùy chỉnh ghi chú", subtitle: "Lựa chọn thay đổi phông chữ và kích thước chữ theo ý của bạn", image: UIImage(systemName: "textformat.size")
                 ),
                 WhatsNew.Item (
-                    title: "Tùy chọn màu sắc", subtitle: "Chọn màu sắc ưa thích cho nút và chữ", image: UIImage(systemName: "sparkles")
+                    title: "Tùy chọn màu sắc", subtitle: "Với nhiều tùy chọn màu sắc ưa thích cho chủ đề", image: UIImage(systemName: "sparkles")
                 )
             ]
         )

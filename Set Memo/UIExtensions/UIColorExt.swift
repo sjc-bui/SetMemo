@@ -27,8 +27,11 @@ extension UIColor {
     static let azDarkPink = UIColor(hexString: "#c06c84")
     static let azGold = UIColor(hexString: "#e8bc76")
     static let darkBlue = UIColor(hexString: "#2b589b")
+    static let lightPink = UIColor(hexString: "#F8A8B0")
+    static let lightBrown = UIColor(hexString: "#CB8770")
+    static let lightPur = UIColor(hexString: "#D7B3DE")
     
-    static var defaultColors = ["lightRed", "lightRedBack", "medRed", "lightOrange", "medOrange", "lightYellow", "medYellow", "lightGreen", "medGreen", "heavyGreen", "lightBlue", "medBlue", "lightPurple", "medPurple", "azDarkPink", "azGold", "darkBlue"]
+    static var defaultColors = ["lightRed", "lightRedBack", "medRed", "lightOrange", "medOrange", "lightYellow", "medYellow", "lightGreen", "medGreen", "heavyGreen", "lightBlue", "medBlue", "lightPurple", "medPurple", "azDarkPink", "azGold", "darkBlue", "lightPink", "lightBrown", "lightPur"]
     
     static func getRandomColor() -> String {
         let random = UIColor.defaultColors.randomElement() ?? "white"
@@ -70,6 +73,12 @@ extension UIColor {
             return .azDarkPink
         case "azGold":
             return .azGold
+        case "lightPink":
+            return .lightPink
+        case "lightBrown":
+            return .lightBrown
+        case "lightPur":
+            return .lightPur
         default:
             return .darkBlue
         }
