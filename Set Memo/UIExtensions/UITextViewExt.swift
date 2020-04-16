@@ -15,9 +15,10 @@ extension UITextView {
     }
     
     func setupTextViewToolbar() {
+        
         let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.width, height: 30))
         
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let flexibleSpace = UIBarButtonItem.flexibleSpace
         let moveLeft = UIBarButtonItem(image: Resource.Images.moveLeftButton, style: .plain, target: self, action: #selector(moveCursorToLeft))
         let moveRight = UIBarButtonItem(image: Resource.Images.moveRightButton, style: .plain, target: self, action: #selector(moveCursorToRight))
         let calendarBadge = UIBarButtonItem(image: Resource.Images.addCalendarButton, style: .plain, target: self, action: #selector(addToday))
@@ -37,7 +38,7 @@ extension UITextView {
         ], animated: true)
         
         items.barStyle = .default
-        items.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        items.tintColor = Colors.shared.defaultTintColor
         items.isUserInteractionEnabled = true
         items.sizeToFit()
         

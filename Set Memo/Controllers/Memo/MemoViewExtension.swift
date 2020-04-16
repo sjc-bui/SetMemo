@@ -40,9 +40,17 @@ extension MemoViewController {
         return UISwipeActionsConfiguration(actions: [share, important])
     }
     
+    @objc func showIntro(_ sender: UITapGestureRecognizer) {
+        let settingViewController = SettingViewController()
+        settingViewController.presentTutorial(view: self, tintColor: Colors.shared.defaultTintColor)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if memoData.isEmpty {
             tableView.backgroundView = emptyView
+            emptyView.showTutorialLabel.textColor = Colors.shared.defaultTintColor
+            emptyView.showTutorialLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showIntro(_:))))
+            
         } else {
             tableView.backgroundView = nil
             if isFiltering() {

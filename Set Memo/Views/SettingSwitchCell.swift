@@ -16,9 +16,7 @@ class SettingSwitchCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(detailText)
-        contentView.addSubview(switchButton)
-        contentView.addSubview(descriptionText)
+        contentView.addSubviews([detailText, switchButton, descriptionText])
         descriptionText.textColor = UIColor.secondaryLabel
         
         detailText.translatesAutoresizingMaskIntoConstraints = false

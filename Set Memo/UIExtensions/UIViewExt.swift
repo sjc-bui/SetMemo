@@ -9,6 +9,11 @@
 import UIKit
 
 extension UIView {
+    
+    func addSubviews(_ views: [UIView]) {
+        views.forEach { addSubview($0)}
+    }
+    
     func pin(to superView: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -38,7 +43,7 @@ extension UIViewController {
             alert.addAction(action)
         }
         
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         
         alert.pruneNegativeWidthConstraints()
         if let popoverController = alert.popoverPresentationController {
@@ -48,5 +53,14 @@ extension UIViewController {
         }
         
         self.present(alert, animated: true)
+    }
+    
+    func addNotificationObserver(selector: Selector, name: Notification.Name) {
+        NotificationCenter.default.addObserver(self, selector: selector, name: name, object: nil)
+    }
+    
+    /// Unassign as listener from all notification
+    func removeNotificationObserver() {
+        NotificationCenter.default.removeObserver(self)
     }
 }

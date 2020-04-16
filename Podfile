@@ -7,4 +7,5 @@ target 'Set Memo' do
 
   # Pods for Set Memo
     pod 'SPAlert'
+    pod 'WhatsNewKit'
 end

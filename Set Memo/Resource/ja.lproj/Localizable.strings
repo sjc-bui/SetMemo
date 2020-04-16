@@ -116,3 +116,4 @@
 "MemoIsLocked" = "このメモがロックされています";
 "ViewMemo" = "メモを表示";
 "EnterPasswordToView" = "このメモを表示するには、パスワードを入力します";
+"ShowTutorial" = "チュートリアルを表示";

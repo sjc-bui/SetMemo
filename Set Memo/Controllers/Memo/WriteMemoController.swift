@@ -48,7 +48,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        self.removeNotificationObserver()
         self.autoSave()
     }
     
@@ -58,9 +58,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     func setupNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
-        navigationController?.navigationBar.barTintColor = UIColor.getRandomColorFromString(color: randomColor)
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: randomColor), text: .white)
     }
     
     func setupRightBarButtons() {
@@ -92,7 +90,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             }
         })
         
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         alert.addAction(cancelBtn)
         alert.addAction(doneBtn)
         
@@ -160,9 +158,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     }
     
     func addKeyboardListener() {
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification)
     }
     
     @objc func adjustForKeyboard(notification: Notification) {

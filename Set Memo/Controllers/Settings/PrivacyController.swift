@@ -45,8 +45,7 @@ class PrivacyController: UITableViewController {
         unlockImage.center = window.center
         unlockImage.alpha = 0
         
-        window.addSubview(blurEffectView)
-        window.addSubview(unlockImage)
+        window.addSubviews([blurEffectView, unlockImage])
     }
     
     func authenticateUserWithBioMetrics(window: UIWindow) {
@@ -287,7 +286,7 @@ class PrivacyController: UITableViewController {
                     KeychainService.loadPasswordFromKeychain(service: self.service, account: self.account, data: password.text!)
                 }
                 
-                alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+                alert.view.tintColor = Colors.shared.defaultTintColor
                 alert.addAction(cancelBtn)
                 alert.addAction(doneBtn)
                 

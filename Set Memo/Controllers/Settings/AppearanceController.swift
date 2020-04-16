@@ -49,7 +49,7 @@ class AppearanceController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(mode[indexPath.row])"
-        cell.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        cell.tintColor = Colors.shared.defaultTintColor
         cell.selectionStyle = .none
         
         switch indexPath.row {

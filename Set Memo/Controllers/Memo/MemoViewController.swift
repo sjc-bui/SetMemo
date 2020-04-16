@@ -28,7 +28,7 @@ class MemoViewController: UITableViewController {
         self.tableView = UITableView(frame: .zero, style: .plain) // add options show list style.
         self.tableView.delegate = self
         tableView.register(MemoViewCell.self, forCellReuseIdentifier: "cellId")
-        self.navigationItem.setBackButtonTitle(title: "")
+        self.navigationItem.setBackButtonTitle(title: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +53,7 @@ class MemoViewController: UITableViewController {
     
     func requestReviewApp() {
         
-        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        let appVersion = Bundle().appVersion
         
         // request user review when update to new version
         if memoData.count > 10 && defaults.value(forKey: Resource.Defaults.lastReview) as? String != appVersion {
@@ -70,12 +70,7 @@ class MemoViewController: UITableViewController {
     
     private func setupNavigation() {
         self.navigationItem.title = "Memo".localized
-        self.navigationController?.navigationBar.backgroundColor = UIColor.systemBackground
-        self.navigationController?.navigationBar.barTintColor = UIColor.systemBackground
-        self.navigationController?.navigationBar.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setColors(background: UIColor.systemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
     }
     
@@ -83,7 +78,7 @@ class MemoViewController: UITableViewController {
         
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let flexibleSpace = UIBarButtonItem.flexibleSpace
         
         self.navigationController?.setToolbarHidden(false, animated: true)
         let countMemo = UILabel(frame: .zero)
@@ -97,11 +92,11 @@ class MemoViewController: UITableViewController {
         sortBtn.setTitle(sortButtonTitle, for: .normal)
         sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         sortBtn.titleLabel?.textDropShadow()
-        sortBtn.setTitleColor(UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor)), for: .normal)
+        sortBtn.setTitleColor(Colors.shared.defaultTintColor, for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
-        settingButton.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
-        createButton.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        settingButton.tintColor = Colors.shared.defaultTintColor
+        createButton.tintColor = Colors.shared.defaultTintColor
         
         var items: [UIBarButtonItem] = []
         
@@ -118,6 +113,8 @@ class MemoViewController: UITableViewController {
         } else {
             items = [
             settingButton,
+            flexibleSpace,
+            UIBarButtonItem(customView: countMemo),
             flexibleSpace,
             createButton
             ]
@@ -255,7 +252,7 @@ class MemoViewController: UITableViewController {
         if total != 0 {
             return String(format: "TotalMemo".localized, total)
         }
-        return ""
+        return "EmptyLabel".localized
     }
     
     func reminderIsSetAtIndex(indexPath: IndexPath) -> Bool {
@@ -460,7 +457,7 @@ class MemoViewController: UITableViewController {
         
         alert.addAction(cancel)
         alert.addAction(done)
-        alert.view.tintColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        alert.view.tintColor = Colors.shared.defaultTintColor
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -626,7 +623,7 @@ class MemoViewController: UITableViewController {
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 
-        remindController.view.tintColor = UIColor.colorFromString(from: defaults.integer(forKey: Resource.Defaults.defaultTintColor))
+        remindController.view.tintColor = Colors.shared.defaultTintColor
         remindController.addAction(doneBtn)
         remindController.addAction(cancelBtn)
         

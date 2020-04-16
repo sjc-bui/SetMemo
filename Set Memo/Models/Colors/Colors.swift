@@ -24,6 +24,10 @@ public class Colors {
     
     static let darkgrayColor = UIColor.darkGray
     
+    var defaultTintColor: UIColor {
+        return UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+    }
+    
     public var primaryColor: UIColor {
         return #colorLiteral(red: 0, green: 0.3313085437, blue: 0.7222445011, alpha: 1)
     }

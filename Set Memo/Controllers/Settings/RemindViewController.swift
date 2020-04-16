@@ -33,7 +33,7 @@ class RemindViewController: UITableViewController {
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
         button.layer.cornerRadius = 4
-        button.backgroundColor = UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
+        button.backgroundColor = Colors.shared.defaultTintColor
         
         view.addSubview(button)
     }
@@ -150,7 +150,7 @@ class RemindViewController: UITableViewController {
     func setTextFieldAccessory() -> UIView {
         
         let items = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let space = UIBarButtonItem.flexibleSpace
         let done = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
         
         items.setItems([space, done], animated: true)
