@@ -16,8 +16,8 @@ class RecentlyDeletedController: UICollectionViewController {
     let defaults = UserDefaults.standard
     
     let inset: CGFloat = 10
-    let minimumLineSpacing: CGFloat = 15
-    let minimumInteritemSpacing: CGFloat = 15
+    let minimumLineSpacing: CGFloat = 10
+    let minimumInteritemSpacing: CGFloat = 10
     var cellsPerRow = 2
     
     override func viewDidLoad() {
@@ -28,6 +28,8 @@ class RecentlyDeletedController: UICollectionViewController {
     
     func setupView() {
         isLandscape()
+        let layout = UICollectionViewFlowLayout()
+        collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .white
         collectionView.contentInsetAdjustmentBehavior = .always
         self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: "cellId")

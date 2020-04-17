@@ -24,8 +24,8 @@ class MemoViewController: UICollectionViewController {
     let defaults = UserDefaults.standard
     
     let inset: CGFloat = 10
-    let minimumLineSpacing: CGFloat = 15
-    let minimumInteritemSpacing: CGFloat = 15
+    let minimumLineSpacing: CGFloat = 10
+    let minimumInteritemSpacing: CGFloat = 10
     var cellsPerRow = 2
     let reuseCellId = "cellId"
     
@@ -219,12 +219,12 @@ class MemoViewController: UICollectionViewController {
     
     @objc func createNewMemo() {
         DeviceControl().feedbackOnPress()
-        self.navigationController?.pushViewController(WriteMemoController(), animated: true)
+        self.push(viewController: WriteMemoController())
     }
     
     @objc func settingPage() {
         DeviceControl().feedbackOnPress()
-        self.navigationController?.pushViewController(SettingViewController(style: .insetGrouped), animated: true)
+        self.push(viewController: SettingViewController(style: .insetGrouped))
     }
     
     func fetchMemoFromCoreData() {

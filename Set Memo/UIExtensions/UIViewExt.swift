@@ -21,6 +21,18 @@ extension UIView {
         trailingAnchor.constraint(equalTo: superView.trailingAnchor).isActive = true
         bottomAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
+    
+    func addTapGesture(target: AnyObject, action: Selector) {
+        let tap = UITapGestureRecognizer(target: target, action: action)
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(tap)
+    }
+    
+    func addLongPress(target: AnyObject, action: Selector) {
+        let longPress = UILongPressGestureRecognizer(target: target, action: action)
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(longPress)
+    }
 }
 
 extension UIViewController {
@@ -62,5 +74,13 @@ extension UIViewController {
     /// Unassign as listener from all notification
     func removeNotificationObserver() {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func push(viewController: UIViewController, animated: Bool = true) {
+        navigationController?.pushViewController(viewController, animated: animated)
+    }
+    
+    func pop(animated: Bool = true) {
+        navigationController?.popViewController(animated: animated)
     }
 }

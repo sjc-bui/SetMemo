@@ -21,7 +21,6 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             self.window = UIWindow(windowScene: windowScene)
             window?.makeKeyAndVisible()
-            //window?.rootViewController = UINavigationController(rootViewController: MemoViewController())
             let layout = UICollectionViewFlowLayout()
             let collectionView = MemoViewController(collectionViewLayout: layout)
             window?.rootViewController = UINavigationController(rootViewController: collectionView)
@@ -54,7 +53,7 @@ class SeceneDelegate: UIResponder, UIWindowSceneDelegate {
         if UserDefaults.standard.bool(forKey: Resource.Defaults.useBiometrics) == true {
             let privacyController = PrivacyController()
             privacyController.setupBiometricsView(window: window!)
-            privacyController.unlockImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(unlockApp)))
+            privacyController.unlockImage.addTapGesture(target: self, action: #selector(unlockApp))
             privacyController.authenticateUserWithBioMetrics(window: window!)
         }
     }

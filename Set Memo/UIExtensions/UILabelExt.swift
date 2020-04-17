@@ -8,23 +8,8 @@
 
 import UIKit
 
-class paddingLabel: UILabel {
-    var padding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 5, right: 5)
-    
-    func labelPadding(rect: CGRect) {
-        let insets: UIEdgeInsets = padding
-        super.draw(rect.inset(by: insets))
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        var intrinsicSuperViewContentSize = super.intrinsicContentSize
-        intrinsicSuperViewContentSize.height += padding.top + padding.bottom
-        intrinsicSuperViewContentSize.width += padding.left + padding.right
-        return intrinsicSuperViewContentSize
-    }
-}
-
 extension UILabel {
+    
     func textDropShadow() {
         self.layer.masksToBounds = false
         self.layer.shadowRadius = 1.0

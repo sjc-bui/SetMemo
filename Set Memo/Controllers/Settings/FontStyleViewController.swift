@@ -76,7 +76,6 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
         setupFontStyle()
         setupFontSize()
         
-        print("view did load inside")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         self.tableView.register(PickerViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }

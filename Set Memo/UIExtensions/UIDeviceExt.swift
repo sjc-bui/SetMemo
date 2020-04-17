@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIDevice {
+    
     enum DevicePlatform: String {
         case other = "Old Device"
         case iPhone6S = "iPhone 6S"

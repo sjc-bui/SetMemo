@@ -72,7 +72,7 @@ class RemindViewController: UITableViewController {
         
         defaults.set(remindContent, forKey: Resource.Defaults.remindEverydayContent)
         defaults.set(true, forKey: Resource.Defaults.remindEveryDay)
-        self.navigationController?.popViewController(animated: true)
+        self.pop()
     }
     
     override func viewDidLoad() {

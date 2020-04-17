@@ -84,15 +84,16 @@ extension MemoViewController {
         updateView.isLocked = isLocked!
         updateView.dateReminder = dateReminderString
         updateView.index = indexPath.row
-
-        self.navigationController?.pushViewController(updateView, animated: true)
+        
+        self.push(viewController: updateView)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         if memoData.isEmpty {
             collectionView.backgroundView = emptyView
             emptyView.showTutorialLabel.textColor = Colors.shared.defaultTintColor
-            emptyView.showTutorialLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showIntro(_:))))
+            emptyView.showTutorialLabel.addTapGesture(target: self, action: #selector(showIntro(_:)))
             
         } else {
             collectionView.backgroundView = nil
@@ -165,8 +166,10 @@ extension MemoViewController {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
         super.viewWillTransition(to: size, with: coordinator)
         collectionView.collectionViewLayout.invalidateLayout()
+        
         if UIDevice.current.orientation.isLandscape {
             cellsPerRow = 3
         } else {
