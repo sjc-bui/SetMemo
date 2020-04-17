@@ -96,10 +96,10 @@ class MemoViewCell: UICollectionViewCell {
         lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
-        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13).isActive = true
-        groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13).isActive = true
+        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

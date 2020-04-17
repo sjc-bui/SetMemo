@@ -51,8 +51,8 @@
 "ReasonToLockMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để khoá ghi chú này";
 "ReasonToUnlockMemo" = "Sử dụng dấu vân tay hoặc nhập mật khẩu để mở khoá ghi chú này";
 "EnterPassword" = "Nhập mật khẩu";
-"LockMemo" = "Mở khóa ghi chú";
-"UnlockMemo" = "Khóa ghi chú";
+"LockMemo" = "Khóa ghi chú";
+"UnlockMemo" = "Mở khóa ghi chú";
 "EnterPassToLockMemo" = "Nhập mật khẩu để khóa ghi chú";
 "EnterPassToUnlockMemo" = "Nhập mật khẩu để mở khóa ghi chú";
 "UsePassword" = "Sử dụng mật khẩu để bảo mật ghi chú của bạn trong trường hợp không thể sử dụng TouchID hoặc FaceID";
@@ -117,3 +117,4 @@
 "ViewMemo" = "Xem ghi chú";
 "EnterPasswordToView" = "Nhập mật khẩu để xem ghi chú đã khóa";
 "ShowTutorial" = "Hướng dẫn";
+"Reminder" = "Nhắc nhở";
