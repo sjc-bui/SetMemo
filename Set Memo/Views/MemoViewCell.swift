@@ -8,11 +8,11 @@
 
 import UIKit
 
-class MemoViewCell: UITableViewCell {
+class MemoViewCell: UICollectionViewCell {
     
     var content: UILabel = {
         let c = UILabel()
-        c.numberOfLines = 1
+        c.numberOfLines = 2
         c.text = "content"
         c.textColor = .white
         c.textDropShadow()
@@ -25,7 +25,6 @@ class MemoViewCell: UITableViewCell {
         h.text = "hashTag"
         h.textColor = .lightText
         h.textDropShadow()
-        h.textAlignment = NSTextAlignment.right
         return h
     }()
     
@@ -55,35 +54,39 @@ class MemoViewCell: UITableViewCell {
         i.isHidden = true
         return i
     }()
-    
-    fileprivate lazy var dateAndHashtagStack: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [dateEdited, hashTag])
+
+    fileprivate lazy var lockAndReminderIcon: UIStackView = {
+        let s = UIStackView(arrangedSubviews: [lockIcon, reminderIsSetIcon])
         s.axis = .horizontal
         s.alignment = .leading
-        s.spacing = 6
+        s.spacing = 3
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
-    
+
     fileprivate lazy var middleCellStack: UIStackView = {
-        let v = UIStackView(arrangedSubviews: [content, dateAndHashtagStack])
+        let v = UIStackView(arrangedSubviews: [content, dateEdited, hashTag])
         v.axis = .vertical
-        v.spacing = 3
+        v.spacing = 2
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
     
     fileprivate lazy var groupStack: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [lockIcon, middleCellStack, reminderIsSetIcon])
-        s.axis = .horizontal
-        s.alignment = .center
-        s.spacing = 6
+        let s = UIStackView(arrangedSubviews: [middleCellStack, lockAndReminderIcon])
+        s.axis = .vertical
+        s.alignment = .leading
+        s.spacing = 1
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupContentView()
+    }
+    
+    func setupContentView() {
         
         contentView.addSubview(groupStack)
         
@@ -101,9 +104,5 @@ class MemoViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
 }

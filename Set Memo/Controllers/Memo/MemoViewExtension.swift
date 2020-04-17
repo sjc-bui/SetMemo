@@ -11,48 +11,91 @@ import UIKit
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteMemoAction(at: indexPath)
-        let remind = remindMemoAction(at: indexPath)
-        let deleteRemind = deleteReminderAction(at: indexPath)
-        
-        if lockIsSetAtIndex(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [])
-            
-        } else {
-            if reminderIsSetAtIndex(indexPath: indexPath) == true {
-                return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
-            }
-            
-            return UISwipeActionsConfiguration(actions: [delete, remind])
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let share = shareMemoAction(at: indexPath)
-        let important = setLockAction(at: indexPath)
-        let removeLock = removeLockedAction(at: indexPath)
-        
-        if lockIsSetAtIndex(indexPath: indexPath) == true {
-            return UISwipeActionsConfiguration(actions: [removeLock])
-        }
-        
-        return UISwipeActionsConfiguration(actions: [share, important])
-    }
+//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let delete = deleteMemoAction(at: indexPath)
+//        let remind = remindMemoAction(at: indexPath)
+//        let deleteRemind = deleteReminderAction(at: indexPath)
+//
+//        if lockIsSetAtIndex(indexPath: indexPath) == true {
+//            return UISwipeActionsConfiguration(actions: [])
+//
+//        } else {
+//            if reminderIsSetAtIndex(indexPath: indexPath) == true {
+//                return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
+//            }
+//
+//            return UISwipeActionsConfiguration(actions: [delete, remind])
+//        }
+//    }
+//
+//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let share = shareMemoAction(at: indexPath)
+//        let important = setLockAction(at: indexPath)
+//        let removeLock = removeLockedAction(at: indexPath)
+//
+//        if lockIsSetAtIndex(indexPath: indexPath) == true {
+//            return UISwipeActionsConfiguration(actions: [removeLock])
+//        }
+//
+//        return UISwipeActionsConfiguration(actions: [share, important])
+//    }
     
     @objc func showIntro(_ sender: UITapGestureRecognizer) {
         let settingViewController = SettingViewController()
         settingViewController.presentTutorial(view: self, tintColor: Colors.shared.defaultTintColor)
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let updateView = UpdateMemoViewController()
+        var memo = memoData[indexPath.row]
+
+        if isFiltering() {
+            memo = filterMemoData[indexPath.row]
+            updateView.filterMemoData = filterMemoData
+            updateView.isFiltering = true
+        } else {
+            memo = memoData[indexPath.row]
+            updateView.memoData = memoData
+        }
+
+        let content = memo.value(forKey: "content") as? String
+        let hashTag = memo.value(forKey: "hashTag") as? String
+        let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
+        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        let isEdited = memo.value(forKey: "isEdited") as? Bool
+        let isReminder = memo.value(forKey: "isReminder") as? Bool
+        let isLocked = memo.value(forKey: "isLocked") as? Bool
+        let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
+        let color = memo.value(forKey: "color") as? String ?? "white"
+
+        let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
+        let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
+        let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
+
+        updateView.backgroundColor = color
+        updateView.dateLabelHeader = dateEditedString
+        updateView.content = content!
+        updateView.hashTag = hashTag!
+        updateView.dateCreated = dateCreatedString
+        updateView.dateEdited = dateEditedString
+        updateView.isEdited = isEdited!
+        updateView.isReminder = isReminder!
+        updateView.isLocked = isLocked!
+        updateView.dateReminder = dateReminderString
+        updateView.index = indexPath.row
+
+        self.navigationController?.pushViewController(updateView, animated: true)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if memoData.isEmpty {
-            tableView.backgroundView = emptyView
+            collectionView.backgroundView = emptyView
             emptyView.showTutorialLabel.textColor = Colors.shared.defaultTintColor
             emptyView.showTutorialLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showIntro(_:))))
             
         } else {
-            tableView.backgroundView = nil
+            collectionView.backgroundView = nil
             if isFiltering() {
                 return filterMemoData.count
                 
@@ -63,10 +106,9 @@ extension MemoViewController {
         return memoData.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! MemoViewCell
-        cell.selectedBackground()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseCellId, for: indexPath) as! MemoViewCell
         
         var memo = memoData[indexPath.row]
         if isFiltering() {
@@ -116,56 +158,48 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.accessoryType = .none
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 6
         
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let updateView = UpdateMemoViewController()
-        var memo = memoData[indexPath.row]
-        
-        if isFiltering() {
-            memo = filterMemoData[indexPath.row]
-            updateView.filterMemoData = filterMemoData
-            updateView.isFiltering = true
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        collectionView.collectionViewLayout.invalidateLayout()
+        if UIDevice.current.orientation.isLandscape {
+            cellsPerRow = 3
         } else {
-            memo = memoData[indexPath.row]
-            updateView.memoData = memoData
+            cellsPerRow = 2
         }
-        
-        let content = memo.value(forKey: "content") as? String
-        let hashTag = memo.value(forKey: "hashTag") as? String
-        let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
-        let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
-        let isEdited = memo.value(forKey: "isEdited") as? Bool
-        let isReminder = memo.value(forKey: "isReminder") as? Bool
-        let isLocked = memo.value(forKey: "isLocked") as? Bool
-        let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
-        let color = memo.value(forKey: "color") as? String ?? "white"
-        
-        let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
-        let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
-        let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
-        
-        updateView.backgroundColor = color
-        updateView.dateLabelHeader = dateEditedString
-        updateView.content = content!
-        updateView.hashTag = hashTag!
-        updateView.dateCreated = dateCreatedString
-        updateView.dateEdited = dateEditedString
-        updateView.isEdited = isEdited!
-        updateView.isReminder = isReminder!
-        updateView.isLocked = isLocked!
-        updateView.dateReminder = dateReminderString
-        updateView.index = indexPath.row
-        
-        self.navigationController?.pushViewController(updateView, animated: true)
     }
 }
 
 extension MemoViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
+
+extension MemoViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        
+        return CGSize(width: itemWidth, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumInteritemSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumLineSpacing
     }
 }

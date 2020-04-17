@@ -268,7 +268,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             return UIScreen.height / 4
             
         } else if indexPath.section == 1 {
-            return UIScreen.height / 4
+            return UIScreen.height / 3
         }
         
         return 0

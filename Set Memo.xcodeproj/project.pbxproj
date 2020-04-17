@@ -38,7 +38,6 @@
 		7248D0752429EB4700359505 /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7248D0742429EB4700359505 /* Themes.swift */; };
 		724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D22408D9250088F581 /* MemoViewController.swift */; };
 		724CA6D72408D94A0088F581 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D62408D94A0088F581 /* SettingViewController.swift */; };
-		724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6D82408DA850088F581 /* TabbarViewController.swift */; };
 		724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724CA6DB2408EDBF0088F581 /* WriteMemoController.swift */; };
 		724CA6ED2408F3320088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6EF2408F3320088F581 /* Localizable.strings */; };
 		724CA6F22408F34C0088F581 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 724CA6F42408F34C0088F581 /* Localizable.strings */; };
@@ -106,7 +105,6 @@
 		7248D0742429EB4700359505 /* Themes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
 		724CA6D22408D9250088F581 /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
 		724CA6D62408D94A0088F581 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		724CA6D82408DA850088F581 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
 		724CA6DB2408EDBF0088F581 /* WriteMemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteMemoController.swift; sourceTree = "<group>"; };
 		724CA6EE2408F3320088F581 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		724CA6F32408F34C0088F581 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 			children = (
 				72E4D439241232F500606AD2 /* Memo */,
 				72E4D438241232D600606AD2 /* Settings */,
-				724CA6D82408DA850088F581 /* TabbarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -541,7 +538,6 @@
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,
 				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,
-				724CA6D92408DA850088F581 /* TabbarViewController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

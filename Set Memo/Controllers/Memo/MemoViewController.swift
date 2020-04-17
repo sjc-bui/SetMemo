@@ -12,7 +12,7 @@ import CoreData
 import SPAlert
 import LocalAuthentication
 
-class MemoViewController: UITableViewController {
+class MemoViewController: UICollectionViewController {
     
     var memoData: [Memo] = []
     var filterMemoData: [Memo] = []
@@ -23,12 +23,33 @@ class MemoViewController: UITableViewController {
     let datePicker = UIDatePicker()
     let defaults = UserDefaults.standard
     
+    let inset: CGFloat = 10
+    let minimumLineSpacing: CGFloat = 15
+    let minimumInteritemSpacing: CGFloat = 15
+    var cellsPerRow = 2
+    let reuseCellId = "cellId"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView = UITableView(frame: .zero, style: .plain) // add options show list style.
-        self.tableView.delegate = self
-        tableView.register(MemoViewCell.self, forCellReuseIdentifier: "cellId")
         self.navigationItem.setBackButtonTitle(title: nil)
+        setupView()
+    }
+    
+    func setupView() {
+        isLandscape()
+        collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = UIColor.systemBackground
+        collectionView.contentInsetAdjustmentBehavior = .always
+        self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: reuseCellId)
+    }
+    
+    func isLandscape() {
+        print("Call first")
+        if UIDevice.current.orientation.isLandscape {
+            cellsPerRow = 3
+        } else {
+            cellsPerRow = 2
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,8 +58,6 @@ class MemoViewController: UITableViewController {
         configureSearchBar()
         resetIconBadges()
         requestReviewApp()
-        tableView.tableFooterView = UIView()
-        tableView.separatorStyle = .none
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -166,13 +185,13 @@ class MemoViewController: UITableViewController {
             filterMemoData = memoData.filter({ (memo: Memo) -> Bool in
                 memo.content!.lowercased().contains(searchText.lowercased())
             })
-            tableView.reloadData()
+            collectionView.reloadData()
             
         } else if searchController.searchBar.selectedScopeButtonIndex == 1 {
             filterMemoData = memoData.filter({ (memo: Memo) -> Bool in
                 memo.hashTag!.lowercased().contains(searchText.lowercased())
             })
-            tableView.reloadData()
+            collectionView.reloadData()
         }
     }
     
@@ -240,7 +259,7 @@ class MemoViewController: UITableViewController {
             self.setupBarButton()
             
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self.collectionView.reloadData()
             }
             
         } catch let error as NSError {
@@ -367,7 +386,7 @@ class MemoViewController: UITableViewController {
         }
         
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
         
         var lockImg: UIImage?
@@ -498,7 +517,7 @@ class MemoViewController: UITableViewController {
         SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 1)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
     
@@ -523,7 +542,7 @@ class MemoViewController: UITableViewController {
             
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            //tableView.deleteRows(at: [indexPath], with: .automatic)
             
         } else {
             let memo = memoData[indexPath.row]
@@ -534,7 +553,7 @@ class MemoViewController: UITableViewController {
             
             memo.setValue(true, forKey: "temporarilyDelete")
             memoData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -710,7 +729,7 @@ class MemoViewController: UITableViewController {
         }
         
         DispatchQueue.main.async {
-            self.tableView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 }
