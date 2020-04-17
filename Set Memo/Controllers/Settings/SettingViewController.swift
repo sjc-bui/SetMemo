@@ -240,7 +240,7 @@ class SettingViewController: UITableViewController {
     
     @objc func setupRemindEveryDay(sender: UISwitch) {
         if sender.isOn == true {
-            self.navigationController?.pushViewController(RemindViewController(style: .insetGrouped), animated: true)
+            self.push(viewController: RemindViewController(style: .insetGrouped))
             
         } else {
             let center = UNUserNotificationCenter.current()
@@ -269,19 +269,19 @@ class SettingViewController: UITableViewController {
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                self.navigationController?.pushViewController(PrivacyController(style: .insetGrouped), animated: true)
+                self.push(viewController: PrivacyController(style: .insetGrouped))
                 
             case 1:
-                self.navigationController?.pushViewController(AlertsController(style: .insetGrouped), animated: true)
+                self.push(viewController: AlertsController(style: .insetGrouped))
                 
             case 2:
-                self.navigationController?.pushViewController(AppearanceController(style: .insetGrouped), animated: true)
+                self.push(viewController: AppearanceController(style: .insetGrouped))
                 
             case 5:
-                self.navigationController?.pushViewController(FontStyleViewController(style: .insetGrouped), animated: true)
+                self.push(viewController: FontStyleViewController(style: .insetGrouped))
                 
             case 6:
-                self.navigationController?.pushViewController(ThemesViewController(style: .insetGrouped), animated: true)
+                self.push(viewController: ThemesViewController(style: .insetGrouped))
                 
             default:
                 return
@@ -319,7 +319,7 @@ class SettingViewController: UITableViewController {
                 ])
                 
             case 1:
-                self.navigationController?.pushViewController(RecentlyDeletedController(), animated: true)
+                self.push(viewController: RecentlyDeletedController())
                 
             default:
                 return

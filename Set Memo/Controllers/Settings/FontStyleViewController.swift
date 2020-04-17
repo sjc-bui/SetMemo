@@ -23,7 +23,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
     }
     
     func setupFontSize() {
-        for i in 12...35 {
+        for i in 12...48 {
             fontSizePickerData.append(i)
         }
     }
@@ -76,7 +76,6 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
         setupFontStyle()
         setupFontSize()
         
-        print("view did load inside")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         self.tableView.register(PickerViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -181,11 +180,11 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
             return UITableView.automaticDimension
             
         } else if indexPath.section == 1 {
-            let fontSizePickerHeight = UIScreen.height / 5
+            let fontSizePickerHeight = UIScreen.height / 4
             return fontSizePickerHeight
             
         } else if indexPath.section == 2 {
-            let fontStylePickerHeight = UIScreen.height / 4
+            let fontStylePickerHeight = UIScreen.height / 3
             return fontStylePickerHeight
         }
         

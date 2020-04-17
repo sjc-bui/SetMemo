@@ -37,7 +37,7 @@ class EmptyMemoView: UIView {
         label.font = UIFont.boldSystemFont(ofSize: Dimension.shared.showTutorialLabelSize)
         label.textColor = .white
         label.numberOfLines = 1
-        label.isUserInteractionEnabled = true
+        //label.isUserInteractionEnabled = true
         label.text = "ShowTutorial".localized
         return label
     }()

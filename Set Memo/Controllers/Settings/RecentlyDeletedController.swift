@@ -9,23 +9,44 @@
 import UIKit
 import CoreData
 
-class RecentlyDeletedController: UITableViewController {
+class RecentlyDeletedController: UICollectionViewController {
     
     var memoData: [Memo] = []
     fileprivate let cellID = "cellId"
     let defaults = UserDefaults.standard
     
+    let inset: CGFloat = 10
+    let minimumLineSpacing: CGFloat = 10
+    let minimumInteritemSpacing: CGFloat = 10
+    var cellsPerRow = 2
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "RecentlyDeleted".localized
-        tableView.register(MemoViewCell.self, forCellReuseIdentifier: cellID)
+        setupView()
+    }
+    
+    func setupView() {
+        isLandscape()
+        let layout = UICollectionViewFlowLayout()
+        collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = .white
+        collectionView.contentInsetAdjustmentBehavior = .always
+        self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: "cellId")
+    }
+    
+    func isLandscape() {
+        print("Call first")
+        if UIDevice.current.orientation.isLandscape {
+            cellsPerRow = 3
+        } else {
+            cellsPerRow = 2
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchMemoFromDB()
-        tableView.separatorStyle = .none
-        tableView.tableFooterView = UIView()
     }
     
     func fetchMemoFromDB() {
@@ -42,7 +63,7 @@ class RecentlyDeletedController: UITableViewController {
         do {
             self.memoData = try managedContext?.fetch(fetchRequest) as! [Memo]
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self.collectionView.reloadData()
             }
             
         } catch let error as NSError {
@@ -91,10 +112,12 @@ class RecentlyDeletedController: UITableViewController {
         managedContext?.delete(item)
         
         self.memoData.remove(at: indexPath.row)
-        self.tableView.deleteRows(at: [indexPath], with: .automatic)
         
         do {
             try managedContext?.save()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
@@ -118,13 +141,15 @@ class RecentlyDeletedController: UITableViewController {
         
         item.setValue(false, forKey: "temporarilyDelete")
         memoData.remove(at: indexPath.row)
-        self.tableView.deleteRows(at: [indexPath], with: .automatic)
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         let managedContext = appDelegate?.persistentContainer.viewContext
         
         do {
             try managedContext?.save()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
@@ -154,41 +179,13 @@ class RecentlyDeletedController: UITableViewController {
 
 extension RecentlyDeletedController {
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let titleHeaderMessage = "AutoDeleteMemo".localized
-        return titleHeaderMessage
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = .secondarySystemBackground
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        header.textLabel?.textAlignment = NSTextAlignment.center
-        header.textLabel?.numberOfLines = 0
-        header.textLabel?.textColor = UIColor.systemGray
-    }
-    
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let recover = recoverAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [recover])
-    }
-    
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = deleteAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return memoData.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! MemoViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! MemoViewCell
         
         let memo = memoData[indexPath.row]
         
@@ -211,9 +208,47 @@ extension RecentlyDeletedController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.selectedBackground()
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        print("id - \(indexPath.row)")
         tapHandler(indexPath: indexPath)
+    }
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        let titleHeaderMessage = "AutoDeleteMemo".localized
+//        return titleHeaderMessage
+//    }
+    
+//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let recover = recoverAction(at: indexPath)
+//        return UISwipeActionsConfiguration(actions: [recover])
+//    }
+//
+//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let delete = deleteAction(at: indexPath)
+//        return UISwipeActionsConfiguration(actions: [delete])
+//    }
+//
+}
+
+extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        
+        return CGSize(width: itemWidth, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumInteritemSpacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumLineSpacing
     }
 }

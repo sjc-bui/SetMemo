@@ -28,7 +28,6 @@ class PrivacyController: UITableViewController {
         img.frame = CGRect(x: 0, y: 0, width: 62, height: 62)
         img.contentMode = .scaleAspectFill
         img.tintColor = UIColor.white
-        img.isUserInteractionEnabled = true
         img.tag = 101
         return img
     }()
