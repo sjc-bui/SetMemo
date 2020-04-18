@@ -245,6 +245,16 @@ class RecentlyDeletedController: UICollectionViewController {
             }
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
+    }
 }
 
 extension RecentlyDeletedController {

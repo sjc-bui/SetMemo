@@ -165,4 +165,14 @@ class AppearanceController: UITableViewController {
             }
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
+    }
 }

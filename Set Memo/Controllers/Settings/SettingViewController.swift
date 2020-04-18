@@ -28,10 +28,12 @@ class SettingViewController: UITableViewController {
     ]
     
     let advancedDelete: Array = [
+        "Restore purchases",
         "DeleteLabel".localized
     ]
     
     let advanced: Array = [
+        "Restore purchases",
         "DeleteLabel".localized,
         "RecentlyDeleted".localized
     ]
@@ -234,6 +236,14 @@ class SettingViewController: UITableViewController {
                 return cell
                 
             case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
+                return cell
+                
+            case 2:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
@@ -255,7 +265,15 @@ class SettingViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.text = "\(advancedDelete[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
+                return cell
+                
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advancedDelete[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
@@ -352,6 +370,8 @@ class SettingViewController: UITableViewController {
             
             switch indexPath.row {
             case 0:
+                print("Restore purchase")
+            case 1:
                 self.showAlert(title: "Sure".localized, message: "DeleteAllMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "DeleteLabel".localized], actionStyles: [.cancel, .destructive], actions: [
                     { _ in
                         print("Cancel delete")
@@ -376,7 +396,7 @@ class SettingViewController: UITableViewController {
                     }
                 ])
                 
-            case 1:
+            case 2:
                 let layout = UICollectionViewFlowLayout()
                 self.push(viewController: RecentlyDeletedController(collectionViewLayout: layout))
                 
@@ -404,6 +424,16 @@ class SettingViewController: UITableViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         tableView.reloadData()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
     }
 }
 

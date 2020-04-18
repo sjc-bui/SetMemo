@@ -347,4 +347,14 @@ class PrivacyController: UITableViewController {
             defaults.set(false, forKey: Resource.Defaults.useBiometrics)
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
+    }
 }

@@ -48,15 +48,15 @@ class MemoViewController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
                 
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -729,6 +729,16 @@ class MemoViewController: UICollectionViewController {
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() {
+            return .lightContent
+            
+        } else {
+            return .darkContent
         }
     }
 }

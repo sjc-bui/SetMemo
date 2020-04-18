@@ -184,4 +184,8 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         let selectedRange = editor.textView.selectedRange
         editor.textView.scrollRangeToVisible(selectedRange)
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }

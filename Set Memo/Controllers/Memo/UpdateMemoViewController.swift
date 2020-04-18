@@ -397,10 +397,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
     func updateContent(index: Int, newContent: String) {
         
         if isFiltering == true {
@@ -433,5 +429,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
