@@ -20,7 +20,7 @@ extension MemoViewController {
         
         let updateView = UpdateMemoViewController()
         var memo = memoData[indexPath.row]
-
+        
         if isFiltering() {
             memo = filterMemoData[indexPath.row]
             updateView.filterMemoData = filterMemoData
@@ -29,7 +29,7 @@ extension MemoViewController {
             memo = memoData[indexPath.row]
             updateView.memoData = memoData
         }
-
+        
         let content = memo.value(forKey: "content") as? String
         let hashTag = memo.value(forKey: "hashTag") as? String
         let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
@@ -39,11 +39,11 @@ extension MemoViewController {
         let isLocked = memo.value(forKey: "isLocked") as? Bool
         let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
         let color = memo.value(forKey: "color") as? String ?? "white"
-
+        
         let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
-
+        
         updateView.backgroundColor = color
         updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
@@ -130,8 +130,10 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 10
+        cell.clipsToBounds = true
+        cell.layer.shouldRasterize = true
+        cell.layer.rasterizationScale = UIScreen.main.scale
         cell.addLongPress(target: self, action: #selector(longPressMemoItem(sender:)))
         
         return cell
@@ -154,11 +156,7 @@ extension MemoViewController {
                 cellsPerRow = 3
                 
             } else {
-                if defaults.bool(forKey: Resource.Defaults.displayGridStyle) {
-                    cellsPerRow = 2
-                } else {
-                    cellsPerRow = 1
-                }
+                cellsPerRow = 2
             }
         }
     }
@@ -223,9 +221,9 @@ extension MemoViewController {
             popoverController.permittedArrowDirections = [.any]
         }
         
-        if self.presentedViewController == nil {
+        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
             DeviceControl().feedbackOnPress()
-            present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -247,7 +245,7 @@ extension MemoViewController: UICollectionViewDelegateFlowLayout {
         let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         
-        return CGSize(width: itemWidth, height: 110)
+        return CGSize(width: itemWidth, height: 105)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

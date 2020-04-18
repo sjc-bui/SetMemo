@@ -38,6 +38,8 @@ class SettingViewController: UITableViewController {
     
     let other: Array = ["Version".localized]
     
+    let themes = Themes()
+    let theme = ThemesViewController()
     let defaults = UserDefaults.standard
     let appVersion = Bundle().appVersion
     
@@ -58,6 +60,43 @@ class SettingViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tableView.reloadData()
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+            
+        } else {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -118,18 +157,21 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                setupDynamicCells(cell: cell)
                 return cell
                 
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                setupDynamicCells(cell: cell)
                 return cell
                 
             case 2:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                setupDynamicCells(cell: cell)
                 return cell
                 
             case 3:
@@ -143,7 +185,7 @@ class SettingViewController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                
+                setupDynamicCells(cell: cell)
                 return cell
                 
             case 4:
@@ -158,19 +200,21 @@ class SettingViewController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                
+                setupDynamicCells(cell: cell)
                 return cell
                 
             case 5:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                setupDynamicCells(cell: cell)
                 return cell
                 
             case 6:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                setupDynamicCells(cell: cell)
                 return cell
                 
             default:
@@ -185,12 +229,16 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
                 return cell
                 
             case 1:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
                 
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
                 cell.accessoryType = .disclosureIndicator
@@ -209,7 +257,8 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
                 return cell
                 
             default:
@@ -223,6 +272,7 @@ class SettingViewController: UITableViewController {
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.detailTextLabel?.text = "\(appVersion)"
+                setupDynamicCells(cell: cell)
                 return cell
                 
             default:
@@ -236,6 +286,14 @@ class SettingViewController: UITableViewController {
             cell.backgroundColor = UIColor.systemBackground
             return cell
         }
+    }
+    
+    func setupDynamicCells(cell: UITableViewCell) {
+        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = InterfaceColors.cellColor
+        
+        cell.textLabel?.textColor = UIColor.black
+        cell.textLabel?.textColor = InterfaceColors.fontColor
     }
     
     @objc func setupRemindEveryDay(sender: UISwitch) {
@@ -319,7 +377,8 @@ class SettingViewController: UITableViewController {
                 ])
                 
             case 1:
-                self.push(viewController: RecentlyDeletedController())
+                let layout = UICollectionViewFlowLayout()
+                self.push(viewController: RecentlyDeletedController(collectionViewLayout: layout))
                 
             default:
                 return
@@ -380,6 +439,14 @@ extension SettingViewController {
         )
         
         var configuration = WhatsNewViewController.Configuration()
+        
+        if darkModeIsEnable() == true {
+            configuration.apply(theme: .darkRed)
+            
+        } else {
+            configuration.apply(theme: .default)
+        }
+        
         configuration.titleView.insets = UIEdgeInsets(top: 40, left: 20, bottom: 15, right: 15)
         configuration.itemsView.layout = .left
         configuration.itemsView.imageSize = .fixed(height: 40)

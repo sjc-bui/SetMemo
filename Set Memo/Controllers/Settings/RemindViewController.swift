@@ -15,6 +15,9 @@ class RemindViewController: UITableViewController {
     let reuseTextFileId = "textFieldId"
     let reuseCellId = "cellId"
     let defaults = UserDefaults.standard
+    let theme = ThemesViewController()
+    let themes = Themes()
+    let setting = SettingViewController()
     
     var button = UIButton(type: .custom)
     func setReminderButton(){
@@ -86,7 +89,45 @@ class RemindViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setReminderButton()
+        setupDynamicElements()
     }
+    
+    
+    func setupDynamicElements() {
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+            
+        } else if theme.darkModeEnabled() == true {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -122,6 +163,9 @@ class RemindViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseTextFileId, for: indexPath) as! TextFieldCell
                 cell.textField.text = defaults.string(forKey: Resource.Defaults.remindEverydayContent)
                 cell.textField.inputAccessoryView = setTextFieldAccessory()
+                cell.textField.textColor = InterfaceColors.fontColor
+                
+                setting.setupDynamicCells(cell: cell)
                 return cell
                 
             default:
@@ -134,6 +178,11 @@ class RemindViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseDatePickerCellId, for: indexPath) as! DatePickerCell
+                cell.datePicker.backgroundColor = UIColor.white
+                cell.datePicker.backgroundColor = InterfaceColors.cellColor
+                
+                cell.datePicker.setValue(UIColor.black, forKeyPath: "textColor")
+                cell.datePicker.setValue(InterfaceColors.fontColor, forKeyPath: "textColor")
                 return cell
                 
             default:

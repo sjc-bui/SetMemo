@@ -20,6 +20,9 @@ class PrivacyController: UITableViewController {
     
     private let reuseIdentifier = "CellId"
     private let reuseSwitchCell = "SettingSwitchCell"
+    let theme = ThemesViewController()
+    let themes = Themes()
+    let setting = SettingViewController()
     
     let blurEffectView = UIVisualEffectView()
     let unlockImage: UIImageView = {
@@ -175,6 +178,42 @@ class PrivacyController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+            
+        } else if theme.darkModeEnabled() == true {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -218,6 +257,7 @@ class PrivacyController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
+                setting.setupDynamicCells(cell: cell)
                 
                 return cell
             default:
@@ -231,6 +271,7 @@ class PrivacyController: UITableViewController {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(passcode[indexPath.row])"
+                setting.setupDynamicCells(cell: cell)
                 
                 return cell
             default:

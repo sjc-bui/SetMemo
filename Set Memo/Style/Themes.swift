@@ -10,6 +10,7 @@ import UIKit
 
 struct InterfaceColors {
     static var viewBackgroundColor = UIColor()
+    static var secondaryBackgroundColor = UIColor()
     static var navigationBarColor = UIColor()
     static var cellColor = UIColor()
     static var fontColor = UIColor()
@@ -22,7 +23,8 @@ struct InterfaceColors {
 class Themes {
     
     func setupDefaultTheme() {
-        InterfaceColors.viewBackgroundColor = .secondarySystemBackground
+        InterfaceColors.viewBackgroundColor = .white
+        InterfaceColors.secondaryBackgroundColor = UIColor.secondaryColor
         InterfaceColors.navigationBarColor = .white
         InterfaceColors.cellColor = .white
         InterfaceColors.fontColor = .black
@@ -31,8 +33,9 @@ class Themes {
     }
     
     func setupPureDarkTheme() {
-        InterfaceColors.textViewColor = .black
         InterfaceColors.viewBackgroundColor = .black
+        InterfaceColors.textViewColor = .black
+        InterfaceColors.secondaryBackgroundColor = .black
         InterfaceColors.cellColor = UIColor(hexString: "#232323")
         InterfaceColors.fontColor = .white
         InterfaceColors.navigationBarColor = .black

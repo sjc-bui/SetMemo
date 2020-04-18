@@ -28,6 +28,8 @@ class MemoViewController: UICollectionViewController {
     let minimumInteritemSpacing: CGFloat = 10
     var cellsPerRow = 2
     let reuseCellId = "cellId"
+    let themes = Themes()
+    let theme = ThemesViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,6 @@ class MemoViewController: UICollectionViewController {
     func setupView() {
         isLandscape()
         collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = UIColor.secondarySystemBackground
         collectionView.contentInsetAdjustmentBehavior = .always
         self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: reuseCellId)
     }
@@ -58,15 +59,9 @@ class MemoViewController: UICollectionViewController {
                 cellsPerRow = 3
                 
             } else {
-                if defaults.bool(forKey: Resource.Defaults.displayGridStyle) {
-                    cellsPerRow = 2
-                    
-                } else {
-                    cellsPerRow = 1
-                }
+                cellsPerRow = 2
             }
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,6 +70,45 @@ class MemoViewController: UICollectionViewController {
         configureSearchBar()
         resetIconBadges()
         requestReviewApp()
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
+            
+        } else {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.toolbar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.toolbar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,29 +142,6 @@ class MemoViewController: UICollectionViewController {
         self.navigationItem.title = "Memo".localized
         navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
-        
-        // grid or list
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            let gridButton = UIBarButtonItem(image: Resource.Images.gridButton, style: .plain, target: self, action: #selector(displayInGrid))
-            let listButton = UIBarButtonItem(image: Resource.Images.listButton, style: .plain, target: self, action: #selector(displayInList))
-            
-            if defaults.bool(forKey: Resource.Defaults.displayGridStyle) {
-                self.navigationItem.rightBarButtonItem = listButton
-                
-            } else {
-                self.navigationItem.rightBarButtonItem = gridButton
-            }
-        }
-    }
-    
-    @objc func displayInList() {
-        defaults.set(false, forKey: Resource.Defaults.displayGridStyle)
-        self.collectionView.reloadData()
-    }
-    
-    @objc func displayInGrid() {
-        defaults.set(true, forKey: Resource.Defaults.displayGridStyle)
-        self.collectionView.reloadData()
     }
     
     func setupBarButton() {
@@ -141,7 +152,7 @@ class MemoViewController: UICollectionViewController {
         
         self.navigationController?.setToolbarHidden(false, animated: true)
         let countMemo = UILabel(frame: .zero)
-        countMemo.textColor = UIColor(named: "mainTextColor")
+        countMemo.textColor = Colors.shared.defaultTintColor
         countMemo.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
         countMemo.textDropShadow()

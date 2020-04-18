@@ -58,7 +58,7 @@ class MemoViewCell: UICollectionViewCell {
     fileprivate lazy var lockAndReminderIcon: UIStackView = {
         let s = UIStackView(arrangedSubviews: [lockIcon, reminderIsSetIcon])
         s.axis = .horizontal
-        s.alignment = .leading
+        s.alignment = .trailing
         s.spacing = 3
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
@@ -74,7 +74,7 @@ class MemoViewCell: UICollectionViewCell {
     
     fileprivate lazy var groupStack: UIStackView = {
         let s = UIStackView(arrangedSubviews: [middleCellStack, lockAndReminderIcon])
-        s.axis = .vertical
+        s.axis = .horizontal
         s.alignment = .leading
         s.spacing = 1
         s.translatesAutoresizingMaskIntoConstraints = false

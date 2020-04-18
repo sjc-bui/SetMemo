@@ -30,6 +30,8 @@ extension UIColor {
     static let lightPink = UIColor(hexString: "#F8A8B0")
     static let lightBrown = UIColor(hexString: "#CB8770")
     static let lightPur = UIColor(hexString: "#D7B3DE")
+    static let secondaryColor = UIColor(hexString: "#ebebf0")
+    static let secondaryBlackColor = UIColor(hexString: "#242426")
     
     static var defaultColors = ["lightRed", "lightRedBack", "medRed", "lightOrange", "medOrange", "lightYellow", "medYellow", "lightGreen", "medGreen", "heavyGreen", "lightBlue", "medBlue", "lightPurple", "medPurple", "azDarkPink", "azGold", "darkBlue", "lightPink", "lightBrown", "lightPur"]
     
