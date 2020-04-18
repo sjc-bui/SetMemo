@@ -34,7 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.defaultTextViewFontSize: 18,
             Resource.Defaults.defaultTintColor: 0,
             Resource.Defaults.setMemoPremium: false,
-            Resource.Defaults.remindEverydayContent: "Good morning, What happening today?"
+            Resource.Defaults.remindEverydayContent: "Good morning, What happening today?",
+            Resource.Defaults.displayGridStyle: true
         ])
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]

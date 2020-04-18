@@ -34,11 +34,15 @@ public class Resource {
         public static var moveToBeginButton: UIImage? = UIImage(systemName: "arrow.up.to.line")
         public static var moveToEndButton: UIImage? = UIImage(systemName: "arrow.down.to.line")
         public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
+        public static var backButton: UIImage? = UIImage(systemName: "arrow.left")
         
         public static var smallBellButton: UIImage? = UIImage(systemName: "bell.fill")
         public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
         public static var setLockButton: UIImage? = UIImage(systemName: "lock")
         public static var removeLockButton: UIImage? = UIImage(systemName: "lock.slash")
+        
+        public static var gridButton: UIImage? = UIImage(systemName: "rectangle.grid.2x2")
+        public static var listButton: UIImage? = UIImage(systemName: "rectangle.grid.1x2")
     }
     
     public class SortBy {
@@ -67,6 +71,7 @@ public class Resource {
         public static let defaultTintColor = "defaultTintColor";
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
+        public static let displayGridStyle = "displayGridStyle";
     }
     
     public class FilterBy {

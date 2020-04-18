@@ -28,6 +28,8 @@ class MemoViewController: UICollectionViewController {
     let minimumInteritemSpacing: CGFloat = 10
     var cellsPerRow = 2
     let reuseCellId = "cellId"
+    let themes = Themes()
+    let theme = ThemesViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,17 +40,27 @@ class MemoViewController: UICollectionViewController {
     func setupView() {
         isLandscape()
         collectionView.alwaysBounceVertical = true
-        collectionView.backgroundColor = UIColor.systemBackground
         collectionView.contentInsetAdjustmentBehavior = .always
         self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: reuseCellId)
     }
     
     func isLandscape() {
-        print("Call first")
-        if UIDevice.current.orientation.isLandscape {
-            cellsPerRow = 3
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 4
+                
+            } else {
+                cellsPerRow = 3
+            }
+            
         } else {
-            cellsPerRow = 2
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 3
+                
+            } else {
+                cellsPerRow = 2
+            }
         }
     }
     
@@ -58,6 +70,45 @@ class MemoViewController: UICollectionViewController {
         configureSearchBar()
         resetIconBadges()
         requestReviewApp()
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
+            
+        } else {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.toolbar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.toolbar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,7 +140,7 @@ class MemoViewController: UICollectionViewController {
     
     private func setupNavigation() {
         self.navigationItem.title = "Memo".localized
-        navigationController?.navigationBar.setColors(background: UIColor.systemBackground, text: Colors.shared.defaultTintColor)
+        navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
     }
     
@@ -101,7 +152,7 @@ class MemoViewController: UICollectionViewController {
         
         self.navigationController?.setToolbarHidden(false, animated: true)
         let countMemo = UILabel(frame: .zero)
-        countMemo.textColor = UIColor(named: "mainTextColor")
+        countMemo.textColor = Colors.shared.defaultTintColor
         countMemo.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
         countMemo.textDropShadow()
@@ -310,60 +361,6 @@ class MemoViewController: UICollectionViewController {
         }
     }
     
-    func shareMemoAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.shareMemoHandle(indexPath: indexPath)
-            completion(true)
-        }
-        action.image = Resource.Images.shareButton
-        action.backgroundColor = .systemBlue
-        return action
-    }
-    
-    func deleteMemoAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.deleteMemoHandle(indexPath: indexPath)
-            completion(true)
-        }
-        action.image = Resource.Images.trashButton
-        action.backgroundColor = .systemRed
-        return action
-    }
-    
-    func remindMemoAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.setReminderForMemo(indexPath: indexPath)
-            completion(true)
-        }
-        action.image = Resource.Images.alarmButton
-        action.backgroundColor = Colors.shared.reminderBtn
-        return action
-    }
-    
-    func deleteReminderAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.deleteReminderHandle(indexPath: indexPath)
-            completion(true)
-        }
-        action.image = Resource.Images.slashBellButton
-        action.backgroundColor = Colors.shared.reminderBtn
-        return action
-    }
-    
-    func setLockAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath)
-            completion(true)
-            
-        }
-        action.image = Resource.Images.setLockButton
-        action.backgroundColor = Colors.shared.importantBtn
-        return action
-    }
-    
     func updateLocked(lockThisMemo: Bool, indexPath: IndexPath) {
         
         if isFiltering() == true {
@@ -516,7 +513,7 @@ class MemoViewController: UICollectionViewController {
         
         SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 1)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+        DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
     }
@@ -542,7 +539,6 @@ class MemoViewController: UICollectionViewController {
             
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
             filterMemoData.remove(at: indexPath.row)
-            //tableView.deleteRows(at: [indexPath], with: .automatic)
             
         } else {
             let memo = memoData[indexPath.row]
@@ -553,7 +549,7 @@ class MemoViewController: UICollectionViewController {
             
             memo.setValue(true, forKey: "temporarilyDelete")
             memoData.remove(at: indexPath.row)
-            //tableView.deleteRows(at: [indexPath], with: .automatic)
+            
         }
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -561,6 +557,9 @@ class MemoViewController: UICollectionViewController {
         
         do {
             try managedContext.save()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
             
         } catch let error as NSError {
             print("Could not save. \(error) , \(error.userInfo)")

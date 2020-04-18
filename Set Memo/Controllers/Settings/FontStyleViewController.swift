@@ -13,6 +13,9 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
     var fontStylePickerData: [String] = []
     var fontSizePickerData: [Int] = []
     let defaults = UserDefaults.standard
+    let theme = ThemesViewController()
+    let themes = Themes()
+    let setting = SettingViewController()
     
     func setupFontStyle() {
         for family in UIFont.familyNames {
@@ -82,6 +85,42 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+            
+        } else if theme.darkModeEnabled() == true {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -119,6 +158,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
                 
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "The quick brown fox jumps over the lazy dog"
+                setting.setupDynamicCells(cell: cell)
                 return cell
                 
             default:
@@ -134,6 +174,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
                 cell.pickerView.delegate = self
                 cell.pickerView.dataSource = self
                 cell.pickerView.tag = 1
+                theme.dynamicCell(cell: cell, picker: cell.pickerView)
                 
                 let defaultSize = defaults.integer(forKey: Resource.Defaults.defaultTextViewFontSize)
                 if let index = fontSizePickerData.firstIndex(of: defaultSize) {
@@ -155,6 +196,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
                 cell.pickerView.delegate = self
                 cell.pickerView.dataSource = self
                 cell.pickerView.tag = 2
+                theme.dynamicCell(cell: cell, picker: cell.pickerView)
                 
                 let defaultFont = defaults.string(forKey: Resource.Defaults.defaultFontStyle)!
                 if let index = fontStylePickerData.firstIndex(of: defaultFont) {

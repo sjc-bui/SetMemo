@@ -58,7 +58,7 @@ class MemoViewCell: UICollectionViewCell {
     fileprivate lazy var lockAndReminderIcon: UIStackView = {
         let s = UIStackView(arrangedSubviews: [lockIcon, reminderIsSetIcon])
         s.axis = .horizontal
-        s.alignment = .leading
+        s.alignment = .trailing
         s.spacing = 3
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
@@ -74,7 +74,7 @@ class MemoViewCell: UICollectionViewCell {
     
     fileprivate lazy var groupStack: UIStackView = {
         let s = UIStackView(arrangedSubviews: [middleCellStack, lockAndReminderIcon])
-        s.axis = .vertical
+        s.axis = .horizontal
         s.alignment = .leading
         s.spacing = 1
         s.translatesAutoresizingMaskIntoConstraints = false
@@ -96,10 +96,10 @@ class MemoViewCell: UICollectionViewCell {
         lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
-        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
-        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13).isActive = true
-        groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13).isActive = true
+        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -19,6 +19,8 @@ class RecentlyDeletedController: UICollectionViewController {
     let minimumLineSpacing: CGFloat = 10
     let minimumInteritemSpacing: CGFloat = 10
     var cellsPerRow = 2
+    let themes = Themes()
+    let theme = ThemesViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,25 +30,71 @@ class RecentlyDeletedController: UICollectionViewController {
     
     func setupView() {
         isLandscape()
-        let layout = UICollectionViewFlowLayout()
-        collectionView.collectionViewLayout = layout
-        collectionView.backgroundColor = .white
+        collectionView.alwaysBounceVertical = true
         collectionView.contentInsetAdjustmentBehavior = .always
-        self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: "cellId")
+        self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: cellID)
     }
     
     func isLandscape() {
-        print("Call first")
-        if UIDevice.current.orientation.isLandscape {
-            cellsPerRow = 3
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 4
+                
+            } else {
+                cellsPerRow = 3
+            }
+            
         } else {
-            cellsPerRow = 2
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 3
+                
+            } else {
+                cellsPerRow = 2
+            }
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupDynamicElements()
         fetchMemoFromDB()
+    }
+    
+    func setupDynamicElements() {
+        
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
+            
+        } else {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     func fetchMemoFromDB() {
@@ -99,7 +147,7 @@ class RecentlyDeletedController: UICollectionViewController {
             ])
             
         } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
-            // no alert on delete
+            
             self.deleteMemo(indexPath: indexPath)
         }
     }
@@ -175,6 +223,28 @@ class RecentlyDeletedController: UICollectionViewController {
 //            self.present(alertSheetController, animated: true, completion: nil)
 //        }
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransition(to: size, with: coordinator)
+        collectionView.collectionViewLayout.invalidateLayout()
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 4
+            } else {
+                cellsPerRow = 3
+            }
+            
+        } else {
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 3
+                
+            } else {
+                cellsPerRow = 2
+            }
+        }
+    }
 }
 
 extension RecentlyDeletedController {
@@ -204,30 +274,20 @@ extension RecentlyDeletedController {
         cell.hashTag.text = "#\(hashTag)"
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 10
         
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        print("id - \(indexPath.row)")
         tapHandler(indexPath: indexPath)
     }
+    
 //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        let titleHeaderMessage = "AutoDeleteMemo".localized
 //        return titleHeaderMessage
 //    }
-    
-//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let recover = recoverAction(at: indexPath)
-//        return UISwipeActionsConfiguration(actions: [recover])
-//    }
-//
-//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let delete = deleteAction(at: indexPath)
-//        return UISwipeActionsConfiguration(actions: [delete])
-//    }
-//
 }
 
 extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
@@ -241,7 +301,7 @@ extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
         let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         
-        return CGSize(width: itemWidth, height: 120)
+        return CGSize(width: itemWidth, height: 105)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

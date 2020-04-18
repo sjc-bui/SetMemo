@@ -11,35 +11,6 @@ import UIKit
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
-//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let delete = deleteMemoAction(at: indexPath)
-//        let remind = remindMemoAction(at: indexPath)
-//        let deleteRemind = deleteReminderAction(at: indexPath)
-//
-//        if lockIsSetAtIndex(indexPath: indexPath) == true {
-//            return UISwipeActionsConfiguration(actions: [])
-//
-//        } else {
-//            if reminderIsSetAtIndex(indexPath: indexPath) == true {
-//                return UISwipeActionsConfiguration(actions: [delete, deleteRemind])
-//            }
-//
-//            return UISwipeActionsConfiguration(actions: [delete, remind])
-//        }
-//    }
-//
-//    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let share = shareMemoAction(at: indexPath)
-//        let important = setLockAction(at: indexPath)
-//        let removeLock = removeLockedAction(at: indexPath)
-//
-//        if lockIsSetAtIndex(indexPath: indexPath) == true {
-//            return UISwipeActionsConfiguration(actions: [removeLock])
-//        }
-//
-//        return UISwipeActionsConfiguration(actions: [share, important])
-//    }
-    
     @objc func showIntro(_ sender: UITapGestureRecognizer) {
         let settingViewController = SettingViewController()
         settingViewController.presentTutorial(view: self, tintColor: Colors.shared.defaultTintColor)
@@ -49,7 +20,7 @@ extension MemoViewController {
         
         let updateView = UpdateMemoViewController()
         var memo = memoData[indexPath.row]
-
+        
         if isFiltering() {
             memo = filterMemoData[indexPath.row]
             updateView.filterMemoData = filterMemoData
@@ -58,7 +29,7 @@ extension MemoViewController {
             memo = memoData[indexPath.row]
             updateView.memoData = memoData
         }
-
+        
         let content = memo.value(forKey: "content") as? String
         let hashTag = memo.value(forKey: "hashTag") as? String
         let dateCreated = memo.value(forKey: "dateCreated") as? Double ?? 0
@@ -68,11 +39,11 @@ extension MemoViewController {
         let isLocked = memo.value(forKey: "isLocked") as? Bool
         let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
         let color = memo.value(forKey: "color") as? String ?? "white"
-
+        
         let dateCreatedString = DatetimeUtil().convertDatetime(date: dateCreated)
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
-
+        
         updateView.backgroundColor = color
         updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
@@ -159,8 +130,11 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 6
+        cell.layer.cornerRadius = 10
+        cell.clipsToBounds = true
+        cell.layer.shouldRasterize = true
+        cell.layer.rasterizationScale = UIScreen.main.scale
+        cell.addLongPress(target: self, action: #selector(longPressMemoItem(sender:)))
         
         return cell
     }
@@ -170,10 +144,86 @@ extension MemoViewController {
         super.viewWillTransition(to: size, with: coordinator)
         collectionView.collectionViewLayout.invalidateLayout()
         
-        if UIDevice.current.orientation.isLandscape {
-            cellsPerRow = 3
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 4
+            } else {
+                cellsPerRow = 3
+            }
+            
         } else {
-            cellsPerRow = 2
+            if UIDevice.current.orientation.isLandscape {
+                cellsPerRow = 3
+                
+            } else {
+                cellsPerRow = 2
+            }
+        }
+    }
+    
+    @objc func longPressMemoItem(sender: UILongPressGestureRecognizer) {
+        
+        let location = sender.location(in: collectionView)
+        let indexPath = collectionView.indexPathForItem(at: location)
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        if reminderIsSetAtIndex(indexPath: indexPath!) == false {
+            
+            if lockIsSetAtIndex(indexPath: indexPath!) == true {
+                alert.addAction(UIAlertAction(title: "UnlockMemo".localized, style: .default, handler: { _ in
+                    print("Unlock")
+                    self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath!)
+                }))
+                
+            } else {
+                alert.addAction(UIAlertAction(title: "LockMemo".localized, style: .default, handler: { _ in
+                    print("Lock")
+                    self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath!)
+                }))
+            }
+        }
+        
+        if lockIsSetAtIndex(indexPath: indexPath!) == false {
+            
+            if reminderIsSetAtIndex(indexPath: indexPath!) == true {
+                alert.addAction(UIAlertAction(title: "DeleteReminder".localized, style: .default, handler: { _ in
+                    print("delete reminder")
+                    self.deleteReminderHandle(indexPath: indexPath!)
+                }))
+                
+            } else {
+                alert.addAction(UIAlertAction(title: "Reminder".localized, style: .default, handler: { _ in
+                    print("set reminder")
+                    self.setReminderForMemo(indexPath: indexPath!)
+                }))
+            }
+            
+            alert.addAction(UIAlertAction(title: "Share".localized, style: .default, handler: { _ in
+                print("Share memo")
+                self.shareMemoHandle(indexPath: indexPath!)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Delete".localized, style: .default, handler: { _ in
+                print("Delete memo")
+                self.deleteMemoHandle(indexPath: indexPath!)
+            }))
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
+        
+        alert.view.tintColor = Colors.shared.defaultTintColor
+        
+        alert.pruneNegativeWidthConstraints()
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+            popoverController.permittedArrowDirections = [.any]
+        }
+        
+        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+            DeviceControl().feedbackOnPress()
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }
@@ -195,7 +245,7 @@ extension MemoViewController: UICollectionViewDelegateFlowLayout {
         let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         
-        return CGSize(width: itemWidth, height: 120)
+        return CGSize(width: itemWidth, height: 105)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

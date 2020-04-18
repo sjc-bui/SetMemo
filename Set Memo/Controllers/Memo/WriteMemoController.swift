@@ -16,6 +16,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     var hashTag: String?
     var navigationBarHeight: CGFloat?
     let randomColor = UIColor.getRandomColor()
+    let setting = SettingViewController()
     
     func setupUI() {
         view = editor
@@ -37,6 +38,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         self.view.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
         editor.textView.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
         setupNavigationBar()
+        setupDynamicKeyboardColor()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,6 +57,17 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         editor.textView.resignFirstResponder()
+    }
+    
+    func setupDynamicKeyboardColor() {
+        if setting.darkModeIsEnable() == true {
+            editor.textView.keyboardAppearance = .dark
+            editor.textView.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            editor.textView.keyboardAppearance = .default
+            editor.textView.overrideUserInterfaceStyle = .light
+        }
     }
     
     func setupNavigationBar() {
@@ -127,7 +140,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         memo.setValue(date, forKey: "dateCreated")
         memo.setValue(hashTag, forKey: "hashTag")
         memo.setValue(false, forKey: "isReminder")
-        memo.setValue(true, forKey: "isLocked")
+        memo.setValue(false, forKey: "isLocked")
         memo.setValue(false, forKey: "isEdited")
         memo.setValue(false, forKey: "temporarilyDelete")
         memo.setValue(0, forKey: "dateReminder")

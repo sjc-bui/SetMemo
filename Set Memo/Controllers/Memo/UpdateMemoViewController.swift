@@ -29,6 +29,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
+    let setting = SettingViewController()
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
@@ -105,6 +106,18 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
         self.navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: backgroundColor), text: .white)
+        setupDynamicKeyboardColor()
+    }
+    
+    func setupDynamicKeyboardColor() {
+        if setting.darkModeIsEnable() == true {
+            textView.keyboardAppearance = .dark
+            textView.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            textView.keyboardAppearance = .default
+            textView.overrideUserInterfaceStyle = .light
+        }
     }
     
     func unlockMemoWithBioMetrics() {

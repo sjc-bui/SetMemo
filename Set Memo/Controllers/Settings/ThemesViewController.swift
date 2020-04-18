@@ -81,13 +81,13 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 if row == 0 || row == 1 {
                     themes.setupDefaultTheme()
                     setupDefaultPersistentNavigationBar()
-                    view.backgroundColor = InterfaceColors.viewBackgroundColor
+                    view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(false, forKey: Resource.Defaults.useDarkMode)
                     
                 } else if row == 2 {
                     themes.setupPureDarkTheme()
                     setupDarkPersistentNavigationBar()
-                    view.backgroundColor = InterfaceColors.viewBackgroundColor
+                    view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(true, forKey: Resource.Defaults.useDarkMode)
                 }
                 
@@ -182,22 +182,14 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             themes.setupDefaultTheme()
             setupDefaultPersistentNavigationBar()
             
-            view.backgroundColor = InterfaceColors.viewBackgroundColor
-            tableView.separatorColor = nil
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
             
         } else if darkModeEnabled() == true {
             themes.setupPureDarkTheme()
             setupDarkPersistentNavigationBar()
             
-            view.backgroundColor = InterfaceColors.viewBackgroundColor
-            tableView.separatorColor = .white
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
         }
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        themes.triggerSystemMode(mode: traitCollection)
-        setupDynamicElements()
-        tableView.reloadData()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -272,5 +264,15 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         }
         
         return 0
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if darkModeEnabled() {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
     }
 }

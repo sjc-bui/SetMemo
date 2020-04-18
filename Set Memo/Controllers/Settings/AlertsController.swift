@@ -18,6 +18,9 @@ class AlertsController: UITableViewController {
     private let reuseSettingCell = "SettingCell"
     private let reuseSettingSwitchCell = "SettingSwitchCell"
     let defaults = UserDefaults.standard
+    let theme = ThemesViewController()
+    let themes = Themes()
+    let setting = SettingViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +32,42 @@ class AlertsController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupDynamicElements()
+    }
+    
+    func setupDynamicElements() {
+        if theme.darkModeEnabled() == false {
+            themes.setupDefaultTheme()
+            setupDefaultPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+            
+        } else if theme.darkModeEnabled() == true {
+            themes.setupPureDarkTheme()
+            setupDarkPersistentNavigationBar()
+            
+            view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        }
+    }
+    
+    func setupDefaultPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setupDarkPersistentNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -64,7 +103,7 @@ class AlertsController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                
+                setting.setupDynamicCells(cell: cell)
                 return cell
                 
             case 1:
@@ -78,7 +117,7 @@ class AlertsController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                
+                setting.setupDynamicCells(cell: cell)
                 return cell
                 
             default:
