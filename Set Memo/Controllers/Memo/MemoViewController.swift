@@ -11,6 +11,7 @@ import StoreKit
 import CoreData
 import SPAlert
 import LocalAuthentication
+import XLActionController
 
 class MemoViewController: UICollectionViewController {
     
@@ -249,23 +250,25 @@ class MemoViewController: UICollectionViewController {
     @objc func sortBy() {
         
         DeviceControl().feedbackOnPress()
-        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortByDateCreated".localized, "SortByDateEdited".localized, "SortByTitle".localized, "Cancel".localized], actionStyles: [.default, .default, .default, .cancel], actions: [
-            { _ in
-                self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
-                self.fetchMemoFromCoreData()
-            },
-            { _ in
-                self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
-                self.fetchMemoFromCoreData()
-            },
-            { _ in
-                self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
-                self.fetchMemoFromCoreData()
-            },
-            { _ in
-                print("Cancel sort")
-            }
-        ])
+        let actionController = SkypeActionController()
+        
+        actionController.backgroundColor = Colors.shared.defaultTintColor
+        
+        actionController.addAction(Action("SortByDateCreated".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        actionController.addAction(Action("SortByDateEdited".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        actionController.addAction(Action("SortByTitle".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
+        
+        present(actionController, animated: true, completion: nil)
     }
     
     @objc func createNewMemo() {

@@ -159,6 +159,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -166,6 +167,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -173,6 +175,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -209,6 +212,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -216,6 +220,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -233,6 +238,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
                 return cell
                 
             case 1:
@@ -241,6 +247,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
                 return cell
                 
             case 2:
@@ -252,6 +259,7 @@ class SettingViewController: UITableViewController {
                 
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 
                 return cell
                 
@@ -269,6 +277,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
                 return cell
                 
             case 1:
@@ -277,6 +286,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
                 return cell
                 
             default:

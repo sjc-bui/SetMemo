@@ -8,4 +8,6 @@ target 'Set Memo' do
   # Pods for Set Memo
     pod 'SPAlert'
     pod 'WhatsNewKit'
+    pod 'XLActionController'
+    pod 'XLActionController/Skype'
 end

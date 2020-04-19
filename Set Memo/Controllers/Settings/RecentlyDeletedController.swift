@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import XLActionController
 
 class RecentlyDeletedController: UICollectionViewController {
     
@@ -207,21 +208,19 @@ class RecentlyDeletedController: UICollectionViewController {
     func tapHandler(indexPath: IndexPath) {
         
         DeviceControl().feedbackOnPress()
-        self.showAlert(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, alertStyle: .actionSheet, actionTitles: ["Recover".localized, "Delete".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
-            { _ in
-                self.recoverMemo(indexPath: indexPath)
-            },
-            { _ in
-                self.showAlertOnDelete(indexPath: indexPath)
-            },
-            { _ in
-                print("Cancelled recover or delete")
-            }
-        ])
         
-//        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
-//            self.present(alertSheetController, animated: true, completion: nil)
-//        }
+        let actionController = SkypeActionController()
+        actionController.backgroundColor = Colors.shared.defaultTintColor
+        
+        actionController.addAction(Action("Recover".localized, style: .default, handler: { _ in
+            self.recoverMemo(indexPath: indexPath)
+        }))
+        actionController.addAction(Action("Delete".localized, style: .default, handler: { _ in
+            self.showAlertOnDelete(indexPath: indexPath)
+        }))
+        actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
+        
+        present(actionController, animated: true, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
