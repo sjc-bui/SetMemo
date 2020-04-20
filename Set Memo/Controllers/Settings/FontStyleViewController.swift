@@ -232,4 +232,14 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
         
         return 0
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
+    }
 }

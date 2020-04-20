@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XLActionController
 
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
@@ -130,11 +131,13 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.layer.cornerRadius = 10
+        cell.layer.cornerRadius = 4
         cell.clipsToBounds = true
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.main.scale
-        cell.addLongPress(target: self, action: #selector(longPressMemoItem(sender:)))
+        cell.layer.addShadow(color: UIColor.darkGray)
+        
+        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
         
         return cell
     }
@@ -146,14 +149,14 @@ extension MemoViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -164,66 +167,58 @@ extension MemoViewController {
     @objc func longPressMemoItem(sender: UILongPressGestureRecognizer) {
         
         let location = sender.location(in: collectionView)
-        let indexPath = collectionView.indexPathForItem(at: location)
+        let indexPath = collectionView.indexPathForItem(at: location) ?? [0, 0]
         
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let actionController = SkypeActionController()
+        actionController.backgroundColor = Colors.shared.defaultTintColor
         
-        if reminderIsSetAtIndex(indexPath: indexPath!) == false {
+        if reminderIsSetAtIndex(indexPath: indexPath) == false {
             
-            if lockIsSetAtIndex(indexPath: indexPath!) == true {
-                alert.addAction(UIAlertAction(title: "UnlockMemo".localized, style: .default, handler: { _ in
+            if lockIsSetAtIndex(indexPath: indexPath) == true {
+                actionController.addAction(Action("UnlockMemo".localized, style: .default, handler: { _ in
                     print("Unlock")
-                    self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath!)
+                    self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
                 }))
                 
             } else {
-                alert.addAction(UIAlertAction(title: "LockMemo".localized, style: .default, handler: { _ in
+                actionController.addAction(Action("LockMemo".localized, style: .default, handler: { _ in
                     print("Lock")
-                    self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath!)
+                    self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath)
                 }))
             }
         }
         
-        if lockIsSetAtIndex(indexPath: indexPath!) == false {
+        if lockIsSetAtIndex(indexPath: indexPath) == false {
             
-            if reminderIsSetAtIndex(indexPath: indexPath!) == true {
-                alert.addAction(UIAlertAction(title: "DeleteReminder".localized, style: .default, handler: { _ in
+            if reminderIsSetAtIndex(indexPath: indexPath) == true {
+                actionController.addAction(Action("DeleteReminder".localized, style: .default, handler: { _ in
                     print("delete reminder")
-                    self.deleteReminderHandle(indexPath: indexPath!)
+                    self.deleteReminderHandle(indexPath: indexPath)
                 }))
                 
             } else {
-                alert.addAction(UIAlertAction(title: "Reminder".localized, style: .default, handler: { _ in
+                actionController.addAction(Action("Reminder".localized, style: .default, handler: { _ in
                     print("set reminder")
-                    self.setReminderForMemo(indexPath: indexPath!)
+                    self.setReminderForMemo(indexPath: indexPath)
                 }))
             }
             
-            alert.addAction(UIAlertAction(title: "Share".localized, style: .default, handler: { _ in
+            actionController.addAction(Action("Share".localized, style: .default, handler: { _ in
                 print("Share memo")
-                self.shareMemoHandle(indexPath: indexPath!)
+                self.shareMemoHandle(indexPath: indexPath)
             }))
             
-            alert.addAction(UIAlertAction(title: "Delete".localized, style: .default, handler: { _ in
+            actionController.addAction(Action("Delete".localized, style: .default, handler: { _ in
                 print("Delete memo")
-                self.deleteMemoHandle(indexPath: indexPath!)
+                self.deleteMemoHandle(indexPath: indexPath)
             }))
         }
         
-        alert.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
+        actionController.addAction(Action("Cancel".localized, style: .default, handler: nil))
         
-        alert.view.tintColor = Colors.shared.defaultTintColor
-        
-        alert.pruneNegativeWidthConstraints()
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
+        if !(navigationController?.visibleViewController?.isKind(of: SkypeActionController.self))! {
             DeviceControl().feedbackOnPress()
-            self.present(alert, animated: true, completion: nil)
+            present(actionController, animated: true, completion: nil)
         }
     }
 }

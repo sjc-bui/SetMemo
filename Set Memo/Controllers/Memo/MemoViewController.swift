@@ -11,6 +11,8 @@ import StoreKit
 import CoreData
 import SPAlert
 import LocalAuthentication
+import XLActionController
+import EMAlertController
 
 class MemoViewController: UICollectionViewController {
     
@@ -48,15 +50,15 @@ class MemoViewController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
                 
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -249,23 +251,25 @@ class MemoViewController: UICollectionViewController {
     @objc func sortBy() {
         
         DeviceControl().feedbackOnPress()
-        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortByDateCreated".localized, "SortByDateEdited".localized, "SortByTitle".localized, "Cancel".localized], actionStyles: [.default, .default, .default, .cancel], actions: [
-            { _ in
-                self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
-                self.fetchMemoFromCoreData()
-            },
-            { _ in
-                self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
-                self.fetchMemoFromCoreData()
-            },
-            { _ in
-                self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
-                self.fetchMemoFromCoreData()
-            },
-            { _ in
-                print("Cancel sort")
-            }
-        ])
+        let actionController = SkypeActionController()
+        
+        actionController.backgroundColor = Colors.shared.defaultTintColor
+        
+        actionController.addAction(Action("SortByDateCreated".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        actionController.addAction(Action("SortByDateEdited".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        actionController.addAction(Action("SortByTitle".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
+        
+        present(actionController, animated: true, completion: nil)
     }
     
     @objc func createNewMemo() {
@@ -461,21 +465,19 @@ class MemoViewController: UICollectionViewController {
             alertMessage = "EnterPassToUnlockMemo".localized
         }
         
-        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        alert.addTextField { (textField: UITextField) in
-            textField.placeholder = "******"
+        let alert = EMAlertController(title: alertTitle, message: alertMessage)
+        alert.addTextField { (textField) in
+            textField?.placeholder = "******"
         }
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+        let ok = EMAlertAction(title: "OK", style: .normal) {
             self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
         }
         
+        alert.addAction(ok)
         alert.addAction(cancel)
-        alert.addAction(done)
-        alert.view.tintColor = Colors.shared.defaultTintColor
         
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     func deleteReminderHandle(indexPath: IndexPath) {
@@ -522,11 +524,13 @@ class MemoViewController: UICollectionViewController {
     func deleteMemoHandle(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
-            self.showAlert(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
-                { _ in
-                    self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
-                }
-            ])
+            
+            let alert = EMAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized)
+            let ok = EMAlertAction(title: "OK", style: .normal) {
+                self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
+            }
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
         }
         
         if isFiltering() == true {
@@ -729,6 +733,16 @@ class MemoViewController: UICollectionViewController {
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() {
+            return .lightContent
+            
+        } else {
+            return .darkContent
         }
     }
 }

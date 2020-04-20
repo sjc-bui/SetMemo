@@ -14,6 +14,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
+    let themes = Themes()
     let notificationCenter = UNUserNotificationCenter.current()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -37,6 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.remindEverydayContent: "Good morning, What happening today?",
             Resource.Defaults.displayGridStyle: true
         ])
+        
+        if UserDefaults.standard.bool(forKey: Resource.Defaults.useDarkMode) {
+            themes.setupPureDarkTheme()
+            
+        } else {
+            themes.setupDefaultTheme()
+        }
         
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         notificationCenter.requestAuthorization(options: options) { (allow, error) in

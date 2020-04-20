@@ -35,7 +35,7 @@ class RemindViewController: UITableViewController {
         button.setTitle("Done".localized, for: .normal)
         button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 12
         button.backgroundColor = Colors.shared.defaultTintColor
         
         view.addSubview(button)
@@ -235,5 +235,15 @@ class RemindViewController: UITableViewController {
         }
         
         return 0
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
     }
 }

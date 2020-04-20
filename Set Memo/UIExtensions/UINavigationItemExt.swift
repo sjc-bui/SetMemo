@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension UINavigationController {
+   open override var preferredStatusBarStyle: UIStatusBarStyle {
+      return topViewController?.preferredStatusBarStyle ?? .default
+   }
+}
+
 extension UINavigationItem {
     func rightBarButtonEnable(isEnabled: Bool) {
         self.rightBarButtonItem?.isEnabled = isEnabled

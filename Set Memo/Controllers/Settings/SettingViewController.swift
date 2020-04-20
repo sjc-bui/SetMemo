@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import WhatsNewKit
+import EMAlertController
 
 class SettingViewController: UITableViewController {
     
@@ -28,10 +29,12 @@ class SettingViewController: UITableViewController {
     ]
     
     let advancedDelete: Array = [
+        "Restore purchases",
         "DeleteLabel".localized
     ]
     
     let advanced: Array = [
+        "Restore purchases",
         "DeleteLabel".localized,
         "RecentlyDeleted".localized
     ]
@@ -157,6 +160,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -164,6 +168,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -171,6 +176,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -207,6 +213,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -214,6 +221,7 @@ class SettingViewController: UITableViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 setupDynamicCells(cell: cell)
                 return cell
                 
@@ -231,9 +239,19 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
                 return cell
                 
             case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
+                return cell
+                
+            case 2:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
@@ -242,6 +260,7 @@ class SettingViewController: UITableViewController {
                 
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
                 cell.accessoryType = .disclosureIndicator
+                cell.selectedBackground()
                 
                 return cell
                 
@@ -255,10 +274,20 @@ class SettingViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(advanced[indexPath.row])"
+                cell.textLabel?.text = "\(advancedDelete[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
+                return cell
+                
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(advancedDelete[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
                 return cell
                 
             default:
@@ -352,31 +381,36 @@ class SettingViewController: UITableViewController {
             
             switch indexPath.row {
             case 0:
-                self.showAlert(title: "Sure".localized, message: "DeleteAllMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "DeleteLabel".localized], actionStyles: [.cancel, .destructive], actions: [
-                    { _ in
-                        print("Cancel delete")
-                    },
-                    { _ in
-                        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-                        let managedContext = appDelegate?.persistentContainer.viewContext
-                        
-                        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
-                        
-                        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-                        
-                        do {
-                            try managedContext?.execute(deleteRequest)
-                            try managedContext?.save()
-                            
-                        } catch let error as NSError {
-                            print("Could not fetch. \(error), \(error.userInfo)")
-                        }
-                        
-                        tableView.reloadData()
-                    }
-                ])
-                
+                print("Restore purchase")
             case 1:
+                
+                let alert = EMAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized)
+                let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+                let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
+                    
+                    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                    let managedContext = appDelegate?.persistentContainer.viewContext
+                    
+                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+                    
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    
+                    do {
+                        try managedContext?.execute(deleteRequest)
+                        try managedContext?.save()
+                        
+                    } catch let error as NSError {
+                        print("Could not fetch. \(error), \(error.userInfo)")
+                    }
+                    
+                    tableView.reloadData()
+                }
+                
+                alert.addAction(cancel)
+                alert.addAction(delete)
+                present(alert, animated: true, completion: nil)
+                
+            case 2:
                 let layout = UICollectionViewFlowLayout()
                 self.push(viewController: RecentlyDeletedController(collectionViewLayout: layout))
                 
@@ -404,6 +438,16 @@ class SettingViewController: UITableViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         tableView.reloadData()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
+        }
     }
 }
 

@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import EMAlertController
 
 class WriteMemoController: BaseViewController, UITextViewDelegate {
     
@@ -83,31 +84,34 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     @objc func setHashTag() {
         
         DeviceControl().feedbackOnPress()
-        let alert = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
-        
-        alert.addTextField { textField in
-            textField.placeholder = "hashTag"
-            textField.autocorrectionType = .yes
-            textField.autocapitalizationType = .none
+        let alert = EMAlertController(title: "#hashTag", message: nil)
+        alert.addTextField { (textField) in
+            textField?.placeholder = "hashTag"
+            textField?.autocorrectionType = .yes
+            textField?.autocapitalizationType = .none
+            
+            if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                textField?.keyboardAppearance = .dark
+                
+            } else {
+                textField?.keyboardAppearance = .default
+            }
         }
         
-        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        let doneBtn = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
-            let textField = alert?.textFields![0]
-            let text = textField?.text
+        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+        let done = EMAlertAction(title: "Done".localized, style: .normal) {
             
-            if text?.isNullOrWhiteSpace() ?? false {
+            guard let text = alert.textFields.first?.text else { return }
+            if text.isNullOrWhiteSpace() {
             } else {
-                self.hashTag = FormatString().formatHashTag(text: text!)
-                print(FormatString().formatHashTag(text: text!))
+                self.hashTag = FormatString().formatHashTag(text: text)
+                print(FormatString().formatHashTag(text: text))
             }
-        })
+        }
+        alert.addAction(done)
+        alert.addAction(cancel)
         
-        alert.view.tintColor = Colors.shared.defaultTintColor
-        alert.addAction(cancelBtn)
-        alert.addAction(doneBtn)
-        
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     @objc func autoSave() {
@@ -183,5 +187,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         
         let selectedRange = editor.textView.selectedRange
         editor.textView.scrollRangeToVisible(selectedRange)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

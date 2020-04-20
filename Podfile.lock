@@ -1,20 +1,33 @@
 PODS:
+  - EMAlertController (1.0.2)
   - SPAlert (2.1.4)
   - WhatsNewKit (1.3.2)
+  - XLActionController (5.0.2):
+    - XLActionController/Core (= 5.0.2)
+  - XLActionController/Core (5.0.2)
+  - XLActionController/Skype (5.0.2):
+    - XLActionController/Core
 
 DEPENDENCIES:
+  - EMAlertController
   - SPAlert
   - WhatsNewKit
+  - XLActionController
+  - XLActionController/Skype
 
 SPEC REPOS:
   trunk:
+    - EMAlertController
     - SPAlert
     - WhatsNewKit
+    - XLActionController
 
 SPEC CHECKSUMS:
+  EMAlertController: 471e4630309e5ae843ef71f502d6b58525b22c60
   SPAlert: 1a8afa1c6ac86a82ab5b2cfdf7f9a51e68cb6c0c
   WhatsNewKit: 7ae08eaee23a657f26edb33adea83c6029b8bd6c
+  XLActionController: f1f2226d2c6629db197d4a41f2da907085a4cb9d
 
-PODFILE CHECKSUM: 11f80ca6b6056ebf892012efa2ef06acdf6d83e2
+PODFILE CHECKSUM: fed13ced7644e799978844b87e57e054ccac41a9
 
 COCOAPODS: 1.9.0

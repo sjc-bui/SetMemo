@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import XLActionController
+import EMAlertController
 
 class RecentlyDeletedController: UICollectionViewController {
     
@@ -137,17 +139,16 @@ class RecentlyDeletedController: UICollectionViewController {
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
             
-            self.showAlert(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "Delete".localized], actionStyles: [.cancel, .destructive], actions: [
-                { _ in
-                    print("Cancel delete")
-                },
-                { _ in
-                    self.deleteMemo(indexPath: indexPath)
-                }
-            ])
+            let alert = EMAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized)
+            let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+            let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
+                self.deleteMemo(indexPath: indexPath)
+            }
+            alert.addAction(cancel)
+            alert.addAction(delete)
+            present(alert, animated: true, completion: nil)
             
         } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
-            
             self.deleteMemo(indexPath: indexPath)
         }
     }
@@ -207,21 +208,19 @@ class RecentlyDeletedController: UICollectionViewController {
     func tapHandler(indexPath: IndexPath) {
         
         DeviceControl().feedbackOnPress()
-        self.showAlert(title: "RecentlyDeletedMemo".localized, message: "RecoverBodyContent".localized, alertStyle: .actionSheet, actionTitles: ["Recover".localized, "Delete".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
-            { _ in
-                self.recoverMemo(indexPath: indexPath)
-            },
-            { _ in
-                self.showAlertOnDelete(indexPath: indexPath)
-            },
-            { _ in
-                print("Cancelled recover or delete")
-            }
-        ])
         
-//        if !(navigationController?.visibleViewController?.isKind(of: UIAlertController.self))! {
-//            self.present(alertSheetController, animated: true, completion: nil)
-//        }
+        let actionController = SkypeActionController()
+        actionController.backgroundColor = Colors.shared.defaultTintColor
+        
+        actionController.addAction(Action("Recover".localized, style: .default, handler: { _ in
+            self.recoverMemo(indexPath: indexPath)
+        }))
+        actionController.addAction(Action("Delete".localized, style: .default, handler: { _ in
+            self.showAlertOnDelete(indexPath: indexPath)
+        }))
+        actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
+        
+        present(actionController, animated: true, completion: nil)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -243,6 +242,16 @@ class RecentlyDeletedController: UICollectionViewController {
             } else {
                 cellsPerRow = 2
             }
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
         }
     }
 }

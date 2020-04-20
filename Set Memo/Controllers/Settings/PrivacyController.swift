@@ -8,6 +8,7 @@
 
 import UIKit
 import LocalAuthentication
+import EMAlertController
 
 class PrivacyController: UITableViewController {
     let sections: Array = ["Biometrics".localized, "Password".localized]
@@ -304,32 +305,27 @@ class PrivacyController: UITableViewController {
             
             switch indexPath.row {
             case 0:
-                let alert = UIAlertController(title: "SetPassword".localized, message: "Set password for your memo", preferredStyle: .alert)
                 
-                alert.addTextField { (password: UITextField) in
-                    password.isSecureTextEntry = true
-                    password.placeholder = "InputPassword".localized
+                let alert = EMAlertController(title: "SetPassword".localized, message: "Set password for your memo")
+                alert.addTextField { (password) in
+                    password?.isSecureTextEntry = true
+                    password?.placeholder = "InputPassword".localized
+                }
+                alert.addTextField { (confirmPassword) in
+                    confirmPassword?.isSecureTextEntry = true
+                    confirmPassword?.placeholder = "ConfirmPassword".localized
                 }
                 
-                alert.addTextField { (confirmPassword: UITextField) in
-                    confirmPassword.isSecureTextEntry = true
-                    confirmPassword.placeholder = "ConfirmPassword".localized
-                }
-                
-                let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-                let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { (action) in
+                let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+                let done = EMAlertAction(title: "Done".localized, style: .normal) {
+                    let password = alert.textFields.first?.text
+                    let confirmPassword = alert.textFields[1].text
                     
-                    let password = alert.textFields![0]
-                    let confirmPassword = alert.textFields![1]
-                    
-                    KeychainService.savePasswordToKeychain(service: self.service, account: self.account, data: password.text!)
-                    KeychainService.loadPasswordFromKeychain(service: self.service, account: self.account, data: password.text!)
+                    KeychainService.savePasswordToKeychain(service: self.service, account: self.account, data: password!)
+                    KeychainService.loadPasswordFromKeychain(service: self.service, account: self.account, data: password!)
                 }
-                
-                alert.view.tintColor = Colors.shared.defaultTintColor
-                alert.addAction(cancelBtn)
-                alert.addAction(doneBtn)
-                
+                alert.addAction(done)
+                alert.addAction(cancel)
                 present(alert, animated: true, completion: nil)
                 
             default:
@@ -345,6 +341,16 @@ class PrivacyController: UITableViewController {
             
         } else {
             defaults.set(false, forKey: Resource.Defaults.useBiometrics)
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+            return .lightContent
+            
+        } else {
+            return .darkContent
         }
     }
 }

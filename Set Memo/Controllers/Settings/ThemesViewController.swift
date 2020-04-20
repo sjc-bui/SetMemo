@@ -18,7 +18,6 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     
     let sections = ["Appearance (Pro feature)", "Tin Color (Pro feature)"]
     var themesOptionsData: [String] = [
-        "AutoChange".localized,
         "LightTheme".localized,
         "DarkTheme".localized
     ]
@@ -78,13 +77,13 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 pickerView.selectRow(0, inComponent: 0, animated: true)
                 
             } else {
-                if row == 0 || row == 1 {
+                if row == 0 {
                     themes.setupDefaultTheme()
                     setupDefaultPersistentNavigationBar()
                     view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(false, forKey: Resource.Defaults.useDarkMode)
                     
-                } else if row == 2 {
+                } else if row == 1 {
                     themes.setupPureDarkTheme()
                     setupDarkPersistentNavigationBar()
                     view.backgroundColor = InterfaceColors.secondaryBackgroundColor
