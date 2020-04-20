@@ -9,6 +9,7 @@
 import UIKit
 import SPAlert
 import LocalAuthentication
+import EMAlertController
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
@@ -30,6 +31,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var isFiltering: Bool = false
     var index: Int = 0
     let setting = SettingViewController()
+    let defaults = UserDefaults.standard
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
@@ -164,22 +166,20 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func handleEnterUnlockPassword() {
         
-        let alert = UIAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized, preferredStyle: .alert)
-        alert.addTextField { (textField: UITextField) in
-            textField.placeholder = "******"
+        let alert = EMAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized)
+        alert.addTextField { (textField) in
+            textField?.placeholder = "******"
         }
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+        let ok = EMAlertAction(title: "OK", style: .normal) {
             self.userUnlocked = true
             self.lockView.removeFromSuperview()
         }
         
+        alert.addAction(ok)
         alert.addAction(cancel)
-        alert.addAction(done)
-        alert.view.tintColor = Colors.shared.defaultTintColor
         
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -265,17 +265,17 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         info += "\n\(charsCount)\n"
         info += "\(wordsCount)"
         
-        let alert = UIAlertController(title: nil, message: "\(info)", preferredStyle: .actionSheet)
-        let viewLockedMemoButton = UIAlertAction(title: "ViewMemo".localized, style: .default) { (action) in
+        let alert = EMAlertController(title: nil, message: "\(info)")
+        
+        let viewLockedMemoButton = EMAlertAction(title: "ViewMemo".localized, style: .normal) {
             self.unlockMemoWithBioMetrics()
         }
-        let deleteReminderBtn = UIAlertAction(title: "DeleteReminder".localized, style: .default) { (action) in
+        let deleteReminderBtn = EMAlertAction(title: "DeleteReminder".localized, style: .normal) {
             self.deleteReminderHandle()
         }
-        let doneBtn = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
+        let done = EMAlertAction(title: "Done".localized, style: .cancel)
         
-        alert.view.tintColor = Colors.shared.defaultTintColor
-        alert.addAction(doneBtn)
+        alert.addAction(done)
         
         if isReminder {
             alert.addAction(deleteReminderBtn)
@@ -285,14 +285,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             alert.addAction(viewLockedMemoButton)
         }
         
-        alert.pruneNegativeWidthConstraints()
-        if let popoverController = alert.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     func deleteReminderHandle() {
@@ -336,32 +329,32 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if isLocked == true && userUnlocked == true || isLocked == false {
             
             DeviceControl().feedbackOnPress()
-            let alert = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
-            
-            alert.addTextField { textField in
-                textField.placeholder = "newHashTag"
-                textField.autocorrectionType = .yes
-                textField.autocapitalizationType = .none
+            let alert = EMAlertController(title: "#\(hashTag)", message: nil)
+            alert.addTextField { (textField) in
+                textField?.placeholder = "newHashTag"
+                textField?.autocorrectionType = .yes
+                textField?.autocapitalizationType = .none
+                
+                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                    textField?.keyboardAppearance = .dark
+                    
+                } else {
+                    textField?.keyboardAppearance = .default
+                }
             }
-            
-            let cancelButton = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-            let doneButton = UIAlertAction(title: "Done".localized, style: .default, handler: { [weak alert] _ in
+            let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+            let done = EMAlertAction(title: "Done".localized, style: .normal) {
                 
-                let textField = alert?.textFields![0]
-                let text = textField?.text
-                
+                let text = alert.textFields.first?.text
                 if text?.isNullOrWhiteSpace() ?? false {
                 } else {
                     let newHashTag = FormatString().formatHashTag(text: text!)
                     self.updateHashTag(index: self.index, newHashTag: newHashTag)
                 }
-            })
-            
-            alert.view.tintColor = Colors.shared.defaultTintColor
-            alert.addAction(cancelButton)
-            alert.addAction(doneButton)
-            
-            self.present(alert, animated: true, completion: nil)
+            }
+            alert.addAction(done)
+            alert.addAction(cancel)
+            present(alert, animated: true, completion: nil)
         }
     }
     

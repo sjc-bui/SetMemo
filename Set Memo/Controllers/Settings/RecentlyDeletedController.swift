@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import XLActionController
+import EMAlertController
 
 class RecentlyDeletedController: UICollectionViewController {
     
@@ -138,17 +139,16 @@ class RecentlyDeletedController: UICollectionViewController {
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
             
-            self.showAlert(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "Delete".localized], actionStyles: [.cancel, .destructive], actions: [
-                { _ in
-                    print("Cancel delete")
-                },
-                { _ in
-                    self.deleteMemo(indexPath: indexPath)
-                }
-            ])
+            let alert = EMAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized)
+            let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+            let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
+                self.deleteMemo(indexPath: indexPath)
+            }
+            alert.addAction(cancel)
+            alert.addAction(delete)
+            present(alert, animated: true, completion: nil)
             
         } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
-            
             self.deleteMemo(indexPath: indexPath)
         }
     }

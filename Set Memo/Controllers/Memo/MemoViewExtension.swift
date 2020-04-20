@@ -131,10 +131,12 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.layer.cornerRadius = 10
+        cell.layer.cornerRadius = 4
         cell.clipsToBounds = true
         cell.layer.shouldRasterize = true
         cell.layer.rasterizationScale = UIScreen.main.scale
+        cell.layer.addShadow(color: UIColor.darkGray)
+        
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
         
         return cell

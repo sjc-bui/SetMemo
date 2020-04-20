@@ -12,6 +12,7 @@ import CoreData
 import SPAlert
 import LocalAuthentication
 import XLActionController
+import EMAlertController
 
 class MemoViewController: UICollectionViewController {
     
@@ -464,21 +465,19 @@ class MemoViewController: UICollectionViewController {
             alertMessage = "EnterPassToUnlockMemo".localized
         }
         
-        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
-        alert.addTextField { (textField: UITextField) in
-            textField.placeholder = "******"
+        let alert = EMAlertController(title: alertTitle, message: alertMessage)
+        alert.addTextField { (textField) in
+            textField?.placeholder = "******"
         }
-        
-        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        let done = UIAlertAction(title: "OK", style: .default) { (action) in
+        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+        let ok = EMAlertAction(title: "OK", style: .normal) {
             self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
         }
         
+        alert.addAction(ok)
         alert.addAction(cancel)
-        alert.addAction(done)
-        alert.view.tintColor = Colors.shared.defaultTintColor
         
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
     func deleteReminderHandle(indexPath: IndexPath) {
@@ -525,11 +524,13 @@ class MemoViewController: UICollectionViewController {
     func deleteMemoHandle(indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
-            self.showAlert(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
-                { _ in
-                    self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
-                }
-            ])
+            
+            let alert = EMAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized)
+            let ok = EMAlertAction(title: "OK", style: .normal) {
+                self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
+            }
+            alert.addAction(ok)
+            present(alert, animated: true, completion: nil)
         }
         
         if isFiltering() == true {

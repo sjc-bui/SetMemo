@@ -10,4 +10,5 @@ target 'Set Memo' do
     pod 'WhatsNewKit'
     pod 'XLActionController'
     pod 'XLActionController/Skype'
+    pod 'EMAlertController'
 end

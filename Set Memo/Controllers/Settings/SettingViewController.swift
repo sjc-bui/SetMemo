@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import WhatsNewKit
+import EMAlertController
 
 class SettingViewController: UITableViewController {
     
@@ -382,29 +383,32 @@ class SettingViewController: UITableViewController {
             case 0:
                 print("Restore purchase")
             case 1:
-                self.showAlert(title: "Sure".localized, message: "DeleteAllMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "DeleteLabel".localized], actionStyles: [.cancel, .destructive], actions: [
-                    { _ in
-                        print("Cancel delete")
-                    },
-                    { _ in
-                        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-                        let managedContext = appDelegate?.persistentContainer.viewContext
+                
+                let alert = EMAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized)
+                let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+                let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
+                    
+                    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                    let managedContext = appDelegate?.persistentContainer.viewContext
+                    
+                    let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+                    
+                    let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+                    
+                    do {
+                        try managedContext?.execute(deleteRequest)
+                        try managedContext?.save()
                         
-                        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
-                        
-                        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-                        
-                        do {
-                            try managedContext?.execute(deleteRequest)
-                            try managedContext?.save()
-                            
-                        } catch let error as NSError {
-                            print("Could not fetch. \(error), \(error.userInfo)")
-                        }
-                        
-                        tableView.reloadData()
+                    } catch let error as NSError {
+                        print("Could not fetch. \(error), \(error.userInfo)")
                     }
-                ])
+                    
+                    tableView.reloadData()
+                }
+                
+                alert.addAction(cancel)
+                alert.addAction(delete)
+                present(alert, animated: true, completion: nil)
                 
             case 2:
                 let layout = UICollectionViewFlowLayout()
