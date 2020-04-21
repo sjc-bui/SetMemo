@@ -131,7 +131,7 @@ extension MemoViewController {
         }
         
         let cellBackground = UIColor.getRandomColorFromString(color: color)
-        cell.setCellShadow(radius: 4, background: cellBackground)
+        cell.setCellStyle(radius: 6, background: cellBackground)
         
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
         

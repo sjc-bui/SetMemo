@@ -284,7 +284,7 @@ extension RecentlyDeletedController {
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
         let cellBackground = UIColor.getRandomColorFromString(color: color)
-        cell.setCellShadow(radius: 4, background: cellBackground)
+        cell.setCellStyle(radius: 6, background: cellBackground)
         
         return cell
     }

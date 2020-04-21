@@ -475,10 +475,11 @@ class MemoViewController: UICollectionViewController {
         }
         let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
         let ok = EMAlertAction(title: "OK", style: .normal) {
-            let text = alert.textFields.first?.text ?? ""
-            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric)
             
-            if text == keychainPassword {
+            let inputPassword = alert.textFields.first?.text ?? ""
+            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
+            
+            if inputPassword.elementsEqual(keychainPassword) == true{
                 self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
                 
             } else {

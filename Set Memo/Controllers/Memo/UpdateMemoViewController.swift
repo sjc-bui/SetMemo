@@ -174,10 +174,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let ok = EMAlertAction(title: "OK", style: .normal) {
             
             let inputUserPassword = alert.textFields.first?.text ?? ""
-            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric)
+            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
             
-            // input password is matching with keychain password
-            if inputUserPassword == keychainPassword {
+            // if input password is matching with keychain password
+            if inputUserPassword.elementsEqual(keychainPassword) == true {
                 self.removeLockViewFromSuper()
                 
             } else {

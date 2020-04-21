@@ -74,6 +74,7 @@ class PrivacyController: UITableViewController {
                             self.blurEffectView.removeFromSuperview()
                         }
                         print("unlock successfully")
+                        
                     } else {
                         
                         guard let error = evaluateError else {
@@ -83,6 +84,7 @@ class PrivacyController: UITableViewController {
                         // display unlock button if error with biometric
                         UIView.animate(withDuration: 0.2, animations: {
                             self.unlockImage.alpha = 1
+                            
                         }) {_ in
                             let message = self.showErrorMessageForLAErrorCode(errorCode: error._code)
                             print(message)
@@ -291,7 +293,7 @@ class PrivacyController: UITableViewController {
             // set password to use for entire app
             if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
                 
-                let alert = EMAlertController(title: "SetPassword".localized, message: "Set password to protect your memo")
+                let alert = EMAlertController(title: "SetPassword".localized, message: nil)
                 alert.addTextField { (password) in
                     password?.isSecureTextEntry = true
                     password?.placeholder = "InputPassword".localized
@@ -309,7 +311,7 @@ class PrivacyController: UITableViewController {
                     let password = alert.textFields.first?.text ?? ""
                     let confirmPassword = alert.textFields[1].text ?? ""
                     
-                    if !password.isNullOrWhiteSpace() {
+                    if !password.isNullOrWhiteSpace() && password.elementsEqual(confirmPassword) {
                         let saveSuccess = self.keychain.set(password, forKey: Resource.Defaults.passwordToUseBiometric)
                         if saveSuccess {
                             print("save keychain success")
