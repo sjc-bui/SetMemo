@@ -312,6 +312,8 @@ class PrivacyController: UITableViewController {
                     let confirmPassword = alert.textFields[1].text ?? ""
                     
                     if !password.isNullOrWhiteSpace() && password.elementsEqual(confirmPassword) {
+                        // remove keychain if already exist and set new key.
+                        self.keychain.removeObject(forKey: Resource.Defaults.passwordToUseBiometric)
                         let saveSuccess = self.keychain.set(password, forKey: Resource.Defaults.passwordToUseBiometric)
                         if saveSuccess {
                             print("save keychain success")

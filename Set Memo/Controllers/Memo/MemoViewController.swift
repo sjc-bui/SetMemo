@@ -657,7 +657,7 @@ class MemoViewController: UICollectionViewController {
         }
         
         let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-
+        
         remindController.view.tintColor = Colors.shared.defaultTintColor
         remindController.addAction(doneBtn)
         remindController.addAction(cancelBtn)
