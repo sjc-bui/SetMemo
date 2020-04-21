@@ -9,12 +9,13 @@
 import UIKit
 import LocalAuthentication
 import EMAlertController
+import SwiftKeychainWrapper
 
 class PrivacyController: UITableViewController {
-    let sections: Array = ["Biometrics".localized, "Password".localized]
+    let sections: Array = ["Biometrics".localized]
     let biometrics: Array = ["UseTouchOrFaceId".localized]
-    let passcode: Array = ["SetPassword".localized]
     let defaults = UserDefaults.standard
+    let keychain = KeychainWrapper.standard
     
     let service: String = "authService"
     let account: String = "userAccount"
@@ -56,12 +57,14 @@ class PrivacyController: UITableViewController {
         let context = LAContext()
         var error: NSError?
         
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
             let reason = "Reason".localized
             
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, evaluateError in
                 DispatchQueue.main.async {
+                    
                     if success {
+                        
                         // remove unlock button
                         window.viewWithTag(101)?.removeFromSuperview()
                         // remove blur view with animation
@@ -72,6 +75,7 @@ class PrivacyController: UITableViewController {
                         }
                         print("unlock successfully")
                     } else {
+                        
                         guard let error = evaluateError else {
                             return
                         }
@@ -83,7 +87,6 @@ class PrivacyController: UITableViewController {
                             let message = self.showErrorMessageForLAErrorCode(errorCode: error._code)
                             print(message)
                         }
-                        print("unlock error !!!!!")
                     }
                 }
             }
@@ -233,8 +236,6 @@ class PrivacyController: UITableViewController {
         if section == 0 {
             return biometrics.count
             
-        } else if section == 1 {
-            return passcode.count
         }
         
         return 0
@@ -266,20 +267,6 @@ class PrivacyController: UITableViewController {
                 return cell
             }
             
-        } else if indexPath.section == 1 {
-            
-            switch indexPath.row {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(passcode[indexPath.row])"
-                setting.setupDynamicCells(cell: cell)
-                
-                return cell
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                return cell
-            }
-            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
@@ -290,23 +277,21 @@ class PrivacyController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 1 {
+        if section == 0 {
             return "UsePassword".localized
         }
         
         return ""
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    @objc func useBiometric(sender: UISwitch) {
         
-        if indexPath.section == 1 {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
+        if sender.isOn == true {
             
-            switch indexPath.row {
-            case 0:
+            // set password to use for entire app
+            if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
                 
-                let alert = EMAlertController(title: "SetPassword".localized, message: "Set password for your memo")
+                let alert = EMAlertController(title: "SetPassword".localized, message: "Set password to protect your memo")
                 alert.addTextField { (password) in
                     password?.isSecureTextEntry = true
                     password?.placeholder = "InputPassword".localized
@@ -316,30 +301,38 @@ class PrivacyController: UITableViewController {
                     confirmPassword?.placeholder = "ConfirmPassword".localized
                 }
                 
-                let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-                let done = EMAlertAction(title: "Done".localized, style: .normal) {
-                    let password = alert.textFields.first?.text
-                    let confirmPassword = alert.textFields[1].text
-                    
-                    KeychainService.savePasswordToKeychain(service: self.service, account: self.account, data: password!)
-                    KeychainService.loadPasswordFromKeychain(service: self.service, account: self.account, data: password!)
+                let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel) {
+                    sender.isOn = false
                 }
+                
+                let done = EMAlertAction(title: "Done".localized, style: .normal) {
+                    let password = alert.textFields.first?.text ?? ""
+                    let confirmPassword = alert.textFields[1].text ?? ""
+                    
+                    if !password.isNullOrWhiteSpace() {
+                        let saveSuccess = self.keychain.set(password, forKey: Resource.Defaults.passwordToUseBiometric)
+                        if saveSuccess {
+                            print("save keychain success")
+                            self.defaults.set(true, forKey: Resource.Defaults.passwordForBiometricIsSet)
+                            self.defaults.set(true, forKey: Resource.Defaults.useBiometrics)
+                        }
+                        
+                    } else {
+                        print("Wrong password format.")
+                        sender.isOn = false
+                    }
+                }
+                
                 alert.addAction(done)
                 alert.addAction(cancel)
                 present(alert, animated: true, completion: nil)
                 
-            default:
-                return
+            } else {
+                defaults.set(true, forKey: Resource.Defaults.useBiometrics)
             }
-        }
-    }
-    
-    @objc func useBiometric(sender: UISwitch) {
-        
-        if sender.isOn == true {
-            defaults.set(true, forKey: Resource.Defaults.useBiometrics)
             
         } else {
+//            let removeSuccess = keychain.removeObject(forKey: Resource.Defaults.passwordToUseBiometric)
             defaults.set(false, forKey: Resource.Defaults.useBiometrics)
         }
     }

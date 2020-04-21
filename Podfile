@@ -11,4 +11,5 @@ target 'Set Memo' do
     pod 'XLActionController'
     pod 'XLActionController/Skype'
     pod 'EMAlertController'
+    pod 'SwiftKeychainWrapper'
 end

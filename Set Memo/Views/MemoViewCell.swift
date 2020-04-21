@@ -67,6 +67,7 @@ class MemoViewCell: UICollectionViewCell {
     fileprivate lazy var middleCellStack: UIStackView = {
         let v = UIStackView(arrangedSubviews: [content, dateEdited, hashTag])
         v.axis = .vertical
+        v.alignment = .fill
         v.spacing = 2
         v.translatesAutoresizingMaskIntoConstraints = false
         return v

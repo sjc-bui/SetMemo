@@ -72,6 +72,9 @@ public class Resource {
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
         public static let displayGridStyle = "displayGridStyle";
+        
+        public static let passwordToUseBiometric = "passwordToUseBiometric";
+        public static let passwordForBiometricIsSet = "passwordForBiometricIsSet";
     }
     
     public class FilterBy {

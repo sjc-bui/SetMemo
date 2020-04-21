@@ -55,7 +55,7 @@
 "UnlockMemo" = "Mở khóa ghi chú";
 "EnterPassToLockMemo" = "Nhập mật khẩu để khóa ghi chú";
 "EnterPassToUnlockMemo" = "Nhập mật khẩu để mở khóa ghi chú";
-"UsePassword" = "Sử dụng mật khẩu để bảo mật ghi chú của bạn trong trường hợp không thể sử dụng TouchID hoặc FaceID";
+"UsePassword" = "Có thể sử dụng mật khẩu trong trường hợp không thể sử dụng TouchID hoặc FaceID";
 "FontSize" = "Kích thước";
 "Size" = "Kích thước";
 "Small" = "Nhỏ";

@@ -10,6 +10,7 @@ import UIKit
 import SPAlert
 import LocalAuthentication
 import EMAlertController
+import SwiftKeychainWrapper
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
@@ -32,6 +33,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var index: Int = 0
     let setting = SettingViewController()
     let defaults = UserDefaults.standard
+    let keychain = KeychainWrapper.standard
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
@@ -136,10 +138,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 
                 DispatchQueue.main.async {
                     if success {
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self.userUnlocked = true
-                            self.lockView.removeFromSuperview()
-                        })
+                        self.removeLockViewFromSuper()
                         
                     } else {
                         
@@ -169,17 +168,37 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let alert = EMAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized)
         alert.addTextField { (textField) in
             textField?.placeholder = "******"
+            textField?.isSecureTextEntry = true
         }
         let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
         let ok = EMAlertAction(title: "OK", style: .normal) {
-            self.userUnlocked = true
-            self.lockView.removeFromSuperview()
+            
+            let inputUserPassword = alert.textFields.first?.text ?? ""
+            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric)
+            
+            // input password is matching with keychain password
+            if inputUserPassword == keychainPassword {
+                self.removeLockViewFromSuper()
+                
+            } else {
+                print("Wrong password")
+            }
         }
         
         alert.addAction(ok)
         alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func removeLockViewFromSuper() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.lockView.alpha = 0
+            
+        }) { _ in
+            self.userUnlocked = true
+            self.lockView.removeFromSuperview()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

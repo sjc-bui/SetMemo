@@ -41,15 +41,15 @@ class RecentlyDeletedController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
                 
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -230,14 +230,14 @@ class RecentlyDeletedController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -282,9 +282,9 @@ extension RecentlyDeletedController {
         
         cell.hashTag.text = "#\(hashTag)"
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
-        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 10
+        
+        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        cell.setCellShadow(radius: 4, background: cellBackground)
         
         return cell
     }

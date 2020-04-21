@@ -13,6 +13,7 @@ import SPAlert
 import LocalAuthentication
 import XLActionController
 import EMAlertController
+import SwiftKeychainWrapper
 
 class MemoViewController: UICollectionViewController {
     
@@ -24,6 +25,7 @@ class MemoViewController: UICollectionViewController {
     let emptyView = EmptyMemoView()
     let datePicker = UIDatePicker()
     let defaults = UserDefaults.standard
+    let keychain = KeychainWrapper.standard
     
     let inset: CGFloat = 10
     let minimumLineSpacing: CGFloat = 10
@@ -41,9 +43,14 @@ class MemoViewController: UICollectionViewController {
     
     func setupView() {
         isLandscape()
+        collectionView.frame = view.frame
         collectionView.alwaysBounceVertical = true
         collectionView.contentInsetAdjustmentBehavior = .always
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
         self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: reuseCellId)
+        view.addSubview(collectionView)
     }
     
     func isLandscape() {
@@ -69,7 +76,6 @@ class MemoViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigation()
-        configureSearchBar()
         resetIconBadges()
         requestReviewApp()
         setupDynamicElements()
@@ -115,12 +121,18 @@ class MemoViewController: UICollectionViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        configureSearchBar()
         fetchMemoFromCoreData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationItem.searchController = nil
     }
     
     func requestReviewApp() {
@@ -259,14 +271,17 @@ class MemoViewController: UICollectionViewController {
             self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
         }))
+        
         actionController.addAction(Action("SortByDateEdited".localized, style: .default, handler: { _ in
             self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
         }))
+        
         actionController.addAction(Action("SortByTitle".localized, style: .default, handler: { _ in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
         }))
+        
         actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
         
         present(actionController, animated: true, completion: nil)
@@ -401,19 +416,6 @@ class MemoViewController: UICollectionViewController {
         SPAlert().customImage(title: "", message: nil, image: lockImg)
     }
     
-    func removeLockedAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
-            completion(true)
-            
-        }
-        
-        action.image = Resource.Images.removeLockButton
-        action.backgroundColor = Colors.shared.importantBtn
-        return action
-    }
-    
     func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
         
         // using Local Authentication.
@@ -425,6 +427,7 @@ class MemoViewController: UICollectionViewController {
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
                 
                 DispatchQueue.main.async {
+                    
                     if success {
                         self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
                         print("lock & unlock memo")
@@ -468,10 +471,19 @@ class MemoViewController: UICollectionViewController {
         let alert = EMAlertController(title: alertTitle, message: alertMessage)
         alert.addTextField { (textField) in
             textField?.placeholder = "******"
+            textField?.isSecureTextEntry = true
         }
         let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
         let ok = EMAlertAction(title: "OK", style: .normal) {
-            self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+            let text = alert.textFields.first?.text ?? ""
+            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric)
+            
+            if text == keychainPassword {
+                self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                
+            } else {
+                print("wrong password !")
+            }
         }
         
         alert.addAction(ok)

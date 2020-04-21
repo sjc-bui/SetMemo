@@ -98,7 +98,6 @@ extension MemoViewController {
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         let color = memo.value(forKey: "color") as? String ?? "white"
         
-        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
         let defaultFontSize = Dimension.shared.fontMediumSize
         
         cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
@@ -131,11 +130,8 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.layer.cornerRadius = 4
-        cell.clipsToBounds = true
-        cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.main.scale
-        cell.layer.addShadow(color: UIColor.darkGray)
+        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        cell.setCellShadow(radius: 4, background: cellBackground)
         
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
         
