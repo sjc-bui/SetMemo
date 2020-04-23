@@ -620,134 +620,57 @@ class MemoViewController: UICollectionViewController {
     }
     
     // MARK: - Set Reminder
-    func setReminderForMemo(indexPath: IndexPath) {
-        let remindController = UIAlertController(title: "SetReminder".localized, message: nil, preferredStyle: .actionSheet)
-        let customView = UIView()
-        
-        datePicker.datePickerMode = .dateAndTime
-        datePicker.timeZone = NSTimeZone.local
-        datePicker.setValue(UIColor.label, forKey: "textColor")
-        
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        customView.translatesAutoresizingMaskIntoConstraints = false
-        
-        customView.addSubview(datePicker)
-        remindController.view.addSubview(customView)
-        
-        datePicker.topAnchor.constraint(equalTo: customView.topAnchor).isActive = true
-        datePicker.leftAnchor.constraint(equalTo: customView.leftAnchor).isActive = true
-        datePicker.rightAnchor.constraint(equalTo: customView.rightAnchor).isActive = true
-        datePicker.bottomAnchor.constraint(equalTo: customView.bottomAnchor).isActive = true
-        
-        customView.topAnchor.constraint(equalTo: remindController.view.topAnchor, constant: 36).isActive = true
-        customView.rightAnchor.constraint(equalTo: remindController.view.rightAnchor, constant: -10).isActive = true
-        customView.leftAnchor.constraint(equalTo: remindController.view.leftAnchor, constant: 10).isActive = true
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -120).isActive = true
-            
-        } else {
-            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -50).isActive = true
-        }
-        
-        remindController.view.translatesAutoresizingMaskIntoConstraints = false
-        remindController.view.heightAnchor.constraint(equalToConstant: Dimension.shared.reminderBoundHeight).isActive = true
-        
-        let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
-            self.setReminderContent(indexPath: indexPath)
-        }
-        
-        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-        
-        remindController.view.tintColor = Colors.shared.defaultTintColor
-        remindController.addAction(doneBtn)
-        remindController.addAction(cancelBtn)
-        
-        remindController.pruneNegativeWidthConstraints()
-        if let popoverController = remindController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        self.present(remindController, animated: true, completion: nil)
-    }
-    
-    func setReminderContent(indexPath: IndexPath) {
-        
-        if isFiltering() == true {
-            let filterData = filterMemoData[indexPath.row]
-            let content = filterData.value(forKey: "content") as? String
-            let hashTag = filterData.value(forKey: "hashTag") as? String
-            scheduleNotification(title: hashTag!, bodyContent: content!, index: indexPath.row)
-            
-        } else {
-            let memo = memoData[indexPath.row]
-            let content = memo.value(forKey: "content") as? String
-            let hashTag = memo.value(forKey: "hashTag") as? String
-            scheduleNotification(title: hashTag!, bodyContent: content!, index: indexPath.row)
-        }
-    }
-    
-    func scheduleNotification(title: String, bodyContent: String, index: Int) {
-        
-        let center = UNUserNotificationCenter.current()
-        let uuid = UUID().uuidString
-        
-        let content = UNMutableNotificationContent()
-        content.title = "#\(title)"
-        content.body = bodyContent
-        content.userInfo = ["reminderTitle": title]
-        content.sound = UNNotificationSound.default
-        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
-        
-        let components = datePicker.calendar?.dateComponents([.year, .month, .day, .hour, .minute], from: datePicker.date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components!, repeats: false)
-        let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DatetimeFormat".localized
-        let dateFromPicker = dateFormatter.string(from: datePicker.date)
-        
-        center.add(request) { (error) in
-            if error != nil {
-                print("Reminder error: \(error!)")
-            }
-        }
-        
-        updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
-        
-        SPAlert().done(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), haptic: true, duration: 2.0)
-    }
-    
-    func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
-        
-        if isFiltering() == true {
-            let filterData = filterMemoData[index]
-            filterData.notificationUUID = notificationUUID
-            filterData.dateReminder = dateReminder
-            filterData.isReminder = true
-            
-        } else {
-            let memo = memoData[index]
-            memo.notificationUUID = notificationUUID
-            memo.dateReminder = dateReminder
-            memo.isReminder = true
-        }
-        
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let context = appDelegate?.persistentContainer.viewContext
-        
-        do {
-            try context?.save()
-            
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
+//    func setReminderForMemo(indexPath: IndexPath) {
+//        let remindController = UIAlertController(title: "SetReminder".localized, message: nil, preferredStyle: .actionSheet)
+//        let customView = UIView()
+//        
+//        datePicker.datePickerMode = .dateAndTime
+//        datePicker.timeZone = NSTimeZone.local
+//        datePicker.setValue(UIColor.label, forKey: "textColor")
+//        
+//        datePicker.translatesAutoresizingMaskIntoConstraints = false
+//        customView.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        customView.addSubview(datePicker)
+//        remindController.view.addSubview(customView)
+//        
+//        datePicker.topAnchor.constraint(equalTo: customView.topAnchor).isActive = true
+//        datePicker.leftAnchor.constraint(equalTo: customView.leftAnchor).isActive = true
+//        datePicker.rightAnchor.constraint(equalTo: customView.rightAnchor).isActive = true
+//        datePicker.bottomAnchor.constraint(equalTo: customView.bottomAnchor).isActive = true
+//        
+//        customView.topAnchor.constraint(equalTo: remindController.view.topAnchor, constant: 36).isActive = true
+//        customView.rightAnchor.constraint(equalTo: remindController.view.rightAnchor, constant: -10).isActive = true
+//        customView.leftAnchor.constraint(equalTo: remindController.view.leftAnchor, constant: 10).isActive = true
+//        if UIDevice.current.userInterfaceIdiom == .phone {
+//            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -120).isActive = true
+//            
+//        } else {
+//            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -50).isActive = true
+//        }
+//        
+//        remindController.view.translatesAutoresizingMaskIntoConstraints = false
+//        remindController.view.heightAnchor.constraint(equalToConstant: Dimension.shared.reminderBoundHeight).isActive = true
+//        
+//        let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
+//            self.setReminderContent(indexPath: indexPath)
+//        }
+//        
+//        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+//        
+//        remindController.view.tintColor = Colors.shared.defaultTintColor
+//        remindController.addAction(doneBtn)
+//        remindController.addAction(cancelBtn)
+//        
+//        remindController.pruneNegativeWidthConstraints()
+//        if let popoverController = remindController.popoverPresentationController {
+//            popoverController.sourceView = self.view
+//            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
+//            popoverController.permittedArrowDirections = [.any]
+//        }
+//        
+//        self.present(remindController, animated: true, completion: nil)
+//    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         

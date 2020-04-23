@@ -195,10 +195,19 @@ extension MemoViewController {
             } else {
                 actionController.addAction(Action("Reminder".localized, style: .default, handler: { _ in
                     print("set reminder")
-                    //self.setReminderForMemo(indexPath: indexPath)
                     let rootView = ReminderViewController()
                     let remindView = UINavigationController(rootViewController: rootView)
                     remindView.modalPresentationStyle = .fullScreen
+                    
+                    if self.isFiltering() == true {
+                        rootView.isFiltering = true
+                        rootView.filterMemoData = self.filterMemoData
+                        
+                    } else {
+                        rootView.memoData = self.memoData
+                    }
+                    
+                    rootView.index = indexPath.row
                     self.present(remindView, animated: true, completion: nil)
                 }))
             }

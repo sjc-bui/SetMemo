@@ -67,7 +67,7 @@ class ReminderViewController: UIViewController {
         }
         
         datePicker.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        datePicker.heightAnchor.constraint(equalToConstant: view.frame.size.height / 3).isActive = true
+        datePicker.heightAnchor.constraint(equalToConstant: 200).isActive = true
         datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
@@ -80,7 +80,81 @@ class ReminderViewController: UIViewController {
     @objc func setReminder(sender: UIButton) {
         print("Reminder is set")
         DeviceControl().feedbackOnPress()
+        setReminderContent(index: index)
         dismiss(animated: true, completion: nil)
+    }
+    
+    func setReminderContent(index: Int) {
+        
+        if isFiltering == true {
+            let filterData = filterMemoData[index]
+            let content = filterData.value(forKey: "content") as? String
+            let hashTag = filterData.value(forKey: "hashTag") as? String
+            scheduleNotification(title: hashTag!, bodyContent: content!, index: index)
+            
+        } else {
+            let memo = memoData[index]
+            let content = memo.value(forKey: "content") as? String
+            let hashTag = memo.value(forKey: "hashTag") as? String
+            scheduleNotification(title: hashTag!, bodyContent: content!, index: index)
+        }
+    }
+    
+    func scheduleNotification(title: String, bodyContent: String, index: Int) {
+        
+        let center = UNUserNotificationCenter.current()
+        let uuid = UUID().uuidString
+        
+        let content = UNMutableNotificationContent()
+        content.title = "#\(title)"
+        content.body = bodyContent
+        content.userInfo = ["reminderTitle": title]
+        content.sound = UNNotificationSound.default
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+        
+        let components = datePicker.calendar?.dateComponents([.year, .month, .day, .hour, .minute], from: datePicker.date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components!, repeats: false)
+        let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "DatetimeFormat".localized
+        let dateFromPicker = dateFormatter.string(from: datePicker.date)
+        
+        center.add(request) { (error) in
+            if error != nil {
+                print("Reminder error: \(error!)")
+            }
+        }
+        
+        updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
+        
+        SPAlert().done(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), haptic: true, duration: 2.0)
+    }
+    
+    func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
+        
+        if isFiltering == true {
+            let filterData = filterMemoData[index]
+            filterData.notificationUUID = notificationUUID
+            filterData.dateReminder = dateReminder
+            filterData.isReminder = true
+            
+        } else {
+            let memo = memoData[index]
+            memo.notificationUUID = notificationUUID
+            memo.dateReminder = dateReminder
+            memo.isReminder = true
+        }
+        
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        
+        do {
+            try context?.save()
+            
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     func setupRightBarButton() {
