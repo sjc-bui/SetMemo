@@ -335,7 +335,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 1)
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 0.5)
     }
     
     @objc func hideKeyboard() {

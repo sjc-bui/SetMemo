@@ -18,12 +18,6 @@ public class Colors {
     static let cellLight = UIColor(hexString: "#f6f6f6")
     static let cellDark = UIColor(hexString: "#232323")
     
-    static let redColor = UIColor.red
-    
-    static let whiteColor = UIColor.white
-    
-    static let darkgrayColor = UIColor.darkGray
-    
     var defaultTintColor: UIColor {
         return UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
     }

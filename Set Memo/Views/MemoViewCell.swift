@@ -40,7 +40,6 @@ class MemoViewCell: UICollectionViewCell {
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
         r.image = Resource.Images.smallBellButton
-        r.tintColor = .white
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r

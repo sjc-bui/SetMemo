@@ -79,7 +79,6 @@ class ReminderViewController: UIViewController {
     
     @objc func setReminder(sender: UIButton) {
         print("Reminder is set")
-        DeviceControl().feedbackOnPress()
         setReminderContent(index: index)
         dismiss(animated: true, completion: nil)
     }

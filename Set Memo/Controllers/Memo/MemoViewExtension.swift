@@ -93,6 +93,7 @@ extension MemoViewController {
         
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
         let isReminder = memo.value(forKey: "isReminder") as? Bool
         let isLocked = memo.value(forKey: "isLocked") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
@@ -120,6 +121,15 @@ extension MemoViewController {
         
         if isReminder == true {
             cell.reminderIsSetIcon.isHidden = false
+            
+            let current = Date().timeIntervalSinceReferenceDate
+            if current > dateReminder {
+                // Reminder has been delivered.
+                cell.reminderIsSetIcon.tintColor = .systemRed
+            } else {
+                cell.reminderIsSetIcon.tintColor = .white
+            }
+            
         } else {
             cell.reminderIsSetIcon.isHidden = true
         }

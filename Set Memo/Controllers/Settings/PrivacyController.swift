@@ -272,7 +272,7 @@ class PrivacyController: UITableViewController {
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
             
-            cell.backgroundColor = Colors.whiteColor
+            cell.backgroundColor = .white
             cell.textLabel?.textColor = Colors.shared.darkColor
             return cell
         }
