@@ -45,7 +45,9 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        updateView.backgroundColor = color
+        let updateBackground = UIColor.getRandomColorFromString(color: color)
+        
+        updateView.backgroundColor = updateBackground
         updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!
@@ -141,7 +143,7 @@ extension MemoViewController {
         }
         
         let cellBackground = UIColor.getRandomColorFromString(color: color)
-        cell.setCellStyle(radius: 6, background: cellBackground)
+        cell.setCellStyle(background: cellBackground)
         
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
         
@@ -176,7 +178,17 @@ extension MemoViewController {
         let indexPath = collectionView.indexPathForItem(at: location) ?? [0, 0]
         
         let actionController = SkypeActionController()
-        actionController.backgroundColor = Colors.shared.defaultTintColor
+        
+        let color: String?
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            color = filterData.value(forKey: "color") as? String ?? "white"
+            
+        } else {
+            let memo = memoData[indexPath.row]
+            color = memo.value(forKey: "color") as? String ?? "white"
+        }
+        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color!)
         
         if reminderIsSetAtIndex(indexPath: indexPath) == false {
             
@@ -218,6 +230,7 @@ extension MemoViewController {
                     }
                     
                     rootView.index = indexPath.row
+                    rootView.background = UIColor.getRandomColorFromString(color: color!)
                     self.present(remindView, animated: true, completion: nil)
                 }))
             }
@@ -236,7 +249,6 @@ extension MemoViewController {
         actionController.addAction(Action("Cancel".localized, style: .default, handler: nil))
         
         if !(navigationController?.visibleViewController?.isKind(of: SkypeActionController.self))! {
-            DeviceControl().feedbackOnPress()
             present(actionController, animated: true, completion: nil)
         }
     }

@@ -23,7 +23,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var isLocked: Bool = false
     var isEdited: Bool = false
     var dateLabelHeader: String = ""
-    var backgroundColor: String = ""
+    var backgroundColor: UIColor?
     
     var userUnlocked: Bool = false
     
@@ -99,17 +99,17 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         if isLocked {
             setupLockView()
-            lockView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+            lockView.backgroundColor = backgroundColor
             unlockMemoWithBioMetrics()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.view.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        self.navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: backgroundColor), text: .white)
+        self.view.backgroundColor = backgroundColor
+        textView.backgroundColor = backgroundColor
+        dateEditedLabel.backgroundColor = backgroundColor
+        self.navigationController?.navigationBar.setColors(background: backgroundColor!, text: .white)
         setupDynamicKeyboardColor()
     }
     

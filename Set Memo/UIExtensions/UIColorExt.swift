@@ -10,30 +10,29 @@ import UIKit
 
 extension UIColor {
     
-    static let lightRed = UIColor(hexString: "#fe8176")
-    static let lightRedBack = UIColor(hexString: "#dd564b")
-    static let medRed = UIColor(hexString: "#fe9772")
-    static let lightOrange = UIColor(hexString: "#feab6d")
-    static let medOrange = UIColor(hexString: "#fdc168")
-    static let lightYellow = UIColor(hexString: "#fed777")
-    static let medYellow = UIColor(hexString: "#fde077")
-    static let lightGreen = UIColor(hexString: "#c0df81")
-    static let medGreen = UIColor(hexString: "#9bd770")
-    static let heavyGreen = UIColor(hexString: "#79bea8")
-    static let lightBlue = UIColor(hexString: "#609ce1")
-    static let medBlue = UIColor(hexString: "#678ffe")
-    static let lightPurple = UIColor(hexString: "#8a8aef")
-    static let medPurple = UIColor(hexString: "#905bec")
-    static let azDarkPink = UIColor(hexString: "#c06c84")
-    static let azGold = UIColor(hexString: "#e8bc76")
-    static let darkBlue = UIColor(hexString: "#2b589b")
-    static let lightPink = UIColor(hexString: "#F8A8B0")
-    static let lightBrown = UIColor(hexString: "#CB8770")
-    static let lightPur = UIColor(hexString: "#D7B3DE")
+    static let red = UIColor(hexString: "#f44336")
+    static let pink = UIColor(hexString: "#e91e63")
+    static let purple = UIColor(hexString: "#9c27b0")
+    static let deepPurple = UIColor(hexString: "#673ab7")
+    static let indigo = UIColor(hexString: "#3f51b5")
+    static let blue = UIColor(hexString: "#2196f3")
+    static let lightBlue = UIColor(hexString: "#03a9f4")
+    static let cyan = UIColor(hexString: "#00bcd4")
+    static let teal = UIColor(hexString: "#009688")
+    static let green = UIColor(hexString: "#4caf50")
+    static let lightGreen = UIColor(hexString: "#8bc34a")
+    static let lime = UIColor(hexString: "#cddc39")
+    static let yellow = UIColor(hexString: "#fdd835")
+    static let amber = UIColor(hexString: "#ffc107")
+    static let orange = UIColor(hexString: "#ff9800")
+    static let deepOrange = UIColor(hexString: "#ff5722")
+    static let brown = UIColor(hexString: "#795548")
+    static let blueGrey = UIColor(hexString: "#607d8b")
+    
     static let secondaryColor = UIColor(hexString: "#ebebf0")
     static let secondaryBlackColor = UIColor(hexString: "#242426")
     
-    static var defaultColors = ["lightRed", "lightRedBack", "medRed", "lightOrange", "medOrange", "lightYellow", "medYellow", "lightGreen", "medGreen", "heavyGreen", "lightBlue", "medBlue", "lightPurple", "medPurple", "azDarkPink", "azGold", "darkBlue", "lightPink", "lightBrown", "lightPur"]
+    static var defaultColors = ["red", "pink", "purple", "deepPurple", "indigo", "blue", "lightBlue", "cyan", "teal", "green", "lightGreen", "lime", "yellow", "amber", "orange", "deepOrange", "brown", "blueGrey"]
     
     static func getRandomColor() -> String {
         let random = UIColor.defaultColors.randomElement() ?? "white"
@@ -43,46 +42,42 @@ extension UIColor {
     static func getRandomColorFromString(color: String) -> UIColor {
         
         switch color {
-        case "lightRed":
-            return .lightRed
-        case "lightRedBack":
-            return .lightRedBack
-        case "medRed":
-            return .medRed
-        case "lightOrange":
-            return .lightOrange
-        case "medOrange":
-            return .medOrange
-        case "lightYellow":
-            return .lightYellow
-        case "medYellow":
-            return .medYellow
-        case "lightGreen":
-            return .lightGreen
-        case "medGreen":
-            return .medGreen
-        case "heavyGreen":
-            return .heavyGreen
+        case "red":
+            return .red
+        case "pink":
+            return .pink
+        case "purple":
+            return .purple
+        case "deepPurple":
+            return .deepPurple
+        case "indigo":
+            return .indigo
+        case "blue":
+            return .blue
         case "lightBlue":
             return .lightBlue
-        case "medBlue":
-            return .medBlue
-        case "lightPurple":
-            return .lightPurple
-        case "medPurple":
-            return .medPurple
-        case "azDarkPink":
-            return .azDarkPink
-        case "azGold":
-            return .azGold
-        case "lightPink":
-            return .lightPink
-        case "lightBrown":
-            return .lightBrown
-        case "lightPur":
-            return .lightPur
+        case "cyan":
+            return .cyan
+        case "teal":
+            return .teal
+        case "green":
+            return .green
+        case "lightGreen":
+            return .lightGreen
+        case "lime":
+            return .lime
+        case "yellow":
+            return .yellow
+        case "amber":
+            return .amber
+        case "orange":
+            return .orange
+        case "deepOrange":
+            return .deepOrange
+        case "blueGrey":
+            return .blueGrey
         default:
-            return .darkBlue
+            return .brown
         }
     }
     

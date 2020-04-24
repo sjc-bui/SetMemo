@@ -14,6 +14,7 @@ class ReminderViewController: UIViewController {
     var filterMemoData: [Memo] = []
     var isFiltering: Bool = false
     var index: Int = 0
+    var background: UIColor?
     
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -27,7 +28,7 @@ class ReminderViewController: UIViewController {
         btn.setTitle("Done".localized, for: .normal)
         btn.titleLabel?.textColor = .white
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        btn.backgroundColor = Colors.shared.defaultTintColor.adjust(by: -7.75)
+        btn.backgroundColor = .white
         btn.layer.cornerRadius = 12
         btn.addTarget(self, action: #selector(setReminder(sender:)), for: .touchUpInside)
         return btn
@@ -35,7 +36,7 @@ class ReminderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = Colors.shared.defaultTintColor
+        self.view.backgroundColor = background
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,7 +50,7 @@ class ReminderViewController: UIViewController {
     }
     
     func setupView() {
-        self.navigationController?.navigationBar.setColors(background: Colors.shared.defaultTintColor, text: .white)
+        self.navigationController?.navigationBar.setColors(background: background!, text: .white)
         datePicker.setValue(UIColor.white, forKey: "textColor")
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +58,7 @@ class ReminderViewController: UIViewController {
         
         view.addSubview(datePicker)
         view.addSubview(setRemindButton)
+        setRemindButton.backgroundColor = background!.adjust(by: -7.75)
         
         let buttonWidth: CGFloat?
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -163,8 +165,6 @@ class ReminderViewController: UIViewController {
     }
     
     @objc func dismissView() {
-        print("dismiss")
-        DeviceControl().feedbackOnPress()
         dismiss(animated: true, completion: nil)
     }
 }

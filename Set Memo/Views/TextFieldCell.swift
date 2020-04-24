@@ -16,7 +16,7 @@ class TextFieldCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.tintColor = .azGold
+        textField.tintColor = .deepOrange
         textField.placeholder = "custom content"
         contentView.addSubview(textField)
         

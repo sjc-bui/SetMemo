@@ -207,10 +207,11 @@ class RecentlyDeletedController: UICollectionViewController {
     
     func tapHandler(indexPath: IndexPath) {
         
-        DeviceControl().feedbackOnPress()
+        let memo = memoData[indexPath.row]
+        let color = memo.value(forKey: "color") as? String ?? "white"
         
         let actionController = SkypeActionController()
-        actionController.backgroundColor = Colors.shared.defaultTintColor
+        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color)
         
         actionController.addAction(Action("Recover".localized, style: .default, handler: { _ in
             self.recoverMemo(indexPath: indexPath)
@@ -284,7 +285,7 @@ extension RecentlyDeletedController {
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
         let cellBackground = UIColor.getRandomColorFromString(color: color)
-        cell.setCellStyle(radius: 6, background: cellBackground)
+        cell.setCellStyle(background: cellBackground)
         
         return cell
     }

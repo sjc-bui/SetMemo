@@ -61,6 +61,7 @@
 		728D10C924400A1E00B463FD /* TextViewEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728D10C824400A1D00B463FD /* TextViewEditor.swift */; };
 		729E996D24126E26001A5D2C /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996C24126E26001A5D2C /* Colors.swift */; };
 		729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */; };
+		72A6C8592453267600A5D85C /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A6C8582453267600A5D85C /* ButtonCell.swift */; };
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
 		72D7A2AC2446F229003912FB /* UIBarButtonItemExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */; };
 		72D7A2AE2446F95C003912FB /* UIStackViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */; };
@@ -128,6 +129,7 @@
 		728D10C824400A1D00B463FD /* TextViewEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewEditor.swift; sourceTree = "<group>"; };
 		729E996C24126E26001A5D2C /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		729E996E2412ABF1001A5D2C /* SettingSwitchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
+		72A6C8582453267600A5D85C /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
 		72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExt.swift; sourceTree = "<group>"; };
 		72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExt.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				728D10C824400A1D00B463FD /* TextViewEditor.swift */,
 				725EAD662442C4B3005D9CCF /* DatePickerCell.swift */,
 				725EAD682442CFB5005D9CCF /* TextFieldCell.swift */,
+				72A6C8582453267600A5D85C /* ButtonCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				72D7A2AC2446F229003912FB /* UIBarButtonItemExt.swift in Sources */,
 				721F41D2243ED9590098EA00 /* PickerViewCell.swift in Sources */,
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
+				72A6C8592453267600A5D85C /* ButtonCell.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,
 				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,

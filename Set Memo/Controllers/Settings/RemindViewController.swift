@@ -10,36 +10,15 @@ import UIKit
 
 class RemindViewController: UITableViewController {
     
-    let sections = ["Remind text", "Remind at"]
+    let sections = ["Remind text", "Remind at", ""]
     let reuseDatePickerCellId = "datePickerCellId"
     let reuseTextFileId = "textFieldId"
+    let reuseButtonId = "buttonId"
     let reuseCellId = "cellId"
     let defaults = UserDefaults.standard
     let theme = ThemesViewController()
     let themes = Themes()
     let setting = SettingViewController()
-    
-    var button = UIButton(type: .custom)
-    func setReminderButton(){
-        var btnWidth: Int?
-        let btnHeight = 44
-        let screenSize = self.view.frame.size
-        
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            btnWidth = Int(self.view.frame.size.width - 32)
-        } else {
-            btnWidth = 250
-        }
-        
-        button.frame = CGRect(x: (Int(screenSize.width) - btnWidth!) / 2, y: Int(screenSize.height) - 68, width: btnWidth!, height: btnHeight)
-        button.setTitle("Done".localized, for: .normal)
-        button.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
-        button.layer.cornerRadius = 12
-        button.backgroundColor = Colors.shared.defaultTintColor
-        
-        view.addSubview(button)
-    }
     
     @objc func setRemind(sender: UIButton) {
         let index1: IndexPath = IndexPath(row: 0, section: 0)
@@ -83,12 +62,12 @@ class RemindViewController: UITableViewController {
         self.navigationItem.title = "RemindEveryDay".localized
         tableView.register(DatePickerCell.self, forCellReuseIdentifier: reuseDatePickerCellId)
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: reuseTextFileId)
+        tableView.register(ButtonCell.self, forCellReuseIdentifier: reuseButtonId)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseCellId)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setReminderButton()
         setupDynamicElements()
     }
     
@@ -128,12 +107,6 @@ class RemindViewController: UITableViewController {
         navigationController?.navigationBar.isTranslucent = false
     }
     
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.button.removeFromSuperview()
-    }
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
@@ -148,6 +121,9 @@ class RemindViewController: UITableViewController {
             return 1
             
         } else if section == 1 {
+            return 1
+            
+        } else if section == 2 {
             return 1
         }
         
@@ -183,6 +159,22 @@ class RemindViewController: UITableViewController {
                 
                 cell.datePicker.setValue(UIColor.black, forKeyPath: "textColor")
                 cell.datePicker.setValue(InterfaceColors.fontColor, forKeyPath: "textColor")
+                return cell
+                
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseCellId, for: indexPath)
+                return cell
+            }
+            
+        } else if indexPath.section == 2 {
+            
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseButtonId, for: indexPath) as! ButtonCell
+                cell.btn.setTitle("Done".localized, for: .normal)
+                cell.btn.titleLabel?.font = UIFont.systemFont(ofSize: Dimension.shared.medium, weight: .semibold)
+                cell.btn.addTarget(self, action: #selector(setRemind(sender:)), for: .touchUpInside)
+                cell.backgroundColor = Colors.shared.defaultTintColor
                 return cell
                 
             default:
@@ -232,6 +224,9 @@ class RemindViewController: UITableViewController {
             
         } else if indexPath.section == 1 {
             return UIScreen.height / 3
+            
+        } else if indexPath.section == 2 {
+            return 48
         }
         
         return 0
