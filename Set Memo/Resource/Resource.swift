@@ -47,6 +47,7 @@ public class Resource {
     
     public class SortBy {
         public static var title = "title"
+        public static var color = "color"
         public static var dateCreated = "dateCreated"
         public static var dateEdited = "dateEdited"
         public static var content = "content"
@@ -72,6 +73,9 @@ public class Resource {
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
         public static let displayGridStyle = "displayGridStyle";
+        
+        public static let passwordToUseBiometric = "passwordToUseBiometric";
+        public static let passwordForBiometricIsSet = "passwordForBiometricIsSet";
     }
     
     public class FilterBy {

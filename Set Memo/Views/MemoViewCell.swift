@@ -40,7 +40,6 @@ class MemoViewCell: UICollectionViewCell {
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
         r.image = Resource.Images.smallBellButton
-        r.tintColor = .white
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r
@@ -57,7 +56,7 @@ class MemoViewCell: UICollectionViewCell {
 
     fileprivate lazy var lockAndReminderIcon: UIStackView = {
         let s = UIStackView(arrangedSubviews: [lockIcon, reminderIsSetIcon])
-        s.axis = .horizontal
+        s.axis = .vertical
         s.alignment = .trailing
         s.spacing = 3
         s.translatesAutoresizingMaskIntoConstraints = false
@@ -67,6 +66,7 @@ class MemoViewCell: UICollectionViewCell {
     fileprivate lazy var middleCellStack: UIStackView = {
         let v = UIStackView(arrangedSubviews: [content, dateEdited, hashTag])
         v.axis = .vertical
+        v.alignment = .fill
         v.spacing = 2
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -96,9 +96,9 @@ class MemoViewCell: UICollectionViewCell {
         lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
-        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
-        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
+        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12).isActive = true
+        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
         groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
     }
     

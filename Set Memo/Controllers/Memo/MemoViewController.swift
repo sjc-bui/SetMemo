@@ -13,6 +13,7 @@ import SPAlert
 import LocalAuthentication
 import XLActionController
 import EMAlertController
+import SwiftKeychainWrapper
 
 class MemoViewController: UICollectionViewController {
     
@@ -24,10 +25,11 @@ class MemoViewController: UICollectionViewController {
     let emptyView = EmptyMemoView()
     let datePicker = UIDatePicker()
     let defaults = UserDefaults.standard
+    let keychain = KeychainWrapper.standard
     
-    let inset: CGFloat = 10
-    let minimumLineSpacing: CGFloat = 10
-    let minimumInteritemSpacing: CGFloat = 10
+    let inset: CGFloat = 12
+    let minimumLineSpacing: CGFloat = 12
+    let minimumInteritemSpacing: CGFloat = 12
     var cellsPerRow = 2
     let reuseCellId = "cellId"
     let themes = Themes()
@@ -41,9 +43,14 @@ class MemoViewController: UICollectionViewController {
     
     func setupView() {
         isLandscape()
+        collectionView.frame = view.frame
         collectionView.alwaysBounceVertical = true
         collectionView.contentInsetAdjustmentBehavior = .always
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
         self.collectionView.register(MemoViewCell.self, forCellWithReuseIdentifier: reuseCellId)
+        view.addSubview(collectionView)
     }
     
     func isLandscape() {
@@ -69,7 +76,6 @@ class MemoViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigation()
-        configureSearchBar()
         resetIconBadges()
         requestReviewApp()
         setupDynamicElements()
@@ -115,12 +121,18 @@ class MemoViewController: UICollectionViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        configureSearchBar()
         fetchMemoFromCoreData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        navigationItem.searchController = nil
     }
     
     func requestReviewApp() {
@@ -209,6 +221,9 @@ class MemoViewController: UICollectionViewController {
             
         } else if sortBy == Resource.SortBy.dateEdited {
             sortText = "SortByDateEdited".localized
+            
+        } else if sortBy == Resource.SortBy.color {
+            sortText = "SortByColor".localized
         }
         
         return String(format: "SortBy".localized, sortText!)
@@ -259,14 +274,22 @@ class MemoViewController: UICollectionViewController {
             self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
         }))
+        
         actionController.addAction(Action("SortByDateEdited".localized, style: .default, handler: { _ in
             self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
         }))
+        
+        actionController.addAction(Action("SortByColor".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.color, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        
         actionController.addAction(Action("SortByTitle".localized, style: .default, handler: { _ in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
         }))
+        
         actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
         
         present(actionController, animated: true, completion: nil)
@@ -304,6 +327,9 @@ class MemoViewController: UICollectionViewController {
             
         } else if sortBy == Resource.SortBy.dateEdited {
             sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
+            
+        } else if sortBy == Resource.SortBy.color {
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.color, ascending: false)
         }
         
         fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]
@@ -401,19 +427,6 @@ class MemoViewController: UICollectionViewController {
         SPAlert().customImage(title: "", message: nil, image: lockImg)
     }
     
-    func removeLockedAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
-            completion(true)
-            
-        }
-        
-        action.image = Resource.Images.removeLockButton
-        action.backgroundColor = Colors.shared.importantBtn
-        return action
-    }
-    
     func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
         
         // using Local Authentication.
@@ -425,6 +438,7 @@ class MemoViewController: UICollectionViewController {
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
                 
                 DispatchQueue.main.async {
+                    
                     if success {
                         self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
                         print("lock & unlock memo")
@@ -468,10 +482,20 @@ class MemoViewController: UICollectionViewController {
         let alert = EMAlertController(title: alertTitle, message: alertMessage)
         alert.addTextField { (textField) in
             textField?.placeholder = "******"
+            textField?.isSecureTextEntry = true
         }
         let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
         let ok = EMAlertAction(title: "OK", style: .normal) {
-            self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+            
+            let inputPassword = alert.textFields.first?.text ?? ""
+            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
+            
+            if inputPassword.elementsEqual(keychainPassword) == true{
+                self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                
+            } else {
+                print("wrong password !")
+            }
         }
         
         alert.addAction(ok)
@@ -513,7 +537,7 @@ class MemoViewController: UICollectionViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 1)
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 0.5)
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -604,136 +628,6 @@ class MemoViewController: UICollectionViewController {
         }
         
         self.present(activityViewController, animated: true, completion: nil)
-    }
-    
-    // MARK: - Set Reminder
-    func setReminderForMemo(indexPath: IndexPath) {
-        let remindController = UIAlertController(title: "SetReminder".localized, message: nil, preferredStyle: .actionSheet)
-        let customView = UIView()
-        
-        datePicker.datePickerMode = .dateAndTime
-        datePicker.timeZone = NSTimeZone.local
-        datePicker.setValue(UIColor.label, forKey: "textColor")
-        
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        customView.translatesAutoresizingMaskIntoConstraints = false
-        
-        customView.addSubview(datePicker)
-        remindController.view.addSubview(customView)
-        
-        datePicker.topAnchor.constraint(equalTo: customView.topAnchor).isActive = true
-        datePicker.leftAnchor.constraint(equalTo: customView.leftAnchor).isActive = true
-        datePicker.rightAnchor.constraint(equalTo: customView.rightAnchor).isActive = true
-        datePicker.bottomAnchor.constraint(equalTo: customView.bottomAnchor).isActive = true
-        
-        customView.topAnchor.constraint(equalTo: remindController.view.topAnchor, constant: 36).isActive = true
-        customView.rightAnchor.constraint(equalTo: remindController.view.rightAnchor, constant: -10).isActive = true
-        customView.leftAnchor.constraint(equalTo: remindController.view.leftAnchor, constant: 10).isActive = true
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -120).isActive = true
-            
-        } else {
-            customView.bottomAnchor.constraint(equalTo: remindController.view.bottomAnchor, constant: -50).isActive = true
-        }
-        
-        remindController.view.translatesAutoresizingMaskIntoConstraints = false
-        remindController.view.heightAnchor.constraint(equalToConstant: Dimension.shared.reminderBoundHeight).isActive = true
-        
-        let doneBtn = UIAlertAction(title: "Done".localized, style: .default) { action in
-            self.setReminderContent(indexPath: indexPath)
-        }
-        
-        let cancelBtn = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
-
-        remindController.view.tintColor = Colors.shared.defaultTintColor
-        remindController.addAction(doneBtn)
-        remindController.addAction(cancelBtn)
-        
-        remindController.pruneNegativeWidthConstraints()
-        if let popoverController = remindController.popoverPresentationController {
-            popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
-        }
-        
-        self.present(remindController, animated: true, completion: nil)
-    }
-    
-    func setReminderContent(indexPath: IndexPath) {
-        
-        if isFiltering() == true {
-            let filterData = filterMemoData[indexPath.row]
-            let content = filterData.value(forKey: "content") as? String
-            let hashTag = filterData.value(forKey: "hashTag") as? String
-            scheduleNotification(title: hashTag!, bodyContent: content!, index: indexPath.row)
-            
-        } else {
-            let memo = memoData[indexPath.row]
-            let content = memo.value(forKey: "content") as? String
-            let hashTag = memo.value(forKey: "hashTag") as? String
-            scheduleNotification(title: hashTag!, bodyContent: content!, index: indexPath.row)
-        }
-    }
-    
-    func scheduleNotification(title: String, bodyContent: String, index: Int) {
-        
-        let center = UNUserNotificationCenter.current()
-        let uuid = UUID().uuidString
-        
-        let content = UNMutableNotificationContent()
-        content.title = "#\(title)"
-        content.body = bodyContent
-        content.userInfo = ["reminderTitle": title]
-        content.sound = UNNotificationSound.default
-        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
-        
-        let components = datePicker.calendar?.dateComponents([.year, .month, .day, .hour, .minute], from: datePicker.date)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components!, repeats: false)
-        let request = UNNotificationRequest(identifier: uuid, content: content, trigger: trigger)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "DatetimeFormat".localized
-        let dateFromPicker = dateFormatter.string(from: datePicker.date)
-        
-        center.add(request) { (error) in
-            if error != nil {
-                print("Reminder error: \(error!)")
-            }
-        }
-        
-        updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
-        
-        SPAlert().done(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), haptic: true, duration: 2.0)
-    }
-    
-    func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
-        
-        if isFiltering() == true {
-            let filterData = filterMemoData[index]
-            filterData.notificationUUID = notificationUUID
-            filterData.dateReminder = dateReminder
-            filterData.isReminder = true
-            
-        } else {
-            let memo = memoData[index]
-            memo.notificationUUID = notificationUUID
-            memo.dateReminder = dateReminder
-            memo.isReminder = true
-        }
-        
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        let context = appDelegate?.persistentContainer.viewContext
-        
-        do {
-            try context?.save()
-            
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

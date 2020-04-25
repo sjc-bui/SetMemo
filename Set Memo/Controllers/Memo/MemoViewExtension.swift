@@ -45,7 +45,9 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        updateView.backgroundColor = color
+        let updateBackground = UIColor.getRandomColorFromString(color: color)
+        
+        updateView.backgroundColor = updateBackground
         updateView.dateLabelHeader = dateEditedString
         updateView.content = content!
         updateView.hashTag = hashTag!
@@ -93,12 +95,12 @@ extension MemoViewController {
         
         let content = memo.value(forKey: "content") as? String
         let dateEdited = memo.value(forKey: "dateEdited") as? Double ?? 0
+        let dateReminder = memo.value(forKey: "dateReminder") as? Double ?? 0
         let isReminder = memo.value(forKey: "isReminder") as? Bool
         let isLocked = memo.value(forKey: "isLocked") as? Bool
         let hashTag = memo.value(forKey: "hashTag") as? String ?? "not defined"
         let color = memo.value(forKey: "color") as? String ?? "white"
         
-        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
         let defaultFontSize = Dimension.shared.fontMediumSize
         
         cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
@@ -121,6 +123,15 @@ extension MemoViewController {
         
         if isReminder == true {
             cell.reminderIsSetIcon.isHidden = false
+            
+            let current = Date().timeIntervalSinceReferenceDate
+            if current > dateReminder {
+                // Reminder has been delivered.
+                cell.reminderIsSetIcon.tintColor = .systemRed
+            } else {
+                cell.reminderIsSetIcon.tintColor = .white
+            }
+            
         } else {
             cell.reminderIsSetIcon.isHidden = true
         }
@@ -131,11 +142,8 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        cell.layer.cornerRadius = 4
-        cell.clipsToBounds = true
-        cell.layer.shouldRasterize = true
-        cell.layer.rasterizationScale = UIScreen.main.scale
-        cell.layer.addShadow(color: UIColor.darkGray)
+        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        cell.setCellStyle(background: cellBackground)
         
         cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
         
@@ -170,7 +178,17 @@ extension MemoViewController {
         let indexPath = collectionView.indexPathForItem(at: location) ?? [0, 0]
         
         let actionController = SkypeActionController()
-        actionController.backgroundColor = Colors.shared.defaultTintColor
+        
+        let color: String?
+        if isFiltering() == true {
+            let filterData = filterMemoData[indexPath.row]
+            color = filterData.value(forKey: "color") as? String ?? "white"
+            
+        } else {
+            let memo = memoData[indexPath.row]
+            color = memo.value(forKey: "color") as? String ?? "white"
+        }
+        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color!)
         
         if reminderIsSetAtIndex(indexPath: indexPath) == false {
             
@@ -199,7 +217,21 @@ extension MemoViewController {
             } else {
                 actionController.addAction(Action("Reminder".localized, style: .default, handler: { _ in
                     print("set reminder")
-                    self.setReminderForMemo(indexPath: indexPath)
+                    let rootView = ReminderViewController()
+                    let remindView = UINavigationController(rootViewController: rootView)
+                    remindView.modalPresentationStyle = .fullScreen
+                    
+                    if self.isFiltering() == true {
+                        rootView.isFiltering = true
+                        rootView.filterMemoData = self.filterMemoData
+                        
+                    } else {
+                        rootView.memoData = self.memoData
+                    }
+                    
+                    rootView.index = indexPath.row
+                    rootView.background = UIColor.getRandomColorFromString(color: color!)
+                    self.present(remindView, animated: true, completion: nil)
                 }))
             }
             
@@ -217,7 +249,6 @@ extension MemoViewController {
         actionController.addAction(Action("Cancel".localized, style: .default, handler: nil))
         
         if !(navigationController?.visibleViewController?.isKind(of: SkypeActionController.self))! {
-            DeviceControl().feedbackOnPress()
             present(actionController, animated: true, completion: nil)
         }
     }

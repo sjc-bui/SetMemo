@@ -55,7 +55,7 @@
 "UnlockMemo" = "Unlock memo";
 "EnterPassToLockMemo" = "Enter password to lock this memo";
 "EnterPassToUnlockMemo" = "Enter password to unlock this memo";
-"UsePassword" = "Use password to access your memo in case you can't use TouchID or FaceID";
+"UsePassword" = "You can use password to access your memo in case you can't use TouchID or FaceID";
 "FontSize" = "Size";
 "Size" = "Size";
 "Small" = "Small";
@@ -64,6 +64,7 @@
 "Maximum" = "Maximum";
 "SortByDateCreated" = "Date Created";
 "SortByDateEdited" = "Date Edited";
+"SortByColor" = "Color";
 "SortByTitle" = "Title";
 "Sort" = "Sort";
 "Vibration" = "Vibration on touch";

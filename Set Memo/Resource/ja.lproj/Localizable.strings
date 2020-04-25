@@ -64,6 +64,7 @@
 "Maximum" = "特大";
 "SortByDateCreated" = "作成日";
 "SortByDateEdited" = "編集日";
+"SortByColor" = "カラー";
 "SortByTitle" = "タイトル";
 "Sort" = "ソート";
 "Vibration" = "タップの時に振動";

@@ -77,8 +77,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     func setupRightBarButtons() {
         let hashTagButton = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(setHashTag))
-        let doneButton = UIBarButtonItem(title: "Done".localized, style: .done, target: self, action: #selector(hideKeyboard))
-        self.navigationItem.rightBarButtonItems = [doneButton, hashTagButton]
+        self.navigationItem.rightBarButtonItem = hashTagButton
     }
     
     @objc func setHashTag() {
@@ -159,11 +158,6 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         memo.setValue(dateString, forKey: "dateString")
     }
     
-    @objc func hideKeyboard() {
-        DeviceControl().feedbackOnPress()
-        editor.textView.endEditing(true)
-    }
-    
     func addKeyboardListener() {
         self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification)
         
@@ -177,10 +171,9 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             editor.textView.contentInset = .zero
-            self.navigationItem.rightBarButtonEnable(isEnabled: false)
+            
         } else {
             editor.textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardViewEndFrame.size.height, right: 0.0)
-            self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
         editor.textView.scrollIndicatorInsets = editor.textView.contentInset

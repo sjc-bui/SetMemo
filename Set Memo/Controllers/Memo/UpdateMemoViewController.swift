@@ -10,6 +10,7 @@ import UIKit
 import SPAlert
 import LocalAuthentication
 import EMAlertController
+import SwiftKeychainWrapper
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
@@ -22,7 +23,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var isLocked: Bool = false
     var isEdited: Bool = false
     var dateLabelHeader: String = ""
-    var backgroundColor: String = ""
+    var backgroundColor: UIColor?
     
     var userUnlocked: Bool = false
     
@@ -32,6 +33,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     var index: Int = 0
     let setting = SettingViewController()
     let defaults = UserDefaults.standard
+    let keychain = KeychainWrapper.standard
     
     fileprivate var textView: UITextView = {
         let tv = UITextView()
@@ -97,17 +99,17 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         if isLocked {
             setupLockView()
-            lockView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
+            lockView.backgroundColor = backgroundColor
             unlockMemoWithBioMetrics()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.view.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        textView.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        dateEditedLabel.backgroundColor = UIColor.getRandomColorFromString(color: backgroundColor)
-        self.navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: backgroundColor), text: .white)
+        self.view.backgroundColor = backgroundColor
+        textView.backgroundColor = backgroundColor
+        dateEditedLabel.backgroundColor = backgroundColor
+        self.navigationController?.navigationBar.setColors(background: backgroundColor!, text: .white)
         setupDynamicKeyboardColor()
     }
     
@@ -136,10 +138,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 
                 DispatchQueue.main.async {
                     if success {
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self.userUnlocked = true
-                            self.lockView.removeFromSuperview()
-                        })
+                        self.removeLockViewFromSuper()
                         
                     } else {
                         
@@ -169,17 +168,37 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let alert = EMAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized)
         alert.addTextField { (textField) in
             textField?.placeholder = "******"
+            textField?.isSecureTextEntry = true
         }
         let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
         let ok = EMAlertAction(title: "OK", style: .normal) {
-            self.userUnlocked = true
-            self.lockView.removeFromSuperview()
+            
+            let inputUserPassword = alert.textFields.first?.text ?? ""
+            let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
+            
+            // if input password is matching with keychain password
+            if inputUserPassword.elementsEqual(keychainPassword) == true {
+                self.removeLockViewFromSuper()
+                
+            } else {
+                print("Wrong password")
+            }
         }
         
         alert.addAction(ok)
         alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func removeLockViewFromSuper() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.lockView.alpha = 0
+            
+        }) { _ in
+            self.userUnlocked = true
+            self.lockView.removeFromSuperview()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -204,7 +223,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     func addKeyboardListener() {
-        self.navigationItem.rightBarButtonEnable(isEnabled: false)
         
         self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification)
         
@@ -219,11 +237,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             textView.contentInset = .zero
-            self.navigationItem.rightBarButtonEnable(isEnabled: false)
             
         } else {
             textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardScreenEndFrame.size.height, right: 0.0)
-            self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
         textView.scrollIndicatorInsets = textView.contentInset
@@ -234,11 +250,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func setupRightBarButton() {
         
-        let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
         let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(hashTagChangeHandle))
         let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(viewMemoInfo))
         
-        self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn, infoBtn]
+        self.navigationItem.rightBarButtonItems = [hashTagBtn, infoBtn]
     }
     
     @objc func viewMemoInfo() {
@@ -316,12 +331,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 1)
-    }
-    
-    @objc func hideKeyboard() {
-        DeviceControl().feedbackOnPress()
-        self.view.endEditing(true)
+        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 0.5)
     }
     
     @objc func hashTagChangeHandle() {

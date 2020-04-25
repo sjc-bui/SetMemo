@@ -96,3 +96,15 @@ extension CALayer {
         self.masksToBounds = false
     }
 }
+
+extension UICollectionViewCell {
+    
+    func setCellStyle(background: UIColor, radius: CGFloat = 2) {
+        self.clipsToBounds = true
+        self.layer.cornerRadius = radius
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+        self.backgroundColor = background
+        self.layer.addShadow(color: UIColor.darkGray)
+    }
+}

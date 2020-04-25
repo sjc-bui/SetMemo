@@ -17,9 +17,9 @@ class RecentlyDeletedController: UICollectionViewController {
     fileprivate let cellID = "cellId"
     let defaults = UserDefaults.standard
     
-    let inset: CGFloat = 10
-    let minimumLineSpacing: CGFloat = 10
-    let minimumInteritemSpacing: CGFloat = 10
+    let inset: CGFloat = 12
+    let minimumLineSpacing: CGFloat = 12
+    let minimumInteritemSpacing: CGFloat = 12
     var cellsPerRow = 2
     let themes = Themes()
     let theme = ThemesViewController()
@@ -41,15 +41,15 @@ class RecentlyDeletedController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
                 
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -207,10 +207,11 @@ class RecentlyDeletedController: UICollectionViewController {
     
     func tapHandler(indexPath: IndexPath) {
         
-        DeviceControl().feedbackOnPress()
+        let memo = memoData[indexPath.row]
+        let color = memo.value(forKey: "color") as? String ?? "white"
         
         let actionController = SkypeActionController()
-        actionController.backgroundColor = Colors.shared.defaultTintColor
+        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color)
         
         actionController.addAction(Action("Recover".localized, style: .default, handler: { _ in
             self.recoverMemo(indexPath: indexPath)
@@ -230,14 +231,14 @@ class RecentlyDeletedController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
+                cellsPerRow = 5
             } else {
-                cellsPerRow = 3
+                cellsPerRow = 4
             }
             
         } else {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 3
+                cellsPerRow = 4
                 
             } else {
                 cellsPerRow = 2
@@ -282,9 +283,9 @@ extension RecentlyDeletedController {
         
         cell.hashTag.text = "#\(hashTag)"
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
-        cell.backgroundColor = UIColor.getRandomColorFromString(color: color)
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 10
+        
+        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        cell.setCellStyle(background: cellBackground)
         
         return cell
     }
