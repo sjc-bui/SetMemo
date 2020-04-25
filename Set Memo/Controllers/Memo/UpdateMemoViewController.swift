@@ -223,7 +223,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     func addKeyboardListener() {
-        self.navigationItem.rightBarButtonEnable(isEnabled: false)
         
         self.addNotificationObserver(selector: #selector(adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification)
         
@@ -238,11 +237,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             textView.contentInset = .zero
-            self.navigationItem.rightBarButtonEnable(isEnabled: false)
             
         } else {
             textView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardScreenEndFrame.size.height, right: 0.0)
-            self.navigationItem.rightBarButtonEnable(isEnabled: true)
         }
         
         textView.scrollIndicatorInsets = textView.contentInset
@@ -253,11 +250,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func setupRightBarButton() {
         
-        let hideKeyboardBtn = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboard))
         let hashTagBtn = UIBarButtonItem(image: Resource.Images.hashTagButton, style: .plain, target: self, action: #selector(hashTagChangeHandle))
         let infoBtn = UIBarButtonItem(image: Resource.Images.infoButton, style: .plain, target: self, action: #selector(viewMemoInfo))
         
-        self.navigationItem.rightBarButtonItems = [hideKeyboardBtn, hashTagBtn, infoBtn]
+        self.navigationItem.rightBarButtonItems = [hashTagBtn, infoBtn]
     }
     
     @objc func viewMemoInfo() {
@@ -336,11 +332,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }
         
         SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 0.5)
-    }
-    
-    @objc func hideKeyboard() {
-        DeviceControl().feedbackOnPress()
-        self.view.endEditing(true)
     }
     
     @objc func hashTagChangeHandle() {

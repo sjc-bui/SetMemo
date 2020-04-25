@@ -17,9 +17,9 @@ class RecentlyDeletedController: UICollectionViewController {
     fileprivate let cellID = "cellId"
     let defaults = UserDefaults.standard
     
-    let inset: CGFloat = 10
-    let minimumLineSpacing: CGFloat = 10
-    let minimumInteritemSpacing: CGFloat = 10
+    let inset: CGFloat = 12
+    let minimumLineSpacing: CGFloat = 12
+    let minimumInteritemSpacing: CGFloat = 12
     var cellsPerRow = 2
     let themes = Themes()
     let theme = ThemesViewController()

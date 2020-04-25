@@ -27,9 +27,9 @@ class MemoViewController: UICollectionViewController {
     let defaults = UserDefaults.standard
     let keychain = KeychainWrapper.standard
     
-    let inset: CGFloat = 10
-    let minimumLineSpacing: CGFloat = 10
-    let minimumInteritemSpacing: CGFloat = 10
+    let inset: CGFloat = 12
+    let minimumLineSpacing: CGFloat = 12
+    let minimumInteritemSpacing: CGFloat = 12
     var cellsPerRow = 2
     let reuseCellId = "cellId"
     let themes = Themes()
@@ -221,6 +221,9 @@ class MemoViewController: UICollectionViewController {
             
         } else if sortBy == Resource.SortBy.dateEdited {
             sortText = "SortByDateEdited".localized
+            
+        } else if sortBy == Resource.SortBy.color {
+            sortText = "SortByColor".localized
         }
         
         return String(format: "SortBy".localized, sortText!)
@@ -277,6 +280,11 @@ class MemoViewController: UICollectionViewController {
             self.fetchMemoFromCoreData()
         }))
         
+        actionController.addAction(Action("SortByColor".localized, style: .default, handler: { _ in
+            self.defaults.set(Resource.SortBy.color, forKey: Resource.Defaults.sortBy)
+            self.fetchMemoFromCoreData()
+        }))
+        
         actionController.addAction(Action("SortByTitle".localized, style: .default, handler: { _ in
             self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
             self.fetchMemoFromCoreData()
@@ -319,6 +327,9 @@ class MemoViewController: UICollectionViewController {
             
         } else if sortBy == Resource.SortBy.dateEdited {
             sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
+            
+        } else if sortBy == Resource.SortBy.color {
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.color, ascending: false)
         }
         
         fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]

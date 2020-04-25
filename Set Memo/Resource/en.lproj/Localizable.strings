@@ -64,6 +64,7 @@
 "Maximum" = "Maximum";
 "SortByDateCreated" = "Date Created";
 "SortByDateEdited" = "Date Edited";
+"SortByColor" = "Color";
 "SortByTitle" = "Title";
 "Sort" = "Sort";
 "Vibration" = "Vibration on touch";

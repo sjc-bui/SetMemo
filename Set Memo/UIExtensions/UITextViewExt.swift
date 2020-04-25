@@ -26,6 +26,7 @@ extension UITextView {
         let moveToBegin = UIBarButtonItem(image: Resource.Images.moveToBeginButton, style: .plain, target: self, action: #selector(moveBegin))
         let moveToEnd = UIBarButtonItem(image: Resource.Images.moveToEndButton, style: .plain, target: self, action: #selector(moveEnd))
         let addTabSpace = UIBarButtonItem(image: Resource.Images.addTabSpace, style: .plain, target: self, action: #selector(addTab))
+        let hideKeyboard = UIBarButtonItem(image: Resource.Images.keyboardButton, style: .plain, target: self, action: #selector(hideKeyboad))
         
         items.setItems([
             addTabSpace, flexibleSpace,
@@ -34,7 +35,8 @@ extension UITextView {
             moveToBegin, flexibleSpace,
             moveToEnd, flexibleSpace,
             sharpSign, flexibleSpace,
-            calendarBadge
+            calendarBadge, flexibleSpace,
+            hideKeyboard
         ], animated: true)
         
         items.barStyle = .default
@@ -43,6 +45,10 @@ extension UITextView {
         items.sizeToFit()
         
         self.inputAccessoryView = items
+    }
+    
+    @objc fileprivate func hideKeyboad() {
+        self.endEditing(true)
     }
     
     @objc fileprivate func moveCursorToLeft() {

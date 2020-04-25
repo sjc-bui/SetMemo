@@ -47,6 +47,7 @@ public class Resource {
     
     public class SortBy {
         public static var title = "title"
+        public static var color = "color"
         public static var dateCreated = "dateCreated"
         public static var dateEdited = "dateEdited"
         public static var content = "content"
