@@ -63,6 +63,47 @@ class RecentlyDeletedController: UICollectionViewController {
         fetchMemoFromDB()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupRightBarItem()
+    }
+    
+    func setupRightBarItem() {
+        let deleteBtn = UIBarButtonItem(image: Resource.Images.trashButton, style: .plain, target: self, action: #selector(deleteAll))
+        self.navigationItem.rightBarButtonItem = deleteBtn
+    }
+    
+    @objc func deleteAll() {
+        DeviceControl().feedbackOnPress()
+        let alert = EMAlertController(title: nil, message: "Do you want to delete all memo in this folder?")
+        
+        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
+        let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
+            
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let managedContext = appDelegate?.persistentContainer.viewContext
+            
+            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+            let predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+            deleteFetch.predicate = predicate
+            
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+            
+            do {
+                try managedContext?.execute(deleteRequest)
+                try managedContext?.save()
+                self.pop()
+                
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        present(alert, animated: true, completion: nil)
+    }
+    
     func setupDynamicElements() {
         
         if theme.darkModeEnabled() == false {
@@ -121,19 +162,6 @@ class RecentlyDeletedController: UICollectionViewController {
         }
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: "Delete".localized) { (action, view, completion) in
-            self.showAlertOnDelete(indexPath: indexPath)
-            completion(true)
-            
-        }
-        
-        action.image = Resource.Images.trashButton
-        action.backgroundColor = .red
-        return action
-    }
-    
     func showAlertOnDelete(indexPath: IndexPath) {
         
         let defaults = UserDefaults.standard
@@ -171,18 +199,6 @@ class RecentlyDeletedController: UICollectionViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    func recoverAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .normal, title: "Recover") { (action, view, completion) in
-            self.recoverMemo(indexPath: indexPath)
-            completion(true)
-        }
-        
-        action.image = Resource.Images.recoverButton
-        action.backgroundColor = .systemGreen
-        
-        return action
     }
     
     func recoverMemo(indexPath: IndexPath) {

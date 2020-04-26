@@ -90,8 +90,8 @@ extension CALayer {
     
     func addShadow(color: UIColor) {
         self.shadowOffset = .zero
-        self.shadowOpacity = 0.3
-        self.shadowRadius = 5
+        self.shadowOpacity = 0.2
+        self.shadowRadius = 10
         self.shadowColor = color.cgColor
         self.masksToBounds = false
     }
@@ -99,7 +99,7 @@ extension CALayer {
 
 extension UICollectionViewCell {
     
-    func setCellStyle(background: UIColor, radius: CGFloat = 12) {
+    func setCellStyle(background: UIColor, radius: CGFloat = 11) {
         self.clipsToBounds = true
         self.layer.cornerRadius = radius
         self.layer.shouldRasterize = true

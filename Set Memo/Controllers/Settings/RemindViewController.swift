@@ -141,7 +141,7 @@ class RemindViewController: UITableViewController {
                 cell.textField.inputAccessoryView = setTextFieldAccessory()
                 cell.textField.textColor = InterfaceColors.fontColor
                 
-                setting.setupDynamicCells(cell: cell)
+                setting.setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             default:

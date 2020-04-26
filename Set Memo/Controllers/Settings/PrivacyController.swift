@@ -261,7 +261,7 @@ class PrivacyController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                setting.setupDynamicCells(cell: cell)
+                setting.setupDynamicCells(cell: cell, arrow: false)
                 
                 return cell
             default:

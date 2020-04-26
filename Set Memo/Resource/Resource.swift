@@ -15,7 +15,7 @@ public class Resource {
     }
     
     public class Images {
-        public static var createButton: UIImage? = UIImage(systemName: "plus.circle")
+        public static var createButton: UIImage? = UIImage(systemName: "pencil.circle")
         public static var settingButton: UIImage? = UIImage(systemName: "gear")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var sortButton: UIImage? = UIImage(systemName: "arrow.up.arrow.down.circle")
@@ -41,8 +41,7 @@ public class Resource {
         public static var setLockButton: UIImage? = UIImage(systemName: "lock")
         public static var removeLockButton: UIImage? = UIImage(systemName: "lock.slash")
         
-        public static var gridButton: UIImage? = UIImage(systemName: "rectangle.grid.2x2")
-        public static var listButton: UIImage? = UIImage(systemName: "rectangle.grid.1x2")
+        public static var cellAccessoryIcon: UIImage? = UIImage(systemName: "chevron.right.circle")
     }
     
     public class SortBy {

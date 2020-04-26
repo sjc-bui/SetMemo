@@ -16,6 +16,7 @@ class SettingViewController: UITableViewController {
     let sections: Array = [
         "General".localized,
         "Advanced".localized,
+        "Premium",
         "Other".localized]
     
     let general: Array = [
@@ -29,14 +30,17 @@ class SettingViewController: UITableViewController {
     ]
     
     let advancedDelete: Array = [
-        "Restore purchases",
         "DeleteLabel".localized
     ]
     
     let advanced: Array = [
-        "Restore purchases",
         "DeleteLabel".localized,
         "RecentlyDeleted".localized
+    ]
+    
+    let premiums: Array = [
+        "Buy premium",
+        "Restore purchases"
     ]
     
     let other: Array = ["Version".localized]
@@ -125,6 +129,9 @@ class SettingViewController: UITableViewController {
             }
             
         } else if section == 2 {
+            return premiums.count
+            
+        } else if section == 3 {
             return other.count
             
         }
@@ -161,7 +168,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 cell.selectedBackground()
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: true)
                 return cell
                 
             case 1:
@@ -169,7 +176,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 cell.selectedBackground()
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: true)
                 return cell
                 
             case 2:
@@ -177,7 +184,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 cell.selectedBackground()
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: true)
                 return cell
                 
             case 3:
@@ -191,7 +198,7 @@ class SettingViewController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             case 4:
@@ -206,7 +213,7 @@ class SettingViewController: UITableViewController {
                 } else {
                     cell.switchButton.isOn = false
                 }
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             case 5:
@@ -214,7 +221,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 cell.selectedBackground()
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: true)
                 return cell
                 
             case 6:
@@ -222,7 +229,7 @@ class SettingViewController: UITableViewController {
                 cell.textLabel?.text = "\(general[indexPath.row])"
                 cell.accessoryType = .disclosureIndicator
                 cell.selectedBackground()
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: true)
                 return cell
                 
             default:
@@ -243,15 +250,6 @@ class SettingViewController: UITableViewController {
                 return cell
                 
             case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(advanced[indexPath.row])"
-                cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                cell.backgroundColor = UIColor.white
-                cell.backgroundColor = InterfaceColors.cellColor
-                cell.selectedBackground()
-                return cell
-                
-            case 2:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(advanced[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
@@ -260,6 +258,7 @@ class SettingViewController: UITableViewController {
                 
                 cell.detailTextLabel?.text = "\(recentlyDeleteTotal)"
                 cell.accessoryType = .disclosureIndicator
+                cell.accessoryView = UIImageView(image: Resource.Images.cellAccessoryIcon)
                 cell.selectedBackground()
                 
                 return cell
@@ -281,9 +280,25 @@ class SettingViewController: UITableViewController {
                 cell.selectedBackground()
                 return cell
                 
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                return cell
+            }
+            
+        } else if indexPath.section == 2 {
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                cell.textLabel?.text = "\(premiums[indexPath.row])"
+                cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                cell.backgroundColor = UIColor.white
+                cell.backgroundColor = InterfaceColors.cellColor
+                cell.selectedBackground()
+                return cell
+            
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(advancedDelete[indexPath.row])"
+                cell.textLabel?.text = "\(premiums[indexPath.row])"
                 cell.textLabel?.textColor = Colors.shared.defaultTintColor
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
@@ -295,13 +310,13 @@ class SettingViewController: UITableViewController {
                 return cell
             }
             
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 3 {
             switch indexPath.row {
             case 0:
                 let cell = SettingCell(style: SettingCell.CellStyle.value1, reuseIdentifier: reuseSettingCell)
                 cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.detailTextLabel?.text = "\(appVersion)"
-                setupDynamicCells(cell: cell)
+                setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             default:
@@ -317,12 +332,16 @@ class SettingViewController: UITableViewController {
         }
     }
     
-    func setupDynamicCells(cell: UITableViewCell) {
+    func setupDynamicCells(cell: UITableViewCell, arrow: Bool) {
         cell.backgroundColor = UIColor.white
         cell.backgroundColor = InterfaceColors.cellColor
         
         cell.textLabel?.textColor = UIColor.black
         cell.textLabel?.textColor = InterfaceColors.fontColor
+        
+        if arrow == true {
+            cell.accessoryView = UIImageView(image: Resource.Images.cellAccessoryIcon)
+        }
     }
     
     @objc func setupRemindEveryDay(sender: UISwitch) {
@@ -381,8 +400,6 @@ class SettingViewController: UITableViewController {
             
             switch indexPath.row {
             case 0:
-                print("Restore purchase")
-            case 1:
                 
                 let alert = EMAlertController(title: "Sure".localized, message: "DeleteAllMessage".localized)
                 let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
@@ -410,7 +427,7 @@ class SettingViewController: UITableViewController {
                 alert.addAction(delete)
                 present(alert, animated: true, completion: nil)
                 
-            case 2:
+            case 1:
                 let layout = UICollectionViewFlowLayout()
                 self.push(viewController: RecentlyDeletedController(collectionViewLayout: layout))
                 
@@ -419,6 +436,20 @@ class SettingViewController: UITableViewController {
             }
             
         } else if indexPath.section == 2 {
+            
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.isSelected = false
+            
+            switch indexPath.row {
+            case 0:
+                print("buy premium")
+            case 1:
+                print("restore purchase")
+            default:
+                return
+            }
+            
+        } else if indexPath.section == 3 {
             let cell = tableView.cellForRow(at: indexPath)
             cell?.selectionStyle = .none
         }

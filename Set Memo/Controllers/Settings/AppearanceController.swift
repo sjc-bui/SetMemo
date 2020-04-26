@@ -90,7 +90,7 @@ class AppearanceController: UITableViewController {
         cell.textLabel?.text = "\(mode[indexPath.row])"
         cell.tintColor = Colors.shared.defaultTintColor
         cell.selectionStyle = .none
-        setting.setupDynamicCells(cell: cell)
+        setting.setupDynamicCells(cell: cell, arrow: false)
         
         switch indexPath.row {
         case 0:

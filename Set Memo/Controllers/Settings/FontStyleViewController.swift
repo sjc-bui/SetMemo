@@ -158,7 +158,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
                 
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "The quick brown fox jumps over the lazy dog"
-                setting.setupDynamicCells(cell: cell)
+                setting.setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             default:

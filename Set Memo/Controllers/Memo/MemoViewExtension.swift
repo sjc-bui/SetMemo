@@ -126,6 +126,7 @@ extension MemoViewController {
             
             let current = Date().timeIntervalSinceReferenceDate
             if current > dateReminder {
+                print("result = \((current - dateReminder) * 1000)")
                 // Reminder has been delivered.
                 cell.reminderIsSetIcon.tintColor = .systemRed
             } else {
