@@ -99,7 +99,7 @@ extension CALayer {
 
 extension UICollectionViewCell {
     
-    func setCellStyle(background: UIColor, radius: CGFloat = 2) {
+    func setCellStyle(background: UIColor, radius: CGFloat = 12) {
         self.clipsToBounds = true
         self.layer.cornerRadius = radius
         self.layer.shouldRasterize = true

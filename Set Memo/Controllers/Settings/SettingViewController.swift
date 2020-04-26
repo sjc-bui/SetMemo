@@ -327,7 +327,7 @@ class SettingViewController: UITableViewController {
     
     @objc func setupRemindEveryDay(sender: UISwitch) {
         if sender.isOn == true {
-            self.push(viewController: RemindViewController(style: .insetGrouped))
+            self.push(viewController: RemindViewController(style: .grouped))
             
         } else {
             let center = UNUserNotificationCenter.current()
@@ -356,19 +356,19 @@ class SettingViewController: UITableViewController {
             cell?.isSelected = false
             switch indexPath.row {
             case 0:
-                self.push(viewController: PrivacyController(style: .insetGrouped))
+                self.push(viewController: PrivacyController(style: .grouped))
                 
             case 1:
-                self.push(viewController: AlertsController(style: .insetGrouped))
+                self.push(viewController: AlertsController(style: .grouped))
                 
             case 2:
-                self.push(viewController: AppearanceController(style: .insetGrouped))
+                self.push(viewController: AppearanceController(style: .grouped))
                 
             case 5:
-                self.push(viewController: FontStyleViewController(style: .insetGrouped))
+                self.push(viewController: FontStyleViewController(style: .grouped))
                 
             case 6:
-                self.push(viewController: ThemesViewController(style: .insetGrouped))
+                self.push(viewController: ThemesViewController(style: .grouped))
                 
             default:
                 return

@@ -302,7 +302,7 @@ class MemoViewController: UICollectionViewController {
     
     @objc func settingPage() {
         DeviceControl().feedbackOnPress()
-        self.push(viewController: SettingViewController(style: .insetGrouped))
+        self.push(viewController: SettingViewController(style: .grouped))
     }
     
     func fetchMemoFromCoreData() {

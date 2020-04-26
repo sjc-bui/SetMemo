@@ -17,13 +17,13 @@ class TextFieldCell: UITableViewCell {
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .deepOrange
-        textField.placeholder = "custom content"
+        textField.placeholder = "Content"
         contentView.addSubview(textField)
         
         textField.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
+        textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
     }
     
     required init?(coder: NSCoder) {

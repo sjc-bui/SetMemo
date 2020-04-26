@@ -223,7 +223,7 @@ class RemindViewController: UITableViewController {
             return 44
             
         } else if indexPath.section == 1 {
-            return UIScreen.height / 3
+            return 180
             
         } else if indexPath.section == 2 {
             return 48

@@ -222,12 +222,10 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
             return UITableView.automaticDimension
             
         } else if indexPath.section == 1 {
-            let fontSizePickerHeight = UIScreen.height / 4
-            return fontSizePickerHeight
+            return 140
             
         } else if indexPath.section == 2 {
-            let fontStylePickerHeight = UIScreen.height / 3
-            return fontStylePickerHeight
+            return 180
         }
         
         return 0
