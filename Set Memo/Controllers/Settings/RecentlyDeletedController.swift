@@ -8,8 +8,8 @@
 
 import UIKit
 import CoreData
-import XLActionController
 import EMAlertController
+import WXActionSheet
 
 class RecentlyDeletedController: UICollectionViewController {
     
@@ -75,7 +75,7 @@ class RecentlyDeletedController: UICollectionViewController {
     
     @objc func deleteAll() {
         DeviceControl().feedbackOnPress()
-        let alert = EMAlertController(title: nil, message: "Do you want to delete all memo in this folder?")
+        let alert = EMAlertController(title: nil, message: "EmptyTrash".localized)
         
         let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
         let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
@@ -92,10 +92,14 @@ class RecentlyDeletedController: UICollectionViewController {
             do {
                 try managedContext?.execute(deleteRequest)
                 try managedContext?.save()
-                self.pop()
                 
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // delay after 0.5s before go back.
+                self.pop()
             }
         }
         
@@ -225,19 +229,17 @@ class RecentlyDeletedController: UICollectionViewController {
         
         let memo = memoData[indexPath.row]
         let color = memo.value(forKey: "color") as? String ?? "white"
+        //actionController.backgroundColor = UIColor.getRandomColorFromString(color: color)
         
-        let actionController = SkypeActionController()
-        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color)
-        
-        actionController.addAction(Action("Recover".localized, style: .default, handler: { _ in
+        let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
+        actionSheet.add(WXActionSheetItem(title: "Recover".localized, handler: { _ in
             self.recoverMemo(indexPath: indexPath)
         }))
-        actionController.addAction(Action("Delete".localized, style: .default, handler: { _ in
+        
+        actionSheet.add(WXActionSheetItem(title: "Delete".localized, handler: { _ in
             self.showAlertOnDelete(indexPath: indexPath)
         }))
-        actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
-        
-        present(actionController, animated: true, completion: nil)
+        actionSheet.show()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

@@ -119,3 +119,9 @@
 "EnterPasswordToView" = "Nhập mật khẩu để xem ghi chú đã khóa";
 "ShowTutorial" = "Hướng dẫn";
 "Reminder" = "Nhắc nhở";
+"EmptyTrash" = "Bạn có muốn xóa tất cả ghi chú trong thư mục này không?";
+"TintColor" = "Màu sắc";
+"Now" = "Bây giờ";
+"MinutesAgo" = "%d phút trước";
+"HoursAgo" = "%d giờ trước";
+"DaysAgo" = "%d ngày trước";

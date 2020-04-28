@@ -9,6 +9,7 @@
 import UIKit
 
 extension String {
+    
     func isNullOrWhiteSpace() -> Bool {
         if self.isEmpty {
             return true

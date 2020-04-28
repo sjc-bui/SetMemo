@@ -11,22 +11,19 @@ import UIKit
 public class Resource {
     
     public class FontFamily {
-        public static let HelveticaNeue = "HelveticaNeue"
+        public static let HelveticaNeueMedium = "HelveticaNeue-Medium"
     }
     
     public class Images {
-        public static var createButton: UIImage? = UIImage(systemName: "pencil.circle")
-        public static var settingButton: UIImage? = UIImage(systemName: "gear")
+        public static var createButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_add1", fillColor: .gray)
+        public static var settingButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_settings", fillColor: .gray)
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
-        public static var sortButton: UIImage? = UIImage(systemName: "arrow.up.arrow.down.circle")
-        public static var hashTagButton: UIImage? = UIImage(systemName: "tag")
+        public static var hashTagButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_tag", fillColor: .white)
         public static var trashButton: UIImage? = UIImage(systemName: "trash")
-        public static var recoverButton: UIImage? = UIImage(systemName: "arrowshape.turn.up.left")
         public static var alarmButton: UIImage? = UIImage(systemName: "bell")
-        public static var slashBellButton: UIImage? = UIImage(systemName: "bell.slash")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
         public static var unlockButton: UIImage? = UIImage(systemName: "lock")
-        public static var infoButton: UIImage? = UIImage(systemName: "info.circle")
+        public static var infoButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_info", fillColor: .white)
         public static var moveLeftButton: UIImage? = UIImage(systemName: "chevron.left")
         public static var moveRightButton: UIImage? = UIImage(systemName: "chevron.right")
         public static var addCalendarButton: UIImage? = UIImage(systemName: "calendar.badge.plus")
@@ -41,7 +38,7 @@ public class Resource {
         public static var setLockButton: UIImage? = UIImage(systemName: "lock")
         public static var removeLockButton: UIImage? = UIImage(systemName: "lock.slash")
         
-        public static var cellAccessoryIcon: UIImage? = UIImage(systemName: "chevron.right.circle")
+        public static var cellAccessoryIcon: UIImage? = UIImage.SVGImage(named: "icons_outlined_arrow")
     }
     
     public class SortBy {

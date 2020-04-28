@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class Colors {
+struct Colors {
     
     public static var shared = Colors()
     
@@ -17,6 +17,9 @@ public class Colors {
     // MARK: Colors
     static let cellLight = UIColor(hexString: "#f6f6f6")
     static let cellDark = UIColor(hexString: "#232323")
+    
+    static let Brand = UIColor(hexString: "#07C160")
+    static let Brand_120 = UIColor(hexString: "#38CD7F")
     
     var defaultTintColor: UIColor {
         return UIColor.colorFromString(from: UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTintColor))
@@ -56,5 +59,9 @@ public class Colors {
     
     var darkColor: UIColor {
         return UIColor(hexString: "#2c302d")
+    }
+    
+    var Brand_120: UIColor {
+        return UIColor(hexString: "#38CD7F")
     }
 }

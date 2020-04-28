@@ -16,7 +16,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     let defaults = UserDefaults.standard
     var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
-    let sections = ["Appearance (Pro feature)", "Tin Color (Pro feature)"]
+    let sections = ["Themes".localized, "TintColor".localized]
     var themesOptionsData: [String] = [
         "LightTheme".localized,
         "DarkTheme".localized

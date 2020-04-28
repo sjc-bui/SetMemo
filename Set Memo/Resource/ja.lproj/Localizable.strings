@@ -119,3 +119,9 @@
 "EnterPasswordToView" = "このメモを表示するには、パスワードを入力します";
 "ShowTutorial" = "チュートリアルを表示";
 "Reminder" = "リマインダー";
+"EmptyTrash" = "このフォルダのメモを全て削除しますか？";
+"TintColor" = "カラー";
+"Now" = "今";
+"MinutesAgo" = "%d分前";
+"HoursAgo" = "%d時間前";
+"DaysAgo" = "%d日前";

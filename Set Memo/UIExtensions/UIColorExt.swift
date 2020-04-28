@@ -29,7 +29,7 @@ extension UIColor {
     static let brown = UIColor(hexString: "#795548")
     static let blueGrey = UIColor(hexString: "#607d8b")
     
-    static let secondaryColor = UIColor(hexString: "#ebebf0")
+    static let secondaryColor = UIColor(hexString: "#EDEDED")
     static let secondaryBlackColor = UIColor(hexString: "#242426")
     
     static var defaultColors = ["red", "pink", "purple", "deepPurple", "indigo", "blue", "lightBlue", "cyan", "teal", "green", "lightGreen", "lime", "yellow", "amber", "orange", "deepOrange", "brown", "blueGrey"]

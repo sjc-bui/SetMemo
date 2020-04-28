@@ -46,7 +46,7 @@ public class Dimension {
     }
     
     var iconSize: CGFloat {
-        return 18 * heightScale
+        return 24 * heightScale
     }
     
     var showTutorialLabelSize: CGFloat {
