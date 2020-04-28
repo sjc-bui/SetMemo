@@ -12,4 +12,5 @@ target 'Set Memo' do
     pod 'EMAlertController'
     pod 'SwiftKeychainWrapper'
     pod 'SVGKit'
+    pod 'FTPopOverMenu_Swift', '~> 0.1.4'
 end

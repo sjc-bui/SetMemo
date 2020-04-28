@@ -3,6 +3,7 @@ PODS:
     - CocoaLumberjack/Core (= 3.6.1)
   - CocoaLumberjack/Core (3.6.1)
   - EMAlertController (1.0.2)
+  - FTPopOverMenu_Swift (0.1.4)
   - SPAlert (2.1.4)
   - SVGKit (2.1.1):
     - CocoaLumberjack (~> 3.0)
@@ -12,6 +13,7 @@ PODS:
 
 DEPENDENCIES:
   - EMAlertController
+  - FTPopOverMenu_Swift (~> 0.1.4)
   - SPAlert
   - SVGKit
   - SwiftKeychainWrapper
@@ -22,6 +24,7 @@ SPEC REPOS:
   trunk:
     - CocoaLumberjack
     - EMAlertController
+    - FTPopOverMenu_Swift
     - SPAlert
     - SVGKit
     - SwiftKeychainWrapper
@@ -31,12 +34,13 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
   EMAlertController: 471e4630309e5ae843ef71f502d6b58525b22c60
+  FTPopOverMenu_Swift: e4cafd1085d8125339c710fa9e53477fd615b1e2
   SPAlert: 1a8afa1c6ac86a82ab5b2cfdf7f9a51e68cb6c0c
   SVGKit: 652cdf7bef8bec8564d04a8511d3ab50c7595fac
   SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
   WhatsNewKit: 7ae08eaee23a657f26edb33adea83c6029b8bd6c
   WXActionSheet: 8a1817ad641a892b17b53e157b6ec15ca7d1ff95
 
-PODFILE CHECKSUM: 525e540d73790cf507a131240333dcb02a7b886f
+PODFILE CHECKSUM: c000ab6090dc2c2373eb4312dfa397495edc1872
 
 COCOAPODS: 1.9.0

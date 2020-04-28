@@ -19,7 +19,6 @@ public class Resource {
         public static var settingButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_settings", fillColor: .gray)
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_tag", fillColor: .white)
-        public static var trashButton: UIImage? = UIImage(systemName: "trash")
         public static var alarmButton: UIImage? = UIImage(systemName: "bell")
         public static var shareButton: UIImage? = UIImage(systemName: "square.and.arrow.up")
         public static var unlockButton: UIImage? = UIImage(systemName: "lock")

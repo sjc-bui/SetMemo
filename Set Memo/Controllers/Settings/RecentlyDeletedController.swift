@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import EMAlertController
 import WXActionSheet
+import FTPopOverMenu_Swift
 
 class RecentlyDeletedController: UICollectionViewController {
     
@@ -69,43 +70,40 @@ class RecentlyDeletedController: UICollectionViewController {
     }
     
     func setupRightBarItem() {
-        let deleteBtn = UIBarButtonItem(image: Resource.Images.trashButton, style: .plain, target: self, action: #selector(deleteAll))
+        let image = UIImage.SVGImage(named: "icons_outlined_trash", fillColor: Colors.shared.defaultTintColor)
+        let deleteBtn = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(deleteAll(_:event:)))
         self.navigationItem.rightBarButtonItem = deleteBtn
     }
     
-    @objc func deleteAll() {
-        DeviceControl().feedbackOnPress()
-        let alert = EMAlertController(title: nil, message: "EmptyTrash".localized)
+    @objc func deleteAll(_ sender: UIBarButtonItem, event: UIEvent) {
         
-        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-        let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
+        FTPopOverMenu.showForEvent(event: event, with: ["EmptyTrash".localized], done: { _ in
             
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             let managedContext = appDelegate?.persistentContainer.viewContext
-            
+
             let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
             let predicate = NSPredicate(format: "temporarilyDelete = %d", true)
             deleteFetch.predicate = predicate
-            
+
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-            
+
             do {
                 try managedContext?.execute(deleteRequest)
                 try managedContext?.save()
-                
+
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // delay after 0.5s before go back.
                 self.pop()
             }
+            
+        }) {
+            print("cancel delete")
         }
-        
-        alert.addAction(cancel)
-        alert.addAction(delete)
-        present(alert, animated: true, completion: nil)
     }
     
     func setupDynamicElements() {
@@ -228,8 +226,7 @@ class RecentlyDeletedController: UICollectionViewController {
     func tapHandler(indexPath: IndexPath) {
         
         let memo = memoData[indexPath.row]
-        let color = memo.value(forKey: "color") as? String ?? "white"
-        //actionController.backgroundColor = UIColor.getRandomColorFromString(color: color)
+        //let color = memo.value(forKey: "color") as? String ?? "white"
         
         let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
         actionSheet.add(WXActionSheetItem(title: "Recover".localized, handler: { _ in

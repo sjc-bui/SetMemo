@@ -119,9 +119,10 @@
 "EnterPasswordToView" = "To view locked memo, enter the memo password";
 "ShowTutorial" = "Show tutorial";
 "Reminder" = "Reminder";
-"EmptyTrash" = "Do you want to delete all memo in this folder?";
+"EmptyTrash" = "Delete all";
 "TintColor" = "Tint colors";
-"Now" = "Just now";
+"Now" = "just now";
 "MinutesAgo" = "%d minutes ago";
 "HoursAgo" = "%d hours ago";
 "DaysAgo" = "%d days ago";
+"" = "";
