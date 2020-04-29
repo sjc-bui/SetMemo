@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreData
-import XLActionController
 import EMAlertController
+import WXActionSheet
+import FTPopOverMenu_Swift
 
 class RecentlyDeletedController: UICollectionViewController {
     
@@ -61,6 +62,48 @@ class RecentlyDeletedController: UICollectionViewController {
         super.viewWillAppear(animated)
         setupDynamicElements()
         fetchMemoFromDB()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupRightBarItem()
+    }
+    
+    func setupRightBarItem() {
+        let image = UIImage.SVGImage(named: "icons_outlined_trash", fillColor: Colors.shared.defaultTintColor)
+        let deleteBtn = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(deleteAll(_:event:)))
+        self.navigationItem.rightBarButtonItem = deleteBtn
+    }
+    
+    @objc func deleteAll(_ sender: UIBarButtonItem, event: UIEvent) {
+        
+        FTPopOverMenu.showForEvent(event: event, with: ["EmptyTrash".localized], done: { _ in
+            
+            let appDelegate = UIApplication.shared.delegate as? AppDelegate
+            let managedContext = appDelegate?.persistentContainer.viewContext
+
+            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Memo")
+            let predicate = NSPredicate(format: "temporarilyDelete = %d", true)
+            deleteFetch.predicate = predicate
+
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+
+            do {
+                try managedContext?.execute(deleteRequest)
+                try managedContext?.save()
+
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // delay after 0.5s before go back.
+                self.pop()
+            }
+            
+        }) {
+            print("cancel delete")
+        }
     }
     
     func setupDynamicElements() {
@@ -121,19 +164,6 @@ class RecentlyDeletedController: UICollectionViewController {
         }
     }
     
-    func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
-        
-        let action = UIContextualAction(style: .normal, title: "Delete".localized) { (action, view, completion) in
-            self.showAlertOnDelete(indexPath: indexPath)
-            completion(true)
-            
-        }
-        
-        action.image = Resource.Images.trashButton
-        action.backgroundColor = .red
-        return action
-    }
-    
     func showAlertOnDelete(indexPath: IndexPath) {
         
         let defaults = UserDefaults.standard
@@ -173,18 +203,6 @@ class RecentlyDeletedController: UICollectionViewController {
         }
     }
     
-    func recoverAction(at indexPath: IndexPath) -> UIContextualAction {
-        let action = UIContextualAction(style: .normal, title: "Recover") { (action, view, completion) in
-            self.recoverMemo(indexPath: indexPath)
-            completion(true)
-        }
-        
-        action.image = Resource.Images.recoverButton
-        action.backgroundColor = .systemGreen
-        
-        return action
-    }
-    
     func recoverMemo(indexPath: IndexPath) {
         let item = self.memoData[indexPath.row]
         
@@ -208,20 +226,17 @@ class RecentlyDeletedController: UICollectionViewController {
     func tapHandler(indexPath: IndexPath) {
         
         let memo = memoData[indexPath.row]
-        let color = memo.value(forKey: "color") as? String ?? "white"
+        //let color = memo.value(forKey: "color") as? String ?? "white"
         
-        let actionController = SkypeActionController()
-        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color)
-        
-        actionController.addAction(Action("Recover".localized, style: .default, handler: { _ in
+        let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
+        actionSheet.add(WXActionSheetItem(title: "Recover".localized, handler: { _ in
             self.recoverMemo(indexPath: indexPath)
         }))
-        actionController.addAction(Action("Delete".localized, style: .default, handler: { _ in
+        
+        actionSheet.add(WXActionSheetItem(title: "Delete".localized, handler: { _ in
             self.showAlertOnDelete(indexPath: indexPath)
         }))
-        actionController.addAction(Action("Cancel".localized, style: .cancel, handler: nil))
-        
-        present(actionController, animated: true, completion: nil)
+        actionSheet.show()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -277,8 +292,7 @@ extension RecentlyDeletedController {
         cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
         cell.content.text = content
         
-        let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-        cell.dateEdited.text = "\(dateString)"
+        cell.dateEdited.text = DatetimeUtil().timeAgo(at: dateEdited)
         cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
         cell.hashTag.text = "#\(hashTag)"
@@ -293,11 +307,6 @@ extension RecentlyDeletedController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         tapHandler(indexPath: indexPath)
     }
-    
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let titleHeaderMessage = "AutoDeleteMemo".localized
-//        return titleHeaderMessage
-//    }
 }
 
 extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {

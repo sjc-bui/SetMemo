@@ -16,7 +16,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     let defaults = UserDefaults.standard
     var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
-    let sections = ["Appearance (Pro feature)", "Tin Color (Pro feature)"]
+    let sections = ["Themes".localized, "TintColor".localized]
     var themesOptionsData: [String] = [
         "LightTheme".localized,
         "DarkTheme".localized
@@ -110,8 +110,8 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     }
     
     func setupDefaultPersistentNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
-        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.secondaryBackgroundColor
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -120,8 +120,8 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     }
     
     func setupDarkPersistentNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
-        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.secondaryBackgroundColor
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -256,10 +256,10 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == 0 {
-            return UIScreen.height / 4
+            return 100
             
         } else if indexPath.section == 1 {
-            return UIScreen.height / 3
+            return 180
         }
         
         return 0

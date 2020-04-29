@@ -29,7 +29,7 @@ class ReminderViewController: UIViewController {
         btn.titleLabel?.textColor = .white
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .medium)
         btn.backgroundColor = .white
-        btn.layer.cornerRadius = 12
+        btn.layer.cornerRadius = 14
         btn.addTarget(self, action: #selector(setReminder(sender:)), for: .touchUpInside)
         return btn
     }()

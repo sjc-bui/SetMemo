@@ -31,11 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.remindEveryDay: false,
             Resource.Defaults.useDarkMode: false,
             Resource.Defaults.firstTimeDeleted: true,
-            Resource.Defaults.defaultFontStyle: "HelveticaNeue",
+            Resource.Defaults.defaultFontStyle: "HelveticaNeue-Medium",
             Resource.Defaults.defaultTextViewFontSize: 18,
             Resource.Defaults.defaultTintColor: 0,
             Resource.Defaults.setMemoPremium: false,
-            Resource.Defaults.remindEverydayContent: "Good morning, What happening today?",
+            Resource.Defaults.remindEverydayContent: "What happening today?",
             Resource.Defaults.displayGridStyle: true,
             Resource.Defaults.passwordForBiometricIsSet: false
         ])

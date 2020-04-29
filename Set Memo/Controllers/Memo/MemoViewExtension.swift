@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import XLActionController
+import WXActionSheet
 
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
@@ -107,11 +107,11 @@ extension MemoViewController {
         cell.content.text = content
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
-            let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
+            
             let detailTextSize = (defaultFontSize / 1.2).rounded(.down)
             
             cell.dateEdited.font = UIFont.systemFont(ofSize: detailTextSize)
-            cell.dateEdited.text = dateString
+            cell.dateEdited.text = DatetimeUtil().timeAgo(at: dateEdited)
 
             cell.hashTag.font = UIFont.systemFont(ofSize: detailTextSize)
             cell.hashTag.text = "#\(hashTag)"
@@ -128,6 +128,7 @@ extension MemoViewController {
             if current > dateReminder {
                 // Reminder has been delivered.
                 cell.reminderIsSetIcon.tintColor = .systemRed
+                
             } else {
                 cell.reminderIsSetIcon.tintColor = .white
             }
@@ -145,7 +146,7 @@ extension MemoViewController {
         let cellBackground = UIColor.getRandomColorFromString(color: color)
         cell.setCellStyle(background: cellBackground)
         
-        cell.contentView.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressMemoItem(sender:))))
+        cell.moreIcon.addTapGesture(target: self, action: #selector(moreOptions(sender:)))
         
         return cell
     }
@@ -172,12 +173,11 @@ extension MemoViewController {
         }
     }
     
-    @objc func longPressMemoItem(sender: UILongPressGestureRecognizer) {
-        
+    @objc func moreOptions(sender: UITapGestureRecognizer) {
         let location = sender.location(in: collectionView)
         let indexPath = collectionView.indexPathForItem(at: location) ?? [0, 0]
         
-        let actionController = SkypeActionController()
+        let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
         
         let color: String?
         if isFiltering() == true {
@@ -188,18 +188,20 @@ extension MemoViewController {
             let memo = memoData[indexPath.row]
             color = memo.value(forKey: "color") as? String ?? "white"
         }
-        actionController.backgroundColor = UIColor.getRandomColorFromString(color: color!)
+        
+        //actionController.backgroundColor = UIColor.getRandomColorFromString(color: color!)
         
         if reminderIsSetAtIndex(indexPath: indexPath) == false {
             
             if lockIsSetAtIndex(indexPath: indexPath) == true {
-                actionController.addAction(Action("UnlockMemo".localized, style: .default, handler: { _ in
+                
+                actionSheet.add(WXActionSheetItem(title: "UnlockMemo".localized, handler: { _ in
                     print("Unlock")
                     self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
                 }))
                 
             } else {
-                actionController.addAction(Action("LockMemo".localized, style: .default, handler: { _ in
+                actionSheet.add(WXActionSheetItem(title: "LockMemo".localized, handler: { _ in
                     print("Lock")
                     self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath)
                 }))
@@ -209,13 +211,14 @@ extension MemoViewController {
         if lockIsSetAtIndex(indexPath: indexPath) == false {
             
             if reminderIsSetAtIndex(indexPath: indexPath) == true {
-                actionController.addAction(Action("DeleteReminder".localized, style: .default, handler: { _ in
+                
+                actionSheet.add(WXActionSheetItem(title: "DeleteReminder".localized, handler: { _ in
                     print("delete reminder")
                     self.deleteReminderHandle(indexPath: indexPath)
                 }))
                 
             } else {
-                actionController.addAction(Action("Reminder".localized, style: .default, handler: { _ in
+                actionSheet.add(WXActionSheetItem(title: "Reminder".localized, handler: { _ in
                     print("set reminder")
                     let rootView = ReminderViewController()
                     let remindView = UINavigationController(rootViewController: rootView)
@@ -235,22 +238,18 @@ extension MemoViewController {
                 }))
             }
             
-            actionController.addAction(Action("Share".localized, style: .default, handler: { _ in
+            actionSheet.add(WXActionSheetItem(title: "Share".localized, handler: { _ in
                 print("Share memo")
                 self.shareMemoHandle(indexPath: indexPath)
             }))
             
-            actionController.addAction(Action("Delete".localized, style: .default, handler: { _ in
+            actionSheet.add(WXActionSheetItem(title: "Delete".localized, handler: { _ in
                 print("Delete memo")
                 self.deleteMemoHandle(indexPath: indexPath)
             }))
         }
         
-        actionController.addAction(Action("Cancel".localized, style: .default, handler: nil))
-        
-        if !(navigationController?.visibleViewController?.isKind(of: SkypeActionController.self))! {
-            present(actionController, animated: true, completion: nil)
-        }
+        actionSheet.show()
     }
 }
 

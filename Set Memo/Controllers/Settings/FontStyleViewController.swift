@@ -104,8 +104,8 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
     }
     
     func setupDefaultPersistentNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
-        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.secondaryBackgroundColor
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -114,8 +114,8 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
     }
     
     func setupDarkPersistentNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
-        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.secondaryBackgroundColor
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -158,7 +158,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
                 
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "The quick brown fox jumps over the lazy dog"
-                setting.setupDynamicCells(cell: cell)
+                setting.setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             default:
@@ -222,12 +222,10 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
             return UITableView.automaticDimension
             
         } else if indexPath.section == 1 {
-            let fontSizePickerHeight = UIScreen.height / 4
-            return fontSizePickerHeight
+            return 140
             
         } else if indexPath.section == 2 {
-            let fontStylePickerHeight = UIScreen.height / 3
-            return fontStylePickerHeight
+            return 180
         }
         
         return 0

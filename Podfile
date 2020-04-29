@@ -8,8 +8,9 @@ target 'Set Memo' do
   # Pods for Set Memo
     pod 'SPAlert'
     pod 'WhatsNewKit'
-    pod 'XLActionController'
-    pod 'XLActionController/Skype'
+    pod 'WXActionSheet'
     pod 'EMAlertController'
     pod 'SwiftKeychainWrapper'
+    pod 'SVGKit'
+    pod 'FTPopOverMenu_Swift', '~> 0.1.4'
 end

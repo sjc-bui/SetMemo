@@ -47,18 +47,30 @@ class MemoViewCell: UICollectionViewCell {
     
     var lockIcon: UIImageView = {
         let i = UIImageView()
-        i.image = Resource.Images.smallLockButton
+        i.image = UIImage.SVGImage(named: "icons_outlined_lock", fillColor: UIColor.white)
         i.contentMode = .scaleAspectFill
         i.tintColor = .white
         i.isHidden = true
         return i
     }()
-
+    
+    var moreIcon: UIImageView = {
+        let m = UIImageView()
+        m.image = UIImage.SVGImage(named: "icons_filled_more", fillColor: UIColor.white)
+        m.contentMode = .scaleAspectFill
+        m.tintColor = .white
+        m.isHidden = false
+        m.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+        m.layer.cornerRadius = 12
+        m.clipsToBounds = true
+        return m
+    }()
+    
     fileprivate lazy var lockAndReminderIcon: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [lockIcon, reminderIsSetIcon])
+        let s = UIStackView(arrangedSubviews: [moreIcon, lockIcon, reminderIsSetIcon])
         s.axis = .vertical
         s.alignment = .trailing
-        s.spacing = 3
+        s.spacing = 5
         s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
@@ -89,6 +101,9 @@ class MemoViewCell: UICollectionViewCell {
     func setupContentView() {
         
         contentView.addSubview(groupStack)
+        
+        moreIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        moreIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         
         reminderIsSetIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
         reminderIsSetIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true

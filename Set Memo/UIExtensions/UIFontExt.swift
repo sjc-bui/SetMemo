@@ -14,6 +14,7 @@ extension UIKit.UIFont {
         
         if fontFamily == "Monospaced" {
             return UIFont.monospacedSystemFont(ofSize: size, weight: .regular)
+            
         } else if fontFamily == "Default" {
             return UIFont.systemFont(ofSize: size, weight: .regular)
         }

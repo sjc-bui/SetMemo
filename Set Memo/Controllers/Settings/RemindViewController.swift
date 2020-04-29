@@ -88,8 +88,8 @@ class RemindViewController: UITableViewController {
     }
     
     func setupDefaultPersistentNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
-        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.secondaryBackgroundColor
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
@@ -98,8 +98,8 @@ class RemindViewController: UITableViewController {
     }
     
     func setupDarkPersistentNavigationBar() {
-        navigationController?.navigationBar.backgroundColor = InterfaceColors.navigationBarColor
-        navigationController?.navigationBar.barTintColor = InterfaceColors.navigationBarColor
+        navigationController?.navigationBar.backgroundColor = InterfaceColors.secondaryBackgroundColor
+        navigationController?.navigationBar.barTintColor = InterfaceColors.secondaryBackgroundColor
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -141,7 +141,7 @@ class RemindViewController: UITableViewController {
                 cell.textField.inputAccessoryView = setTextFieldAccessory()
                 cell.textField.textColor = InterfaceColors.fontColor
                 
-                setting.setupDynamicCells(cell: cell)
+                setting.setupDynamicCells(cell: cell, arrow: false)
                 return cell
                 
             default:
@@ -223,7 +223,7 @@ class RemindViewController: UITableViewController {
             return 44
             
         } else if indexPath.section == 1 {
-            return UIScreen.height / 3
+            return 180
             
         } else if indexPath.section == 2 {
             return 48

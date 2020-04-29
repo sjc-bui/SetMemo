@@ -15,6 +15,7 @@ extension UITableViewCell {
         
         if UserDefaults.standard.bool(forKey: Resource.Defaults.useDarkMode) {
             customColorView.backgroundColor = UIColor.white.withAlphaComponent(0.2)
+            
         } else {
             customColorView.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
         }
