@@ -416,10 +416,10 @@ class MemoViewController: UICollectionViewController {
         var lockLabel: String?
         
         if lockThisMemo {
-            lockLabel = "LockMemo".localized
+            lockLabel = "Locked".localized
             
         } else {
-            lockLabel = "UnlockMemo".localized
+            lockLabel = "Unlocked".localized
         }
         
         ShowToast.toast(message: lockLabel, duration: 1.0)
@@ -564,6 +564,9 @@ class MemoViewController: UICollectionViewController {
             center.removePendingNotificationRequests(withIdentifiers: [notificationUUID])
             
             filteredMemo.setValue(true, forKey: "temporarilyDelete")
+            filteredMemo.setValue("cleared", forKey: "notificationUUID")
+            filteredMemo.setValue(false, forKey: "isReminder")
+            filteredMemo.setValue(0.0, forKey: "dateReminder")
             filterMemoData.remove(at: indexPath.row)
             
         } else {
@@ -574,6 +577,9 @@ class MemoViewController: UICollectionViewController {
             center.removePendingNotificationRequests(withIdentifiers: [noficationUUID])
             
             memo.setValue(true, forKey: "temporarilyDelete")
+            memo.setValue("cleared", forKey: "notificationUUID")
+            memo.setValue(false, forKey: "isReminder")
+            memo.setValue(0.0, forKey: "dateReminder")
             memoData.remove(at: indexPath.row)
             
         }

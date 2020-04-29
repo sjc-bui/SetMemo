@@ -126,3 +126,5 @@
 "HoursAgo" = "%d時間前";
 "DaysAgo" = "%d日前";
 "PasswordIncorrect" = "パスワードが間違い";
+"Locked" = "ロックが追加されました";
+"Unlocked" = "ロックが削除されました";
