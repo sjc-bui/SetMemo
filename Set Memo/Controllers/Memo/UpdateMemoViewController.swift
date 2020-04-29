@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SPAlert
 import LocalAuthentication
 import EMAlertController
 import SwiftKeychainWrapper
@@ -181,7 +180,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
                 self.removeLockViewFromSuper()
                 
             } else {
-                print("Wrong password")
+                ShowToast.toast(message: "PasswordIncorrect".localized, duration: 1.0)
             }
         }
         
@@ -331,7 +330,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: true, duration: 0.5)
+        ShowToast.toast(message: "ReminderDeleted".localized, duration: 1.0)
     }
     
     @objc func hashTagChangeHandle() {

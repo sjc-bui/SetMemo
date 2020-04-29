@@ -9,11 +9,11 @@
 import UIKit
 import StoreKit
 import CoreData
-import SPAlert
 import LocalAuthentication
 import EMAlertController
 import SwiftKeychainWrapper
 import WXActionSheet
+import SmartToast
 
 class MemoViewController: UICollectionViewController {
     
@@ -413,15 +413,16 @@ class MemoViewController: UICollectionViewController {
             self.collectionView.reloadData()
         }
         
-        var lockImg: UIImage?
+        var lockLabel: String?
         
         if lockThisMemo {
-            lockImg = UIImage(systemName: "lock.fill")
+            lockLabel = "LockMemo".localized
+            
         } else {
-            lockImg = UIImage(systemName: "lock.open.fill")
+            lockLabel = "UnlockMemo".localized
         }
         
-        SPAlert().customImage(title: "", message: nil, image: lockImg)
+        ShowToast.toast(message: lockLabel, duration: 1.0)
     }
     
     func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
@@ -487,11 +488,11 @@ class MemoViewController: UICollectionViewController {
             let inputPassword = alert.textFields.first?.text ?? ""
             let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
             
-            if inputPassword.elementsEqual(keychainPassword) == true{
+            if inputPassword.elementsEqual(keychainPassword) == true {
                 self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
                 
             } else {
-                print("wrong password !")
+                ShowToast.toast(message: "PasswordIncorrect".localized, duration: 1.0)
             }
         }
         
@@ -534,7 +535,7 @@ class MemoViewController: UICollectionViewController {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         
-        SPAlert().done(title: "ReminderDeleted".localized, message: nil, haptic: false, duration: 0.5)
+        ShowToast.toast(message: "ReminderDeleted".localized, duration: 1.0)
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
