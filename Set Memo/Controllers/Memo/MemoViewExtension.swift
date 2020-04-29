@@ -104,7 +104,7 @@ extension MemoViewController {
         let defaultFontSize = Dimension.shared.fontMediumSize
         
         cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
-        cell.content.text = content
+        cell.content.text = content?.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             

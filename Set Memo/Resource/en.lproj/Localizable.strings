@@ -125,4 +125,6 @@
 "MinutesAgo" = "%d minutes ago";
 "HoursAgo" = "%d hours ago";
 "DaysAgo" = "%d days ago";
-"" = "";
+"PasswordIncorrect" = "Password is incorrect";
+"Locked" = "Lock added";
+"Unlocked" = "Lock removed";

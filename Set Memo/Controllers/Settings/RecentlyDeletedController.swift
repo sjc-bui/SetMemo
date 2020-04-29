@@ -290,7 +290,7 @@ extension RecentlyDeletedController {
         let color = memo.value(forKey: "color") as? String ?? "white"
         
         cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
-        cell.content.text = content
+        cell.content.text = content?.trimmingCharacters(in: .whitespacesAndNewlines)
         
         cell.dateEdited.text = DatetimeUtil().timeAgo(at: dateEdited)
         cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)

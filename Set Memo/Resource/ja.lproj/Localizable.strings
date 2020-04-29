@@ -103,7 +103,7 @@
 "DateReminderInfo" = "通知日時: %@";
 "WordsCount" = "単語数: %d";
 "CharactersCount" = "文字数: %d";
-"ReminderDeleted" = "通知を削除しました";
+"ReminderDeleted" = "リマインダーを削除しました";
 "FontStyle" = "スタイル";
 "Example" = "例";
 "Font" = "フォント";
@@ -125,3 +125,6 @@
 "MinutesAgo" = "%d分前";
 "HoursAgo" = "%d時間前";
 "DaysAgo" = "%d日前";
+"PasswordIncorrect" = "パスワードが間違い";
+"Locked" = "ロックが追加されました";
+"Unlocked" = "ロックが削除されました";

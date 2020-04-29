@@ -125,3 +125,6 @@
 "MinutesAgo" = "%d phút trước";
 "HoursAgo" = "%d giờ trước";
 "DaysAgo" = "%d ngày trước";
+"PasswordIncorrect" = "Mật khẩu không đúng";
+"Locked" = "Đã thêm khóa";
+"Unlocked" = "Đã gỡ bỏ khóa";

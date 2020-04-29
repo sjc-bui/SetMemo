@@ -129,7 +129,7 @@ class ReminderViewController: UIViewController {
         
         updateContentWithReminder(notificationUUID: uuid, dateReminder: datePicker.date.timeIntervalSinceReferenceDate, index: index)
         
-        SPAlert().done(title: "RemindSetTitle".localized, message: String(format: "RemindAt".localized, dateFromPicker), haptic: true, duration: 2.0)
+        ShowToast.toast(message: String(format: "RemindAt".localized, dateFromPicker), duration: 2.0)
     }
     
     func updateContentWithReminder(notificationUUID: String, dateReminder: Double, index: Int) {
