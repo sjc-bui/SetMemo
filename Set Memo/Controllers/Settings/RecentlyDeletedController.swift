@@ -292,8 +292,7 @@ extension RecentlyDeletedController {
         cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
         cell.content.text = content
         
-        let dateString = DatetimeUtil().convertDatetime(date: dateEdited)
-        cell.dateEdited.text = "\(dateString)"
+        cell.dateEdited.text = DatetimeUtil().timeAgo(at: dateEdited)
         cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
         cell.hashTag.text = "#\(hashTag)"
@@ -308,11 +307,6 @@ extension RecentlyDeletedController {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         tapHandler(indexPath: indexPath)
     }
-    
-//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let titleHeaderMessage = "AutoDeleteMemo".localized
-//        return titleHeaderMessage
-//    }
 }
 
 extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
