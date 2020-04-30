@@ -56,8 +56,7 @@ class ReminderViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         setRemindButton.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(datePicker)
-        view.addSubview(setRemindButton)
+        view.addSubviews([datePicker, setRemindButton])
         setRemindButton.backgroundColor = background!.adjust(by: -7.75)
         
         let buttonWidth: CGFloat?

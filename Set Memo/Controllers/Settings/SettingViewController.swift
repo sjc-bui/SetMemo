@@ -39,8 +39,8 @@ class SettingViewController: UITableViewController {
     ]
     
     let premiums: Array = [
-        "Buy premium",
-        "Restore purchases"
+        "BuyPremium".localized,
+        "RestorePurchase".localized
     ]
     
     let other: Array = ["Version".localized]

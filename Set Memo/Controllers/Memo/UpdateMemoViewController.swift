@@ -39,11 +39,10 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         tv.tintColor = UIColor.white
         tv.isEditable = true
         tv.isScrollEnabled = true
-        tv.text = "update text view."
+        tv.text = "Content"
         tv.textColor = UIColor.white
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
-        tv.translatesAutoresizingMaskIntoConstraints = false
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         tv.font = UIFont.setCustomFont(style: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, fontSize: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
         return tv
@@ -53,7 +52,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
         lb.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        lb.text = "not set"
+        lb.text = "2020/02/28"
         lb.textColor = UIColor.lightText
         lb.backgroundColor = UIColor.systemBackground
         lb.textDropShadow()
@@ -63,7 +62,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     let lockView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -71,24 +69,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         view.addSubviews([dateEditedLabel, textView])
         
-        dateEditedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        dateEditedLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        dateEditedLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        dateEditedLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        dateEditedLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, padding: .zero, size: CGSize(width: 0, height: 30))
         
-        textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        textView.anchor(top: dateEditedLabel.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor)
     }
     
     func setupLockView() {
         view.addSubview(lockView)
-        
-        lockView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        lockView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        lockView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        lockView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        lockView.anchor(top: view.safeAreaLayoutGuide.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor)
     }
     
     override func initialize() {

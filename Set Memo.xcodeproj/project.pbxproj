@@ -267,7 +267,7 @@
 			path = Controls;
 			sourceTree = "<group>";
 		};
-		724CA6FD240A18010088F581 /* UIExtensions */ = {
+		724CA6FD240A18010088F581 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				724CA6FE240A18390088F581 /* UIViewExt.swift */,
@@ -291,7 +291,7 @@
 				72F2D1F024582477004A9AD8 /* UICollectionViewCellExt.swift */,
 				72F2D1F2245824A8004A9AD8 /* CALayerExt.swift */,
 			);
-			path = UIExtensions;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		724CA700240A1F9E0088F581 /* Models */ = {
@@ -376,7 +376,7 @@
 				727E50E824120B710042E81F /* App Icons */,
 				7244892D240F3D62008E723C /* Views */,
 				724CA700240A1F9E0088F581 /* Models */,
-				724CA6FD240A18010088F581 /* UIExtensions */,
+				724CA6FD240A18010088F581 /* Extensions */,
 				724CA6FA2408FBDB0088F581 /* Controls */,
 				724CA6DA2408E91A0088F581 /* Resource */,
 				724CA6D12408D9060088F581 /* Controllers */,

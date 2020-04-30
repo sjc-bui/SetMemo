@@ -128,3 +128,5 @@
 "PasswordIncorrect" = "Mật khẩu không đúng";
 "Locked" = "Đã thêm khóa";
 "Unlocked" = "Đã gỡ bỏ khóa";
+"BuyPremium" = "Nâng cấp premium";
+"RestorePurchase" = "Khôi phục giao dịch";

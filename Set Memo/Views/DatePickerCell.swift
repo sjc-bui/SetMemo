@@ -15,15 +15,11 @@ class DatePickerCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.timeZone = NSTimeZone.local
         datePicker.datePickerMode = .time
         contentView.addSubview(datePicker)
         
-        datePicker.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        datePicker.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        datePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        datePicker.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        datePicker.anchor(top: contentView.topAnchor, trailing: contentView.trailingAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor)
     }
     
     required init?(coder: NSCoder) {

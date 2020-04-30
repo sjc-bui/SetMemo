@@ -15,13 +15,9 @@ class PickerViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(pickerView)
         
-        pickerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        pickerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        pickerView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        pickerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        pickerView.anchor(top: contentView.topAnchor, trailing: contentView.trailingAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor)
     }
     
     required init?(coder: NSCoder) {

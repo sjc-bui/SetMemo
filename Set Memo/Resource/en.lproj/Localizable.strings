@@ -128,3 +128,5 @@
 "PasswordIncorrect" = "Password is incorrect";
 "Locked" = "Lock added";
 "Unlocked" = "Lock removed";
+"BuyPremium" = "Buy premium";
+"RestorePurchase" = "Restore purchase";

@@ -13,17 +13,14 @@ class TextFieldCell: UITableViewCell {
     let textField = UITextField()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.tintColor = .deepOrange
         textField.placeholder = "Content"
-        contentView.addSubview(textField)
         
-        textField.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
+        contentView.addSubview(textField)
+        textField.anchor(top: contentView.topAnchor, trailing: contentView.trailingAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, padding: UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0))
     }
     
     required init?(coder: NSCoder) {

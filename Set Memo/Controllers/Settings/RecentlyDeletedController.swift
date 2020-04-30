@@ -225,9 +225,6 @@ class RecentlyDeletedController: UICollectionViewController {
     
     func tapHandler(indexPath: IndexPath) {
         
-        let memo = memoData[indexPath.row]
-        //let color = memo.value(forKey: "color") as? String ?? "white"
-        
         let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
         actionSheet.add(WXActionSheetItem(title: "Recover".localized, handler: { _ in
             self.recoverMemo(indexPath: indexPath)
@@ -236,6 +233,7 @@ class RecentlyDeletedController: UICollectionViewController {
         actionSheet.add(WXActionSheetItem(title: "Delete".localized, handler: { _ in
             self.showAlertOnDelete(indexPath: indexPath)
         }))
+        
         actionSheet.show()
     }
     
