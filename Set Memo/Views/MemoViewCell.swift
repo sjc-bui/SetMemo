@@ -14,7 +14,7 @@ class MemoViewCell: UICollectionViewCell {
         let c = UILabel()
         c.numberOfLines = 2
         c.text = "content"
-        c.textColor = .white
+        c.textColor = UIColor.primaryText
         c.textDropShadow()
         return c
     }()
@@ -23,7 +23,7 @@ class MemoViewCell: UICollectionViewCell {
         let h = UILabel()
         h.numberOfLines = 1
         h.text = "hashTag"
-        h.textColor = .lightText
+        h.textColor = UIColor.secondaryText
         h.textDropShadow()
         return h
     }()
@@ -32,14 +32,14 @@ class MemoViewCell: UICollectionViewCell {
         let d = UILabel()
         d.numberOfLines = 1
         d.text = "24/01/2019"
-        d.textColor = .lightText
+        d.textColor = UIColor.secondaryText
         d.textDropShadow()
         return d
     }()
     
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
-        r.image = Resource.Images.smallBellButton
+        r.image = Resource.Images.smallAlarmIcon
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r

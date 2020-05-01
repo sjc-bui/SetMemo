@@ -32,7 +32,7 @@ public class Resource {
         public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
         public static var backButton: UIImage? = UIImage(systemName: "arrow.left")
         
-        public static var smallBellButton: UIImage? = UIImage(systemName: "bell.fill")
+        public static var smallAlarmIcon: UIImage? = UIImage(systemName: "alarm")
         public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
         public static var setLockButton: UIImage? = UIImage(systemName: "lock")
         public static var removeLockButton: UIImage? = UIImage(systemName: "lock.slash")

@@ -10,9 +10,7 @@ import UIKit
 import StoreKit
 import CoreData
 import LocalAuthentication
-import EMAlertController
 import SwiftKeychainWrapper
-import WXActionSheet
 import SmartToast
 
 class MemoViewController: UICollectionViewController {
@@ -30,7 +28,7 @@ class MemoViewController: UICollectionViewController {
     let inset: CGFloat = 12
     let minimumLineSpacing: CGFloat = 12
     let minimumInteritemSpacing: CGFloat = 12
-    var cellsPerRow = 2
+    var cellsPerRow: Int?
     let reuseCellId = "cellId"
     let themes = Themes()
     let theme = ThemesViewController()
@@ -64,12 +62,7 @@ class MemoViewController: UICollectionViewController {
             }
             
         } else {
-            if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
-                
-            } else {
-                cellsPerRow = 2
-            }
+            cellsPerRow = 2
         }
     }
     
@@ -266,30 +259,27 @@ class MemoViewController: UICollectionViewController {
     @objc func sortBy() {
         
         DeviceControl().feedbackOnPress()
-        let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
-        //actionSheet.backgroundColor = Colors.shared.defaultTintColor
-        
-        actionSheet.add(WXActionSheetItem(title: "SortByDateCreated".localized, handler: { _ in
-            self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        }))
-        
-        actionSheet.add(WXActionSheetItem(title: "SortByDateEdited".localized, handler: { _ in
-            self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        }))
-        
-        actionSheet.add(WXActionSheetItem(title: "SortByColor".localized, handler: { _ in
-            self.defaults.set(Resource.SortBy.color, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        }))
-        
-        actionSheet.add(WXActionSheetItem(title: "SortByTitle".localized, handler: { _ in
-            self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
-            self.fetchMemoFromCoreData()
-        }))
-        
-        actionSheet.show()
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortByDateCreated".localized, "SortByDateEdited".localized, "SortByColor".localized, "SortByTitle".localized, "Cancel".localized], actionStyles: [.default, .default, .default, .default, .cancel], actions: [
+            { _ in
+                self.defaults.set(Resource.SortBy.dateCreated, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.dateEdited, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.color, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                self.defaults.set(Resource.SortBy.title, forKey: Resource.Defaults.sortBy)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("cancel")
+            }
+        ])
     }
     
     @objc func createNewMemo() {
@@ -299,7 +289,7 @@ class MemoViewController: UICollectionViewController {
     
     @objc func settingPage() {
         DeviceControl().feedbackOnPress()
-        self.push(viewController: SettingViewController(style: .grouped))
+        self.push(viewController: SettingViewController(style: .insetGrouped))
     }
     
     func fetchMemoFromCoreData() {
@@ -477,15 +467,16 @@ class MemoViewController: UICollectionViewController {
             alertMessage = "EnterPassToUnlockMemo".localized
         }
         
-        let alert = EMAlertController(title: alertTitle, message: alertMessage)
-        alert.addTextField { (textField) in
-            textField?.placeholder = "******"
-            textField?.isSecureTextEntry = true
+        let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.placeholder = "******"
+            textField.isSecureTextEntry = true
         }
-        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-        let ok = EMAlertAction(title: "OK", style: .normal) {
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "OK", style: .default) { _ in
             
-            let inputPassword = alert.textFields.first?.text ?? ""
+            let inputPassword = alertController.textFields?.first?.text ?? ""
             let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
             
             if inputPassword.elementsEqual(keychainPassword) == true {
@@ -496,10 +487,19 @@ class MemoViewController: UICollectionViewController {
             }
         }
         
-        alert.addAction(ok)
-        alert.addAction(cancel)
+        alertController.addAction(cancel)
+        alertController.addAction(ok)
         
-        present(alert, animated: true, completion: nil)
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            alertController.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        
+        alertController.view.tintColor = Colors.shared.defaultTintColor
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     func deleteReminderHandle(indexPath: IndexPath) {
@@ -547,12 +547,11 @@ class MemoViewController: UICollectionViewController {
         
         if defaults.bool(forKey: Resource.Defaults.firstTimeDeleted) == true {
             
-            let alert = EMAlertController(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized)
-            let ok = EMAlertAction(title: "OK", style: .normal) {
-                self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
-            }
-            alert.addAction(ok)
-            present(alert, animated: true, completion: nil)
+            self.showAlert(title: "DeletedMemoMoved".localized, message: "DeletedMemoMovedMess".localized, alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                { _ in
+                    self.defaults.set(false, forKey: Resource.Defaults.firstTimeDeleted)
+                }
+            ])
         }
         
         if isFiltering() == true {
@@ -618,6 +617,7 @@ class MemoViewController: UICollectionViewController {
     }
     
     func shareActivityViewController(content: String, hashTag: String) {
+        
         let textToShare = "#\(hashTag)\n\(content)"
         let objectToShare = [textToShare] as [Any]
         
@@ -629,6 +629,13 @@ class MemoViewController: UICollectionViewController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
             popoverController.permittedArrowDirections = [.any]
+        }
+        
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            activityViewController.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            activityViewController.overrideUserInterfaceStyle = .light
         }
         
         self.present(activityViewController, animated: true, completion: nil)

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import WXActionSheet
 
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
@@ -164,20 +163,16 @@ extension MemoViewController {
             }
             
         } else {
-            if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
-                
-            } else {
-                cellsPerRow = 2
-            }
+            cellsPerRow = 2
         }
     }
     
     @objc func moreOptions(sender: UITapGestureRecognizer) {
+        
         let location = sender.location(in: collectionView)
         let indexPath = collectionView.indexPathForItem(at: location) ?? [0, 0]
         
-        let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let color: String?
         if isFiltering() == true {
@@ -189,19 +184,18 @@ extension MemoViewController {
             color = memo.value(forKey: "color") as? String ?? "white"
         }
         
-        //actionController.backgroundColor = UIColor.getRandomColorFromString(color: color!)
-        
         if reminderIsSetAtIndex(indexPath: indexPath) == false {
             
             if lockIsSetAtIndex(indexPath: indexPath) == true {
                 
-                actionSheet.add(WXActionSheetItem(title: "UnlockMemo".localized, handler: { _ in
+                actionSheet.addAction(UIAlertAction(title: "UnlockMemo".localized, style: .default, handler: { _ in
                     print("Unlock")
                     self.handleLockMemoWithBiometrics(reason: "ReasonToUnlockMemo".localized, lockThisMemo: false, indexPath: indexPath)
                 }))
                 
             } else {
-                actionSheet.add(WXActionSheetItem(title: "LockMemo".localized, handler: { _ in
+                
+                actionSheet.addAction(UIAlertAction(title: "LockMemo".localized, style: .default, handler: { _ in
                     print("Lock")
                     self.handleLockMemoWithBiometrics(reason: "ReasonToLockMemo".localized, lockThisMemo: true, indexPath: indexPath)
                 }))
@@ -212,13 +206,14 @@ extension MemoViewController {
             
             if reminderIsSetAtIndex(indexPath: indexPath) == true {
                 
-                actionSheet.add(WXActionSheetItem(title: "DeleteReminder".localized, handler: { _ in
+                actionSheet.addAction(UIAlertAction(title: "DeleteReminder".localized, style: .default, handler: { _ in
                     print("delete reminder")
                     self.deleteReminderHandle(indexPath: indexPath)
                 }))
                 
             } else {
-                actionSheet.add(WXActionSheetItem(title: "Reminder".localized, handler: { _ in
+                
+                actionSheet.addAction(UIAlertAction(title: "Reminder".localized, style: .default, handler: { _ in
                     print("set reminder")
                     let rootView = ReminderViewController()
                     let remindView = UINavigationController(rootViewController: rootView)
@@ -238,18 +233,30 @@ extension MemoViewController {
                 }))
             }
             
-            actionSheet.add(WXActionSheetItem(title: "Share".localized, handler: { _ in
+            actionSheet.addAction(UIAlertAction(title: "Share".localized, style: .default, handler: { _ in
                 print("Share memo")
                 self.shareMemoHandle(indexPath: indexPath)
             }))
             
-            actionSheet.add(WXActionSheetItem(title: "Delete".localized, handler: { _ in
+            actionSheet.addAction(UIAlertAction(title: "Delete".localized, style: .default, handler: { _ in
                 print("Delete memo")
                 self.deleteMemoHandle(indexPath: indexPath)
             }))
         }
         
-        actionSheet.show()
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
+        
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            actionSheet.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            actionSheet.overrideUserInterfaceStyle = .light
+        }
+        
+        actionSheet.view.tintColor = Colors.shared.defaultTintColor
+        actionSheet.pruneNegativeWidthConstraints()
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
@@ -267,8 +274,8 @@ extension MemoViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow! - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow!)).rounded(.down)
         
         return CGSize(width: itemWidth, height: 105)
     }

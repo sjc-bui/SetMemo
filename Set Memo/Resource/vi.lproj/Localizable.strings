@@ -18,7 +18,7 @@
 "Share" = "Chia sẻ";
 "DeleteAllMessage" = "Tất cả ghi chú sẽ bị xoá \n và không thể khôi phục.";
 "Edit" = "Sửa";
-"DatetimeFormat" = "h:mm a dd/MM/yy";
+"DatetimeFormat" = "HH:mm dd/MM/yyyy";
 "DateMonthYear" = "d MMM yyyy";
 "DateTimeShort" = "dd/MM/yyyy";
 "HourAndMinute" = "h:mm a";
@@ -130,3 +130,18 @@
 "Unlocked" = "Đã gỡ bỏ khóa";
 "BuyPremium" = "Nâng cấp premium";
 "RestorePurchase" = "Khôi phục giao dịch";
+"RemindContent" = "Nội dung";
+"RemindAtTime" = "Thời gian";
+"Premium" = "Premium";
+"ResetSettings" = "Khôi phục cài đặt mặc định";
+"Reset" = "Khôi phục";
+"ResetActionMessage" = "Hành động này sẽ khôi phục tất cả cài đặt về mặc định";
+"ResetSuccess" = "Khôi phục cài đặt thành công";
+"Feedback" = "Gửi phản hồi qua email";
+"RateApp" = "Đánh giá ứng dụng";
+"ShareWithFriends" = "Giới thiệu Set Memo với bạn bè";
+"Helps" = "Giúp đỡ";
+"SendFeedback" = "Phản hồi về ứng dụng";
+"ReportBug" = "Báo cáo lỗi";
+"RequestFeature" = "Yêu cầu tính năng mới";
+"TellUsDetail" = "Cho chúng tôi biết chi tiết tại đây:";

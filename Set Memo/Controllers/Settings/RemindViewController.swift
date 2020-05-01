@@ -10,7 +10,7 @@ import UIKit
 
 class RemindViewController: UITableViewController {
     
-    let sections = ["Remind text", "Remind at", ""]
+    let sections = ["RemindContent".localized, "RemindAtTime".localized, ""]
     let reuseDatePickerCellId = "datePickerCellId"
     let reuseTextFileId = "textFieldId"
     let reuseButtonId = "buttonId"

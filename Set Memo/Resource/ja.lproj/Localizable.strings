@@ -18,7 +18,7 @@
 "Share" = "共有";
 "DeleteAllMessage" = "全てのメモが削除されます。\nよろしいですか？";
 "Edit" = "編集";
-"DatetimeFormat" = "yy/MM/dd HH:mm";
+"DatetimeFormat" = "yyyy年MM月dd日 HH:mm";
 "DateMonthYear" = "yyyy年MM月dd日";
 "DateTimeShort" = "yyyy/MM/dd";
 "HourAndMinute" = "HH:mm";
@@ -130,3 +130,18 @@
 "Unlocked" = "ロックが削除されました";
 "BuyPremium" = "プレミアムを購入";
 "RestorePurchase" = "購入を復元";
+"RemindContent" = "内容";
+"RemindAtTime" = "時間";
+"Premium" = "プレミアム";
+"ResetSettings" = "設定をデフォルトにリセット";
+"Reset" = "リセット";
+"ResetActionMessage" = "このアクションは全ての設定をデフォルトにリセットします";
+"ResetSuccess" = "デフォルトに再設定されました";
+"Feedback" = "フィードバックをメールで送信";
+"RateApp" = "アプリを評価";
+"ShareWithFriends" = "セットメモを友達に紹介する";
+"Helps" = "ヘルプ";
+"SendFeedback" = "フィドバック";
+"ReportBug" = "バグを報告";
+"RequestFeature" = "機能をリクエスト";
+"TellUsDetail" = "詳細をここに教えて下さい:";

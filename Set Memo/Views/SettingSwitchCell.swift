@@ -9,6 +9,7 @@
 import UIKit
 
 class SettingSwitchCell: UITableViewCell {
+    
     let detailText = UILabel()
     let switchButton = UISwitch()
     let descriptionText = UILabel()

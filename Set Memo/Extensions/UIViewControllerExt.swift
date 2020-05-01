@@ -34,6 +34,8 @@ extension UIViewController {
     
     func showAlert(title: String?, message: String?, alertStyle: UIAlertController.Style, actionTitles: [String], actionStyles: [UIAlertAction.Style], actions: [((UIAlertAction) -> Void)]) {
         
+        let defaults = UserDefaults.standard
+        
         let alert = UIAlertController(title: title, message: message, preferredStyle: alertStyle)
         
         for (index, actionTitle) in actionTitles.enumerated() {
@@ -48,6 +50,13 @@ extension UIViewController {
             popoverController.sourceView = self.view
             popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
             popoverController.permittedArrowDirections = [.any]
+        }
+        
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            alert.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            alert.overrideUserInterfaceStyle = .light
         }
         
         self.present(alert, animated: true)
