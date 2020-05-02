@@ -145,3 +145,5 @@
 "ReportBug" = "Báo cáo lỗi";
 "RequestFeature" = "Yêu cầu tính năng mới";
 "TellUsDetail" = "Cho chúng tôi biết chi tiết tại đây:";
+"LoginToMailApp" = "Để gửi phản hồi, vui lòng đăng nhập vào ứng dụng Mail và thử lại.";
+"OpenMail" = "Mở";

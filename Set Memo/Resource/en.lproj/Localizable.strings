@@ -145,3 +145,5 @@
 "ReportBug" = "Report a bug";
 "RequestFeature" = "Request feature";
 "TellUsDetail" = "Tell us details here:";
+"LoginToMailApp" = "To send feedback, login to Mail app and try again.";
+"OpenMail" = "Open";

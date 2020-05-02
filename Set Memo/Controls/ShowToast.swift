@@ -20,7 +20,7 @@ class ShowToast {
             style.backgroundColor = UIColor.darkGray
             
         } else {
-            style.backgroundColor = UIColor.black
+            style.backgroundColor = UIColor.secondaryBlackColor
         }
         
         ToastManager.shared.showToast(message!, duration: duration, position: .center, style: style)

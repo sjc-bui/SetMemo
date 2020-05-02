@@ -33,6 +33,7 @@
 		723761B1245D7BAC00375664 /* red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761AF245D7BAC00375664 /* red@2x.png */; };
 		723761B4245D7CE400375664 /* purple@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761B2245D7CE400375664 /* purple@3x.png */; };
 		723761B5245D7CE400375664 /* purple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761B3245D7CE400375664 /* purple@2x.png */; };
+		723761B7245DC16800375664 /* icons_filled_cancel.svg in Resources */ = {isa = PBXBuildFile; fileRef = 723761B6245DC16800375664 /* icons_filled_cancel.svg */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
 		723CA64F2459361700258DEB /* ShowToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723CA64E2459361700258DEB /* ShowToast.swift */; };
@@ -121,6 +122,7 @@
 		723761AF245D7BAC00375664 /* red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red@2x.png"; sourceTree = "<group>"; };
 		723761B2245D7CE400375664 /* purple@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple@3x.png"; sourceTree = "<group>"; };
 		723761B3245D7CE400375664 /* purple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple@2x.png"; sourceTree = "<group>"; };
+		723761B6245DC16800375664 /* icons_filled_cancel.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons_filled_cancel.svg; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
 		723CA64E2459361700258DEB /* ShowToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowToast.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 		72F2D1D32457A343004A9AD8 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				723761B6245DC16800375664 /* icons_filled_cancel.svg */,
 				72F2D1F424586D2B004A9AD8 /* icons_outlined_trash.svg */,
 				72F2D1EC24581708004A9AD8 /* icons_outlined_add1.svg */,
 				72F2D1EA2458164C004A9AD8 /* icons_outlined_settings.svg */,
@@ -520,6 +523,7 @@
 				723761A3245D44D700375664 /* light@2x.png in Resources */,
 				72F2D1E924581515004A9AD8 /* icons_outlined_info.svg in Resources */,
 				723761A2245D44D700375664 /* dark@3x.png in Resources */,
+				723761B7245DC16800375664 /* icons_filled_cancel.svg in Resources */,
 				72F2D1E32457F95B004A9AD8 /* icons_outlined_lock.svg in Resources */,
 				72EFECE92408D3A00035296F /* Assets.xcassets in Resources */,
 				7241C60F243785CC00D3E617 /* InfoPlist.strings in Resources */,

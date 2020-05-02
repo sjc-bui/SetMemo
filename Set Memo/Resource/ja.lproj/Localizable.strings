@@ -145,3 +145,5 @@
 "ReportBug" = "バグを報告";
 "RequestFeature" = "機能をリクエスト";
 "TellUsDetail" = "詳細をここに教えて下さい:";
+"LoginToMailApp" = "フィドバックを送信するにはメールアプリにログイン及び再度お試しください。";
+"OpenMail" = "開く";

@@ -48,8 +48,8 @@ extension UIViewController {
         alert.pruneNegativeWidthConstraints()
         if let popoverController = alert.popoverPresentationController {
             popoverController.sourceView = self.view
-            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.height, width: 0, height: 0)
-            popoverController.permittedArrowDirections = [.any]
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
         }
         
         if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {

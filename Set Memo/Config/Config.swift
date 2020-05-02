@@ -11,5 +11,5 @@ import UIKit
 class Config {
     
     static let supportEmail: String = "vivasw.quan@gmail.com";
-    
+    static let appId: String = ""; // need appId on App Store
 }

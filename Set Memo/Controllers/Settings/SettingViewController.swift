@@ -592,9 +592,43 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                 ])
                 
             case 1:
-                print("")
+                
+                print("rate app")
+                //let urlStr = "https://itunes.apple.com/app/id\(Config.appId)" // (Option 1) Open App Page
+                let urlStr = "https://itunes.apple.com/app/id\(Config.appId)?action=write-review" // (Option 2) Open App Review Page
+                guard let url = URL(string: urlStr), UIApplication.shared.canOpenURL(url) else {
+                    return
+                }
+                
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                
             case 2:
-                print("")
+                
+                print("share with friends")
+                let textToShare = "Set Memo provides a new experience of managing all your memo. Try Set Memo."
+                let objectToShare = [textToShare] as [Any]
+                
+                let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
+                activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop,
+                                                                 UIActivity.ActivityType.addToReadingList]
+                
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                
+                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                    activityViewController.overrideUserInterfaceStyle = .dark
+                    
+                } else {
+                    activityViewController.overrideUserInterfaceStyle = .light
+                }
+                
+                self.present(activityViewController, animated: true, completion: nil)
+                
             default:
                 return
             }
@@ -618,9 +652,16 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else {
             
-            self.showAlert(title: "Error?", message: "Please check email configuration and try again.", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+            self.showAlert(title: "LoginToMailApp".localized, message: nil, alertStyle: .alert, actionTitles: ["Cancel".localized, "OpenMail".localized], actionStyles: [.default, .default], actions: [
                 { _ in
                     print("error send mail")
+                },
+                { _ in
+                    print("open mail")
+                    let mailURL = URL(string: "message://")
+                    if UIApplication.shared.canOpenURL(mailURL!) {
+                        UIApplication.shared.open(mailURL!, options: [:], completionHandler: nil)
+                    }
                 }
             ])
         }
