@@ -130,6 +130,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     }
     
     func darkModeEnabled() -> Bool {
+        
         if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
             return true
             
@@ -154,6 +155,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     func restorePurchase() {
         
         if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
+            
             self.showAlert(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
                 { _ in
                     print("Premium user restore purchase")

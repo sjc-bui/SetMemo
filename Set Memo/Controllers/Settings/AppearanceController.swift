@@ -10,7 +10,15 @@ import UIKit
 
 class AppearanceController: UITableViewController {
     let iconTypes: Array = ["Type".localized]
-    let mode: Array = ["Light".localized, "Dark".localized]
+    let mode: Array = [
+        "Light".localized,
+        "Dark".localized,
+        "Amber",
+        "Brown",
+        "Cyan",
+        "Red",
+        "Purple"
+    ]
     
     private let reuseIdentifier = "appIconCell"
     
@@ -85,6 +93,7 @@ class AppearanceController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SettingCell
         
         cell.textLabel?.text = "\(mode[indexPath.row])"
@@ -99,6 +108,26 @@ class AppearanceController: UITableViewController {
             }
         case 1:
             if isSelectIconFromDefault(key: "dark", indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 2:
+            if isSelectIconFromDefault(key: "amber", indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 3:
+            if isSelectIconFromDefault(key: "brown", indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 4:
+            if isSelectIconFromDefault(key: "cyan", indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 5:
+            if isSelectIconFromDefault(key: "red", indexPath: indexPath) == true {
+                cell.accessoryType = .checkmark
+            }
+        case 6:
+            if isSelectIconFromDefault(key: "purple", indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
         default:
@@ -126,6 +155,26 @@ class AppearanceController: UITableViewController {
             tableView.reloadData()
         case 1:
             defaults.set("dark", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
+            tableView.reloadData()
+        case 2:
+            defaults.set("amber", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
+            tableView.reloadData()
+        case 3:
+            defaults.set("brown", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
+            tableView.reloadData()
+        case 4:
+            defaults.set("cyan", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
+            tableView.reloadData()
+        case 5:
+            defaults.set("red", forKey: Resource.Defaults.iconType)
+            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
+            tableView.reloadData()
+        case 6:
+            defaults.set("purple", forKey: Resource.Defaults.iconType)
             changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
             tableView.reloadData()
         default:

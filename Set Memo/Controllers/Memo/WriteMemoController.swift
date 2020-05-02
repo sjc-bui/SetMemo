@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import EMAlertController
 
 class WriteMemoController: BaseViewController, UITextViewDelegate {
     
@@ -21,10 +20,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     func setupUI() {
         view = editor
-        editor.textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        editor.textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        editor.textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        editor.textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        editor.textView.anchor(top: view.safeAreaLayoutGuide.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor)
     }
     
     override func initialize() {
@@ -83,34 +79,43 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     @objc func setHashTag() {
         
         DeviceControl().feedbackOnPress()
-        let alert = EMAlertController(title: "#hashTag", message: nil)
-        alert.addTextField { (textField) in
-            textField?.placeholder = "hashTag"
-            textField?.autocorrectionType = .yes
-            textField?.autocapitalizationType = .none
+        let alertController = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.placeholder = "newHashtag"
+            textField.autocorrectionType = .yes
+            textField.autocapitalizationType = .none
             
-            if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-                textField?.keyboardAppearance = .dark
+            if self.defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                textField.keyboardAppearance = .dark
                 
             } else {
-                textField?.keyboardAppearance = .default
+                textField.keyboardAppearance = .default
             }
         }
         
-        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-        let done = EMAlertAction(title: "Done".localized, style: .normal) {
-            
-            guard let text = alert.textFields.first?.text else { return }
-            if text.isNullOrWhiteSpace() {
+        alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { _ in
+            let text = alertController.textFields?.first?.text
+            if text?.isNullOrWhiteSpace() ?? false {
             } else {
-                self.hashTag = FormatString().formatHashTag(text: text)
-                print(FormatString().formatHashTag(text: text))
+                guard let text = alertController.textFields!.first?.text else { return }
+                if text.isNullOrWhiteSpace() {
+                } else {
+                    self.hashTag = FormatString().formatHashTag(text: text)
+                    print(FormatString().formatHashTag(text: text))
+                }
             }
-        }
-        alert.addAction(done)
-        alert.addAction(cancel)
+        }))
         
-        present(alert, animated: true, completion: nil)
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            alertController.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        
+        alertController.view.tintColor = Colors.shared.defaultTintColor
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func autoSave() {

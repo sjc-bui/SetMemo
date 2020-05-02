@@ -8,7 +8,6 @@
 
 import UIKit
 import LocalAuthentication
-import EMAlertController
 import SwiftKeychainWrapper
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
@@ -39,12 +38,11 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         tv.tintColor = UIColor.white
         tv.isEditable = true
         tv.isScrollEnabled = true
-        tv.text = "update text view."
-        tv.textColor = UIColor.white
+        tv.text = "Content"
+        tv.textColor = UIColor.primaryText
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        tv.textContainerInset = UIEdgeInsets(top: 5, left: 20, bottom: 10, right: 20)
         tv.font = UIFont.setCustomFont(style: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, fontSize: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
         return tv
     }()
@@ -52,8 +50,8 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     fileprivate var dateEditedLabel: UILabel = {
         let lb = UILabel()
         lb.translatesAutoresizingMaskIntoConstraints = false
-        lb.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        lb.text = "not set"
+        lb.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        lb.text = "2020/02/28"
         lb.textColor = UIColor.lightText
         lb.backgroundColor = UIColor.systemBackground
         lb.textDropShadow()
@@ -63,7 +61,6 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     let lockView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -71,24 +68,14 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         view.addSubviews([dateEditedLabel, textView])
         
-        dateEditedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        dateEditedLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        dateEditedLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
-        dateEditedLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        dateEditedLabel.anchor(top: view.safeAreaLayoutGuide.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, padding: .zero, size: CGSize(width: 0, height: 30))
         
-        textView.topAnchor.constraint(equalTo: dateEditedLabel.bottomAnchor).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        textView.anchor(top: dateEditedLabel.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor)
     }
     
     func setupLockView() {
         view.addSubview(lockView)
-        
-        lockView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        lockView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        lockView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        lockView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        lockView.anchor(top: view.safeAreaLayoutGuide.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor)
     }
     
     override func initialize() {
@@ -164,19 +151,20 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     func handleEnterUnlockPassword() {
         
-        let alert = EMAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized)
-        alert.addTextField { (textField) in
-            textField?.placeholder = "******"
-            textField?.isSecureTextEntry = true
+        let alertController = UIAlertController(title: "ViewMemo".localized, message: "EnterPasswordToView".localized, preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.placeholder = "******"
+            textField.isSecureTextEntry = true
         }
-        let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-        let ok = EMAlertAction(title: "OK", style: .normal) {
+        
+        let cancel = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
+        let ok = UIAlertAction(title: "OK", style: .default) { _ in
             
-            let inputUserPassword = alert.textFields.first?.text ?? ""
+            let inputPassword = alertController.textFields?.first?.text ?? ""
             let keychainPassword = self.keychain.string(forKey: Resource.Defaults.passwordToUseBiometric) ?? ""
             
             // if input password is matching with keychain password
-            if inputUserPassword.elementsEqual(keychainPassword) == true {
+            if inputPassword.elementsEqual(keychainPassword) == true {
                 self.removeLockViewFromSuper()
                 
             } else {
@@ -184,10 +172,19 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             }
         }
         
-        alert.addAction(ok)
-        alert.addAction(cancel)
+        alertController.addAction(cancel)
+        alertController.addAction(ok)
         
-        present(alert, animated: true, completion: nil)
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            alertController.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        
+        alertController.view.tintColor = Colors.shared.defaultTintColor
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     func removeLockViewFromSuper() {
@@ -279,27 +276,37 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         info += "\n\(charsCount)\n"
         info += "\(wordsCount)"
         
-        let alert = EMAlertController(title: nil, message: "\(info)")
+        let alertController = UIAlertController(title: "", message: "\(info)", preferredStyle: .alert)
         
-        let viewLockedMemoButton = EMAlertAction(title: "ViewMemo".localized, style: .normal) {
-            self.unlockMemoWithBioMetrics()
-        }
-        let deleteReminderBtn = EMAlertAction(title: "DeleteReminder".localized, style: .normal) {
+        let done = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
+        
+        let deleteReminderBtn = UIAlertAction(title: "DeleteReminder".localized, style: .default) { _ in
             self.deleteReminderHandle()
         }
-        let done = EMAlertAction(title: "Done".localized, style: .cancel)
-        
-        alert.addAction(done)
+        let viewLockedMemoButton = UIAlertAction(title: "ViewMemo".localized, style: .default) { _ in
+            self.unlockMemoWithBioMetrics()
+        }
         
         if isReminder {
-            alert.addAction(deleteReminderBtn)
+            alertController.addAction(deleteReminderBtn)
         }
         
         if isLocked == true && userUnlocked == false {
-            alert.addAction(viewLockedMemoButton)
+            alertController.addAction(viewLockedMemoButton)
         }
         
-        present(alert, animated: true, completion: nil)
+        alertController.addAction(done)
+        
+        if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+            alertController.overrideUserInterfaceStyle = .dark
+            
+        } else {
+            alertController.overrideUserInterfaceStyle = .light
+        }
+        
+        alertController.view.tintColor = Colors.shared.defaultTintColor
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func deleteReminderHandle() {
@@ -338,32 +345,39 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if isLocked == true && userUnlocked == true || isLocked == false {
             
             DeviceControl().feedbackOnPress()
-            let alert = EMAlertController(title: "#\(hashTag)", message: nil)
-            alert.addTextField { (textField) in
-                textField?.placeholder = "newHashTag"
-                textField?.autocorrectionType = .yes
-                textField?.autocapitalizationType = .none
+            let alertController = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
+            alertController.addTextField { (textField) in
+                textField.placeholder = "newHashtag"
+                textField.autocorrectionType = .yes
+                textField.autocapitalizationType = .none
                 
-                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-                    textField?.keyboardAppearance = .dark
+                if self.defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                    textField.keyboardAppearance = .dark
                     
                 } else {
-                    textField?.keyboardAppearance = .default
+                    textField.keyboardAppearance = .default
                 }
             }
-            let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-            let done = EMAlertAction(title: "Done".localized, style: .normal) {
-                
-                let text = alert.textFields.first?.text
+            
+            alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { _ in
+                let text = alertController.textFields?.first?.text
                 if text?.isNullOrWhiteSpace() ?? false {
                 } else {
                     let newHashTag = FormatString().formatHashTag(text: text!)
                     self.updateHashTag(index: self.index, newHashTag: newHashTag)
                 }
+            }))
+            
+            if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                alertController.overrideUserInterfaceStyle = .dark
+                
+            } else {
+                alertController.overrideUserInterfaceStyle = .light
             }
-            alert.addAction(done)
-            alert.addAction(cancel)
-            present(alert, animated: true, completion: nil)
+            
+            alertController.view.tintColor = Colors.shared.defaultTintColor
+            present(alertController, animated: true, completion: nil)
         }
     }
     

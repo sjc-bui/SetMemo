@@ -8,8 +8,6 @@
 
 import UIKit
 import CoreData
-import EMAlertController
-import WXActionSheet
 import FTPopOverMenu_Swift
 
 class RecentlyDeletedController: UICollectionViewController {
@@ -21,7 +19,7 @@ class RecentlyDeletedController: UICollectionViewController {
     let inset: CGFloat = 12
     let minimumLineSpacing: CGFloat = 12
     let minimumInteritemSpacing: CGFloat = 12
-    var cellsPerRow = 2
+    var cellsPerRow: Int?
     let themes = Themes()
     let theme = ThemesViewController()
     
@@ -49,12 +47,7 @@ class RecentlyDeletedController: UICollectionViewController {
             }
             
         } else {
-            if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
-                
-            } else {
-                cellsPerRow = 2
-            }
+            cellsPerRow = 2
         }
     }
     
@@ -169,14 +162,15 @@ class RecentlyDeletedController: UICollectionViewController {
         let defaults = UserDefaults.standard
         if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == true {
             
-            let alert = EMAlertController(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized)
-            let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-            let delete = EMAlertAction(title: "Delete".localized, style: .normal) {
-                self.deleteMemo(indexPath: indexPath)
-            }
-            alert.addAction(cancel)
-            alert.addAction(delete)
-            present(alert, animated: true, completion: nil)
+            self.showAlert(title: "Confirm".localized, message: "ConfirmDeleteMessage".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "Delete".localized], actionStyles: [.cancel, .destructive], actions: [
+                { _ in
+                    print("cancel")
+                },
+                { _ in
+                    print("delete")
+                    self.deleteMemo(indexPath: indexPath)
+                }
+            ])
             
         } else if defaults.bool(forKey: Resource.Defaults.showAlertOnDelete) == false {
             self.deleteMemo(indexPath: indexPath)
@@ -225,18 +219,17 @@ class RecentlyDeletedController: UICollectionViewController {
     
     func tapHandler(indexPath: IndexPath) {
         
-        let memo = memoData[indexPath.row]
-        //let color = memo.value(forKey: "color") as? String ?? "white"
-        
-        let actionSheet = WXActionSheet(cancelButtonTitle: "Cancel".localized)
-        actionSheet.add(WXActionSheetItem(title: "Recover".localized, handler: { _ in
-            self.recoverMemo(indexPath: indexPath)
-        }))
-        
-        actionSheet.add(WXActionSheetItem(title: "Delete".localized, handler: { _ in
-            self.showAlertOnDelete(indexPath: indexPath)
-        }))
-        actionSheet.show()
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["Recover".localized, "Delete".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
+            { _ in
+                self.recoverMemo(indexPath: indexPath)
+            },
+            { _ in
+                self.showAlertOnDelete(indexPath: indexPath)
+            },
+            { _ in
+                print("cancel")
+            }
+        ])
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -252,12 +245,7 @@ class RecentlyDeletedController: UICollectionViewController {
             }
             
         } else {
-            if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 4
-                
-            } else {
-                cellsPerRow = 2
-            }
+            cellsPerRow = 2
         }
     }
     
@@ -317,8 +305,8 @@ extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow! - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow!)).rounded(.down)
         
         return CGSize(width: itemWidth, height: 105)
     }

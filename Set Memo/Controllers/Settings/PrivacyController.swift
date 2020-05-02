@@ -8,7 +8,6 @@
 
 import UIKit
 import LocalAuthentication
-import EMAlertController
 import SwiftKeychainWrapper
 
 class PrivacyController: UITableViewController {
@@ -293,23 +292,23 @@ class PrivacyController: UITableViewController {
             // set password to use for entire app
             if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
                 
-                let alert = EMAlertController(title: "SetPassword".localized, message: nil)
-                alert.addTextField { (password) in
-                    password?.isSecureTextEntry = true
-                    password?.placeholder = "InputPassword".localized
+                let alertController = UIAlertController(title: "SetPassword".localized, message: nil, preferredStyle: .alert)
+                
+                alertController.addTextField { (password) in
+                    password.isSecureTextEntry = true
+                    password.placeholder = "InputPassword".localized
                 }
-                alert.addTextField { (confirmPassword) in
-                    confirmPassword?.isSecureTextEntry = true
-                    confirmPassword?.placeholder = "ConfirmPassword".localized
+                alertController.addTextField { (confirmPassword) in
+                    confirmPassword.isSecureTextEntry = true
+                    confirmPassword.placeholder = "ConfirmPassword".localized
                 }
                 
-                let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel) {
+                alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: { _ in
                     sender.isOn = false
-                }
-                
-                let done = EMAlertAction(title: "Done".localized, style: .normal) {
-                    let password = alert.textFields.first?.text ?? ""
-                    let confirmPassword = alert.textFields[1].text ?? ""
+                }))
+                alertController.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { _ in
+                    let password = alertController.textFields?.first?.text ?? ""
+                    let confirmPassword = alertController.textFields![1].text ?? ""
                     
                     if !password.isNullOrWhiteSpace() && password.elementsEqual(confirmPassword) {
                         // remove keychain if already exist and set new key.
@@ -325,11 +324,17 @@ class PrivacyController: UITableViewController {
                         print("Wrong password format.")
                         sender.isOn = false
                     }
+                }))
+                
+                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                    alertController.overrideUserInterfaceStyle = .dark
+                    
+                } else {
+                    alertController.overrideUserInterfaceStyle = .light
                 }
                 
-                alert.addAction(done)
-                alert.addAction(cancel)
-                present(alert, animated: true, completion: nil)
+                alertController.view.tintColor = Colors.shared.defaultTintColor
+                present(alertController, animated: true, completion: nil)
                 
             } else {
                 defaults.set(true, forKey: Resource.Defaults.useBiometrics)

@@ -36,11 +36,11 @@ class Themes {
         InterfaceColors.viewBackgroundColor = .black
         InterfaceColors.textViewColor = .black
         InterfaceColors.secondaryBackgroundColor = .black
-        InterfaceColors.cellColor = UIColor(hexString: "#232323")
+        InterfaceColors.cellColor = UIColor(hexString: "#1C1C1E")
         InterfaceColors.fontColor = .white
         InterfaceColors.navigationBarColor = .black
         InterfaceColors.actionSheetColor = .black
-        InterfaceColors.separatorColor = .white
+        InterfaceColors.separatorColor = UIColor(hexString: "#545458")
     }
     
     func triggerSystemMode(mode: UITraitCollection) {

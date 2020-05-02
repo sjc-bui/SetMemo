@@ -56,8 +56,7 @@ class ReminderViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         setRemindButton.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(datePicker)
-        view.addSubview(setRemindButton)
+        view.addSubviews([datePicker, setRemindButton])
         setRemindButton.backgroundColor = background!.adjust(by: -7.75)
         
         let buttonWidth: CGFloat?
@@ -159,7 +158,7 @@ class ReminderViewController: UIViewController {
     }
     
     func setupRightBarButton() {
-        let closeBtn = UIBarButtonItem(image: UIImage(named: "cancel"), style: .done, target: self, action: #selector(dismissView))
+        let closeBtn = UIBarButtonItem(image: UIImage.SVGImage(named: "icons_filled_cancel", fillColor: .white), style: .done, target: self, action: #selector(dismissView))
         self.navigationItem.rightBarButtonItem = closeBtn
         self.navigationController?.navigationBar.tintColor = .white
     }

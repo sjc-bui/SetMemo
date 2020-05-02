@@ -14,7 +14,7 @@ class MemoViewCell: UICollectionViewCell {
         let c = UILabel()
         c.numberOfLines = 2
         c.text = "content"
-        c.textColor = .white
+        c.textColor = UIColor.primaryText
         c.textDropShadow()
         return c
     }()
@@ -23,7 +23,7 @@ class MemoViewCell: UICollectionViewCell {
         let h = UILabel()
         h.numberOfLines = 1
         h.text = "hashTag"
-        h.textColor = .lightText
+        h.textColor = UIColor.secondaryText
         h.textDropShadow()
         return h
     }()
@@ -32,14 +32,14 @@ class MemoViewCell: UICollectionViewCell {
         let d = UILabel()
         d.numberOfLines = 1
         d.text = "24/01/2019"
-        d.textColor = .lightText
+        d.textColor = UIColor.secondaryText
         d.textDropShadow()
         return d
     }()
     
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
-        r.image = Resource.Images.smallBellButton
+        r.image = Resource.Images.smallAlarmIcon
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r
@@ -71,16 +71,14 @@ class MemoViewCell: UICollectionViewCell {
         s.axis = .vertical
         s.alignment = .trailing
         s.spacing = 5
-        s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
-
+    
     fileprivate lazy var middleCellStack: UIStackView = {
         let v = UIStackView(arrangedSubviews: [content, dateEdited, hashTag])
         v.axis = .vertical
         v.alignment = .fill
         v.spacing = 2
-        v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
     
@@ -89,7 +87,6 @@ class MemoViewCell: UICollectionViewCell {
         s.axis = .horizontal
         s.alignment = .leading
         s.spacing = 1
-        s.translatesAutoresizingMaskIntoConstraints = false
         return s
     }()
     
@@ -102,19 +99,13 @@ class MemoViewCell: UICollectionViewCell {
         
         contentView.addSubview(groupStack)
         
-        moreIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        moreIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        moreIcon.setSize(size: CGSize(width: Dimension.shared.iconSize, height: Dimension.shared.iconSize))
         
-        reminderIsSetIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        reminderIsSetIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        reminderIsSetIcon.setSize(size: CGSize(width: Dimension.shared.iconSize, height: Dimension.shared.iconSize))
         
-        lockIcon.widthAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
-        lockIcon.heightAnchor.constraint(equalToConstant: Dimension.shared.iconSize).isActive = true
+        lockIcon.setSize(size: CGSize(width: Dimension.shared.iconSize, height: Dimension.shared.iconSize))
         
-        groupStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
-        groupStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12).isActive = true
-        groupStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
-        groupStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10).isActive = true
+        groupStack.anchor(top: contentView.topAnchor, trailing: contentView.trailingAnchor, bottom: contentView.bottomAnchor, leading: contentView.leadingAnchor, padding: UIEdgeInsets(top: 12, left: 12, bottom: -10, right: -12), size: .zero)
     }
     
     required init?(coder aDecoder: NSCoder) {
