@@ -417,39 +417,52 @@ class MemoViewController: UICollectionViewController {
     
     func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
         
-        // using Local Authentication.
-        let context = LAContext()
-        context.localizedFallbackTitle = "EnterPassword".localized
-        var error: NSError?
-        
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
-                
-                DispatchQueue.main.async {
+        if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
+            self.showAlert(title: "Password is not set", message: "Set password before you can lock memo.", alertStyle: .alert, actionTitles: ["Cancel".localized, "Set password"], actionStyles: [.cancel, .default], actions: [
+                { _ in
+                    print("cancel")
+                },
+                { _ in
+                    print("setting pass")
+                    self.push(viewController: PrivacyController(style: .insetGrouped))
+                }
+            ])
+            
+        } else {
+            // using Local Authentication.
+            let context = LAContext()
+            context.localizedFallbackTitle = "EnterPassword".localized
+            var error: NSError?
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, evaluateError in
                     
-                    if success {
-                        self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
-                        print("lock & unlock memo")
+                    DispatchQueue.main.async {
                         
-                    } else {
-                        guard let err = evaluateError else {
-                            return
-                        }
-                        
-                        switch err {
-                        case LAError.userCancel:
-                            print("user cancel")
-                        case LAError.userFallback:
-                            self.enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
-                        default:
-                            print("not implement")
+                        if success {
+                            self.updateLocked(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                            print("lock & unlock memo")
+                            
+                        } else {
+                            guard let err = evaluateError else {
+                                return
+                            }
+                            
+                            switch err {
+                            case LAError.userCancel:
+                                print("user cancel")
+                            case LAError.userFallback:
+                                self.enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
+                            default:
+                                print("not implement")
+                            }
                         }
                     }
                 }
+                
+            } else {
+                enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
             }
-            
-        } else {
-            enterPasswordToLockOrUnlock(lockThisMemo: lockThisMemo, indexPath: indexPath)
         }
     }
     

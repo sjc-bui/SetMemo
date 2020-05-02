@@ -8,7 +8,6 @@
 
 import UIKit
 import LocalAuthentication
-import EMAlertController
 import SwiftKeychainWrapper
 
 class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
@@ -346,32 +345,39 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         if isLocked == true && userUnlocked == true || isLocked == false {
             
             DeviceControl().feedbackOnPress()
-            let alert = EMAlertController(title: "#\(hashTag)", message: nil)
-            alert.addTextField { (textField) in
-                textField?.placeholder = "newHashTag"
-                textField?.autocorrectionType = .yes
-                textField?.autocapitalizationType = .none
+            let alertController = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)
+            alertController.addTextField { (textField) in
+                textField.placeholder = "newHashtag"
+                textField.autocorrectionType = .yes
+                textField.autocapitalizationType = .none
                 
-                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-                    textField?.keyboardAppearance = .dark
+                if self.defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                    textField.keyboardAppearance = .dark
                     
                 } else {
-                    textField?.keyboardAppearance = .default
+                    textField.keyboardAppearance = .default
                 }
             }
-            let cancel = EMAlertAction(title: "Cancel".localized, style: .cancel)
-            let done = EMAlertAction(title: "Done".localized, style: .normal) {
-                
-                let text = alert.textFields.first?.text
+            
+            alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { _ in
+                let text = alertController.textFields?.first?.text
                 if text?.isNullOrWhiteSpace() ?? false {
                 } else {
                     let newHashTag = FormatString().formatHashTag(text: text!)
                     self.updateHashTag(index: self.index, newHashTag: newHashTag)
                 }
+            }))
+            
+            if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                alertController.overrideUserInterfaceStyle = .dark
+                
+            } else {
+                alertController.overrideUserInterfaceStyle = .light
             }
-            alert.addAction(done)
-            alert.addAction(cancel)
-            present(alert, animated: true, completion: nil)
+            
+            alertController.view.tintColor = Colors.shared.defaultTintColor
+            present(alertController, animated: true, completion: nil)
         }
     }
     
