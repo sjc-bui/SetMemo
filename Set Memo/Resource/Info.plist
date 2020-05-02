@@ -12,6 +12,51 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
+			<key>purple</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>purple</string>
+				</array>
+			</dict>
+			<key>red</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>red</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>cyan</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>cyan</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>brown</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>brown</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+			</dict>
+			<key>amber</key>
+			<dict>
+				<key>UIPrerenderedIcon</key>
+				<string>NO</string>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>amber</string>
+				</array>
+			</dict>
 			<key>dark</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
