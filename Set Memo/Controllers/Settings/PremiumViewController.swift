@@ -23,6 +23,7 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
         btn.backgroundColor = Colors.shared.defaultTintColor
         btn.isUserInteractionEnabled = true
         btn.layer.cornerRadius = 12
+        btn.layer.cornerCurve = .continuous
         btn.clipsToBounds = true
         btn.addTarget(self, action: #selector(upgrade), for: .touchUpInside)
         return btn
@@ -47,21 +48,21 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     let listFeatures: Array = [
-        Features(feature: "Custom app icon", type: FeatureType.basic),
-        Features(feature: "Share memo", type: FeatureType.basic),
-        Features(feature: "Custom font size & style", type: FeatureType.basic),
-        Features(feature: "Set remind every day", type: FeatureType.basic),
-        Features(feature: "Use biometrics", type: FeatureType.premium),
-        Features(feature: "Dark theme", type: FeatureType.premium),
-        Features(feature: "Tint color", type: FeatureType.premium),
-        Features(feature: "Set remind for memo", type: FeatureType.premium),
-        Features(feature: "Lock memo", type: FeatureType.premium)
+        Features(feature: "CustomAppIconF".localized, type: FeatureType.basic),
+        Features(feature: "ShareMemoF".localized, type: FeatureType.basic),
+        Features(feature: "CustomFontAndStyleF".localized, type: FeatureType.basic),
+        Features(feature: "SetRemindEverydayF".localized, type: FeatureType.basic),
+        Features(feature: "UseBiometricsF".localized, type: FeatureType.premium),
+        Features(feature: "DarkModeF".localized, type: FeatureType.premium),
+        Features(feature: "TintColorF".localized, type: FeatureType.premium),
+        Features(feature: "SetRemindForMemoF".localized, type: FeatureType.premium),
+        Features(feature: "LockMemoF".localized, type: FeatureType.premium)
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        self.navigationItem.title = "BuyPremium".localized
+        self.navigationItem.title = "UpgradePremium".localized
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -200,6 +201,26 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let background: UIColor?
+        let title: String?
+        
+        if indexPath.row <= 3 {
+            background = .systemGreen
+            title = "Basic".localized
+        } else {
+            background = UIColor.amber
+            title = "Premium".localized
+        }
+        
+        let featureType = UIContextualAction(style: .normal, title: title) { (action, view, completion) in
+            completion(false)
+        }
+        
+        featureType.backgroundColor = background
+        return UISwipeActionsConfiguration(actions: [featureType])
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

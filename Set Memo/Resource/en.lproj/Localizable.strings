@@ -128,10 +128,11 @@
 "PasswordIncorrect" = "Password is incorrect";
 "Locked" = "Lock added";
 "Unlocked" = "Lock removed";
-"BuyPremium" = "Buy premium";
+"UpgradePremium" = "Upgrade premium";
 "RestorePurchase" = "Restore purchase";
 "RemindContent" = "Content";
 "RemindAtTime" = "Time";
+"Basic" = "Basic";
 "Premium" = "Premium";
 "ResetSettings" = "Reset settings to default";
 "Reset" = "Reset";
@@ -149,3 +150,13 @@
 "OpenMail" = "Open";
 "Include" = "Yes";
 "Upgrade" = "Upgrade %@ Premium";
+
+"CustomAppIconF" = "Custom app icon";
+"ShareMemoF" = "Share memo";
+"CustomFontAndStyleF" = "Custom font size & style";
+"SetRemindEverydayF" = "Set remind every day";
+"UseBiometricsF" = "Use biometrics";
+"DarkModeF" = "Dark mode";
+"TintColorF" = "Tint color";
+"SetRemindForMemoF" = "Set remind for memo";
+"LockMemoF" = "Lock memo";

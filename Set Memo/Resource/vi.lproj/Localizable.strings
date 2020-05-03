@@ -128,11 +128,12 @@
 "PasswordIncorrect" = "Mật khẩu không đúng";
 "Locked" = "Đã thêm khóa";
 "Unlocked" = "Đã gỡ bỏ khóa";
-"BuyPremium" = "Nâng cấp premium";
+"UpgradePremium" = "Nâng cấp premium";
 "RestorePurchase" = "Khôi phục giao dịch";
 "RemindContent" = "Nội dung";
 "RemindAtTime" = "Thời gian";
-"Premium" = "Premium";
+"Basic" = "Bình thường";
+"Premium" = "Cao cấp";
 "ResetSettings" = "Khôi phục cài đặt mặc định";
 "Reset" = "Khôi phục";
 "ResetActionMessage" = "Hành động này sẽ khôi phục tất cả cài đặt về mặc định";
@@ -149,3 +150,13 @@
 "OpenMail" = "Mở";
 "Include" = "Có";
 "Upgrade" = "Nâng cấp %@ Premium";
+
+"CustomAppIconF" = "Tùy chọn biểu tượng ứng dụng";
+"ShareMemoF" = "Chia sẻ ghi chú";
+"CustomFontAndStyleF" = "Tùy chọn phông và kích thước chữ";
+"SetRemindEverydayF" = "Cài đặt nhắc nhở hàng ngày";
+"UseBiometricsF" = "Sử dụng TouchID hoặc FaceID";
+"DarkModeF" = "Nền tối";
+"TintColorF" = "Màu sắc chủ đề";
+"SetRemindForMemoF" = "Cài đặt nhắc nhở cho ghi chú";
+"LockMemoF" = "Khóa ghi chú";

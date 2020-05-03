@@ -43,7 +43,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
     ]
     
     let premiums: Array = [
-        "BuyPremium".localized,
+        "UpgradePremium".localized,
         "RestorePurchase".localized
     ]
     

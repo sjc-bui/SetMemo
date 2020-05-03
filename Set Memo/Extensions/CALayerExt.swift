@@ -10,6 +10,14 @@ import UIKit
 
 extension CALayer {
     
+    func roundCorner(radius: CGFloat) {
+        // Smooth round corners
+        let roundPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: radius)
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = roundPath.cgPath
+        self.mask = maskLayer
+    }
+    
     func addShadow(color: UIColor) {
         self.shadowOffset = .zero
         self.shadowOpacity = 0.2
