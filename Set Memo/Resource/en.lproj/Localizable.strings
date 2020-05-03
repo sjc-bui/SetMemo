@@ -147,3 +147,5 @@
 "TellUsDetail" = "Tell us details here:";
 "LoginToMailApp" = "To send feedback, login to Mail app and try again.";
 "OpenMail" = "Open";
+"Include" = "Yes";
+"Upgrade" = "Upgrade %@ Premium";

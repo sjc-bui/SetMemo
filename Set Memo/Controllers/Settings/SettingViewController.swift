@@ -552,6 +552,8 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             switch indexPath.row {
             case 0:
                 print("buy premium")
+                self.push(viewController: PremiumViewController())
+                
             case 1:
                 
                 print("restore purchase")

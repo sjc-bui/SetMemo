@@ -15,7 +15,6 @@ class AppearanceController: UITableViewController {
         "Dark".localized,
         "Amber",
         "Brown",
-        "Cyan",
         "Red",
         "Purple"
     ]
@@ -119,14 +118,10 @@ class AppearanceController: UITableViewController {
                 cell.accessoryType = .checkmark
             }
         case 4:
-            if isSelectIconFromDefault(key: "cyan", indexPath: indexPath) == true {
-                cell.accessoryType = .checkmark
-            }
-        case 5:
             if isSelectIconFromDefault(key: "red", indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
-        case 6:
+        case 5:
             if isSelectIconFromDefault(key: "purple", indexPath: indexPath) == true {
                 cell.accessoryType = .checkmark
             }
@@ -166,14 +161,10 @@ class AppearanceController: UITableViewController {
             changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
             tableView.reloadData()
         case 4:
-            defaults.set("cyan", forKey: Resource.Defaults.iconType)
-            changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
-            tableView.reloadData()
-        case 5:
             defaults.set("red", forKey: Resource.Defaults.iconType)
             changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
             tableView.reloadData()
-        case 6:
+        case 5:
             defaults.set("purple", forKey: Resource.Defaults.iconType)
             changeAppIcon(name: defaults.string(forKey: Resource.Defaults.iconType))
             tableView.reloadData()
