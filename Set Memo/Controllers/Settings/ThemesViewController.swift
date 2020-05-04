@@ -13,6 +13,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     let themes = Themes()
     let reuseIdentifier = "themesCell"
     let reusePickerCellId = "pickerCell"
+    let reuseSwitchIdentifier = "SettingSwitchCell"
     let defaults = UserDefaults.standard
     var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
@@ -170,6 +171,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(PickerViewCell.self, forCellReuseIdentifier: reusePickerCellId)
+        tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchIdentifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
     }
     
@@ -204,7 +206,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 1
+            return 2
             
         } else if section == 1 {
             return 1
@@ -217,16 +219,36 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         
         if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
-            cell.pickerView.delegate = self
-            cell.pickerView.dataSource = self
-            cell.pickerView.tag = 1
-            dynamicCell(cell: cell, picker: cell.pickerView)
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
+                cell.pickerView.delegate = self
+                cell.pickerView.dataSource = self
+                cell.pickerView.tag = 1
+                dynamicCell(cell: cell, picker: cell.pickerView)
 
-            let index = defaults.integer(forKey: Resource.Defaults.theme)
-            cell.pickerView.selectRow(index, inComponent: 0, animated: false)
-            
-            return cell
+                let index = defaults.integer(forKey: Resource.Defaults.theme)
+                cell.pickerView.selectRow(index, inComponent: 0, animated: false)
+                
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
+                cell.textLabel?.text = "Use cell color"
+                cell.selectionStyle = .none
+                cell.switchButton.addTarget(self, action: #selector(setupCellColor(sender:)), for: .valueChanged)
+                
+                if defaults.bool(forKey: Resource.Defaults.useCellColor) == true {
+                    cell.switchButton.isOn = true
+                } else {
+                    cell.switchButton.isOn = false
+                }
+                setupDynamicCells(cell: cell, arrow: false)
+                return cell
+                
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
+                return cell
+            }
             
         } else if indexPath.section == 1 {
             
@@ -247,6 +269,28 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         }
     }
     
+    func setupDynamicCells(cell: UITableViewCell, arrow: Bool) {
+        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = InterfaceColors.cellColor
+
+        cell.textLabel?.textColor = UIColor.black
+        cell.textLabel?.textColor = InterfaceColors.fontColor
+
+        if arrow == true {
+           cell.accessoryView = UIImageView(image: Resource.Images.cellAccessoryIcon)
+        }
+    }
+    
+    @objc func setupCellColor(sender: UISwitch) {
+        
+        if sender.isOn == true {
+            defaults.set(true, forKey: Resource.Defaults.useCellColor)
+            
+        } else {
+            defaults.set(false, forKey: Resource.Defaults.useCellColor)
+        }
+    }
+    
     func dynamicCell(cell: UITableViewCell, picker: UIPickerView) {
         cell.backgroundColor = UIColor.white
         cell.backgroundColor = InterfaceColors.cellColor
@@ -258,7 +302,12 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == 0 {
-            return 100
+            switch indexPath.row {
+            case 0:
+                return 100
+            default:
+                return 50
+            }
             
         } else if indexPath.section == 1 {
             return 180

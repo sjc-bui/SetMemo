@@ -44,7 +44,11 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        let updateBackground = UIColor.getRandomColorFromString(color: color)
+        var updateBackground = UIColor.getRandomColorFromString(color: color)
+        
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            updateBackground = UIColor.black
+        }
         
         updateView.backgroundColor = updateBackground
         updateView.dateLabelHeader = dateEditedString
@@ -142,7 +146,12 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        var cellBackground = UIColor.getRandomColorFromString(color: color)
+        
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            cellBackground = UIColor.pureCellBackground
+        }
+        
         cell.setCellStyle(background: cellBackground)
         
         cell.moreIcon.addTapGesture(target: self, action: #selector(moreOptions(sender:)))
@@ -174,7 +183,7 @@ extension MemoViewController {
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let color: String?
+        var color: String?
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
             color = filterData.value(forKey: "color") as? String ?? "white"
@@ -228,7 +237,13 @@ extension MemoViewController {
                     }
                     
                     rootView.index = indexPath.row
-                    rootView.background = UIColor.getRandomColorFromString(color: color!)
+                    
+                    var remindBackground = UIColor.getRandomColorFromString(color: color!)
+                    if self.defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+                        remindBackground = UIColor.black
+                    }
+                    
+                    rootView.background = remindBackground
                     self.present(remindView, animated: true, completion: nil)
                 }))
             }

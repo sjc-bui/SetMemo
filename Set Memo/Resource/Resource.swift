@@ -49,6 +49,7 @@ public class Resource {
     }
     
     public class Defaults {
+        public static let useCellColor = "useCellColor"
         public static let vibrationOnTouch = "vibrationOnTouch"
         public static let showAlertOnDelete = "showAlertOnDelete"
         public static let displayDateTime = "displayDateTime"

@@ -13,6 +13,7 @@ extension UIColor {
     static let red = UIColor(hexString: "#f44336")
     static let pink = UIColor(hexString: "#e91e63")
     static let purple = UIColor(hexString: "#9c27b0")
+    static let purple2 = UIColor(hexString: "#7c5475")
     static let deepPurple = UIColor(hexString: "#673ab7")
     static let indigo = UIColor(hexString: "#3f51b5")
     static let blue = UIColor(hexString: "#2196f3")
@@ -33,7 +34,10 @@ extension UIColor {
     static let primaryText = UIColor(hexString: "#FFFFFF")
     static let secondaryText = UIColor(hexString: "#EBEBF5")
     
-    static var defaultColors = ["red", "pink", "purple", "deepPurple", "indigo", "blue", "lightBlue", "cyan", "teal", "green", "lightGreen", "amber", "orange", "deepOrange", "brown", "blueGrey"]
+    static let pureCellBackground = UIColor(hexString: "#191919")
+    static let lightCellBackground = UIColor(hexString: "#eef1fb")
+    
+    static var defaultColors = ["red", "pink", "purple", "purple2", "deepPurple", "indigo", "blue", "lightBlue", "cyan", "teal", "green", "lightGreen", "amber", "orange", "deepOrange", "brown", "blueGrey"]
     
     static func getRandomColor() -> String {
         let random = UIColor.defaultColors.randomElement() ?? "white"
@@ -49,6 +53,8 @@ extension UIColor {
             return .pink
         case "purple":
             return .purple
+        case "purple2":
+            return .purple2
         case "deepPurple":
             return .deepPurple
         case "indigo":
