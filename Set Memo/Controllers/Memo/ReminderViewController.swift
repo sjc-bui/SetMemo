@@ -15,6 +15,7 @@ class ReminderViewController: UIViewController {
     var isFiltering: Bool = false
     var index: Int = 0
     var background: UIColor?
+    let defaults = UserDefaults.standard
     
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
@@ -57,6 +58,11 @@ class ReminderViewController: UIViewController {
         setRemindButton.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubviews([datePicker, setRemindButton])
+        
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            background = UIColor.darkGray
+        }
+        
         setRemindButton.backgroundColor = background!.adjust(by: -7.75)
         
         let buttonWidth: CGFloat?

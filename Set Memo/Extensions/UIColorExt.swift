@@ -35,7 +35,6 @@ extension UIColor {
     static let secondaryText = UIColor(hexString: "#EBEBF5")
     
     static let pureCellBackground = UIColor(hexString: "#191919")
-    static let lightCellBackground = UIColor(hexString: "#eef1fb")
     
     static var defaultColors = ["red", "pink", "purple", "purple2", "deepPurple", "indigo", "blue", "lightBlue", "cyan", "teal", "green", "lightGreen", "amber", "orange", "deepOrange", "brown", "blueGrey"]
     

@@ -83,6 +83,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                     setupDefaultPersistentNavigationBar()
                     view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(false, forKey: Resource.Defaults.useDarkMode)
+                    defaults.set(true, forKey: Resource.Defaults.useCellColor)
                     
                 } else if row == 1 {
                     themes.setupPureDarkTheme()
@@ -233,7 +234,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 return cell
             case 1:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
-                cell.textLabel?.text = "Use cell color"
+                cell.textLabel?.text = "MemoColor".localized
                 cell.selectionStyle = .none
                 cell.switchButton.addTarget(self, action: #selector(setupCellColor(sender:)), for: .valueChanged)
                 
@@ -287,6 +288,10 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             defaults.set(true, forKey: Resource.Defaults.useCellColor)
             
         } else {
+            if defaults.bool(forKey: Resource.Defaults.useDarkMode) == false {
+                sender.isOn = true
+                return
+            }
             defaults.set(false, forKey: Resource.Defaults.useCellColor)
         }
     }

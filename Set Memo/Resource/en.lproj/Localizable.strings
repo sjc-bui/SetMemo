@@ -150,6 +150,7 @@
 "OpenMail" = "Open";
 "Include" = "Yes";
 "Upgrade" = "Upgrade %@ Premium";
+"MemoColor" = "Memo color";
 
 "CustomAppIconF" = "Custom app icon";
 "ShareMemoF" = "Share memo";

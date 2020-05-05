@@ -150,6 +150,7 @@
 "OpenMail" = "開く";
 "Include" = "あり";
 "Upgrade" = "%@をプレミアムにアップグレード";
+"MemoColor" = "メモのカラー";
 
 "CustomAppIconF" = "アプリのアイコン";
 "ShareMemoF" = "メモを共有";

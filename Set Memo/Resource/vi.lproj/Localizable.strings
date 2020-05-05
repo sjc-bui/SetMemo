@@ -150,6 +150,7 @@
 "OpenMail" = "Mở";
 "Include" = "Có";
 "Upgrade" = "Nâng cấp %@ Premium";
+"MemoColor" = "Màu sắc cho ghi chú";
 
 "CustomAppIconF" = "Tùy chọn biểu tượng ứng dụng";
 "ShareMemoF" = "Chia sẻ ghi chú";

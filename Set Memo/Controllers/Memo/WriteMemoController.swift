@@ -31,10 +31,15 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addKeyboardListener()
+        var background = UIColor.getRandomColorFromString(color: randomColor)
         
-        self.view.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
-        editor.textView.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
-        setupNavigationBar()
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            background = UIColor.black
+        }
+        
+        self.view.backgroundColor = background
+        editor.textView.backgroundColor = background
+        setupNavigationBar(navBackground: background)
         setupDynamicKeyboardColor()
     }
     
@@ -67,8 +72,8 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         }
     }
     
-    func setupNavigationBar() {
-        navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: randomColor), text: .white)
+    func setupNavigationBar(navBackground: UIColor) {
+        navigationController?.navigationBar.setColors(background: navBackground, text: .white)
     }
     
     func setupRightBarButtons() {
