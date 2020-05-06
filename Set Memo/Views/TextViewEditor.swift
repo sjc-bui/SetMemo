@@ -20,7 +20,7 @@ class TextViewEditor: UIView {
         tv.isUserInteractionEnabled = true
         tv.alwaysBounceVertical = true
         tv.textContainerInset = UIEdgeInsets(top: 5, left: 20, bottom: 10, right: 20)
-        tv.font = UIFont(name: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, size: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
+        tv.font = UIFont.setCustomFont(style: UserDefaults.standard.string(forKey: Resource.Defaults.defaultFontStyle)!, fontSize: CGFloat(UserDefaults.standard.integer(forKey: Resource.Defaults.defaultTextViewFontSize)))
         return tv
     }()
     

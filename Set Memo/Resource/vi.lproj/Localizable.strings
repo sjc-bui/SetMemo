@@ -119,7 +119,7 @@
 "EnterPasswordToView" = "Nhập mật khẩu để xem ghi chú đã khóa";
 "ShowTutorial" = "Hướng dẫn";
 "Reminder" = "Nhắc nhở";
-"EmptyTrash" = "Xóa tất cả";
+"DeleteAll" = "Xóa tất cả";
 "TintColor" = "Màu sắc";
 "Now" = "bây giờ";
 "MinutesAgo" = "%d phút trước";

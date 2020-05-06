@@ -25,9 +25,9 @@ class MemoViewController: UICollectionViewController {
     let defaults = UserDefaults.standard
     let keychain = KeychainWrapper.standard
     
-    let inset: CGFloat = 12
-    let minimumLineSpacing: CGFloat = 12
-    let minimumInteritemSpacing: CGFloat = 12
+    let inset: CGFloat = 16
+    let minimumLineSpacing: CGFloat = 9
+    let minimumInteritemSpacing: CGFloat = 9
     var cellsPerRow: Int?
     let reuseCellId = "cellId"
     let themes = Themes()
@@ -55,10 +55,10 @@ class MemoViewController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 5
+                cellsPerRow = 4
                 
             } else {
-                cellsPerRow = 4
+                cellsPerRow = 3
             }
             
         } else {
@@ -149,6 +149,21 @@ class MemoViewController: UICollectionViewController {
         self.navigationItem.title = "Memo".localized
         navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
+        let edit = UIBarButtonItem(title: "Edit".localized, style: .done, target: self, action: #selector(editOptions))
+        self.navigationItem.rightBarButtonItem = edit
+    }
+    
+    @objc func editOptions() {
+        
+        DeviceControl().feedbackOnPress()
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["DeleteAll".localized, "Cancel".localized], actionStyles: [.default, .cancel], actions: [
+            { _ in
+                print("delete all")
+            },
+            { _ in
+                print("cancel")
+            }
+        ])
     }
     
     func setupBarButton() {
@@ -190,8 +205,6 @@ class MemoViewController: UICollectionViewController {
         } else {
             items = [
             settingButton,
-            flexibleSpace,
-            UIBarButtonItem(customView: countMemo),
             flexibleSpace,
             createButton
             ]
@@ -328,11 +341,19 @@ class MemoViewController: UICollectionViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.animateCell()
             }
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    func animateCell() {
+        self.collectionView.performBatchUpdates({
+            let indexSet = IndexSet(integersIn: 0...0)
+            self.collectionView.reloadSections(indexSet)
+        }, completion: nil)
     }
     
     func memoCountString(total: Int) -> String {

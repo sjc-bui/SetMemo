@@ -8,7 +8,6 @@
 
 import UIKit
 import CoreData
-import WhatsNewKit
 import MessageUI
 
 class SettingViewController: UITableViewController, MFMailComposeViewControllerDelegate {
@@ -711,68 +710,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else {
             return .darkContent
-        }
-    }
-}
-
-extension SettingViewController {
-    
-    func presentTutorial(view: UIViewController, tintColor: UIColor) {
-        
-        let whatsNew = WhatsNew(
-            title: Bundle.main.localizedInfoDictionary!["CFBundleDisplayName"] as! String,
-            items: [
-                WhatsNew.Item (
-                    title: "Riêng tư", subtitle: "Set Memo sử dụng bảo mật sinh trắc học để đảm bảo không ai khác ngoài bạn có quyền truy cập vào ứng dụng.", image: UIImage(systemName: "hand.raised")
-                ),
-                WhatsNew.Item (
-                    title: "Ghi chú", subtitle: "Hãy để Set Memo giúp việc viết ghi chú của bạn dễ dàng hơn bao giờ hết, ghi chú sẽ tự động lưu và đồng bộ trên tất cả các thiết bị của bạn.", image: UIImage(systemName: "pencil")
-                ),
-                WhatsNew.Item (
-                    title: "Thông báo", subtitle: "Bạn có thể đặt thông báo cho từng ghi chú theo thời gian, hoặc đặt nhắc nhở ghi chú hàng ngày", image: Resource.Images.alarmButton
-                ),
-                WhatsNew.Item (
-                    title: "Chia sẻ", subtitle: "Chia sẻ ghi chú của bạn cho mọi người", image: Resource.Images.shareButton
-                ),
-                WhatsNew.Item (
-                    title: "Khóa ghi chú", subtitle: "Và để bảo mật nội dung riêng tư, bạn có thể thiết lập khóa riêng từng ghi chú", image: Resource.Images.setLockButton
-                ),
-                WhatsNew.Item (
-                    title: "Tùy chỉnh ghi chú", subtitle: "Lựa chọn thay đổi phông chữ và kích thước chữ theo ý của bạn", image: UIImage(systemName: "textformat.size")
-                ),
-                WhatsNew.Item (
-                    title: "Tùy chọn màu sắc", subtitle: "Với nhiều tùy chọn màu sắc ưa thích cho chủ đề", image: UIImage(systemName: "sparkles")
-                )
-            ]
-        )
-        
-        var configuration = WhatsNewViewController.Configuration()
-        
-        if darkModeIsEnable() == true {
-            configuration.apply(theme: .darkRed)
-            
-        } else {
-            configuration.apply(theme: .default)
-        }
-        
-        configuration.titleView.insets = UIEdgeInsets(top: 40, left: 20, bottom: 15, right: 15)
-        configuration.itemsView.layout = .left
-        configuration.itemsView.imageSize = .fixed(height: 40)
-        configuration.itemsView.contentMode = .center
-        configuration.apply(animation: .fade)
-        configuration.completionButton.insets.bottom = 20
-        configuration.completionButton.title = "Done".localized
-        configuration.titleView.titleColor = tintColor
-        configuration.detailButton?.titleColor = tintColor
-        configuration.completionButton.backgroundColor = tintColor
-        
-        let whatsNewViewController = WhatsNewViewController(
-            whatsNew: whatsNew,
-            configuration: configuration
-        )
-        
-        DispatchQueue.main.async {
-            view.present(whatsNewViewController, animated: true)
         }
     }
 }

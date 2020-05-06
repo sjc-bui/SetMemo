@@ -11,11 +11,6 @@ import UIKit
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
-    @objc func showIntro(_ sender: UITapGestureRecognizer) {
-        let settingViewController = SettingViewController()
-        settingViewController.presentTutorial(view: self, tintColor: Colors.shared.defaultTintColor)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let updateView = UpdateMemoViewController()
@@ -69,8 +64,6 @@ extension MemoViewController {
         
         if memoData.isEmpty {
             collectionView.backgroundView = emptyView
-            emptyView.showTutorialLabel.textColor = Colors.shared.defaultTintColor
-            emptyView.showTutorialLabel.addTapGesture(target: self, action: #selector(showIntro(_:)))
             
         } else {
             collectionView.backgroundView = nil
@@ -166,9 +159,9 @@ extension MemoViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 5
-            } else {
                 cellsPerRow = 4
+            } else {
+                cellsPerRow = 3
             }
             
         } else {
@@ -290,7 +283,7 @@ extension MemoViewController: UISearchResultsUpdating {
 extension MemoViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        return UIEdgeInsets(top: 2, left: inset, bottom: 10, right: inset)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -298,7 +291,7 @@ extension MemoViewController: UICollectionViewDelegateFlowLayout {
         let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow! - 1)
         let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow!)).rounded(.down)
         
-        return CGSize(width: itemWidth, height: 105)
+        return CGSize(width: itemWidth, height: 108)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
