@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.remindEverydayContent: "What happening today?",
             Resource.Defaults.displayGridStyle: true,
             Resource.Defaults.passwordForBiometricIsSet: false,
-            Resource.Defaults.useCellColor: true
+            Resource.Defaults.useCellColor: true,
+            Resource.Defaults.sortByAsc: false
         ])
         
         if UserDefaults.standard.bool(forKey: Resource.Defaults.useDarkMode) {

@@ -84,7 +84,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     @objc func setHashTag() {
         
         DeviceControl().feedbackOnPress()
-        let alertController = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "#todo", message: nil, preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.placeholder = "newHashtag"
             textField.autocorrectionType = .yes

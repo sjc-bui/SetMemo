@@ -86,7 +86,7 @@ class MemoViewCell: UICollectionViewCell {
         let s = UIStackView(arrangedSubviews: [middleCellStack, lockAndReminderIcon])
         s.axis = .horizontal
         s.alignment = .leading
-        s.spacing = 1
+        s.spacing = 3
         return s
     }()
     

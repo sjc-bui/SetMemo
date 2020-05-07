@@ -216,28 +216,38 @@ extension MemoViewController {
             } else {
                 
                 actionSheet.addAction(UIAlertAction(title: "Reminder".localized, style: .default, handler: { _ in
-                    print("set reminder")
-                    let rootView = ReminderViewController()
-                    let remindView = UINavigationController(rootViewController: rootView)
-                    remindView.modalPresentationStyle = .fullScreen
                     
-                    if self.isFiltering() == true {
-                        rootView.isFiltering = true
-                        rootView.filterMemoData = self.filterMemoData
+                    if self.defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
+                        print("set reminder")
+                        
+                        let rootView = ReminderViewController()
+                        let remindView = UINavigationController(rootViewController: rootView)
+                        remindView.modalPresentationStyle = .fullScreen
+                        
+                        if self.isFiltering() == true {
+                            rootView.isFiltering = true
+                            rootView.filterMemoData = self.filterMemoData
+                            
+                        } else {
+                            rootView.memoData = self.memoData
+                        }
+                        
+                        rootView.index = indexPath.row
+                        
+                        var remindBackground = UIColor.getRandomColorFromString(color: color!)
+                        if self.defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+                            remindBackground = UIColor.black
+                        }
+                        
+                        rootView.background = remindBackground
+                        self.present(remindView, animated: true, completion: nil)
                         
                     } else {
-                        rootView.memoData = self.memoData
+                        
+                        let premiumView = UINavigationController(rootViewController: PremiumViewController())
+                        premiumView.modalPresentationStyle = .fullScreen
+                        self.present(premiumView, animated: true, completion: nil)
                     }
-                    
-                    rootView.index = indexPath.row
-                    
-                    var remindBackground = UIColor.getRandomColorFromString(color: color!)
-                    if self.defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
-                        remindBackground = UIColor.black
-                    }
-                    
-                    rootView.background = remindBackground
-                    self.present(remindView, animated: true, completion: nil)
                 }))
             }
             

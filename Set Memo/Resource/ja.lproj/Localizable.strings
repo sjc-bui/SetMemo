@@ -161,3 +161,7 @@
 "TintColorF" = "テーマカラー";
 "SetRemindForMemoF" = "メモのリマインダーを設定";
 "LockMemoF" = "メモをロック";
+"SortAsc" = "昇順";
+"SortDesc" = "降順";
+"PasswordNotSetTitle" = "Password is not set";
+"PasswordNotSetMsg" = "Set password before you can lock memo";

@@ -15,6 +15,7 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     let themes = Themes()
     let theme = ThemesViewController()
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    let defaults = UserDefaults.standard
     
     let upgradeButton: UIButton = {
         let btn = UIButton()
@@ -40,7 +41,17 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     }()
     
     @objc func upgrade() {
+        
+        defaults.set(true, forKey: Resource.Defaults.setMemoPremium)
         print("upgrade")
+        if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
+            
+            self.showAlert(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                { _ in
+                    self.dismiss(animated: true, completion: nil)
+                }
+            ])
+        }
     }
     
     @objc func restore() {
@@ -70,6 +81,16 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupDynamicElements()
+        setupRightBarButton()
+    }
+    
+    func setupRightBarButton() {
+        let closeBtn = UIBarButtonItem(image: UIImage.SVGImage(named: "icons_filled_cancel", fillColor: .systemGray), style: .done, target: self, action: #selector(dismissView))
+        self.navigationItem.rightBarButtonItem = closeBtn
+    }
+    
+    @objc func dismissView() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setupView() {

@@ -326,8 +326,8 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                 cell.backgroundColor = UIColor.white
                 cell.backgroundColor = InterfaceColors.cellColor
                 cell.selectedBackground()
-                cell.accessoryType = .disclosureIndicator
-                cell.accessoryView = UIImageView(image: Resource.Images.cellAccessoryIcon)
+                cell.accessoryType = .none
+                cell.accessoryView = nil
                 return cell
             
             case 1:
@@ -551,7 +551,9 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             switch indexPath.row {
             case 0:
                 print("buy premium")
-                self.push(viewController: PremiumViewController())
+                let premiumView = UINavigationController(rootViewController: PremiumViewController())
+                premiumView.modalPresentationStyle = .fullScreen
+                self.present(premiumView, animated: true, completion: nil)
                 
             case 1:
                 

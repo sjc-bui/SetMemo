@@ -289,59 +289,67 @@ class PrivacyController: UITableViewController {
         
         if sender.isOn == true {
             
-            // set password to use for entire app
-            if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
+            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
                 
-                let alertController = UIAlertController(title: "SetPassword".localized, message: nil, preferredStyle: .alert)
-                
-                alertController.addTextField { (password) in
-                    password.isSecureTextEntry = true
-                    password.placeholder = "InputPassword".localized
-                }
-                alertController.addTextField { (confirmPassword) in
-                    confirmPassword.isSecureTextEntry = true
-                    confirmPassword.placeholder = "ConfirmPassword".localized
-                }
-                
-                alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: { _ in
-                    sender.isOn = false
-                }))
-                alertController.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { _ in
-                    let password = alertController.textFields?.first?.text ?? ""
-                    let confirmPassword = alertController.textFields![1].text ?? ""
+                // set password to use for entire app
+                if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
                     
-                    if !password.isNullOrWhiteSpace() && password.elementsEqual(confirmPassword) {
-                        // remove keychain if already exist and set new key.
-                        self.keychain.removeObject(forKey: Resource.Defaults.passwordToUseBiometric)
-                        let saveSuccess = self.keychain.set(password, forKey: Resource.Defaults.passwordToUseBiometric)
-                        if saveSuccess {
-                            print("save keychain success")
-                            self.defaults.set(true, forKey: Resource.Defaults.passwordForBiometricIsSet)
-                            self.defaults.set(true, forKey: Resource.Defaults.useBiometrics)
+                    let alertController = UIAlertController(title: "SetPassword".localized, message: nil, preferredStyle: .alert)
+                    
+                    alertController.addTextField { (password) in
+                        password.isSecureTextEntry = true
+                        password.placeholder = "InputPassword".localized
+                    }
+                    alertController.addTextField { (confirmPassword) in
+                        confirmPassword.isSecureTextEntry = true
+                        confirmPassword.placeholder = "ConfirmPassword".localized
+                    }
+                    
+                    alertController.addAction(UIAlertAction(title: "Cancel".localized, style: .cancel, handler: { _ in
+                        sender.isOn = false
+                    }))
+                    alertController.addAction(UIAlertAction(title: "Done".localized, style: .default, handler: { _ in
+                        let password = alertController.textFields?.first?.text ?? ""
+                        let confirmPassword = alertController.textFields![1].text ?? ""
+                        
+                        if !password.isNullOrWhiteSpace() && password.elementsEqual(confirmPassword) {
+                            // remove keychain if already exist and set new key.
+                            self.keychain.removeObject(forKey: Resource.Defaults.passwordToUseBiometric)
+                            let saveSuccess = self.keychain.set(password, forKey: Resource.Defaults.passwordToUseBiometric)
+                            if saveSuccess {
+                                print("save keychain success")
+                                self.defaults.set(true, forKey: Resource.Defaults.passwordForBiometricIsSet)
+                                self.defaults.set(true, forKey: Resource.Defaults.useBiometrics)
+                            }
+                            
+                        } else {
+                            print("Wrong password format.")
+                            sender.isOn = false
                         }
+                    }))
+                    
+                    if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
+                        alertController.overrideUserInterfaceStyle = .dark
                         
                     } else {
-                        print("Wrong password format.")
-                        sender.isOn = false
+                        alertController.overrideUserInterfaceStyle = .light
                     }
-                }))
-                
-                if defaults.bool(forKey: Resource.Defaults.useDarkMode) == true {
-                    alertController.overrideUserInterfaceStyle = .dark
+                    
+                    alertController.view.tintColor = Colors.shared.defaultTintColor
+                    present(alertController, animated: true, completion: nil)
                     
                 } else {
-                    alertController.overrideUserInterfaceStyle = .light
+                    defaults.set(true, forKey: Resource.Defaults.useBiometrics)
                 }
                 
-                alertController.view.tintColor = Colors.shared.defaultTintColor
-                present(alertController, animated: true, completion: nil)
-                
             } else {
-                defaults.set(true, forKey: Resource.Defaults.useBiometrics)
+                sender.isOn = false
+                let premiumView = UINavigationController(rootViewController: PremiumViewController())
+                premiumView.modalPresentationStyle = .fullScreen
+                self.present(premiumView, animated: true, completion: nil)
             }
             
         } else {
-//            let removeSuccess = keychain.removeObject(forKey: Resource.Defaults.passwordToUseBiometric)
             defaults.set(false, forKey: Resource.Defaults.useBiometrics)
         }
     }

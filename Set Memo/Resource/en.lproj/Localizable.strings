@@ -161,3 +161,7 @@
 "TintColorF" = "Tint color";
 "SetRemindForMemoF" = "Set reminder for memo";
 "LockMemoF" = "Lock memo";
+"SortAsc" = "Ascending";
+"SortDesc" = "Descending";
+"PasswordNotSetTitle" = "Password is not set";
+"PasswordNotSetMsg" = "Set password before you can lock memo";

@@ -150,7 +150,30 @@ class MemoViewController: UICollectionViewController {
         navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
         let edit = UIBarButtonItem(title: "Edit".localized, style: .done, target: self, action: #selector(editOptions))
+        let sortAsc = UIBarButtonItem(image: Resource.Images.sortAscButton, style: .done, target: self, action: #selector(sortAscOptions))
+        
         self.navigationItem.rightBarButtonItem = edit
+        self.navigationItem.leftBarButtonItem = sortAsc
+    }
+    
+    @objc func sortAscOptions() {
+        
+        DeviceControl().feedbackOnPress()
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortAsc".localized, "SortDesc".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
+            { _ in
+                print("ascending")
+                self.defaults.set(true, forKey: Resource.Defaults.sortByAsc)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("descending")
+                self.defaults.set(false, forKey: Resource.Defaults.sortByAsc)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("cancel")
+            }
+        ])
     }
     
     @objc func editOptions() {
@@ -311,6 +334,7 @@ class MemoViewController: UICollectionViewController {
             return
         }
         
+        let sortAsc = defaults.bool(forKey: Resource.Defaults.sortByAsc)
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
@@ -320,16 +344,16 @@ class MemoViewController: UICollectionViewController {
         var sortDescriptor: NSSortDescriptor?
         
         if sortBy == Resource.SortBy.dateCreated {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateCreated, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateCreated, ascending: sortAsc)
             
         } else if sortBy == Resource.SortBy.title {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.content, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.content, ascending: sortAsc)
             
         } else if sortBy == Resource.SortBy.dateEdited {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: sortAsc)
             
         } else if sortBy == Resource.SortBy.color {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.color, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.color, ascending: sortAsc)
         }
         
         fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]
@@ -341,7 +365,7 @@ class MemoViewController: UICollectionViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-                self.animateCell()
+                //self.animateCell()
             }
             
         } catch let error as NSError {
@@ -439,7 +463,7 @@ class MemoViewController: UICollectionViewController {
     func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
-            self.showAlert(title: "Password is not set", message: "Set password before you can lock memo.", alertStyle: .alert, actionTitles: ["Cancel".localized, "Set password"], actionStyles: [.cancel, .default], actions: [
+            self.showAlert(title: "PasswordNotSetTitle".localized, message: "PasswordNotSetMsg".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "SetPassword".localized], actionStyles: [.cancel, .default], actions: [
                 { _ in
                     print("cancel")
                 },

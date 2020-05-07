@@ -22,7 +22,7 @@
 "DateMonthYear" = "d MMM yyyy";
 "DateTimeShort" = "dd/MM/yyyy";
 "HourAndMinute" = "h:mm a";
-"EmptyLabel" = "Chưa có ghi chú";
+"EmptyLabel" = "Không có ghi chú";
 "EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
 "General" = "Chung";
 "Advanced" = "Nâng cao";
@@ -161,3 +161,7 @@
 "TintColorF" = "Màu sắc chủ đề";
 "SetRemindForMemoF" = "Cài đặt nhắc nhở cho ghi chú";
 "LockMemoF" = "Khóa ghi chú";
+"SortAsc" = "Tăng dần";
+"SortDesc" = "Giảm dần";
+"PasswordNotSetTitle" = "Chưa đặt mật khẩu";
+"PasswordNotSetMsg" = "Đặt mật khẩu trước khi bạn có thể khóa ghi chú";
