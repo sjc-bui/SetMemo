@@ -84,7 +84,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     @objc func setHashTag() {
         
         DeviceControl().feedbackOnPress()
-        let alertController = UIAlertController(title: "#todo", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "#Todo", message: nil, preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.placeholder = "newHashtag"
             textField.autocorrectionType = .yes
@@ -132,7 +132,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             let managedContext = appDelegate.persistentContainer.viewContext
             
             do {
-                setMemoValue(context: managedContext, content: editor.textView.text, hashTag: hashTag ?? "todo", date: date)
+                setMemoValue(context: managedContext, content: editor.textView.text, hashTag: hashTag ?? "Todo", date: date)
                 try managedContext.save()
                 
             } catch let error as NSError {

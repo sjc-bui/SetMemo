@@ -46,6 +46,10 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
         "RestorePurchase".localized
     ]
     
+    let premiums2: Array = [
+        "RestorePurchase".localized
+    ]
+    
     let helps: Array = [
         "Feedback".localized,
         "RateApp".localized,
@@ -138,7 +142,12 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             }
             
         } else if section == 2 {
-            return premiums.count
+            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
+                return premiums2.count
+                
+            } else {
+                return premiums.count
+            }
             
         } else if section == 3 {
             return helps.count
@@ -318,32 +327,52 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else if indexPath.section == 2 {
             
-            switch indexPath.row {
-            case 0:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(premiums[indexPath.row])"
-                cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                cell.backgroundColor = UIColor.white
-                cell.backgroundColor = InterfaceColors.cellColor
-                cell.selectedBackground()
-                cell.accessoryType = .none
-                cell.accessoryView = nil
-                return cell
-            
-            case 1:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                cell.textLabel?.text = "\(premiums[indexPath.row])"
-                cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                cell.backgroundColor = UIColor.white
-                cell.backgroundColor = InterfaceColors.cellColor
-                cell.selectedBackground()
-                cell.accessoryType = .none
-                cell.accessoryView = nil
-                return cell
+            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
+                switch indexPath.row {
+                case 0:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                    cell.textLabel?.text = "\(premiums2[indexPath.row])"
+                    cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                    cell.backgroundColor = UIColor.white
+                    cell.backgroundColor = InterfaceColors.cellColor
+                    cell.selectedBackground()
+                    cell.accessoryType = .none
+                    cell.accessoryView = nil
+                    return cell
+                    
+                default:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                    return cell
+                }
                 
-            default:
-                let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                return cell
+            } else {
+                switch indexPath.row {
+                case 0:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                    cell.textLabel?.text = "\(premiums[indexPath.row])"
+                    cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                    cell.backgroundColor = UIColor.white
+                    cell.backgroundColor = InterfaceColors.cellColor
+                    cell.selectedBackground()
+                    cell.accessoryType = .none
+                    cell.accessoryView = nil
+                    return cell
+                
+                case 1:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                    cell.textLabel?.text = "\(premiums[indexPath.row])"
+                    cell.textLabel?.textColor = Colors.shared.defaultTintColor
+                    cell.backgroundColor = UIColor.white
+                    cell.backgroundColor = InterfaceColors.cellColor
+                    cell.selectedBackground()
+                    cell.accessoryType = .none
+                    cell.accessoryView = nil
+                    return cell
+                    
+                default:
+                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+                    return cell
+                }
             }
             
         } else if indexPath.section == 3 {
@@ -488,6 +517,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                         print("Resetting...")
                         self.defaults.set(0, forKey: Resource.Defaults.theme)
                         self.defaults.set(0, forKey: Resource.Defaults.defaultTintColor)
+                        self.defaults.set(0, forKey: Resource.Defaults.defaultCellColor)
                         self.defaults.set(true, forKey: Resource.Defaults.vibrationOnTouch)
                         self.defaults.set(false, forKey: Resource.Defaults.showAlertOnDelete)
                         self.defaults.set(true, forKey: Resource.Defaults.displayDateTime)
@@ -548,24 +578,40 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
             
-            switch indexPath.row {
-            case 0:
-                print("buy premium")
-                let premiumView = UINavigationController(rootViewController: PremiumViewController())
-                premiumView.modalPresentationStyle = .fullScreen
-                self.present(premiumView, animated: true, completion: nil)
+            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
+                switch indexPath.row {
+                case 0:
+                    print("restore purchase")
+                    self.showAlert(title: "Success.", message: "Success restore purchase, enjoy!", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                        { _ in
+                            print("---")
+                        }
+                    ])
+                    
+                default:
+                    return
+                }
                 
-            case 1:
-                
-                print("restore purchase")
-                self.showAlert(title: "Error!", message: "You didn't buy premium, please try again!", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
-                    { _ in
-                        print("---")
-                    }
-                ])
-                
-            default:
-                return
+            } else {
+                switch indexPath.row {
+                case 0:
+                    print("buy premium")
+                    let premiumView = UINavigationController(rootViewController: PremiumViewController())
+                    premiumView.modalPresentationStyle = .fullScreen
+                    self.present(premiumView, animated: true, completion: nil)
+                    
+                case 1:
+                    
+                    print("restore purchase")
+                    self.showAlert(title: "Success", message: "Success restore purchase, enjoy!", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                        { _ in
+                            print("---")
+                        }
+                    ])
+                    
+                default:
+                    return
+                }
             }
             
         } else if indexPath.section == 3 {

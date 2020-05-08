@@ -84,6 +84,7 @@
 "SortBy" = "Sort by %@";
 "AutoDeleteMemo" = "Memo are permanently deleted after 30 days.";
 "SetReminder" = "Set up reminder for this memo";
+"SetReminderTitle" = "Set a reminder:";
 "DeletedMemoMoved" = "Deleted memo are moved to the Recently Deleted folder.";
 "DeletedMemoMovedMess" = "You can recover or delete from Recently Deleted within 30 days.";
 "ShowAlertOnDelete" = "Show alert on delete";
@@ -121,6 +122,7 @@
 "Reminder" = "Reminder";
 "DeleteAll" = "Delete all";
 "TintColor" = "Tint colors";
+"ColorThemeMemo" = "Color theme for memo";
 "Now" = "just now";
 "MinutesAgo" = "%d minutes ago";
 "HoursAgo" = "%d hours ago";

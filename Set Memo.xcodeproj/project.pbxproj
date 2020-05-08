@@ -78,8 +78,6 @@
 		72F2D1E5245800D6004A9AD8 /* icons_filled_more.svg in Resources */ = {isa = PBXBuildFile; fileRef = 72F2D1E4245800D6004A9AD8 /* icons_filled_more.svg */; };
 		72F2D1E72458141B004A9AD8 /* icons_outlined_tag.svg in Resources */ = {isa = PBXBuildFile; fileRef = 72F2D1E62458141B004A9AD8 /* icons_outlined_tag.svg */; };
 		72F2D1E924581515004A9AD8 /* icons_outlined_info.svg in Resources */ = {isa = PBXBuildFile; fileRef = 72F2D1E824581515004A9AD8 /* icons_outlined_info.svg */; };
-		72F2D1EB2458164C004A9AD8 /* icons_outlined_settings.svg in Resources */ = {isa = PBXBuildFile; fileRef = 72F2D1EA2458164C004A9AD8 /* icons_outlined_settings.svg */; };
-		72F2D1ED24581708004A9AD8 /* icons_outlined_add1.svg in Resources */ = {isa = PBXBuildFile; fileRef = 72F2D1EC24581708004A9AD8 /* icons_outlined_add1.svg */; };
 		72F2D1EF245822C1004A9AD8 /* UIViewControllerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F2D1EE245822C1004A9AD8 /* UIViewControllerExt.swift */; };
 		72F2D1F124582477004A9AD8 /* UICollectionViewCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F2D1F024582477004A9AD8 /* UICollectionViewCellExt.swift */; };
 		72F2D1F3245824A8004A9AD8 /* CALayerExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F2D1F2245824A8004A9AD8 /* CALayerExt.swift */; };
@@ -163,8 +161,6 @@
 		72F2D1E4245800D6004A9AD8 /* icons_filled_more.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = icons_filled_more.svg; sourceTree = "<group>"; };
 		72F2D1E62458141B004A9AD8 /* icons_outlined_tag.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons_outlined_tag.svg; sourceTree = "<group>"; };
 		72F2D1E824581515004A9AD8 /* icons_outlined_info.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = icons_outlined_info.svg; sourceTree = "<group>"; };
-		72F2D1EA2458164C004A9AD8 /* icons_outlined_settings.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons_outlined_settings.svg; sourceTree = "<group>"; };
-		72F2D1EC24581708004A9AD8 /* icons_outlined_add1.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons_outlined_add1.svg; sourceTree = "<group>"; };
 		72F2D1EE245822C1004A9AD8 /* UIViewControllerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExt.swift; sourceTree = "<group>"; };
 		72F2D1F024582477004A9AD8 /* UICollectionViewCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExt.swift; sourceTree = "<group>"; };
 		72F2D1F2245824A8004A9AD8 /* CALayerExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayerExt.swift; sourceTree = "<group>"; };
@@ -408,8 +404,6 @@
 			children = (
 				723761C2245E535C00375664 /* icons_filled_cancel.svg */,
 				72F2D1F424586D2B004A9AD8 /* icons_outlined_trash.svg */,
-				72F2D1EC24581708004A9AD8 /* icons_outlined_add1.svg */,
-				72F2D1EA2458164C004A9AD8 /* icons_outlined_settings.svg */,
 				72F2D1E824581515004A9AD8 /* icons_outlined_info.svg */,
 				72F2D1E62458141B004A9AD8 /* icons_outlined_tag.svg */,
 				72F2D1E4245800D6004A9AD8 /* icons_filled_more.svg */,
@@ -483,10 +477,8 @@
 			files = (
 				72F2D1E5245800D6004A9AD8 /* icons_filled_more.svg in Resources */,
 				72F2D1D52457A379004A9AD8 /* icons_outlined_arrow.svg in Resources */,
-				72F2D1EB2458164C004A9AD8 /* icons_outlined_settings.svg in Resources */,
 				7241C614243785EF00D3E617 /* InfoPlist.strings in Resources */,
 				723761C924643C9A00375664 /* light@2x.png in Resources */,
-				72F2D1ED24581708004A9AD8 /* icons_outlined_add1.svg in Resources */,
 				72F2D1F524586D2B004A9AD8 /* icons_outlined_trash.svg in Resources */,
 				723761C824643C9A00375664 /* light@3x.png in Resources */,
 				724CA6F72408F35E0088F581 /* Localizable.strings in Resources */,

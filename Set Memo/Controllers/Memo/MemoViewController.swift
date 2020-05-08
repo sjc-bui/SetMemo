@@ -149,8 +149,8 @@ class MemoViewController: UICollectionViewController {
         self.navigationItem.title = "Memo".localized
         navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
-        let edit = UIBarButtonItem(title: "Edit".localized, style: .done, target: self, action: #selector(editOptions))
-        let sortAsc = UIBarButtonItem(image: Resource.Images.sortAscButton, style: .done, target: self, action: #selector(sortAscOptions))
+        let edit = UIBarButtonItem(title: "Edit".localized, style: .plain, target: self, action: #selector(editOptions))
+        let sortAsc = UIBarButtonItem(image: Resource.Images.sortAscButton, style: .plain, target: self, action: #selector(sortAscOptions))
         
         self.navigationItem.rightBarButtonItem = edit
         self.navigationItem.leftBarButtonItem = sortAsc
@@ -200,13 +200,11 @@ class MemoViewController: UICollectionViewController {
         countMemo.textColor = Colors.shared.defaultTintColor
         countMemo.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
-        countMemo.textDropShadow()
         
         let sortBtn = UIButton(frame: .zero)
         let sortButtonTitle = showSortType()
         sortBtn.setTitle(sortButtonTitle, for: .normal)
-        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        sortBtn.titleLabel?.textDropShadow()
+        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         sortBtn.setTitleColor(Colors.shared.defaultTintColor, for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
@@ -676,7 +674,7 @@ class MemoViewController: UICollectionViewController {
     
     func shareActivityViewController(content: String, hashTag: String) {
         
-        let textToShare = "#\(hashTag)\n\(content)"
+        let textToShare = "\(hashTag)\n\(content)"
         let objectToShare = [textToShare] as [Any]
         
         let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)

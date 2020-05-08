@@ -84,6 +84,7 @@
 "SortBy" = "%@で並び替え";
 "AutoDeleteMemo" = "メモは30日後に完全に削除されます。";
 "SetReminder" = "このメモのリマインダーを設定";
+"SetReminderTitle" = "リマインダーを設定:";
 "DeletedMemoMoved" = "削除したメモは最近削除したフォルダに移動されます。";
 "DeletedMemoMovedMess" = "30日以内に最近削除したフォルダから復元または削除できます。";
 "ShowAlertOnDelete" = "削除時にアラートを表示";
@@ -121,6 +122,7 @@
 "Reminder" = "リマインダー";
 "DeleteAll" = "全て削除";
 "TintColor" = "カラー";
+"ColorThemeMemo" = "メモのカラーテーマ";
 "Now" = "今";
 "MinutesAgo" = "%d分前";
 "HoursAgo" = "%d時間前";

@@ -15,8 +15,8 @@ public class Resource {
     }
     
     public class Images {
-        public static var createButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_add1", fillColor: .gray)
-        public static var settingButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_settings", fillColor: .gray)
+        public static var createButton: UIImage? = UIImage(systemName: "plus.circle")
+        public static var settingButton: UIImage? = UIImage(systemName: "gear")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_tag", fillColor: .white)
         public static var alarmButton: UIImage? = UIImage(systemName: "bell")
@@ -68,6 +68,7 @@ public class Resource {
         public static let defaultFontStyle = "defaultFontStyle"
         public static let defaultTextViewFontSize = "defaultTextViewFontSize"
         public static let defaultTintColor = "defaultTintColor";
+        public static let defaultCellColor = "defaultCellColor";
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
         public static let displayGridStyle = "displayGridStyle";

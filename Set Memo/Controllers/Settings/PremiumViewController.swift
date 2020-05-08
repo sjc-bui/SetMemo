@@ -245,12 +245,12 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+           return .lightContent
            
-           if theme.darkModeEnabled() == true {
-               return .lightContent
-               
-           } else {
-               return .darkContent
-           }
-       }
+        } else {
+           return .darkContent
+        }
+    }
 }

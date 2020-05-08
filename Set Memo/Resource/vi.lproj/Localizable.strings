@@ -83,7 +83,8 @@
 "SearchPlaceholder" = "Tìm kiếm";
 "SortBy" = "Sắp xếp theo %@";
 "AutoDeleteMemo" = "Ghi chú tại đây sẽ bị xóa vĩnh viễn sau 30 ngày.";
-"SetReminder" = "Đặt thông báo cho ghi chú này";
+"SetReminder" = "Đặt nhắc nhở cho ghi chú này";
+"SetReminderTitle" = "Cài đặt nhắc nhở:";
 "DeletedMemoMoved" = "Ghi chú đã xóa được di chuyển đến thư mục Đã xóa gần đây.";
 "DeletedMemoMovedMess" = "Bạn có thể khôi phục hoặc xóa khỏi Đã xóa gần đây trong vòng 30 ngày.";
 "ShowAlertOnDelete" = "Xác nhận trước khi xóa";
@@ -121,6 +122,7 @@
 "Reminder" = "Nhắc nhở";
 "DeleteAll" = "Xóa tất cả";
 "TintColor" = "Màu sắc";
+"ColorThemeMemo" = "Màu sắc chủ đề cho ghi chú";
 "Now" = "bây giờ";
 "MinutesAgo" = "%d phút trước";
 "HoursAgo" = "%d giờ trước";

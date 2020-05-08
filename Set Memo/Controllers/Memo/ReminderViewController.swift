@@ -17,6 +17,13 @@ class ReminderViewController: UIViewController {
     var background: UIColor?
     let defaults = UserDefaults.standard
     
+    lazy var label: UILabel = {
+        let l = UILabel()
+        l.textColor = .white
+        l.font = UIFont.boldSystemFont(ofSize: 36)
+        return l
+    }()
+    
     lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.timeZone = NSTimeZone.local
@@ -54,10 +61,12 @@ class ReminderViewController: UIViewController {
         self.navigationController?.navigationBar.setColors(background: background!, text: .white)
         datePicker.setValue(UIColor.white, forKey: "textColor")
         
+        label.text = "SetReminderTitle".localized
+        label.translatesAutoresizingMaskIntoConstraints = false
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         setRemindButton.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubviews([datePicker, setRemindButton])
+        view.addSubviews([label, datePicker, setRemindButton])
         
         if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
             background = UIColor.darkGray
@@ -73,8 +82,11 @@ class ReminderViewController: UIViewController {
             buttonWidth = 340
         }
         
+        label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 36).isActive = true
+        
         datePicker.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        datePicker.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        datePicker.heightAnchor.constraint(equalToConstant: 250).isActive = true
         datePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
@@ -112,7 +124,7 @@ class ReminderViewController: UIViewController {
         let uuid = UUID().uuidString
         
         let content = UNMutableNotificationContent()
-        content.title = "#\(title)"
+        content.title = "\(title)"
         content.body = bodyContent
         content.userInfo = ["reminderTitle": title]
         content.sound = UNNotificationSound.default
@@ -171,5 +183,9 @@ class ReminderViewController: UIViewController {
     
     @objc func dismissView() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

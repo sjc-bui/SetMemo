@@ -17,19 +17,24 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     let defaults = UserDefaults.standard
     var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
-    let sections = ["Themes".localized, "TintColor".localized]
+    let sections = ["Themes".localized, "TintColor".localized, "ColorThemeMemo".localized]
     var themesOptionsData: [String] = [
         "LightTheme".localized,
         "DarkTheme".localized
     ]
     var tintColorData: [String] = [
-        "Indigo".localized,
+        "Yellow".localized,
         "Red".localized,
         "Orange".localized,
         "Pink".localized,
         "Blue".localized,
         "Green".localized,
-        "Yellow".localized
+        "Indigo".localized
+    ]
+    var cellColorData: [String] = [
+        "Vibrant",
+        "Soft",
+        "Light"
     ]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -38,6 +43,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             return 1
             
         } else if pickerView.tag == 2 {
+            return 1
+            
+        } else if pickerView.tag == 3 {
             return 1
         }
         
@@ -51,6 +59,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
         } else if pickerView.tag == 2 {
             return tintColorData.count
+            
+        } else if pickerView.tag == 3 {
+            return cellColorData.count
         }
         
         return 0
@@ -63,6 +74,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
         } else if pickerView.tag == 2 {
             return tintColorData[row]
+            
+        } else if pickerView.tag == 3 {
+            return cellColorData[row]
         }
         
         return ""
@@ -104,6 +118,16 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             } else {
                 defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
                 navigationController?.navigationBar.tintColor = Colors.shared.defaultTintColor
+            }
+            
+        } else if pickerView.tag == 3 {
+            
+            if premium == false && row != 0 {
+                checkPremiumUser()
+                pickerView.selectRow(0, inComponent: 0, animated: true)
+                
+            } else {
+                defaults.set(row, forKey: Resource.Defaults.defaultCellColor)
             }
         }
         
@@ -192,6 +216,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
         } else if section == 1 {
             return 1
+            
+        } else if section == 2 {
+            return 1
         }
         
         return 0
@@ -241,6 +268,19 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             dynamicCell(cell: cell, picker: cell.pickerView)
             
             let index = defaults.integer(forKey: Resource.Defaults.defaultTintColor)
+            cell.pickerView.selectRow(index, inComponent: 0, animated: false)
+            
+            return cell
+            
+        } else if indexPath.section == 2 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
+            cell.pickerView.delegate = self
+            cell.pickerView.dataSource = self
+            cell.pickerView.tag = 3
+            dynamicCell(cell: cell, picker: cell.pickerView)
+            
+            let index = defaults.integer(forKey: Resource.Defaults.defaultCellColor)
             cell.pickerView.selectRow(index, inComponent: 0, animated: false)
             
             return cell
@@ -297,6 +337,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
         } else if indexPath.section == 1 {
             return 180
+            
+        } else if indexPath.section == 2 {
+            return 100
         }
         
         return 0

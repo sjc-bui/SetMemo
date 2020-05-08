@@ -10,33 +10,47 @@ import UIKit
 
 extension UIColor {
     
+    // material color
     static let red = UIColor(hexString: "#f44336")
     static let pink = UIColor(hexString: "#e91e63")
-    static let purple = UIColor(hexString: "#9c27b0")
-    static let purple2 = UIColor(hexString: "#7c5475")
     static let deepPurple = UIColor(hexString: "#673ab7")
     static let indigo = UIColor(hexString: "#3f51b5")
     static let blue = UIColor(hexString: "#2196f3")
-    static let lightBlue = UIColor(hexString: "#03a9f4")
-    static let cyan = UIColor(hexString: "#00bcd4")
     static let teal = UIColor(hexString: "#009688")
     static let green = UIColor(hexString: "#4caf50")
-    static let lightGreen = UIColor(hexString: "#8bc34a")
     static let amber = UIColor(hexString: "#ffc107")
-    static let orange = UIColor(hexString: "#ff9800")
     static let deepOrange = UIColor(hexString: "#ff5722")
-    static let brown = UIColor(hexString: "#795548")
-    static let blueGrey = UIColor(hexString: "#607d8b")
+    
+    // soft color
+    static let appleValley = UIColor(hexString: "#ea8685")
+    static let brewedMustard = UIColor(hexString: "#e77f67")
+    static let creamyPeach = UIColor(hexString: "#f3a683")
+    static let oldGeranium = UIColor(hexString: "#cf6a87")
+    static let purpleMountain = UIColor(hexString: "#786fa6")
+    static let rosyHighLight = UIColor(hexString: "#f7d794")
+    static let roguePink = UIColor(hexString: "#f8a5c2")
+    static let softBlue = UIColor(hexString: "#778beb")
+    static let squeaky = UIColor(hexString: "#63cdda")
+    
+    // soft color 2
+    static let forceLainRose = UIColor(hexString: "#e66767")
+    static let tigerLily = UIColor(hexString: "#e15f41")
+    static let sawtooth = UIColor(hexString: "#f19066")
+    static let deepRose = UIColor(hexString: "#c44569")
+    static let purpleCorallite = UIColor(hexString: "#574b90")
+    static let summerTime = UIColor(hexString: "#f5cd79")
+    static let flamingoPink = UIColor(hexString: "#f78fb3")
+    static let cornFlower = UIColor(hexString: "#546de5")
+    static let blueCuracao = UIColor(hexString: "#3dc1d3")
     
     static let secondaryColor = UIColor(hexString: "#EDEDED")
     static let secondaryBlackColor = UIColor(hexString: "#242426")
-    
     static let primaryText = UIColor(hexString: "#FFFFFF")
     static let secondaryText = UIColor(hexString: "#EBEBF5")
     
     static let pureCellBackground = UIColor(hexString: "#191919")
     
-    static var defaultColors = ["red", "pink", "purple", "purple2", "deepPurple", "indigo", "blue", "lightBlue", "cyan", "teal", "green", "lightGreen", "amber", "orange", "deepOrange", "brown", "blueGrey"]
+    static var defaultColors = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
     
     static func getRandomColor() -> String {
         let random = UIColor.defaultColors.randomElement() ?? "white"
@@ -45,41 +59,72 @@ extension UIColor {
     
     static func getRandomColorFromString(color: String) -> UIColor {
         
-        switch color {
-        case "red":
-            return .red
-        case "pink":
-            return .pink
-        case "purple":
-            return .purple
-        case "purple2":
-            return .purple2
-        case "deepPurple":
-            return .deepPurple
-        case "indigo":
-            return .indigo
-        case "blue":
-            return .blue
-        case "lightBlue":
-            return .lightBlue
-        case "cyan":
-            return .cyan
-        case "teal":
-            return .teal
-        case "green":
-            return .green
-        case "lightGreen":
-            return .lightGreen
-        case "amber":
-            return .amber
-        case "orange":
-            return .orange
-        case "deepOrange":
-            return .deepOrange
-        case "blueGrey":
-            return .blueGrey
-        default:
-            return .brown
+        if UserDefaults.standard.integer(forKey: Resource.Defaults.defaultCellColor) == 0 {
+            switch color {
+            case "a":
+                return .red
+            case "b":
+                return .deepOrange
+            case "c":
+                return .amber
+            case "d":
+                return .pink
+            case "e":
+                return .deepPurple
+            case "f":
+                return .indigo
+            case "g":
+                return .blue
+            case "h":
+                return .green
+            default:
+                return .teal
+            }
+            
+        } else if UserDefaults.standard.integer(forKey: Resource.Defaults.defaultCellColor) == 1 {
+            
+            switch color {
+            case "a":
+                return .forceLainRose
+            case "b":
+                return .tigerLily
+            case "c":
+                return .sawtooth
+            case "d":
+                return .deepRose
+            case "e":
+                return .purpleCorallite
+            case "f":
+                return .summerTime
+            case "g":
+                return .flamingoPink
+            case "h":
+                return .cornFlower
+            default:
+                return .blueCuracao
+            }
+            
+        } else {
+            switch color {
+            case "a":
+                return .appleValley
+            case "b":
+                return .brewedMustard
+            case "c":
+                return .creamyPeach
+            case "d":
+                return .oldGeranium
+            case "e":
+                return .purpleMountain
+            case "f":
+                return .rosyHighLight
+            case "g":
+                return .roguePink
+            case "h":
+                return .softBlue
+            default:
+                return .squeaky
+            }
         }
     }
     
@@ -131,9 +176,9 @@ extension UIColor {
         case 5:
             return UIColor.systemGreen
         case 6:
-            return UIColor(hexString: "#E5B104")
-        default:
             return UIColor.systemIndigo
+        default:
+            return UIColor(hexString: "#E5B104")
         }
     }
 }
