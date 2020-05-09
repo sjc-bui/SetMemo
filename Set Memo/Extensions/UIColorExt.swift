@@ -43,6 +43,17 @@ extension UIColor {
     static let cornFlower = UIColor(hexString: "#546de5")
     static let blueCuracao = UIColor(hexString: "#3dc1d3")
     
+    // color 3
+    static let richGardenia = UIColor(hexString: "#F97F51")
+    static let clearChill = UIColor(hexString: "#1B9CFC")
+    static let honeyGlow = UIColor(hexString: "#EAB543")
+    static let keppel = UIColor(hexString: "#58B19F")
+    static let pineGlade = UIColor(hexString: "#BDC581")
+    static let blueBell = UIColor(hexString: "#3B3B98")
+    static let fieryFuchsia = UIColor(hexString: "#B33771")
+    static let socks = UIColor(hexString: "#FC427B")
+    static let highlighterLavender = UIColor(hexString: "#82589F")
+    
     static let secondaryColor = UIColor(hexString: "#EDEDED")
     static let secondaryBlackColor = UIColor(hexString: "#242426")
     static let primaryText = UIColor(hexString: "#FFFFFF")
@@ -85,6 +96,29 @@ extension UIColor {
             
             switch color {
             case "a":
+                return .richGardenia
+            case "b":
+                return .clearChill
+            case "c":
+                return .honeyGlow
+            case "d":
+                return .keppel
+            case "e":
+                return .pineGlade
+            case "f":
+                return .blueBell
+            case "g":
+                return .fieryFuchsia
+            case "h":
+                return .socks
+            default:
+                return .highlighterLavender
+            }
+            
+        } else if UserDefaults.standard.integer(forKey: Resource.Defaults.defaultCellColor) == 2 {
+            
+            switch color {
+            case "a":
                 return .forceLainRose
             case "b":
                 return .tigerLily
@@ -105,6 +139,7 @@ extension UIColor {
             }
             
         } else {
+            
             switch color {
             case "a":
                 return .appleValley

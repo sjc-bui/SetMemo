@@ -20,7 +20,7 @@ class ReminderViewController: UIViewController {
     lazy var label: UILabel = {
         let l = UILabel()
         l.textColor = .white
-        l.font = UIFont.boldSystemFont(ofSize: 36)
+        l.font = UIFont.boldSystemFont(ofSize: 40)
         return l
     }()
     

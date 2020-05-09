@@ -33,6 +33,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     ]
     var cellColorData: [String] = [
         "Vibrant",
+        "High",
         "Soft",
         "Light"
     ]

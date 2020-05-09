@@ -16,7 +16,7 @@ class RecentlyDeletedController: UICollectionViewController {
     fileprivate let cellID = "cellId"
     let defaults = UserDefaults.standard
     
-    let inset: CGFloat = 16
+    var inset: CGFloat = 16
     var minimumCellSpacing: CGFloat = 9
     var cellsPerRow: Int = 2
     let themes = Themes()
@@ -39,6 +39,7 @@ class RecentlyDeletedController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             
+            inset = 20
             minimumCellSpacing = 12
             if UIDevice.current.orientation.isLandscape {
                 cellsPerRow = 4
@@ -48,6 +49,7 @@ class RecentlyDeletedController: UICollectionViewController {
             }
             
         } else {
+            inset = 16
             minimumCellSpacing = 9
             cellsPerRow = 2
         }

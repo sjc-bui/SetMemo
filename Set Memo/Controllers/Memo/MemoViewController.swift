@@ -25,7 +25,7 @@ class MemoViewController: UICollectionViewController {
     let defaults = UserDefaults.standard
     let keychain = KeychainWrapper.standard
     
-    let inset: CGFloat = 16
+    var inset: CGFloat = 16
     var minimumCellSpacing: CGFloat = 9
     var cellsPerRow: Int = 2
     let reuseCellId = "cellId"
@@ -54,6 +54,7 @@ class MemoViewController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             
+            inset = 20
             minimumCellSpacing = 12
             if UIDevice.current.orientation.isLandscape {
                 cellsPerRow = 4
@@ -63,6 +64,7 @@ class MemoViewController: UICollectionViewController {
             }
             
         } else {
+            inset = 16
             minimumCellSpacing = 9
             cellsPerRow = 2
         }
