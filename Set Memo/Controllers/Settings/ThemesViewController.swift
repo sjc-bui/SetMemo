@@ -13,22 +13,29 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     let themes = Themes()
     let reuseIdentifier = "themesCell"
     let reusePickerCellId = "pickerCell"
+    let reuseSwitchIdentifier = "SettingSwitchCell"
     let defaults = UserDefaults.standard
     var lastIndex: NSIndexPath = NSIndexPath(row: 0, section: 0)
     
-    let sections = ["Themes".localized, "TintColor".localized]
+    let sections = ["Themes".localized, "TintColor".localized, "ColorThemeMemo".localized]
     var themesOptionsData: [String] = [
         "LightTheme".localized,
         "DarkTheme".localized
     ]
     var tintColorData: [String] = [
-        "Indigo".localized,
+        "Yellow".localized,
         "Red".localized,
         "Orange".localized,
         "Pink".localized,
         "Blue".localized,
         "Green".localized,
-        "Yellow".localized
+        "Indigo".localized
+    ]
+    var cellColorData: [String] = [
+        "Vibrant",
+        "High",
+        "Soft",
+        "Light"
     ]
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -37,6 +44,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             return 1
             
         } else if pickerView.tag == 2 {
+            return 1
+            
+        } else if pickerView.tag == 3 {
             return 1
         }
         
@@ -50,6 +60,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
         } else if pickerView.tag == 2 {
             return tintColorData.count
+            
+        } else if pickerView.tag == 3 {
+            return cellColorData.count
         }
         
         return 0
@@ -62,6 +75,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
         } else if pickerView.tag == 2 {
             return tintColorData[row]
+            
+        } else if pickerView.tag == 3 {
+            return cellColorData[row]
         }
         
         return ""
@@ -82,6 +98,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                     setupDefaultPersistentNavigationBar()
                     view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(false, forKey: Resource.Defaults.useDarkMode)
+                    defaults.set(true, forKey: Resource.Defaults.useCellColor)
                     
                 } else if row == 1 {
                     themes.setupPureDarkTheme()
@@ -103,9 +120,19 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
                 navigationController?.navigationBar.tintColor = Colors.shared.defaultTintColor
             }
+            
+        } else if pickerView.tag == 3 {
+            
+            if premium == false && row != 0 {
+                checkPremiumUser()
+                pickerView.selectRow(0, inComponent: 0, animated: true)
+                
+            } else {
+                defaults.set(row, forKey: Resource.Defaults.defaultCellColor)
+            }
         }
         
-        let reloadSectionIndex: IndexSet = [0, 1]
+        let reloadSectionIndex: IndexSet = [0, 1, 2]
         self.tableView.reloadSections(reloadSectionIndex, with: .fade)
     }
     
@@ -140,28 +167,9 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     }
     
     func checkPremiumUser() {
-        
-        self.showAlert(title: "Pro feature", message: "This feature is only available with Set Memo Premium", alertStyle: .alert, actionTitles: ["Cancel".localized, "Buy Premium"], actionStyles: [.cancel, .default], actions: [
-            { _ in
-                print("Cancel buy premium")
-            },
-            { _ in
-                self.defaults.set(true, forKey: Resource.Defaults.setMemoPremium)
-                self.restorePurchase()
-            }
-        ])
-    }
-    
-    func restorePurchase() {
-        
-        if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
-            
-            self.showAlert(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
-                { _ in
-                    print("Premium user restore purchase")
-                }
-            ])
-        }
+        let premiumView = UINavigationController(rootViewController: PremiumViewController())
+        premiumView.modalPresentationStyle = .fullScreen
+        self.present(premiumView, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
@@ -170,6 +178,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         
         tableView.register(SettingCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.register(PickerViewCell.self, forCellReuseIdentifier: reusePickerCellId)
+        tableView.register(SettingSwitchCell.self, forCellReuseIdentifier: reuseSwitchIdentifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cellID")
     }
     
@@ -204,9 +213,12 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return 1
+            return 2
             
         } else if section == 1 {
+            return 1
+            
+        } else if section == 2 {
             return 1
         }
         
@@ -217,16 +229,36 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         
         if indexPath.section == 0 {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
-            cell.pickerView.delegate = self
-            cell.pickerView.dataSource = self
-            cell.pickerView.tag = 1
-            dynamicCell(cell: cell, picker: cell.pickerView)
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
+                cell.pickerView.delegate = self
+                cell.pickerView.dataSource = self
+                cell.pickerView.tag = 1
+                dynamicCell(cell: cell, picker: cell.pickerView)
 
-            let index = defaults.integer(forKey: Resource.Defaults.theme)
-            cell.pickerView.selectRow(index, inComponent: 0, animated: false)
-            
-            return cell
+                let index = defaults.integer(forKey: Resource.Defaults.theme)
+                cell.pickerView.selectRow(index, inComponent: 0, animated: false)
+                
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: reuseSwitchIdentifier, for: indexPath) as! SettingSwitchCell
+                cell.textLabel?.text = "MemoColor".localized
+                cell.selectionStyle = .none
+                cell.switchButton.addTarget(self, action: #selector(setupCellColor(sender:)), for: .valueChanged)
+                
+                if defaults.bool(forKey: Resource.Defaults.useCellColor) == true {
+                    cell.switchButton.isOn = true
+                } else {
+                    cell.switchButton.isOn = false
+                }
+                setupDynamicCells(cell: cell, arrow: false)
+                return cell
+                
+            default:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
+                return cell
+            }
             
         } else if indexPath.section == 1 {
             
@@ -241,9 +273,48 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             
             return cell
             
+        } else if indexPath.section == 2 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: reusePickerCellId, for: indexPath) as! PickerViewCell
+            cell.pickerView.delegate = self
+            cell.pickerView.dataSource = self
+            cell.pickerView.tag = 3
+            dynamicCell(cell: cell, picker: cell.pickerView)
+            
+            let index = defaults.integer(forKey: Resource.Defaults.defaultCellColor)
+            cell.pickerView.selectRow(index, inComponent: 0, animated: false)
+            
+            return cell
+            
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellID", for: indexPath)
             return cell
+        }
+    }
+    
+    func setupDynamicCells(cell: UITableViewCell, arrow: Bool) {
+        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = InterfaceColors.cellColor
+
+        cell.textLabel?.textColor = UIColor.black
+        cell.textLabel?.textColor = InterfaceColors.fontColor
+
+        if arrow == true {
+           cell.accessoryView = UIImageView(image: Resource.Images.cellAccessoryIcon)
+        }
+    }
+    
+    @objc func setupCellColor(sender: UISwitch) {
+        
+        if sender.isOn == true {
+            defaults.set(true, forKey: Resource.Defaults.useCellColor)
+            
+        } else {
+            if defaults.bool(forKey: Resource.Defaults.useDarkMode) == false {
+                sender.isOn = true
+                return
+            }
+            defaults.set(false, forKey: Resource.Defaults.useCellColor)
         }
     }
     
@@ -258,10 +329,18 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.section == 0 {
-            return 100
+            switch indexPath.row {
+            case 0:
+                return 100
+            default:
+                return 50
+            }
             
         } else if indexPath.section == 1 {
             return 180
+            
+        } else if indexPath.section == 2 {
+            return 100
         }
         
         return 0

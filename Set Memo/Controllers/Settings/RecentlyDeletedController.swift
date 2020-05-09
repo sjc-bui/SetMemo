@@ -16,10 +16,9 @@ class RecentlyDeletedController: UICollectionViewController {
     fileprivate let cellID = "cellId"
     let defaults = UserDefaults.standard
     
-    let inset: CGFloat = 12
-    let minimumLineSpacing: CGFloat = 12
-    let minimumInteritemSpacing: CGFloat = 12
-    var cellsPerRow: Int?
+    var inset: CGFloat = 16
+    var minimumCellSpacing: CGFloat = 9
+    var cellsPerRow: Int = 2
     let themes = Themes()
     let theme = ThemesViewController()
     
@@ -39,14 +38,19 @@ class RecentlyDeletedController: UICollectionViewController {
     func isLandscape() {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
+            
+            inset = 20
+            minimumCellSpacing = 12
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 5
+                cellsPerRow = 4
                 
             } else {
-                cellsPerRow = 4
+                cellsPerRow = 3
             }
             
         } else {
+            inset = 16
+            minimumCellSpacing = 9
             cellsPerRow = 2
         }
     }
@@ -70,7 +74,7 @@ class RecentlyDeletedController: UICollectionViewController {
     
     @objc func deleteAll(_ sender: UIBarButtonItem, event: UIEvent) {
         
-        FTPopOverMenu.showForEvent(event: event, with: ["EmptyTrash".localized], done: { _ in
+        FTPopOverMenu.showForEvent(event: event, with: ["DeleteAll".localized], done: { _ in
             
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             let managedContext = appDelegate?.persistentContainer.viewContext
@@ -239,10 +243,11 @@ class RecentlyDeletedController: UICollectionViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 5
-            } else {
                 cellsPerRow = 4
+            } else {
+                cellsPerRow = 3
             }
+            self.collectionView.reloadData()
             
         } else {
             cellsPerRow = 2
@@ -278,7 +283,7 @@ extension RecentlyDeletedController {
         let color = memo.value(forKey: "color") as? String ?? "white"
         
         cell.content.font = UIFont.systemFont(ofSize: Dimension.shared.fontMediumSize, weight: .medium)
-        cell.content.text = content?.trimmingCharacters(in: .whitespacesAndNewlines)
+        cell.content.text = "\(content?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "nil")\n"
         
         cell.dateEdited.text = DatetimeUtil().timeAgo(at: dateEdited)
         cell.dateEdited.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
@@ -286,7 +291,10 @@ extension RecentlyDeletedController {
         cell.hashTag.text = "#\(hashTag)"
         cell.hashTag.font = UIFont.systemFont(ofSize: Dimension.shared.subLabelSize, weight: .regular)
         
-        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        var cellBackground = UIColor.getRandomColorFromString(color: color)
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            cellBackground = UIColor.pureCellBackground
+        }
         cell.setCellStyle(background: cellBackground)
         
         return cell
@@ -305,17 +313,17 @@ extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow! - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow!)).rounded(.down)
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumCellSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         
-        return CGSize(width: itemWidth, height: 105)
+        return CGSize(width: itemWidth, height: 108)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumInteritemSpacing
+        return minimumCellSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumLineSpacing
+        return minimumCellSpacing
     }
 }

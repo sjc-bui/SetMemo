@@ -15,7 +15,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     let defaults = UserDefaults.standard
     var hashTag: String?
     var navigationBarHeight: CGFloat?
-    let randomColor = UIColor.getRandomColor()
+    var randomColor: String?
     let setting = SettingViewController()
     
     func setupUI() {
@@ -30,12 +30,21 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        randomColor = UIColor.getRandomColor()
         addKeyboardListener()
-        
-        self.view.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
-        editor.textView.backgroundColor = UIColor.getRandomColorFromString(color: randomColor)
-        setupNavigationBar()
+        setBackgroundColor(randomColor: randomColor!)
         setupDynamicKeyboardColor()
+    }
+    
+    func setBackgroundColor(randomColor: String) {
+        var background = UIColor.getRandomColorFromString(color: randomColor)
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            background = UIColor.black
+        }
+        
+        self.view.backgroundColor = background
+        editor.textView.backgroundColor = background
+        setupNavigationBar(navBackground: background)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,8 +76,8 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         }
     }
     
-    func setupNavigationBar() {
-        navigationController?.navigationBar.setColors(background: UIColor.getRandomColorFromString(color: randomColor), text: .white)
+    func setupNavigationBar(navBackground: UIColor) {
+        navigationController?.navigationBar.setColors(background: navBackground, text: .white)
     }
     
     func setupRightBarButtons() {
@@ -79,7 +88,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     @objc func setHashTag() {
         
         DeviceControl().feedbackOnPress()
-        let alertController = UIAlertController(title: "#hashTag", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "#Todo", message: nil, preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.placeholder = "newHashtag"
             textField.autocorrectionType = .yes
@@ -127,7 +136,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
             let managedContext = appDelegate.persistentContainer.viewContext
             
             do {
-                setMemoValue(context: managedContext, content: editor.textView.text, hashTag: hashTag ?? "todo", date: date)
+                setMemoValue(context: managedContext, content: editor.textView.text, hashTag: hashTag ?? "Todo", date: date)
                 try managedContext.save()
                 
             } catch let error as NSError {

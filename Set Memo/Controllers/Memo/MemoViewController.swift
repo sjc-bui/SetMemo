@@ -25,10 +25,9 @@ class MemoViewController: UICollectionViewController {
     let defaults = UserDefaults.standard
     let keychain = KeychainWrapper.standard
     
-    let inset: CGFloat = 12
-    let minimumLineSpacing: CGFloat = 12
-    let minimumInteritemSpacing: CGFloat = 12
-    var cellsPerRow: Int?
+    var inset: CGFloat = 16
+    var minimumCellSpacing: CGFloat = 9
+    var cellsPerRow: Int = 2
     let reuseCellId = "cellId"
     let themes = Themes()
     let theme = ThemesViewController()
@@ -54,14 +53,19 @@ class MemoViewController: UICollectionViewController {
     func isLandscape() {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
+            
+            inset = 20
+            minimumCellSpacing = 12
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 5
+                cellsPerRow = 4
                 
             } else {
-                cellsPerRow = 4
+                cellsPerRow = 3
             }
             
         } else {
+            inset = 16
+            minimumCellSpacing = 9
             cellsPerRow = 2
         }
     }
@@ -149,6 +153,44 @@ class MemoViewController: UICollectionViewController {
         self.navigationItem.title = "Memo".localized
         navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
+        let edit = UIBarButtonItem(title: "Edit".localized, style: .plain, target: self, action: #selector(editOptions))
+        let sortAsc = UIBarButtonItem(image: Resource.Images.sortAscButton, style: .plain, target: self, action: #selector(sortAscOptions))
+        
+        self.navigationItem.rightBarButtonItem = edit
+        self.navigationItem.leftBarButtonItem = sortAsc
+    }
+    
+    @objc func sortAscOptions() {
+        
+        DeviceControl().feedbackOnPress()
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["SortAsc".localized, "SortDesc".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
+            { _ in
+                print("ascending")
+                self.defaults.set(true, forKey: Resource.Defaults.sortByAsc)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("descending")
+                self.defaults.set(false, forKey: Resource.Defaults.sortByAsc)
+                self.fetchMemoFromCoreData()
+            },
+            { _ in
+                print("cancel")
+            }
+        ])
+    }
+    
+    @objc func editOptions() {
+        
+        DeviceControl().feedbackOnPress()
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["DeleteAll".localized, "Cancel".localized], actionStyles: [.default, .cancel], actions: [
+            { _ in
+                print("delete all")
+            },
+            { _ in
+                print("cancel")
+            }
+        ])
     }
     
     func setupBarButton() {
@@ -162,13 +204,11 @@ class MemoViewController: UICollectionViewController {
         countMemo.textColor = Colors.shared.defaultTintColor
         countMemo.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         countMemo.text = memoCountString(total: memoData.count)
-        countMemo.textDropShadow()
         
         let sortBtn = UIButton(frame: .zero)
         let sortButtonTitle = showSortType()
         sortBtn.setTitle(sortButtonTitle, for: .normal)
-        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        sortBtn.titleLabel?.textDropShadow()
+        sortBtn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         sortBtn.setTitleColor(Colors.shared.defaultTintColor, for: .normal)
         sortBtn.addTarget(self, action: #selector(sortBy), for: .touchUpInside)
         
@@ -190,8 +230,6 @@ class MemoViewController: UICollectionViewController {
         } else {
             items = [
             settingButton,
-            flexibleSpace,
-            UIBarButtonItem(customView: countMemo),
             flexibleSpace,
             createButton
             ]
@@ -298,6 +336,7 @@ class MemoViewController: UICollectionViewController {
             return
         }
         
+        let sortAsc = defaults.bool(forKey: Resource.Defaults.sortByAsc)
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Memo")
@@ -307,16 +346,16 @@ class MemoViewController: UICollectionViewController {
         var sortDescriptor: NSSortDescriptor?
         
         if sortBy == Resource.SortBy.dateCreated {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateCreated, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateCreated, ascending: sortAsc)
             
         } else if sortBy == Resource.SortBy.title {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.content, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.content, ascending: sortAsc)
             
         } else if sortBy == Resource.SortBy.dateEdited {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.dateEdited, ascending: sortAsc)
             
         } else if sortBy == Resource.SortBy.color {
-            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.color, ascending: false)
+            sortDescriptor = NSSortDescriptor(key: Resource.SortBy.color, ascending: sortAsc)
         }
         
         fetchRequest.sortDescriptors = [sortDescriptor] as? [NSSortDescriptor]
@@ -328,11 +367,19 @@ class MemoViewController: UICollectionViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                //self.animateCell()
             }
             
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    func animateCell() {
+        self.collectionView.performBatchUpdates({
+            let indexSet = IndexSet(integersIn: 0...0)
+            self.collectionView.reloadSections(indexSet)
+        }, completion: nil)
     }
     
     func memoCountString(total: Int) -> String {
@@ -418,7 +465,7 @@ class MemoViewController: UICollectionViewController {
     func handleLockMemoWithBiometrics(reason: String, lockThisMemo: Bool, indexPath: IndexPath) {
         
         if defaults.bool(forKey: Resource.Defaults.passwordForBiometricIsSet) == false {
-            self.showAlert(title: "Password is not set", message: "Set password before you can lock memo.", alertStyle: .alert, actionTitles: ["Cancel".localized, "Set password"], actionStyles: [.cancel, .default], actions: [
+            self.showAlert(title: "PasswordNotSetTitle".localized, message: "PasswordNotSetMsg".localized, alertStyle: .alert, actionTitles: ["Cancel".localized, "SetPassword".localized], actionStyles: [.cancel, .default], actions: [
                 { _ in
                     print("cancel")
                 },
@@ -631,7 +678,7 @@ class MemoViewController: UICollectionViewController {
     
     func shareActivityViewController(content: String, hashTag: String) {
         
-        let textToShare = "#\(hashTag)\n\(content)"
+        let textToShare = "\(hashTag)\n\(content)"
         let objectToShare = [textToShare] as [Any]
         
         let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)

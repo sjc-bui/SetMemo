@@ -15,8 +15,8 @@ public class Resource {
     }
     
     public class Images {
-        public static var createButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_add1", fillColor: .gray)
-        public static var settingButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_settings", fillColor: .gray)
+        public static var createButton: UIImage? = UIImage(systemName: "plus.circle")
+        public static var settingButton: UIImage? = UIImage(systemName: "gear")
         public static var keyboardButton: UIImage? = UIImage(systemName: "keyboard.chevron.compact.down")
         public static var hashTagButton: UIImage? = UIImage.SVGImage(named: "icons_outlined_tag", fillColor: .white)
         public static var alarmButton: UIImage? = UIImage(systemName: "bell")
@@ -31,6 +31,7 @@ public class Resource {
         public static var moveToEndButton: UIImage? = UIImage(systemName: "arrow.down.to.line")
         public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
         public static var backButton: UIImage? = UIImage(systemName: "arrow.left")
+        public static var sortAscButton: UIImage? = UIImage(systemName: "arrow.up.arrow.down.circle")
         
         public static var smallAlarmIcon: UIImage? = UIImage(systemName: "alarm")
         public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
@@ -49,6 +50,8 @@ public class Resource {
     }
     
     public class Defaults {
+        public static let sortByAsc = "sortByAsc"
+        public static let useCellColor = "useCellColor"
         public static let vibrationOnTouch = "vibrationOnTouch"
         public static let showAlertOnDelete = "showAlertOnDelete"
         public static let displayDateTime = "displayDateTime"
@@ -65,6 +68,7 @@ public class Resource {
         public static let defaultFontStyle = "defaultFontStyle"
         public static let defaultTextViewFontSize = "defaultTextViewFontSize"
         public static let defaultTintColor = "defaultTintColor";
+        public static let defaultCellColor = "defaultCellColor";
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
         public static let displayGridStyle = "displayGridStyle";

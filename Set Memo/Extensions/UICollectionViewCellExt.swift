@@ -10,12 +10,11 @@ import UIKit
 
 extension UICollectionViewCell {
     
-    func setCellStyle(background: UIColor, radius: CGFloat = 11.28758) {
+    func setCellStyle(background: UIColor, radius: CGFloat = 12) {
         self.clipsToBounds = true
-        self.layer.cornerRadius = radius
+        self.layer.roundCorner(radius: radius)
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.main.scale
         self.backgroundColor = background
-        self.layer.addShadow(color: UIColor.darkGray)
     }
 }

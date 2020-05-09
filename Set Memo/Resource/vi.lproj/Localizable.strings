@@ -22,7 +22,7 @@
 "DateMonthYear" = "d MMM yyyy";
 "DateTimeShort" = "dd/MM/yyyy";
 "HourAndMinute" = "h:mm a";
-"EmptyLabel" = "Chưa có ghi chú";
+"EmptyLabel" = "Không có ghi chú";
 "EmptyDescription" = "Nhấn + để tạo ghi chú mới.";
 "General" = "Chung";
 "Advanced" = "Nâng cao";
@@ -83,7 +83,8 @@
 "SearchPlaceholder" = "Tìm kiếm";
 "SortBy" = "Sắp xếp theo %@";
 "AutoDeleteMemo" = "Ghi chú tại đây sẽ bị xóa vĩnh viễn sau 30 ngày.";
-"SetReminder" = "Đặt thông báo cho ghi chú này";
+"SetReminder" = "Đặt nhắc nhở cho ghi chú này";
+"SetReminderTitle" = "Đặt nhắc nhở:";
 "DeletedMemoMoved" = "Ghi chú đã xóa được di chuyển đến thư mục Đã xóa gần đây.";
 "DeletedMemoMovedMess" = "Bạn có thể khôi phục hoặc xóa khỏi Đã xóa gần đây trong vòng 30 ngày.";
 "ShowAlertOnDelete" = "Xác nhận trước khi xóa";
@@ -119,8 +120,9 @@
 "EnterPasswordToView" = "Nhập mật khẩu để xem ghi chú đã khóa";
 "ShowTutorial" = "Hướng dẫn";
 "Reminder" = "Nhắc nhở";
-"EmptyTrash" = "Xóa tất cả";
+"DeleteAll" = "Xóa tất cả";
 "TintColor" = "Màu sắc";
+"ColorThemeMemo" = "Màu sắc chủ đề cho ghi chú";
 "Now" = "bây giờ";
 "MinutesAgo" = "%d phút trước";
 "HoursAgo" = "%d giờ trước";
@@ -128,11 +130,12 @@
 "PasswordIncorrect" = "Mật khẩu không đúng";
 "Locked" = "Đã thêm khóa";
 "Unlocked" = "Đã gỡ bỏ khóa";
-"BuyPremium" = "Nâng cấp premium";
+"UpgradePremium" = "Nâng cấp premium";
 "RestorePurchase" = "Khôi phục giao dịch";
 "RemindContent" = "Nội dung";
 "RemindAtTime" = "Thời gian";
-"Premium" = "Premium";
+"Basic" = "Bình thường";
+"Premium" = "Cao cấp";
 "ResetSettings" = "Khôi phục cài đặt mặc định";
 "Reset" = "Khôi phục";
 "ResetActionMessage" = "Hành động này sẽ khôi phục tất cả cài đặt về mặc định";
@@ -149,3 +152,18 @@
 "OpenMail" = "Mở";
 "Include" = "Có";
 "Upgrade" = "Nâng cấp %@ Premium";
+"MemoColor" = "Màu sắc cho ghi chú";
+
+"CustomAppIconF" = "Tùy chọn biểu tượng ứng dụng";
+"ShareMemoF" = "Chia sẻ ghi chú";
+"CustomFontAndStyleF" = "Tùy chọn phông và kích thước chữ";
+"SetRemindEverydayF" = "Cài đặt nhắc nhở hàng ngày";
+"UseBiometricsF" = "Sử dụng TouchID hoặc FaceID";
+"DarkModeF" = "Nền tối";
+"TintColorF" = "Màu sắc chủ đề";
+"SetRemindForMemoF" = "Cài đặt nhắc nhở cho ghi chú";
+"LockMemoF" = "Khóa ghi chú";
+"SortAsc" = "Tăng dần";
+"SortDesc" = "Giảm dần";
+"PasswordNotSetTitle" = "Chưa đặt mật khẩu";
+"PasswordNotSetMsg" = "Đặt mật khẩu trước khi bạn có thể khóa ghi chú";

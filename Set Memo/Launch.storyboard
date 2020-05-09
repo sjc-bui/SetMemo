@@ -24,7 +24,7 @@
                                 <viewLayoutGuide key="safeArea" id="mLi-dK-ZLz"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.89411764705882346" blue="0.89411764705882346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ufO-3j-Cyd" firstAttribute="centerY" secondItem="igv-WS-fCr" secondAttribute="centerY" id="ZOm-ZD-ViO"/>
                             <constraint firstItem="ufO-3j-Cyd" firstAttribute="centerX" secondItem="igv-WS-fCr" secondAttribute="centerX" id="qik-7D-kpD"/>
@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="lauchIcon" width="341.33334350585938" height="341.33334350585938"/>
+        <image name="lauchIcon" width="1024" height="1024"/>
     </resources>
 </document>

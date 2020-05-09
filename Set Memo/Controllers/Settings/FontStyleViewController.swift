@@ -10,20 +10,41 @@ import UIKit
 
 class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
-    var fontStylePickerData: [String] = []
+    var fontStylePickerData: [String] = [
+        "System-Font",
+        "Monospaced",
+        "AvenirNext-Regular",
+        "AvenirNext-Medium",
+        "AvenirNext-Bold",
+        "AvenirNextCondensed-Regular",
+        "AvenirNextCondensed-Medium",
+        "AvenirNextCondensed-Bold",
+        "ChalkboardSE-Regular",
+        "ChalkboardSE-Bold",
+        "ChalkboardSE-Light",
+        "CourierNewPSMT",
+        "CourierNewPS-BoldMT",
+        "Helvetica",
+        "Helvetica-Light",
+        "Helvetica-Bold",
+        "HelveticaNeue",
+        "HelveticaNeue-Light",
+        "HelveticaNeue-Medium",
+        "HelveticaNeue-Bold",
+        "HelveticaNeue-CondensedBlack",
+        "Menlo-Regular",
+        "Menlo-Bold",
+        "TimesNewRomanPSMT",
+        "TimesNewRomanPS-BoldMT",
+        "Verdana",
+        "Verdana-Bold"
+    ]
+    
     var fontSizePickerData: [Int] = []
     let defaults = UserDefaults.standard
     let theme = ThemesViewController()
     let themes = Themes()
     let setting = SettingViewController()
-    
-    func setupFontStyle() {
-        for family in UIFont.familyNames {
-            for fontName in UIFont.fontNames(forFamilyName: family) {
-                fontStylePickerData.append("\(fontName)")
-            }
-        }
-    }
     
     func setupFontSize() {
         for i in 12...48 {
@@ -76,7 +97,6 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Font".localized
-        setupFontStyle()
         setupFontSize()
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
@@ -154,7 +174,7 @@ class FontStyleViewController: UITableViewController, UIPickerViewDataSource, UI
                 cell.selectionStyle = .none
                 
                 let customFontDefault = CGFloat(defaults.integer(forKey: Resource.Defaults.defaultTextViewFontSize))
-                cell.textLabel?.font = UIFont(name: defaults.string(forKey: Resource.Defaults.defaultFontStyle)!, size: customFontDefault)
+                cell.textLabel?.font = UIFont.setCustomFont(style: defaults.string(forKey: Resource.Defaults.defaultFontStyle)!, fontSize: customFontDefault)
                 
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "The quick brown fox jumps over the lazy dog"

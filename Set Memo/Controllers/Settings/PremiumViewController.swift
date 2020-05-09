@@ -15,6 +15,7 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     let themes = Themes()
     let theme = ThemesViewController()
     var tableView = UITableView(frame: .zero, style: .insetGrouped)
+    let defaults = UserDefaults.standard
     
     let upgradeButton: UIButton = {
         let btn = UIButton()
@@ -23,6 +24,7 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
         btn.backgroundColor = Colors.shared.defaultTintColor
         btn.isUserInteractionEnabled = true
         btn.layer.cornerRadius = 12
+        btn.layer.cornerCurve = .continuous
         btn.clipsToBounds = true
         btn.addTarget(self, action: #selector(upgrade), for: .touchUpInside)
         return btn
@@ -39,7 +41,17 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     }()
     
     @objc func upgrade() {
+        
+        defaults.set(true, forKey: Resource.Defaults.setMemoPremium)
         print("upgrade")
+        if defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
+            
+            self.showAlert(title: "Congratulation", message: "Success purchase for your premium, enjoy with Set Memo Premium", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
+                { _ in
+                    self.dismiss(animated: true, completion: nil)
+                }
+            ])
+        }
     }
     
     @objc func restore() {
@@ -47,21 +59,21 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     let listFeatures: Array = [
-        Features(feature: "Custom app icon", type: FeatureType.basic),
-        Features(feature: "Share memo", type: FeatureType.basic),
-        Features(feature: "Custom font size & style", type: FeatureType.basic),
-        Features(feature: "Set remind every day", type: FeatureType.basic),
-        Features(feature: "Use biometrics", type: FeatureType.premium),
-        Features(feature: "Dark theme", type: FeatureType.premium),
-        Features(feature: "Tint color", type: FeatureType.premium),
-        Features(feature: "Set remind for memo", type: FeatureType.premium),
-        Features(feature: "Lock memo", type: FeatureType.premium)
+        Features(feature: "CustomAppIconF".localized, type: FeatureType.basic),
+        Features(feature: "ShareMemoF".localized, type: FeatureType.basic),
+        Features(feature: "CustomFontAndStyleF".localized, type: FeatureType.basic),
+        Features(feature: "SetRemindEverydayF".localized, type: FeatureType.basic),
+        Features(feature: "UseBiometricsF".localized, type: FeatureType.premium),
+        Features(feature: "DarkModeF".localized, type: FeatureType.premium),
+        Features(feature: "TintColorF".localized, type: FeatureType.premium),
+        Features(feature: "SetRemindForMemoF".localized, type: FeatureType.premium),
+        Features(feature: "LockMemoF".localized, type: FeatureType.premium)
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        self.navigationItem.title = "BuyPremium".localized
+        self.navigationItem.title = "UpgradePremium".localized
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -69,6 +81,16 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupDynamicElements()
+        setupRightBarButton()
+    }
+    
+    func setupRightBarButton() {
+        let closeBtn = UIBarButtonItem(image: UIImage.SVGImage(named: "icons_filled_cancel", fillColor: .systemGray), style: .done, target: self, action: #selector(dismissView))
+        self.navigationItem.rightBarButtonItem = closeBtn
+    }
+    
+    @objc func dismissView() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func setupView() {
@@ -202,13 +224,33 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
         return 50
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let background: UIColor?
+        let title: String?
+        
+        if indexPath.row <= 3 {
+            background = .systemGreen
+            title = "Basic".localized
+        } else {
+            background = UIColor.amber
+            title = "Premium".localized
+        }
+        
+        let featureType = UIContextualAction(style: .normal, title: title) { (action, view, completion) in
+            completion(false)
+        }
+        
+        featureType.backgroundColor = background
+        return UISwipeActionsConfiguration(actions: [featureType])
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
+        
+        if theme.darkModeEnabled() == true {
+           return .lightContent
            
-           if theme.darkModeEnabled() == true {
-               return .lightContent
-               
-           } else {
-               return .darkContent
-           }
-       }
+        } else {
+           return .darkContent
+        }
+    }
 }

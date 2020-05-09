@@ -84,6 +84,7 @@
 "SortBy" = "Sort by %@";
 "AutoDeleteMemo" = "Memo are permanently deleted after 30 days.";
 "SetReminder" = "Set up reminder for this memo";
+"SetReminderTitle" = "Set a reminder:";
 "DeletedMemoMoved" = "Deleted memo are moved to the Recently Deleted folder.";
 "DeletedMemoMovedMess" = "You can recover or delete from Recently Deleted within 30 days.";
 "ShowAlertOnDelete" = "Show alert on delete";
@@ -119,8 +120,9 @@
 "EnterPasswordToView" = "To view locked memo, enter the memo password";
 "ShowTutorial" = "Show tutorial";
 "Reminder" = "Reminder";
-"EmptyTrash" = "Delete all";
+"DeleteAll" = "Delete all";
 "TintColor" = "Tint colors";
+"ColorThemeMemo" = "Color theme for memo";
 "Now" = "just now";
 "MinutesAgo" = "%d minutes ago";
 "HoursAgo" = "%d hours ago";
@@ -128,10 +130,11 @@
 "PasswordIncorrect" = "Password is incorrect";
 "Locked" = "Lock added";
 "Unlocked" = "Lock removed";
-"BuyPremium" = "Buy premium";
+"UpgradePremium" = "Upgrade premium";
 "RestorePurchase" = "Restore purchase";
 "RemindContent" = "Content";
 "RemindAtTime" = "Time";
+"Basic" = "Basic";
 "Premium" = "Premium";
 "ResetSettings" = "Reset settings to default";
 "Reset" = "Reset";
@@ -149,3 +152,18 @@
 "OpenMail" = "Open";
 "Include" = "Yes";
 "Upgrade" = "Upgrade %@ Premium";
+"MemoColor" = "Memo color";
+
+"CustomAppIconF" = "Custom app icon";
+"ShareMemoF" = "Share memo";
+"CustomFontAndStyleF" = "Custom font size & style";
+"SetRemindEverydayF" = "Set reminders every day";
+"UseBiometricsF" = "Use biometrics";
+"DarkModeF" = "Dark mode";
+"TintColorF" = "Tint color";
+"SetRemindForMemoF" = "Set reminder for memo";
+"LockMemoF" = "Lock memo";
+"SortAsc" = "Ascending";
+"SortDesc" = "Descending";
+"PasswordNotSetTitle" = "Password is not set";
+"PasswordNotSetMsg" = "Set password before you can lock memo";

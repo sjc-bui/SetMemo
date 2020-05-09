@@ -34,10 +34,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.defaultFontStyle: "HelveticaNeue-Medium",
             Resource.Defaults.defaultTextViewFontSize: 18,
             Resource.Defaults.defaultTintColor: 0,
+            Resource.Defaults.defaultCellColor: 0,
             Resource.Defaults.setMemoPremium: false,
             Resource.Defaults.remindEverydayContent: "What happening today?",
             Resource.Defaults.displayGridStyle: true,
-            Resource.Defaults.passwordForBiometricIsSet: false
+            Resource.Defaults.passwordForBiometricIsSet: false,
+            Resource.Defaults.useCellColor: true,
+            Resource.Defaults.sortByAsc: false
         ])
         
         if UserDefaults.standard.bool(forKey: Resource.Defaults.useDarkMode) {

@@ -11,7 +11,7 @@ import UIKit
 class EmptyMemoView: UIView {
     
     lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [showTutorialLabel]) // [titleLabel, descriptionLabel]
+        let stackView = UIStackView(arrangedSubviews: [titleLabel]) // [titleLabel, descriptionLabel]
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -28,17 +28,6 @@ class EmptyMemoView: UIView {
         label.numberOfLines = 1
         label.text = "EmptyLabel".localized
         label.textDropShadow()
-        return label
-    }()
-    
-    lazy var showTutorialLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: Dimension.shared.showTutorialLabelSize)
-        label.textColor = .white
-        label.numberOfLines = 1
-        //label.isUserInteractionEnabled = true
-        label.text = "ShowTutorial".localized
         return label
     }()
     

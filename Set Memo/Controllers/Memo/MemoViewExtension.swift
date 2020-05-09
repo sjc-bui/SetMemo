@@ -11,11 +11,6 @@ import UIKit
 // MARK: - Extension MemmoViewController
 extension MemoViewController {
     
-    @objc func showIntro(_ sender: UITapGestureRecognizer) {
-        let settingViewController = SettingViewController()
-        settingViewController.presentTutorial(view: self, tintColor: Colors.shared.defaultTintColor)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let updateView = UpdateMemoViewController()
@@ -44,7 +39,11 @@ extension MemoViewController {
         let dateEditedString = DatetimeUtil().convertDatetime(date: dateEdited)
         let dateReminderString = DatetimeUtil().convertDatetime(date: dateReminder)
         
-        let updateBackground = UIColor.getRandomColorFromString(color: color)
+        var updateBackground = UIColor.getRandomColorFromString(color: color)
+        
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            updateBackground = UIColor.black
+        }
         
         updateView.backgroundColor = updateBackground
         updateView.dateLabelHeader = dateEditedString
@@ -65,8 +64,6 @@ extension MemoViewController {
         
         if memoData.isEmpty {
             collectionView.backgroundView = emptyView
-            emptyView.showTutorialLabel.textColor = Colors.shared.defaultTintColor
-            emptyView.showTutorialLabel.addTapGesture(target: self, action: #selector(showIntro(_:)))
             
         } else {
             collectionView.backgroundView = nil
@@ -103,7 +100,7 @@ extension MemoViewController {
         let defaultFontSize = Dimension.shared.fontMediumSize
         
         cell.content.font = UIFont.systemFont(ofSize: defaultFontSize, weight: .medium)
-        cell.content.text = content?.trimmingCharacters(in: .whitespacesAndNewlines)
+        cell.content.text = "\(content?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "nil")\n"
         
         if defaults.bool(forKey: Resource.Defaults.displayDateTime) == true {
             
@@ -142,7 +139,12 @@ extension MemoViewController {
             cell.lockIcon.isHidden = true
         }
         
-        let cellBackground = UIColor.getRandomColorFromString(color: color)
+        var cellBackground = UIColor.getRandomColorFromString(color: color)
+        
+        if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+            cellBackground = UIColor.pureCellBackground
+        }
+        
         cell.setCellStyle(background: cellBackground)
         
         cell.moreIcon.addTapGesture(target: self, action: #selector(moreOptions(sender:)))
@@ -157,10 +159,11 @@ extension MemoViewController {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             if UIDevice.current.orientation.isLandscape {
-                cellsPerRow = 5
-            } else {
                 cellsPerRow = 4
+            } else {
+                cellsPerRow = 3
             }
+            self.collectionView.reloadData()
             
         } else {
             cellsPerRow = 2
@@ -174,7 +177,7 @@ extension MemoViewController {
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let color: String?
+        var color: String?
         if isFiltering() == true {
             let filterData = filterMemoData[indexPath.row]
             color = filterData.value(forKey: "color") as? String ?? "white"
@@ -214,22 +217,38 @@ extension MemoViewController {
             } else {
                 
                 actionSheet.addAction(UIAlertAction(title: "Reminder".localized, style: .default, handler: { _ in
-                    print("set reminder")
-                    let rootView = ReminderViewController()
-                    let remindView = UINavigationController(rootViewController: rootView)
-                    remindView.modalPresentationStyle = .fullScreen
                     
-                    if self.isFiltering() == true {
-                        rootView.isFiltering = true
-                        rootView.filterMemoData = self.filterMemoData
+                    if self.defaults.bool(forKey: Resource.Defaults.setMemoPremium) == true {
+                        print("set reminder")
+                        
+                        let rootView = ReminderViewController()
+                        let remindView = UINavigationController(rootViewController: rootView)
+                        remindView.modalPresentationStyle = .fullScreen
+                        
+                        if self.isFiltering() == true {
+                            rootView.isFiltering = true
+                            rootView.filterMemoData = self.filterMemoData
+                            
+                        } else {
+                            rootView.memoData = self.memoData
+                        }
+                        
+                        rootView.index = indexPath.row
+                        
+                        var remindBackground = UIColor.getRandomColorFromString(color: color!)
+                        if self.defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
+                            remindBackground = UIColor.black
+                        }
+                        
+                        rootView.background = remindBackground
+                        self.present(remindView, animated: true, completion: nil)
                         
                     } else {
-                        rootView.memoData = self.memoData
+                        
+                        let premiumView = UINavigationController(rootViewController: PremiumViewController())
+                        premiumView.modalPresentationStyle = .fullScreen
+                        self.present(premiumView, animated: true, completion: nil)
                     }
-                    
-                    rootView.index = indexPath.row
-                    rootView.background = UIColor.getRandomColorFromString(color: color!)
-                    self.present(remindView, animated: true, completion: nil)
                 }))
             }
             
@@ -275,22 +294,22 @@ extension MemoViewController: UISearchResultsUpdating {
 extension MemoViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+        return UIEdgeInsets(top: 2, left: inset, bottom: 10, right: inset)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow! - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow!)).rounded(.down)
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumCellSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         
-        return CGSize(width: itemWidth, height: 105)
+        return CGSize(width: itemWidth, height: 108)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumInteritemSpacing
+        return minimumCellSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumLineSpacing
+        return minimumCellSpacing
     }
 }

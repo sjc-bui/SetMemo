@@ -6,7 +6,6 @@ target 'Set Memo' do
   use_frameworks!
 
   # Pods for Set Memo
-    pod 'WhatsNewKit'
     pod 'SwiftKeychainWrapper'
     pod 'SVGKit'
     pod 'FTPopOverMenu_Swift', '~> 0.1.4'
