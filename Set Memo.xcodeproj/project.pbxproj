@@ -24,10 +24,6 @@
 		723761BF245E4FDE00375664 /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723761BE245E4FDE00375664 /* PremiumViewController.swift */; };
 		723761C3245E535C00375664 /* icons_filled_cancel.svg in Resources */ = {isa = PBXBuildFile; fileRef = 723761C2245E535C00375664 /* icons_filled_cancel.svg */; };
 		723761C5245E7CF600375664 /* PremiumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723761C4245E7CF600375664 /* PremiumViewCell.swift */; };
-		723761C824643C9A00375664 /* light@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761C624643C9A00375664 /* light@3x.png */; };
-		723761C924643C9A00375664 /* light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761C724643C9A00375664 /* light@2x.png */; };
-		723761CC24643DFE00375664 /* dark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761CA24643DFE00375664 /* dark@3x.png */; };
-		723761CD24643DFE00375664 /* dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 723761CB24643DFE00375664 /* dark@2x.png */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
 		723CA64F2459361700258DEB /* ShowToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723CA64E2459361700258DEB /* ShowToast.swift */; };
@@ -68,6 +64,14 @@
 		72C22DB824205EF0004EC65A /* RemindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C22DB724205EF0004EC65A /* RemindViewController.swift */; };
 		72D7A2AC2446F229003912FB /* UIBarButtonItemExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */; };
 		72D7A2AE2446F95C003912FB /* UIStackViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */; };
+		72DEC3B124670BC500D644AB /* light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3AF24670BC500D644AB /* light@2x.png */; };
+		72DEC3B224670BC500D644AB /* light@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3B024670BC500D644AB /* light@3x.png */; };
+		72DEC3B524670E4E00D644AB /* dark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3B324670E4E00D644AB /* dark@3x.png */; };
+		72DEC3B624670E4E00D644AB /* dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3B424670E4E00D644AB /* dark@2x.png */; };
+		72DEC3B9246714A600D644AB /* dark@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3B7246714A600D644AB /* dark@2x~ipad.png */; };
+		72DEC3BA246714A600D644AB /* dark@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3B8246714A600D644AB /* dark@3x~ipad.png */; };
+		72DEC3BD246714C100D644AB /* light@3x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3BB246714C100D644AB /* light@3x~ipad.png */; };
+		72DEC3BE246714C100D644AB /* light@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 72DEC3BC246714C100D644AB /* light@2x~ipad.png */; };
 		72E7CEDB242E1CAC00541E63 /* UINavigationExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDA242E1CAC00541E63 /* UINavigationExt.swift */; };
 		72E7CEDD242EFE8D00541E63 /* UITableViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */; };
 		72EFECE02408D39F0035296F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EFECDF2408D39F0035296F /* AppDelegate.swift */; };
@@ -105,10 +109,6 @@
 		723761BE245E4FDE00375664 /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		723761C2245E535C00375664 /* icons_filled_cancel.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons_filled_cancel.svg; sourceTree = "<group>"; };
 		723761C4245E7CF600375664 /* PremiumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewCell.swift; sourceTree = "<group>"; };
-		723761C624643C9A00375664 /* light@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@3x.png"; sourceTree = "<group>"; };
-		723761C724643C9A00375664 /* light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@2x.png"; sourceTree = "<group>"; };
-		723761CA24643DFE00375664 /* dark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@3x.png"; sourceTree = "<group>"; };
-		723761CB24643DFE00375664 /* dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@2x.png"; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
 		723CA64E2459361700258DEB /* ShowToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowToast.swift; sourceTree = "<group>"; };
@@ -149,6 +149,14 @@
 		72C22DB724205EF0004EC65A /* RemindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindViewController.swift; sourceTree = "<group>"; };
 		72D7A2AB2446F229003912FB /* UIBarButtonItemExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBarButtonItemExt.swift; sourceTree = "<group>"; };
 		72D7A2AD2446F95C003912FB /* UIStackViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackViewExt.swift; sourceTree = "<group>"; };
+		72DEC3AF24670BC500D644AB /* light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@2x.png"; sourceTree = "<group>"; };
+		72DEC3B024670BC500D644AB /* light@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@3x.png"; sourceTree = "<group>"; };
+		72DEC3B324670E4E00D644AB /* dark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@3x.png"; sourceTree = "<group>"; };
+		72DEC3B424670E4E00D644AB /* dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@2x.png"; sourceTree = "<group>"; };
+		72DEC3B7246714A600D644AB /* dark@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@2x~ipad.png"; sourceTree = "<group>"; };
+		72DEC3B8246714A600D644AB /* dark@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dark@3x~ipad.png"; sourceTree = "<group>"; };
+		72DEC3BB246714C100D644AB /* light@3x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@3x~ipad.png"; sourceTree = "<group>"; };
+		72DEC3BC246714C100D644AB /* light@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "light@2x~ipad.png"; sourceTree = "<group>"; };
 		72E7CEDA242E1CAC00541E63 /* UINavigationExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationExt.swift; sourceTree = "<group>"; };
 		72E7CEDC242EFE8D00541E63 /* UITableViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExt.swift; sourceTree = "<group>"; };
 		72EFECDC2408D39F0035296F /* Set Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,10 +322,14 @@
 		727E50E824120B710042E81F /* App Icons */ = {
 			isa = PBXGroup;
 			children = (
-				723761CB24643DFE00375664 /* dark@2x.png */,
-				723761CA24643DFE00375664 /* dark@3x.png */,
-				723761C724643C9A00375664 /* light@2x.png */,
-				723761C624643C9A00375664 /* light@3x.png */,
+				72DEC3BC246714C100D644AB /* light@2x~ipad.png */,
+				72DEC3BB246714C100D644AB /* light@3x~ipad.png */,
+				72DEC3B7246714A600D644AB /* dark@2x~ipad.png */,
+				72DEC3B8246714A600D644AB /* dark@3x~ipad.png */,
+				72DEC3B424670E4E00D644AB /* dark@2x.png */,
+				72DEC3B324670E4E00D644AB /* dark@3x.png */,
+				72DEC3AF24670BC500D644AB /* light@2x.png */,
+				72DEC3B024670BC500D644AB /* light@3x.png */,
 			);
 			path = "App Icons";
 			sourceTree = "<group>";
@@ -476,21 +488,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				72F2D1E5245800D6004A9AD8 /* icons_filled_more.svg in Resources */,
+				72DEC3B524670E4E00D644AB /* dark@3x.png in Resources */,
 				72F2D1D52457A379004A9AD8 /* icons_outlined_arrow.svg in Resources */,
+				72DEC3BD246714C100D644AB /* light@3x~ipad.png in Resources */,
 				7241C614243785EF00D3E617 /* InfoPlist.strings in Resources */,
-				723761C924643C9A00375664 /* light@2x.png in Resources */,
 				72F2D1F524586D2B004A9AD8 /* icons_outlined_trash.svg in Resources */,
-				723761C824643C9A00375664 /* light@3x.png in Resources */,
 				724CA6F72408F35E0088F581 /* Localizable.strings in Resources */,
 				727E50F224120F8B0042E81F /* Launch.storyboard in Resources */,
+				72DEC3B9246714A600D644AB /* dark@2x~ipad.png in Resources */,
 				72F2D1E72458141B004A9AD8 /* icons_outlined_tag.svg in Resources */,
 				724CA6F22408F34C0088F581 /* Localizable.strings in Resources */,
 				724CA6ED2408F3320088F581 /* Localizable.strings in Resources */,
 				72F2D1E924581515004A9AD8 /* icons_outlined_info.svg in Resources */,
+				72DEC3BE246714C100D644AB /* light@2x~ipad.png in Resources */,
+				72DEC3B224670BC500D644AB /* light@3x.png in Resources */,
 				723761C3245E535C00375664 /* icons_filled_cancel.svg in Resources */,
-				723761CD24643DFE00375664 /* dark@2x.png in Resources */,
-				723761CC24643DFE00375664 /* dark@3x.png in Resources */,
+				72DEC3B124670BC500D644AB /* light@2x.png in Resources */,
 				72F2D1E32457F95B004A9AD8 /* icons_outlined_lock.svg in Resources */,
+				72DEC3BA246714A600D644AB /* dark@3x~ipad.png in Resources */,
+				72DEC3B624670E4E00D644AB /* dark@2x.png in Resources */,
 				72EFECE92408D3A00035296F /* Assets.xcassets in Resources */,
 				7241C60F243785CC00D3E617 /* InfoPlist.strings in Resources */,
 				7241C60A243784DA00D3E617 /* InfoPlist.strings in Resources */,
