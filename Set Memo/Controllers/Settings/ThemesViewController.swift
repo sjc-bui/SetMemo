@@ -131,7 +131,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
             }
         }
         
-        let reloadSectionIndex: IndexSet = [0, 1]
+        let reloadSectionIndex: IndexSet = [0, 1, 2]
         self.tableView.reloadSections(reloadSectionIndex, with: .fade)
     }
     

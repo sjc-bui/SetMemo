@@ -15,7 +15,7 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     let defaults = UserDefaults.standard
     var hashTag: String?
     var navigationBarHeight: CGFloat?
-    let randomColor = UIColor.getRandomColor()
+    var randomColor: String?
     let setting = SettingViewController()
     
     func setupUI() {
@@ -30,9 +30,14 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        randomColor = UIColor.getRandomColor()
         addKeyboardListener()
+        setBackgroundColor(randomColor: randomColor!)
+        setupDynamicKeyboardColor()
+    }
+    
+    func setBackgroundColor(randomColor: String) {
         var background = UIColor.getRandomColorFromString(color: randomColor)
-        
         if defaults.bool(forKey: Resource.Defaults.useCellColor) == false {
             background = UIColor.black
         }
@@ -40,7 +45,6 @@ class WriteMemoController: BaseViewController, UITextViewDelegate {
         self.view.backgroundColor = background
         editor.textView.backgroundColor = background
         setupNavigationBar(navBackground: background)
-        setupDynamicKeyboardColor()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -124,7 +124,7 @@ class ReminderViewController: UIViewController {
         let uuid = UUID().uuidString
         
         let content = UNMutableNotificationContent()
-        content.title = "\(title)"
+        content.title = title
         content.body = bodyContent
         content.userInfo = ["reminderTitle": title]
         content.sound = UNNotificationSound.default
