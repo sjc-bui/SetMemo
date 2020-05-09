@@ -125,7 +125,7 @@ class ReminderViewController: UIViewController {
         
         let content = UNMutableNotificationContent()
         content.title = title
-        content.body = bodyContent
+        content.body = bodyContent.trimmingCharacters(in: .whitespacesAndNewlines)
         content.userInfo = ["reminderTitle": title]
         content.sound = UNNotificationSound.default
         content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber

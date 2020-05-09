@@ -17,9 +17,8 @@ class RecentlyDeletedController: UICollectionViewController {
     let defaults = UserDefaults.standard
     
     let inset: CGFloat = 16
-    let minimumLineSpacing: CGFloat = 9
-    let minimumInteritemSpacing: CGFloat = 9
-    var cellsPerRow: Int?
+    var minimumCellSpacing: CGFloat = 9
+    var cellsPerRow: Int = 2
     let themes = Themes()
     let theme = ThemesViewController()
     
@@ -39,6 +38,8 @@ class RecentlyDeletedController: UICollectionViewController {
     func isLandscape() {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
+            
+            minimumCellSpacing = 12
             if UIDevice.current.orientation.isLandscape {
                 cellsPerRow = 4
                 
@@ -47,6 +48,7 @@ class RecentlyDeletedController: UICollectionViewController {
             }
             
         } else {
+            minimumCellSpacing = 9
             cellsPerRow = 2
         }
     }
@@ -243,6 +245,7 @@ class RecentlyDeletedController: UICollectionViewController {
             } else {
                 cellsPerRow = 3
             }
+            self.collectionView.reloadData()
             
         } else {
             cellsPerRow = 2
@@ -308,17 +311,17 @@ extension RecentlyDeletedController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumInteritemSpacing * CGFloat(cellsPerRow! - 1)
-        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow!)).rounded(.down)
+        let marginsAndInsets = inset * 2 + collectionView.safeAreaInsets.left + collectionView.safeAreaInsets.right + minimumCellSpacing * CGFloat(cellsPerRow - 1)
+        let itemWidth = ((collectionView.bounds.size.width - marginsAndInsets) / CGFloat(cellsPerRow)).rounded(.down)
         
         return CGSize(width: itemWidth, height: 108)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumInteritemSpacing
+        return minimumCellSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumLineSpacing
+        return minimumCellSpacing
     }
 }

@@ -26,9 +26,8 @@ class MemoViewController: UICollectionViewController {
     let keychain = KeychainWrapper.standard
     
     let inset: CGFloat = 16
-    let minimumLineSpacing: CGFloat = 9
-    let minimumInteritemSpacing: CGFloat = 9
-    var cellsPerRow: Int?
+    var minimumCellSpacing: CGFloat = 9
+    var cellsPerRow: Int = 2
     let reuseCellId = "cellId"
     let themes = Themes()
     let theme = ThemesViewController()
@@ -54,6 +53,8 @@ class MemoViewController: UICollectionViewController {
     func isLandscape() {
         
         if UIDevice.current.userInterfaceIdiom == .pad {
+            
+            minimumCellSpacing = 12
             if UIDevice.current.orientation.isLandscape {
                 cellsPerRow = 4
                 
@@ -62,6 +63,7 @@ class MemoViewController: UICollectionViewController {
             }
             
         } else {
+            minimumCellSpacing = 9
             cellsPerRow = 2
         }
     }
