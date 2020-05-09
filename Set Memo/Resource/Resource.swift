@@ -31,7 +31,8 @@ public class Resource {
         public static var moveToEndButton: UIImage? = UIImage(systemName: "arrow.down.to.line")
         public static var addTabSpace: UIImage? = UIImage(systemName: "arrow.right.to.line.alt")
         public static var backButton: UIImage? = UIImage(systemName: "arrow.left")
-        public static var sortAscButton: UIImage? = UIImage(systemName: "arrow.up.arrow.down.circle")
+        public static var sortAscButton: UIImage? = UIImage(systemName: "arrow.up.circle")
+        public static var sortDescButton: UIImage? = UIImage(systemName: "arrow.down.circle")
         
         public static var smallAlarmIcon: UIImage? = UIImage(systemName: "alarm")
         public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
@@ -71,7 +72,6 @@ public class Resource {
         public static let defaultCellColor = "defaultCellColor";
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
-        public static let displayGridStyle = "displayGridStyle";
         
         public static let passwordToUseBiometric = "passwordToUseBiometric";
         public static let passwordForBiometricIsSet = "passwordForBiometricIsSet";

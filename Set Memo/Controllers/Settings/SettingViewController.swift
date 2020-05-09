@@ -515,6 +515,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                     },
                     { _ in
                         print("Resetting...")
+                        
                         self.defaults.set(0, forKey: Resource.Defaults.theme)
                         self.defaults.set(0, forKey: Resource.Defaults.defaultTintColor)
                         self.defaults.set(0, forKey: Resource.Defaults.defaultCellColor)
@@ -528,6 +529,8 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                         self.defaults.set("HelveticaNeue-Medium", forKey: Resource.Defaults.defaultFontStyle)
                         self.defaults.set(18, forKey: Resource.Defaults.defaultTextViewFontSize)
                         self.defaults.set("What happening today?", forKey: Resource.Defaults.remindEverydayContent)
+                        self.defaults.set(false, forKey: Resource.Defaults.sortByAsc)
+                        self.defaults.set(true, forKey: Resource.Defaults.useCellColor)
                         
                         ShowToast.toast(message: "ResetSuccess".localized, duration: 1.0)
                         
