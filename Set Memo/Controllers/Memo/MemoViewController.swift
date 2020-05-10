@@ -83,15 +83,27 @@ class MemoViewController: UICollectionViewController {
         if theme.darkModeEnabled() == false {
             themes.setupDefaultTheme()
             setupDefaultPersistentNavigationBar()
-            
+            setLightSearchBar()
             collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
             
         } else {
             themes.setupPureDarkTheme()
             setupDarkPersistentNavigationBar()
-            
+            setDarkSearchBar()
             collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
         }
+    }
+    
+    func setLightSearchBar() {
+        searchController.searchBar.backgroundImage = UIImage()
+        searchController.overrideUserInterfaceStyle = .light
+        searchController.searchBar.overrideUserInterfaceStyle = .light
+    }
+    
+    func setDarkSearchBar() {
+        searchController.searchBar.backgroundImage = UIImage()
+        searchController.overrideUserInterfaceStyle = .dark
+        searchController.searchBar.overrideUserInterfaceStyle = .dark
     }
     
     func setupDefaultPersistentNavigationBar() {
