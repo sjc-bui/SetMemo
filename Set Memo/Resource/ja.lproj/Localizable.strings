@@ -165,5 +165,6 @@
 "LockMemoF" = "メモをロック";
 "SortAsc" = "昇順";
 "SortDesc" = "降順";
-"PasswordNotSetTitle" = "Password is not set";
-"PasswordNotSetMsg" = "Set password before you can lock memo";
+"PasswordNotSetTitle" = "パスワードが設定されていません";
+"PasswordNotSetMsg" = "メモをロックする前にパスワードを設定してください";
+"PremiumViewHeaderTitle" = "通常およびプレミアムの機能";

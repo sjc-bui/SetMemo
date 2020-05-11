@@ -167,3 +167,4 @@
 "SortDesc" = "Descending";
 "PasswordNotSetTitle" = "Password is not set";
 "PasswordNotSetMsg" = "Set password before you can lock memo";
+"PremiumViewHeaderTitle" = "Features in basic and premium";

@@ -424,6 +424,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                 cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.detailTextLabel?.text = "\(appVersion)"
                 setupDynamicCells(cell: cell, arrow: false)
+                cell.selectionStyle = .none
                 return cell
                 
             default:
@@ -478,9 +479,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
         
         if indexPath.section == 0 {
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            
             switch indexPath.row {
             case 0:
                 self.push(viewController: PrivacyController(style: .insetGrouped))
@@ -502,9 +500,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             }
             
         } else if indexPath.section == 1 {
-            
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
             
             switch indexPath.row {
             case 0:
@@ -578,9 +573,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else if indexPath.section == 2 {
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            
             if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
                 switch indexPath.row {
                 case 0:
@@ -618,9 +610,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             }
             
         } else if indexPath.section == 3 {
-            
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
             
             switch indexPath.row {
             case 0:
@@ -684,11 +673,9 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             default:
                 return
             }
-            
-        } else if indexPath.section == 4 {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.selectionStyle = .none
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func sendMail(subject: String, body: String) {
