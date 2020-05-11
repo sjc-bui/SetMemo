@@ -205,7 +205,7 @@ class PremiumViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Feature in Basic and Premium"
+        return "PremiumViewHeaderTitle".localized
     }
     
     func setupDynamicCells(cell: UITableViewCell, arrow: Bool) {

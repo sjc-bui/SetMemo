@@ -10,7 +10,7 @@ import UIKit
 
 extension UIColor {
     
-    // material color
+    // vibrant color
     static let red = UIColor(hexString: "#f44336")
     static let pink = UIColor(hexString: "#e91e63")
     static let deepPurple = UIColor(hexString: "#673ab7")
@@ -43,7 +43,7 @@ extension UIColor {
     static let cornFlower = UIColor(hexString: "#546de5")
     static let blueCuracao = UIColor(hexString: "#3dc1d3")
     
-    // color 3
+    // soft color 3
     static let richGardenia = UIColor(hexString: "#F97F51")
     static let clearChill = UIColor(hexString: "#1B9CFC")
     static let honeyGlow = UIColor(hexString: "#EAB543")

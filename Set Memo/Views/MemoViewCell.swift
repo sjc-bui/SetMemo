@@ -39,7 +39,6 @@ class MemoViewCell: UICollectionViewCell {
     
     var reminderIsSetIcon: UIImageView = {
         let r = UIImageView()
-        r.image = Resource.Images.smallAlarmIcon
         r.contentMode = .scaleAspectFill
         r.isHidden = true
         return r
@@ -47,7 +46,7 @@ class MemoViewCell: UICollectionViewCell {
     
     var lockIcon: UIImageView = {
         let i = UIImageView()
-        i.image = UIImage.SVGImage(named: "icons_outlined_lock", fillColor: UIColor.white)
+        i.image = Resource.Images.smallLockButton
         i.contentMode = .scaleAspectFill
         i.tintColor = .white
         i.isHidden = true

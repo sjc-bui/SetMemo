@@ -10,6 +10,6 @@ import UIKit
 
 class Config {
     
-    static let supportEmail: String = "vivasw.quan@gmail.com";
+    static let supportEmail: String = "setmemo_support@icloud.com";
     static let appId: String = ""; // need appId on App Store
 }

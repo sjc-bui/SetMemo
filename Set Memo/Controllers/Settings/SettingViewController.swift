@@ -424,6 +424,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                 cell.textLabel?.text = "\(other[indexPath.row])"
                 cell.detailTextLabel?.text = "\(appVersion)"
                 setupDynamicCells(cell: cell, arrow: false)
+                cell.selectionStyle = .none
                 return cell
                 
             default:
@@ -478,9 +479,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
         
         if indexPath.section == 0 {
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            
             switch indexPath.row {
             case 0:
                 self.push(viewController: PrivacyController(style: .insetGrouped))
@@ -503,9 +501,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else if indexPath.section == 1 {
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            
             switch indexPath.row {
             case 0:
                 
@@ -515,6 +510,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                     },
                     { _ in
                         print("Resetting...")
+                        
                         self.defaults.set(0, forKey: Resource.Defaults.theme)
                         self.defaults.set(0, forKey: Resource.Defaults.defaultTintColor)
                         self.defaults.set(0, forKey: Resource.Defaults.defaultCellColor)
@@ -528,6 +524,8 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                         self.defaults.set("HelveticaNeue-Medium", forKey: Resource.Defaults.defaultFontStyle)
                         self.defaults.set(18, forKey: Resource.Defaults.defaultTextViewFontSize)
                         self.defaults.set("What happening today?", forKey: Resource.Defaults.remindEverydayContent)
+                        self.defaults.set(false, forKey: Resource.Defaults.sortByAsc)
+                        self.defaults.set(true, forKey: Resource.Defaults.useCellColor)
                         
                         ShowToast.toast(message: "ResetSuccess".localized, duration: 1.0)
                         
@@ -575,9 +573,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else if indexPath.section == 2 {
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            
             if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
                 switch indexPath.row {
                 case 0:
@@ -616,9 +611,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else if indexPath.section == 3 {
             
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
-            
             switch indexPath.row {
             case 0:
                 
@@ -656,7 +648,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             case 2:
                 
                 print("share with friends")
-                let textToShare = "Set Memo provides a new experience of managing all your memo. Try Set Memo."
+                let textToShare = "IntroAppText".localized
                 let objectToShare = [textToShare] as [Any]
                 
                 let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
@@ -681,21 +673,24 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             default:
                 return
             }
-            
-        } else if indexPath.section == 4 {
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.selectionStyle = .none
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func sendMail(subject: String, body: String) {
+        
+        let systemVersion = UIDevice.current.systemVersion
+        let model = UIDevice.current.model
+        let htmlContent = "<br/><br/>---<br/> \(model) - iOS \(systemVersion)"
+        let bodyContent = "\(body) \(htmlContent)"
         
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients([Config.supportEmail])
             mail.setSubject(subject)
-            mail.setMessageBody(body, isHTML: true)
+            mail.setMessageBody(bodyContent, isHTML: true)
             
             present(mail, animated: true, completion: nil)
             

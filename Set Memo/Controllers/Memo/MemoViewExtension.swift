@@ -123,9 +123,11 @@ extension MemoViewController {
             let current = Date().timeIntervalSinceReferenceDate
             if current > dateReminder {
                 // Reminder has been delivered.
+                cell.reminderIsSetIcon.image = Resource.Images.smallAlarmIcon
                 cell.reminderIsSetIcon.tintColor = .systemRed
                 
             } else {
+                cell.reminderIsSetIcon.image = Resource.Images.smallAlarmFill
                 cell.reminderIsSetIcon.tintColor = .white
             }
             

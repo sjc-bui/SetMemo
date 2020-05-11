@@ -22,6 +22,7 @@
                                     <constraint firstAttribute="height" constant="100" id="vjQ-az-A70"/>
                                 </constraints>
                                 <viewLayoutGuide key="safeArea" id="mLi-dK-ZLz"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.89411764705882346" green="0.89411764705882346" blue="0.89411764705882346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

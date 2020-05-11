@@ -83,15 +83,27 @@ class MemoViewController: UICollectionViewController {
         if theme.darkModeEnabled() == false {
             themes.setupDefaultTheme()
             setupDefaultPersistentNavigationBar()
-            
+            setLightSearchBar()
             collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
             
         } else {
             themes.setupPureDarkTheme()
             setupDarkPersistentNavigationBar()
-            
+            setDarkSearchBar()
             collectionView.backgroundColor = InterfaceColors.viewBackgroundColor
         }
+    }
+    
+    func setLightSearchBar() {
+        searchController.searchBar.backgroundImage = UIImage()
+        searchController.overrideUserInterfaceStyle = .light
+        searchController.searchBar.overrideUserInterfaceStyle = .light
+    }
+    
+    func setDarkSearchBar() {
+        searchController.searchBar.backgroundImage = UIImage()
+        searchController.overrideUserInterfaceStyle = .dark
+        searchController.searchBar.overrideUserInterfaceStyle = .dark
     }
     
     func setupDefaultPersistentNavigationBar() {
@@ -153,11 +165,29 @@ class MemoViewController: UICollectionViewController {
         self.navigationItem.title = "Memo".localized
         navigationController?.navigationBar.setColors(background: UIColor.secondarySystemBackground, text: Colors.shared.defaultTintColor)
         extendedLayoutIncludesOpaqueBars = true
+        
+        setupBarButtonItem()
+    }
+    
+    func setupBarButtonItem() {
         let edit = UIBarButtonItem(title: "Edit".localized, style: .plain, target: self, action: #selector(editOptions))
-        let sortAsc = UIBarButtonItem(image: Resource.Images.sortAscButton, style: .plain, target: self, action: #selector(sortAscOptions))
+        let sortAsc = UIBarButtonItem(image: sortBtnImage(), style: .plain, target: self, action: #selector(sortAscOptions))
         
         self.navigationItem.rightBarButtonItem = edit
         self.navigationItem.leftBarButtonItem = sortAsc
+    }
+    
+    func sortBtnImage() -> UIImage? {
+        
+        var img: UIImage?
+        if defaults.bool(forKey: Resource.Defaults.sortByAsc) == true {
+            img = Resource.Images.sortAscButton
+            
+        } else {
+            img = Resource.Images.sortDescButton
+        }
+        
+        return img
     }
     
     @objc func sortAscOptions() {
@@ -168,11 +198,13 @@ class MemoViewController: UICollectionViewController {
                 print("ascending")
                 self.defaults.set(true, forKey: Resource.Defaults.sortByAsc)
                 self.fetchMemoFromCoreData()
+                self.setupBarButtonItem()
             },
             { _ in
                 print("descending")
                 self.defaults.set(false, forKey: Resource.Defaults.sortByAsc)
                 self.fetchMemoFromCoreData()
+                self.setupBarButtonItem()
             },
             { _ in
                 print("cancel")
@@ -186,6 +218,25 @@ class MemoViewController: UICollectionViewController {
         self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["DeleteAll".localized, "Cancel".localized], actionStyles: [.default, .cancel], actions: [
             { _ in
                 print("delete all")
+                
+                for memo in self.memoData {
+                    
+                    if memo.temporarilyDelete == false {
+                        memo.temporarilyDelete = true
+                    }
+                }
+                
+                let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                let context = appDelegate?.persistentContainer.viewContext
+                
+                do {
+                    try context?.save()
+                    
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.userInfo)")
+                }
+                
+                self.fetchMemoFromCoreData()
             },
             { _ in
                 print("cancel")
@@ -193,7 +244,7 @@ class MemoViewController: UICollectionViewController {
         ])
     }
     
-    func setupBarButton() {
+    func setupToolbarButtonItem() {
         
         let createButton = UIBarButtonItem(image: Resource.Images.createButton, style: .plain, target: self, action: #selector(createNewMemo))
         let settingButton = UIBarButtonItem(image: Resource.Images.settingButton, style: .plain, target: self, action: #selector(settingPage))
@@ -363,7 +414,7 @@ class MemoViewController: UICollectionViewController {
         
         do {
             self.memoData = try managedContext.fetch(fetchRequest) as! [Memo]
-            self.setupBarButton()
+            self.setupToolbarButtonItem()
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -656,7 +707,7 @@ class MemoViewController: UICollectionViewController {
             print("Could not save. \(error) , \(error.userInfo)")
         }
         
-        self.setupBarButton()
+        self.setupToolbarButtonItem()
     }
     
     // MARK: - Share memo

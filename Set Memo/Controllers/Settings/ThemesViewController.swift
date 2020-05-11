@@ -96,6 +96,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 if row == 0 {
                     themes.setupDefaultTheme()
                     setupDefaultPersistentNavigationBar()
+                    
                     view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(false, forKey: Resource.Defaults.useDarkMode)
                     defaults.set(true, forKey: Resource.Defaults.useCellColor)
@@ -103,6 +104,7 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
                 } else if row == 1 {
                     themes.setupPureDarkTheme()
                     setupDarkPersistentNavigationBar()
+                    
                     view.backgroundColor = InterfaceColors.secondaryBackgroundColor
                     defaults.set(true, forKey: Resource.Defaults.useDarkMode)
                 }
