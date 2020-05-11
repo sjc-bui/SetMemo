@@ -35,9 +35,8 @@ public class Resource {
         public static var sortDescButton: UIImage? = UIImage(systemName: "arrow.down.circle")
         
         public static var smallAlarmIcon: UIImage? = UIImage(systemName: "alarm")
+        public static var smallAlarmFill: UIImage? = UIImage(systemName: "alarm.fill")
         public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
-        public static var setLockButton: UIImage? = UIImage(systemName: "lock")
-        public static var removeLockButton: UIImage? = UIImage(systemName: "lock.slash")
         
         public static var cellAccessoryIcon: UIImage? = UIImage.SVGImage(named: "icons_outlined_arrow")
     }

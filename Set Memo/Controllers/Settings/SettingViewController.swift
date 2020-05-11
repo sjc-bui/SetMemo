@@ -648,7 +648,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             case 2:
                 
                 print("share with friends")
-                let textToShare = "Set Memo provides a new experience of managing all your memo. Try Set Memo."
+                let textToShare = "IntroAppText".localized
                 let objectToShare = [textToShare] as [Any]
                 
                 let activityViewController = UIActivityViewController(activityItems: objectToShare, applicationActivities: nil)
@@ -680,12 +680,17 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
     
     func sendMail(subject: String, body: String) {
         
+        let systemVersion = UIDevice.current.systemVersion
+        let model = UIDevice.current.model
+        let htmlContent = "<br/><br/>---<br/> \(model) - iOS \(systemVersion)"
+        let bodyContent = "\(body) \(htmlContent)"
+        
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
             mail.setToRecipients([Config.supportEmail])
             mail.setSubject(subject)
-            mail.setMessageBody(body, isHTML: true)
+            mail.setMessageBody(bodyContent, isHTML: true)
             
             present(mail, animated: true, completion: nil)
             
