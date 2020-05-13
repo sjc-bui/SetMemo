@@ -27,6 +27,7 @@ extension CALayer {
     }
     
     func shapeLayer() -> CAShapeLayer? {
+        
         guard let sublayers = sublayers else {
             return nil
         }

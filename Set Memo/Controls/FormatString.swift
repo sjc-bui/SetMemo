@@ -9,6 +9,7 @@
 import UIKit
 
 class FormatString {
+    
     func formatHashTag(text: String) -> String {
         let trimText = text.trimmingCharacters(in: .whitespacesAndNewlines).camelCasedString
         return trimText.stripped

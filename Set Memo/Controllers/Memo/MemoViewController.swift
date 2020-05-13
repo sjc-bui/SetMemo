@@ -221,7 +221,7 @@ class MemoViewController: UICollectionViewController {
                 
                 for memo in self.memoData {
                     
-                    if memo.temporarilyDelete == false {
+                    if memo.temporarilyDelete == false && memo.isLocked == false {
                         memo.temporarilyDelete = true
                     }
                 }

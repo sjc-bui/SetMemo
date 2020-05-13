@@ -10,10 +10,6 @@ import UIKit
 
 public class Resource {
     
-    public class FontFamily {
-        public static let HelveticaNeueMedium = "HelveticaNeue-Medium"
-    }
-    
     public class Images {
         public static var createButton: UIImage? = UIImage(systemName: "plus.circle")
         public static var settingButton: UIImage? = UIImage(systemName: "gear")

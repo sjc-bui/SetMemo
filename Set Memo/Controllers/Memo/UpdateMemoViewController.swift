@@ -188,7 +188,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     }
     
     func removeLockViewFromSuper() {
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.lockView.alpha = 0
             
         }) { _ in
@@ -278,7 +278,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         
         let alertController = UIAlertController(title: "", message: "\(info)", preferredStyle: .alert)
         
-        let done = UIAlertAction(title: "Done".localized, style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "Done".localized, style: .default, handler: nil)
         
         let deleteReminderBtn = UIAlertAction(title: "DeleteReminder".localized, style: .default) { _ in
             self.deleteReminderHandle()

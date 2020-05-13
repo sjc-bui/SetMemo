@@ -9,14 +9,6 @@
 import UIKit
 
 extension UIViewController {
-
-//        let now = Date()
-//        var getString: String = ""
-//
-//        let dateTimeFullString = now.string(with: "DatetimeFormat".localized)
-//        let timeLongString = now.string(with: "DateMonthYear".localized)
-//        let timeShortString = now.string(with: "DateTimeShort".localized)
-//        let hourMinuteString = now.string(with: "HourAndMinute".localized)
     
     func wc_doneBarButton(title: String = "完成") -> UIButton {
         let doneButton = UIButton(type: .system)
