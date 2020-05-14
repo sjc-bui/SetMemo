@@ -215,7 +215,10 @@ class MemoViewController: UICollectionViewController {
     @objc func editOptions() {
         
         DeviceControl().feedbackOnPress()
-        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["DeleteAll".localized, "Cancel".localized], actionStyles: [.default, .cancel], actions: [
+        self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["UnlockAll".localized, "DeleteAll".localized, "Cancel".localized], actionStyles: [.default, .default, .cancel], actions: [
+            { _ in
+                print("unlock all")
+            },
             { _ in
                 print("delete all")
                 

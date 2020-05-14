@@ -169,3 +169,4 @@
 "PasswordNotSetMsg" = "メモをロックする前にパスワードを設定してください";
 "PremiumViewHeaderTitle" = "通常およびプレミアムの機能";
 "IntroAppText" = "素晴らしいメモアプリを利用しています。Set Memoというアプリです。";
+"UnlockAll" = "全てのロックを解除";

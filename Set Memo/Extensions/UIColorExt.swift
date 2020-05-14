@@ -22,15 +22,15 @@ extension UIColor {
     static let deepOrange = UIColor(hexString: "#ff5722")
     
     // soft color
-    static let appleValley = UIColor(hexString: "#ea8685")
-    static let brewedMustard = UIColor(hexString: "#e77f67")
-    static let creamyPeach = UIColor(hexString: "#f3a683")
-    static let oldGeranium = UIColor(hexString: "#cf6a87")
-    static let purpleMountain = UIColor(hexString: "#786fa6")
-    static let rosyHighLight = UIColor(hexString: "#f7d794")
-    static let roguePink = UIColor(hexString: "#f8a5c2")
-    static let softBlue = UIColor(hexString: "#778beb")
-    static let squeaky = UIColor(hexString: "#63cdda")
+    static let appleValley = UIColor(hexString: "#00b894")
+    static let brewedMustard = UIColor(hexString: "#00cec9")
+    static let creamyPeach = UIColor(hexString: "#0984e3")
+    static let oldGeranium = UIColor(hexString: "#6c5ce7")
+    static let purpleMountain = UIColor(hexString: "#6ab04c")
+    static let rosyHighLight = UIColor(hexString: "#fdcb6e")
+    static let roguePink = UIColor(hexString: "#e17055")
+    static let softBlue = UIColor(hexString: "#d63031")
+    static let squeaky = UIColor(hexString: "#e84393")
     
     // soft color 2
     static let forceLainRose = UIColor(hexString: "#e66767")
