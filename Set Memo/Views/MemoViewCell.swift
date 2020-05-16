@@ -46,7 +46,6 @@ class MemoViewCell: UICollectionViewCell {
     
     var lockIcon: UIImageView = {
         let i = UIImageView()
-        i.image = Resource.Images.smallLockButton
         i.contentMode = .scaleAspectFill
         i.tintColor = .white
         i.isHidden = true

@@ -83,10 +83,9 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         textView.text = content
         dateEditedLabel.text = dateLabelHeader
         
-        if isLocked {
+        if isLocked && defaults.bool(forKey: Resource.Defaults.unlockTemporarily) == false {
             setupLockView()
             lockView.backgroundColor = backgroundColor
-            unlockMemoWithBioMetrics()
         }
     }
     
@@ -194,6 +193,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
         }) { _ in
             self.userUnlocked = true
             self.lockView.removeFromSuperview()
+            self.defaults.set(true, forKey: Resource.Defaults.unlockTemporarily)
         }
     }
     
@@ -291,7 +291,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
             alertController.addAction(deleteReminderBtn)
         }
         
-        if isLocked == true && userUnlocked == false {
+        if isLocked == true && userUnlocked == false && defaults.bool(forKey: Resource.Defaults.unlockTemporarily) == false {
             alertController.addAction(viewLockedMemoButton)
         }
         
@@ -342,7 +342,7 @@ class UpdateMemoViewController: BaseViewController, UITextViewDelegate {
     
     @objc func hashTagChangeHandle() {
         
-        if isLocked == true && userUnlocked == true || isLocked == false {
+        if isLocked == true && userUnlocked == true || isLocked == false || isLocked == true && defaults.bool(forKey: Resource.Defaults.unlockTemporarily) == true {
             
             DeviceControl().feedbackOnPress()
             let alertController = UIAlertController(title: "#\(hashTag)", message: nil, preferredStyle: .alert)

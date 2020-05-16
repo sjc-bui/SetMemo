@@ -33,6 +33,7 @@ public class Resource {
         public static var smallAlarmIcon: UIImage? = UIImage(systemName: "alarm")
         public static var smallAlarmFill: UIImage? = UIImage(systemName: "alarm.fill")
         public static var smallLockButton: UIImage? = UIImage(systemName: "lock.fill")
+        public static var smallUnlockButton: UIImage? = UIImage(systemName: "lock.open.fill")
         
         public static var cellAccessoryIcon: UIImage? = UIImage.SVGImage(named: "icons_outlined_arrow")
     }
@@ -67,6 +68,7 @@ public class Resource {
         public static let defaultCellColor = "defaultCellColor";
         public static let setMemoPremium = "setMemoPremium";
         public static let remindEverydayContent = "remindEverydayContent";
+        public static let unlockTemporarily = "unlockTemporarily";
         
         public static let passwordToUseBiometric = "passwordToUseBiometric";
         public static let passwordForBiometricIsSet = "passwordForBiometricIsSet";

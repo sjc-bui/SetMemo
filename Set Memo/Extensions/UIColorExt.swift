@@ -207,7 +207,7 @@ extension UIColor {
         case 3:
             return UIColor.systemPink
         case 4:
-            return UIColor.systemBlue
+            return UIColor(hexString: "#0652DD")
         case 5:
             return UIColor.systemGreen
         case 6:

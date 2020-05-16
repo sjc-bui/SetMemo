@@ -170,11 +170,9 @@ class MemoViewController: UICollectionViewController {
     }
     
     func setupBarButtonItem() {
-        let edit = UIBarButtonItem(title: "Edit".localized, style: .plain, target: self, action: #selector(editOptions))
         let sortAsc = UIBarButtonItem(image: sortBtnImage(), style: .plain, target: self, action: #selector(sortAscOptions))
-        
-        self.navigationItem.rightBarButtonItem = edit
         self.navigationItem.leftBarButtonItem = sortAsc
+        setupRightbar()
     }
     
     func sortBtnImage() -> UIImage? {
@@ -188,6 +186,29 @@ class MemoViewController: UICollectionViewController {
         }
         
         return img
+    }
+    
+    @objc func lockAll() {
+        defaults.set(false, forKey: Resource.Defaults.unlockTemporarily)
+        setupRightbar()
+        self.collectionView.reloadData()
+    }
+    
+    func setupRightbar() {
+        
+        let options = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(selectOptions))
+        let lock = UIBarButtonItem(image: UIImage(systemName: "lock.open"), style: .plain, target: self, action: #selector(lockAll))
+        
+        var items: [UIBarButtonItem] = []
+        
+        if defaults.bool(forKey: Resource.Defaults.unlockTemporarily) {
+            items = [options, lock]
+            
+        } else {
+            items = [options]
+        }
+        
+        self.navigationItem.rightBarButtonItems = items
     }
     
     @objc func sortAscOptions() {
@@ -212,7 +233,7 @@ class MemoViewController: UICollectionViewController {
         ])
     }
     
-    @objc func editOptions() {
+    @objc func selectOptions() {
         
         DeviceControl().feedbackOnPress()
         self.showAlert(title: nil, message: nil, alertStyle: .actionSheet, actionTitles: ["DeleteAll".localized, "Cancel".localized], actionStyles: [.default, .cancel], actions: [

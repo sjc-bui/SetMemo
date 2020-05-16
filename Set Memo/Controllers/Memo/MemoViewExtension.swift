@@ -137,6 +137,14 @@ extension MemoViewController {
         
         if isLocked == true {
             cell.lockIcon.isHidden = false
+            
+            if defaults.bool(forKey: Resource.Defaults.unlockTemporarily) == false {
+                cell.lockIcon.image = Resource.Images.smallLockButton
+                
+            } else {
+                cell.lockIcon.image = Resource.Images.smallUnlockButton
+            }
+            
         } else {
             cell.lockIcon.isHidden = true
         }
