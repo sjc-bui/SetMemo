@@ -576,8 +576,8 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
     func sendMail(subject: String, body: String) {
         
         let systemVersion = UIDevice.current.systemVersion
-        let model = UIDevice.current.model
-        let htmlContent = "<br/><br/>---<br/> \(model) - iOS \(systemVersion)"
+        let model = UIDevice.current.modelName
+        let htmlContent = "<br/><br/>---<br/> \(model) - iOS \(systemVersion) - Set Memo"
         let bodyContent = "\(body) \(htmlContent)"
         
         if MFMailComposeViewController.canSendMail() {
