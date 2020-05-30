@@ -22,7 +22,6 @@
 		722A7B652469884E00B154B9 /* icons_filled_cancel.svg in Resources */ = {isa = PBXBuildFile; fileRef = 722A7B642469884E00B154B9 /* icons_filled_cancel.svg */; };
 		722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722BB3B22413C6E5001189C9 /* PrivacyController.swift */; };
 		7237619D245C554B00375664 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7237619C245C554B00375664 /* Config.swift */; };
-		723761BF245E4FDE00375664 /* PremiumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723761BE245E4FDE00375664 /* PremiumViewController.swift */; };
 		723761C5245E7CF600375664 /* PremiumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723761C4245E7CF600375664 /* PremiumViewCell.swift */; };
 		723881EB240ADD2F004BD25B /* StringExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EA240ADD2F004BD25B /* StringExt.swift */; };
 		723881ED240AE00B004BD25B /* UpdateMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */; };
@@ -106,7 +105,6 @@
 		722A7B642469884E00B154B9 /* icons_filled_cancel.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons_filled_cancel.svg; sourceTree = "<group>"; };
 		722BB3B22413C6E5001189C9 /* PrivacyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyController.swift; sourceTree = "<group>"; };
 		7237619C245C554B00375664 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		723761BE245E4FDE00375664 /* PremiumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewController.swift; sourceTree = "<group>"; };
 		723761C4245E7CF600375664 /* PremiumViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumViewCell.swift; sourceTree = "<group>"; };
 		723881EA240ADD2F004BD25B /* StringExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExt.swift; sourceTree = "<group>"; };
 		723881EC240AE00B004BD25B /* UpdateMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMemoViewController.swift; sourceTree = "<group>"; };
@@ -351,7 +349,6 @@
 				724FB6DB242C30E5006C419B /* RecentlyDeletedController.swift */,
 				7241C61824382CE400D3E617 /* ThemesViewController.swift */,
 				721F41CF243ED90A0098EA00 /* FontStyleViewController.swift */,
-				723761BE245E4FDE00375664 /* PremiumViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -611,7 +608,6 @@
 				729E996F2412ABF1001A5D2C /* SettingSwitchCell.swift in Sources */,
 				72A6C8592453267600A5D85C /* ButtonCell.swift in Sources */,
 				723761C5245E7CF600375664 /* PremiumViewCell.swift in Sources */,
-				723761BF245E4FDE00375664 /* PremiumViewController.swift in Sources */,
 				724CA6DC2408EDBF0088F581 /* WriteMemoController.swift in Sources */,
 				722BB3B32413C6E5001189C9 /* PrivacyController.swift in Sources */,
 				724CA6D32408D9250088F581 /* MemoViewController.swift in Sources */,

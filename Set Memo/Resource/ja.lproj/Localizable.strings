@@ -130,12 +130,10 @@
 "PasswordIncorrect" = "パスワードが間違い";
 "Locked" = "ロックが追加されました";
 "Unlocked" = "ロックが削除されました";
-"UpgradePremium" = "プレミアムにアップグレード";
 "RestorePurchase" = "購入を復元";
 "RemindContent" = "内容";
 "RemindAtTime" = "時間";
 "Basic" = "通常";
-"Premium" = "プレミアム";
 "ResetSettings" = "設定をデフォルトにリセット";
 "Reset" = "リセット";
 "ResetActionMessage" = "このアクションは全ての設定をデフォルトにリセットします";
@@ -167,6 +165,5 @@
 "SortDesc" = "降順";
 "PasswordNotSetTitle" = "パスワードが設定されていません";
 "PasswordNotSetMsg" = "メモをロックする前にパスワードを設定してください";
-"PremiumViewHeaderTitle" = "通常およびプレミアムの機能";
 "IntroAppText" = "素晴らしいメモアプリを利用しています。Set Memoというアプリです。";
 "UnlockAll" = "全てのロックを解除";

@@ -15,7 +15,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
     let sections: Array = [
         "General".localized,
         "Advanced".localized,
-        "Premium".localized,
         "Helps".localized,
         "Other".localized
     ]
@@ -39,15 +38,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
         "ResetSettings".localized,
         "DeleteLabel".localized,
         "RecentlyDeleted".localized
-    ]
-    
-    let premiums: Array = [
-        "UpgradePremium".localized,
-        "RestorePurchase".localized
-    ]
-    
-    let premiums2: Array = [
-        "RestorePurchase".localized
     ]
     
     let helps: Array = [
@@ -142,20 +132,13 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             }
             
         } else if section == 2 {
-            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
-                return premiums2.count
-                
-            } else {
-                return premiums.count
-            }
-            
-        } else if section == 3 {
             return helps.count
             
-        } else if section == 4 {
+        } else if section == 3 {
             return other.count
             
         }
+        
         return 0
     }
     
@@ -327,56 +310,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             
         } else if indexPath.section == 2 {
             
-            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
-                switch indexPath.row {
-                case 0:
-                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                    cell.textLabel?.text = "\(premiums2[indexPath.row])"
-                    cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                    cell.backgroundColor = UIColor.white
-                    cell.backgroundColor = InterfaceColors.cellColor
-                    cell.selectedBackground()
-                    cell.accessoryType = .none
-                    cell.accessoryView = nil
-                    return cell
-                    
-                default:
-                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                    return cell
-                }
-                
-            } else {
-                switch indexPath.row {
-                case 0:
-                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                    cell.textLabel?.text = "\(premiums[indexPath.row])"
-                    cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                    cell.backgroundColor = UIColor.white
-                    cell.backgroundColor = InterfaceColors.cellColor
-                    cell.selectedBackground()
-                    cell.accessoryType = .none
-                    cell.accessoryView = nil
-                    return cell
-                
-                case 1:
-                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                    cell.textLabel?.text = "\(premiums[indexPath.row])"
-                    cell.textLabel?.textColor = Colors.shared.defaultTintColor
-                    cell.backgroundColor = UIColor.white
-                    cell.backgroundColor = InterfaceColors.cellColor
-                    cell.selectedBackground()
-                    cell.accessoryType = .none
-                    cell.accessoryView = nil
-                    return cell
-                    
-                default:
-                    let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-                    return cell
-                }
-            }
-            
-        } else if indexPath.section == 3 {
-            
             switch indexPath.row {
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
@@ -416,7 +349,7 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
                 return cell
             }
             
-        } else if indexPath.section == 4 {
+        } else if indexPath.section == 3 {
             
             switch indexPath.row {
             case 0:
@@ -572,44 +505,6 @@ class SettingViewController: UITableViewController, MFMailComposeViewControllerD
             }
             
         } else if indexPath.section == 2 {
-            
-            if defaults.bool(forKey: Resource.Defaults.setMemoPremium) {
-                switch indexPath.row {
-                case 0:
-                    print("restore purchase")
-                    self.showAlert(title: "Success.", message: "Success restore purchase, enjoy!", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
-                        { _ in
-                            print("---")
-                        }
-                    ])
-                    
-                default:
-                    return
-                }
-                
-            } else {
-                switch indexPath.row {
-                case 0:
-                    print("buy premium")
-                    let premiumView = UINavigationController(rootViewController: PremiumViewController())
-                    premiumView.modalPresentationStyle = .fullScreen
-                    self.present(premiumView, animated: true, completion: nil)
-                    
-                case 1:
-                    
-                    print("restore purchase")
-                    self.showAlert(title: "Success", message: "Success restore purchase, enjoy!", alertStyle: .alert, actionTitles: ["OK"], actionStyles: [.default], actions: [
-                        { _ in
-                            print("---")
-                        }
-                    ])
-                    
-                default:
-                    return
-                }
-            }
-            
-        } else if indexPath.section == 3 {
             
             switch indexPath.row {
             case 0:

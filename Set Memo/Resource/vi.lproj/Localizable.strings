@@ -130,12 +130,10 @@
 "PasswordIncorrect" = "Mật khẩu không đúng";
 "Locked" = "Đã thêm khóa";
 "Unlocked" = "Đã gỡ bỏ khóa";
-"UpgradePremium" = "Nâng cấp premium";
 "RestorePurchase" = "Khôi phục giao dịch";
 "RemindContent" = "Nội dung";
 "RemindAtTime" = "Thời gian";
 "Basic" = "Bình thường";
-"Premium" = "Cao cấp";
 "ResetSettings" = "Khôi phục cài đặt mặc định";
 "Reset" = "Khôi phục";
 "ResetActionMessage" = "Hành động này sẽ khôi phục tất cả cài đặt về mặc định";
@@ -151,7 +149,6 @@
 "LoginToMailApp" = "Để gửi phản hồi, vui lòng đăng nhập vào ứng dụng Mail và thử lại.";
 "OpenMail" = "Mở";
 "Include" = "Có";
-"Upgrade" = "Nâng cấp %@ Premium";
 "MemoColor" = "Màu sắc cho ghi chú";
 
 "CustomAppIconF" = "Tùy chọn biểu tượng ứng dụng";
@@ -167,6 +164,5 @@
 "SortDesc" = "Giảm dần";
 "PasswordNotSetTitle" = "Chưa đặt mật khẩu";
 "PasswordNotSetMsg" = "Đặt mật khẩu trước khi bạn có thể khóa ghi chú";
-"PremiumViewHeaderTitle" = "Các tính năng miễn phí và có tính phí";
 "IntroAppText" = "Tôi đang sử dụng Set Memo, một ứng dụng ghi chú tuyệt vời. Bạn có thể tải về từ https://applestore.co";
 "UnlockAll" = "Mở khóa tất cả";

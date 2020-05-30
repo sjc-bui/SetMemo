@@ -130,12 +130,10 @@
 "PasswordIncorrect" = "Password is incorrect";
 "Locked" = "Lock added";
 "Unlocked" = "Lock removed";
-"UpgradePremium" = "Upgrade premium";
 "RestorePurchase" = "Restore purchase";
 "RemindContent" = "Content";
 "RemindAtTime" = "Time";
 "Basic" = "Basic";
-"Premium" = "Premium";
 "ResetSettings" = "Reset settings to default";
 "Reset" = "Reset";
 "ResetActionMessage" = "This action will reset all settings to default";
@@ -151,7 +149,6 @@
 "LoginToMailApp" = "To send feedback, login to Mail app and try again.";
 "OpenMail" = "Open";
 "Include" = "Yes";
-"Upgrade" = "Upgrade %@ Premium";
 "MemoColor" = "Memo color";
 
 "CustomAppIconF" = "Custom app icon";
@@ -167,6 +164,5 @@
 "SortDesc" = "Descending";
 "PasswordNotSetTitle" = "Password is not set";
 "PasswordNotSetMsg" = "Set password before you can lock memo";
-"PremiumViewHeaderTitle" = "Features in basic and premium";
 "IntroAppText" = "Hey, I use this great app. Set Memo";
 "UnlockAll" = "Unlock all memo";

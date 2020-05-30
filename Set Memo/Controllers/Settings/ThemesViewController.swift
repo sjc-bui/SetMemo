@@ -85,53 +85,33 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        let premium = defaults.bool(forKey: Resource.Defaults.setMemoPremium)
-        
         if pickerView.tag == 1 {
-            if premium == false && row != 0 {
-                checkPremiumUser()
-                pickerView.selectRow(0, inComponent: 0, animated: true)
+            if row == 0 {
+                themes.setupDefaultTheme()
+                setupDefaultPersistentNavigationBar()
                 
-            } else {
-                if row == 0 {
-                    themes.setupDefaultTheme()
-                    setupDefaultPersistentNavigationBar()
-                    
-                    view.backgroundColor = InterfaceColors.secondaryBackgroundColor
-                    defaults.set(false, forKey: Resource.Defaults.useDarkMode)
-                    defaults.set(true, forKey: Resource.Defaults.useCellColor)
-                    
-                } else if row == 1 {
-                    themes.setupPureDarkTheme()
-                    setupDarkPersistentNavigationBar()
-                    
-                    view.backgroundColor = InterfaceColors.secondaryBackgroundColor
-                    defaults.set(true, forKey: Resource.Defaults.useDarkMode)
-                }
+                view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+                defaults.set(false, forKey: Resource.Defaults.useDarkMode)
+                defaults.set(true, forKey: Resource.Defaults.useCellColor)
                 
-                defaults.set(row, forKey: Resource.Defaults.theme)
+            } else if row == 1 {
+                themes.setupPureDarkTheme()
+                setupDarkPersistentNavigationBar()
+                
+                view.backgroundColor = InterfaceColors.secondaryBackgroundColor
+                defaults.set(true, forKey: Resource.Defaults.useDarkMode)
             }
+            
+            defaults.set(row, forKey: Resource.Defaults.theme)
             
         } else if pickerView.tag == 2 {
             
-            if premium == false && row != 0 {
-                checkPremiumUser()
-                pickerView.selectRow(0, inComponent: 0, animated: true)
-                
-            } else {
-                defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
-                navigationController?.navigationBar.tintColor = Colors.shared.defaultTintColor
-            }
+            defaults.set(row, forKey: Resource.Defaults.defaultTintColor)
+            navigationController?.navigationBar.tintColor = Colors.shared.defaultTintColor
             
         } else if pickerView.tag == 3 {
             
-            if premium == false && row != 0 {
-                checkPremiumUser()
-                pickerView.selectRow(0, inComponent: 0, animated: true)
-                
-            } else {
-                defaults.set(row, forKey: Resource.Defaults.defaultCellColor)
-            }
+            defaults.set(row, forKey: Resource.Defaults.defaultCellColor)
         }
         
         let reloadSectionIndex: IndexSet = [0, 1, 2]
@@ -166,12 +146,6 @@ class ThemesViewController: UITableViewController, UIPickerViewDelegate, UIPicke
         } else {
             return false
         }
-    }
-    
-    func checkPremiumUser() {
-        let premiumView = UINavigationController(rootViewController: PremiumViewController())
-        premiumView.modalPresentationStyle = .fullScreen
-        self.present(premiumView, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {

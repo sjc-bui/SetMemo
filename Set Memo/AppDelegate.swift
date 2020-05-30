@@ -35,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
             Resource.Defaults.defaultTextViewFontSize: 18,
             Resource.Defaults.defaultTintColor: 0,
             Resource.Defaults.defaultCellColor: 0,
-            Resource.Defaults.setMemoPremium: false,
             Resource.Defaults.remindEverydayContent: "What happening today?",
             Resource.Defaults.passwordForBiometricIsSet: false,
             Resource.Defaults.useCellColor: true,
