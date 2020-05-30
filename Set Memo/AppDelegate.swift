@@ -62,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UN
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
+        UserDefaults.standard.set(false, forKey: Resource.Defaults.unlockTemporarily)
         self.saveContext()
     }
     

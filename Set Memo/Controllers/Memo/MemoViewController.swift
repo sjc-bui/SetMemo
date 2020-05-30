@@ -307,7 +307,6 @@ class MemoViewController: UICollectionViewController {
             ]
         }
         
-        self.navigationController?.toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
         self.toolbarItems = items
     }
     

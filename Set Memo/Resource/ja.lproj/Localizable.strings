@@ -144,11 +144,11 @@
 "RateApp" = "アプリを評価";
 "ShareWithFriends" = "セットメモを友達に紹介する";
 "Helps" = "ヘルプ";
-"SendFeedback" = "フィドバック";
+"SendFeedback" = "フィードバック";
 "ReportBug" = "バグを報告";
 "RequestFeature" = "機能をリクエスト";
 "TellUsDetail" = "詳細をここに教えて下さい:";
-"LoginToMailApp" = "フィドバックを送信するにはメールアプリにログイン及び再度お試しください。";
+"LoginToMailApp" = "フィードバックを送信するにはメールアプリにログイン及び再度お試しください。";
 "OpenMail" = "開く";
 "Include" = "あり";
 "Upgrade" = "%@をプレミアムにアップグレード";
