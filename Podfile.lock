@@ -1,22 +1,34 @@
 PODS:
-  - Realm (4.3.2):
-    - Realm/Headers (= 4.3.2)
-  - Realm/Headers (4.3.2)
-  - RealmSwift (4.3.2):
-    - Realm (= 4.3.2)
+  - CocoaLumberjack (3.6.1):
+    - CocoaLumberjack/Core (= 3.6.1)
+  - CocoaLumberjack/Core (3.6.1)
+  - FTPopOverMenu_Swift (0.1.4)
+  - SmartToast (0.1.3)
+  - SVGKit (2.1.1):
+    - CocoaLumberjack (~> 3.0)
+  - SwiftKeychainWrapper (3.4.0)
 
 DEPENDENCIES:
-  - RealmSwift
+  - FTPopOverMenu_Swift (~> 0.1.4)
+  - SmartToast
+  - SVGKit
+  - SwiftKeychainWrapper
 
 SPEC REPOS:
   trunk:
-    - Realm
-    - RealmSwift
+    - CocoaLumberjack
+    - FTPopOverMenu_Swift
+    - SmartToast
+    - SVGKit
+    - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
-  Realm: 5e92902e2875dff4bb0fd02f67bb737c3d5db2bc
-  RealmSwift: 9a360fc7bae04fc2e308a34fbd899d5faa2d6b22
+  CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
+  FTPopOverMenu_Swift: e4cafd1085d8125339c710fa9e53477fd615b1e2
+  SmartToast: 9c47e20ba9667b3ca94b486d9d2d0d9dd5ff11aa
+  SVGKit: 652cdf7bef8bec8564d04a8511d3ab50c7595fac
+  SwiftKeychainWrapper: 6fc49fbf7d4a6b0772917acb0e53a1639f6078d6
 
-PODFILE CHECKSUM: f3e25db91ccdebad7a69a03da32c74a9f139147b
+PODFILE CHECKSUM: 65277027b37fced3df91bdac2ecc37a19a241851
 
 COCOAPODS: 1.9.0

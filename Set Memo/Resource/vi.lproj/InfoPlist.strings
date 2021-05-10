@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Set Memo
+
+  Created by Quan Bui Van on 2020/04/03.
+  Copyright © 2020 popcorn. All rights reserved.
+*/
+
+"ADD_NEW_MEMO" = "Thêm ghi chú mới";
+"CFBundleDisplayName" = "Set Memo";
