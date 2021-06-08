@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E2306F2266F25E20087AE33 /* SetMemo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E2306F1266F25E20087AE33 /* SetMemo.png */; };
 		72027D25244EE64900245ADE /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72027D24244EE64900245ADE /* ReminderViewController.swift */; };
 		720C31FA2447D8E7005C72B1 /* BundleExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C31F92447D8E7005C72B1 /* BundleExt.swift */; };
 		7210B589240BD54D00CD0CCE /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */; };
@@ -90,6 +91,7 @@
 
 /* Begin PBXFileReference section */
 		171D6606EF39714791448C0A /* Pods-Set Memo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Set Memo.debug.xcconfig"; path = "Target Support Files/Pods-Set Memo/Pods-Set Memo.debug.xcconfig"; sourceTree = "<group>"; };
+		2E2306F1266F25E20087AE33 /* SetMemo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SetMemo.png; sourceTree = "<group>"; };
 		72027D24244EE64900245ADE /* ReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewController.swift; sourceTree = "<group>"; };
 		720C31F92447D8E7005C72B1 /* BundleExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExt.swift; sourceTree = "<group>"; };
 		7210B588240BD54D00CD0CCE /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
@@ -186,6 +188,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E2306F0266F24350087AE33 /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				2E2306F1266F25E20087AE33 /* SetMemo.png */,
+			);
+			path = Screenshots;
+			sourceTree = "<group>";
+		};
 		2FF7C336238A9101AD0FA764 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +396,7 @@
 		72EFECDE2408D39F0035296F /* Set Memo */ = {
 			isa = PBXGroup;
 			children = (
+				2E2306F0266F24350087AE33 /* Screenshots */,
 				7237619B245C552400375664 /* Config */,
 				72F2D1D32457A343004A9AD8 /* Icons */,
 				7229A2FF24307C940046E9CF /* Memo.xcdatamodeld */,
@@ -499,6 +510,7 @@
 				72DEC3B224670BC500D644AB /* light@3x.png in Resources */,
 				72DEC3B124670BC500D644AB /* light@2x.png in Resources */,
 				72DEC3BA246714A600D644AB /* dark@3x~ipad.png in Resources */,
+				2E2306F2266F25E20087AE33 /* SetMemo.png in Resources */,
 				72DEC3B624670E4E00D644AB /* dark@2x.png in Resources */,
 				72EFECE92408D3A00035296F /* Assets.xcassets in Resources */,
 				7241C60F243785CC00D3E617 /* InfoPlist.strings in Resources */,
